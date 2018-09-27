@@ -1,0 +1,30 @@
+/* feuille style biblio*/
+html { position: relative; min-height: 100%; }
+body { margin-bottom: 60px; }
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
+.page { margin-top : 60px; }
+.header { background-color:#fff; border-bottom: 1px solid #eaeaea; }
+.fondblanc{background:#fff;}
+.tab-content{padding: 1em; background: #fff;}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.ctitre { color: #656565 }
+.f400 { font-weight: 400; }
+.badge {font-size: 65%; font-weight: 500;}
+.navbar .nav-link { color: #ffffff; }
+.navbar .nav-link:hover { color: #0CAD00; }
+.navbar-brand { color: #ffffff; }
+.colorbiblio_bg {background-color:#0CAD00;}
+.curseurlien{cursor: Pointer;}
+.btn-outline-secondary {background-color:#FFFFFF;}
+.dataTables_scroll {background-color:#FFFFFF;}
+.popupcarte {border: 1px solid silver;border-radius: 3px;box-shadow: 1px 1px 2px #888;padding: 5px;width: 200px; white-space:normal;}

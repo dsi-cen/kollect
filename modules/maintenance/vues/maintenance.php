@@ -1,0 +1,1 @@
+<section class="container mb-3">	<header class="row">		<div class="col-md-12 col-lg-12 mt-3">			<div class="card card-body">				<p class="h2">					Le site est actuellement en maintenance.<br />					Merci de votre compréhension				</p>			</div>		</div>	</header></section>

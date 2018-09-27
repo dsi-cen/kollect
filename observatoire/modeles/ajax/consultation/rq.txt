@@ -1,0 +1,22 @@
+WITH sel AS (SELECT DISTINCT fiche.idfiche, obs.idobs, to_char(date1, 'DD/MM/YYYY') AS datefr, date1, obs.datesaisie, fiche.codecom, fiche.iddep, fiche.idsite, fiche.idobser, validation, observa, obs.cdref, nb, localisation, fiche.floutage, plusobser FROM obs.fiche 
+INNER JOIN obs.obs USING(idfiche) 
+INNER JOIN referentiel.observateur ON observateur.idobser = fiche.idobser 
+LEFT JOIN obs.plusobser ON plusobser.idfiche = fiche.idfiche 
+WHERE (observateur.idobser = 1 OR plusobser.idobser = 1) AND (fiche.idsite = 309) AND (date1 >= '2016-06-01' AND date1 <= '2016-08-31') 
+ORDER BY date1 DESC LIMIT 100 OFFSET 0 ) 
+SELECT sel.idfiche, sel.idobs, sel.datefr, commune, site, sel.iddep, sel.idobser, liste.nom, nomvern, rang, auteur, sel.validation, sensible, sel.observa, sel.cdref, nb, localisation, floutage, observateur.nom AS nomobser, prenom, idm, plusobser, nbcom FROM sel 
+LEFT JOIN referentiel.commune ON commune.codecom = sel.codecom 
+INNER JOIN referentiel.liste ON liste.cdnom = sel.cdref 
+INNER JOIN referentiel.observateur ON observateur.idobser = sel.idobser 
+LEFT JOIN referentiel.sensible ON sensible.cdnom = sel.cdref 
+LEFT JOIN site.liencom ON liencom.idobs = sel.idobs 
+LEFT JOIN obs.site ON site.idsite = sel.idsite ORDER BY date1 DESC
+
+SELECT COUNT(*) AS nb FROM obs.obs 
+INNER JOIN obs.fiche USING(idfiche)
+INNER JOIN referentiel.observateur ON observateur.idobser = fiche.idobser
+LEFT JOIN obs.plusobser ON plusobser.idfiche = fiche.idfiche 
+--WHERE (fiche.idobser = :idobser OR plusobser.idobser = :idobser) 
+WHERE (observateur.idobser = 1 OR plusobser.idobser = 1) AND fiche.idsite = 309 AND (date1 >= '2016-06-01' AND date1 <= '2016-08-31')
+--WHERE (idobser = 1) AND (fiche.idsite = 309) AND (date1 >= '2016-06-01' AND date1 <= '2016-08-31')
+--WHERE (fiche.idobser = 1 OR plusobser.idobser = 1) AND fiche.idsite = 309 AND date1 >= '2016-06-01' AND date1 <= '2016-08-31'

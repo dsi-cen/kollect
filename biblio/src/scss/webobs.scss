@@ -1,0 +1,80 @@
+@font-face {
+	font-family: 'webobs';
+	src: url('../fonts/webobs.eot?91718362');
+	src: url('../fonts/webobs.eot?91718362#iefix') format('embedded-opentype'),
+		url('../fonts/webobs.woff?91718362') format('woff'),
+		url('../fonts/webobs.ttf?91718362') format('truetype'),
+		url('../fonts/webobs.svg?91718362#webobs') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="fe-"], [class*=" fe-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'webobs' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.fe-amph1:before { content: '\e826'; }
+.fe-amph2:before { content: '\e810'; }
+.fe-araig:before { content: '\e821'; }
+.fe-araig2:before { content: '\e80d'; }
+.fe-arb:before { content: '\e822'; }
+.fe-arb2:before { content: '\e823'; }
+.fe-bota:before { content: '\e82d'; }
+.fe-chiro:before { content: '\e82a'; }
+.fe-coleo:before { content: '\e809'; }
+.fe-coleo2:before { content: '\e808'; }
+.fe-coleo3:before { content: '\e832'; }
+.fe-crus:before { content: '\e81c'; }
+.fe-derma:before { content: '\e816'; }
+.fe-dipt:before { content: '\e831'; }
+.fe-dipt2:before { content: '\e806'; }
+.fe-foss:before { content: '\e825'; }
+.fe-foss2:before { content: '\e824'; }
+.fe-gram:before { content: '\e81f'; }
+.fe-gram2:before { content: '\e81e'; }
+.fe-hemip:before { content: '\e80f'; }
+.fe-hemip2:before { content: '\e82c'; }
+.fe-heteroc:before { content: '\e800'; }
+.fe-heteroc3:before { content: '\e834'; }
+.fe-hymeno:before { content: '\e803'; }
+.fe-hymeno2:before { content: '\e82e'; } 
+.fe-hymeno3:before { content: '\e805'; }
+.fe-heterop:before { content: '\e819'; }
+.fe-libell:before { content: '\e820'; }
+.fe-libell2:before { content: '\e80a'; }
+.fe-longi:before { content: '\e80b'; }
+.fe-mamm:before { content: '\e82b'; }
+.fe-mamm2:before { content: '\e829'; }
+.fe-mamm3:before { content: '\e828'; }
+.fe-moll:before { content: '\e814'; }
+.fe-moll2:before { content: '\e833'; }
+.fe-moll3:before { content: '\e80c'; }
+.fe-nevrop:before { content: '\e813'; }
+.fe-rep:before { content: '\e815'; }
+.fe-rep2:before { content: '\e801'; }
+.fe-rep3:before { content: '\e811'; }
+.fe-ois1:before { content: '\e81b'; } 
+.fe-ois2:before { content: '\e81a'; }
+.fe-ois3:before { content: '\e807'; }
+.fe-ois4:before { content: '\e804'; }
+.fe-ois5:before { content: '\e81d'; }
+.fe-ois6:before { content: '\e817'; }
+.fe-ois7:before { content: '\e812'; }
+.fe-ortho:before { content: '\e830'; }
+.fe-poiss:before { content: '\e827'; }
+.fe-rhopal1:before { content: '\e802'; }
+.fe-rhopal2:before { content: '\e80e'; }
+.fe-rhopal3:before { content: '\e82f'; }
+.fe-scorp:before { content: '\e818'; }
+.fe-zygn:before { content: '\e835'; } 
+.fe-webobs3:before { content: '\e836'; }
+.fe-webobs:before { content: '\e837'; }

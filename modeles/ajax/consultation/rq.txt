@@ -1,0 +1,120 @@
+WITH sel AS (
+SELECT DISTINCT fiche.idfiche, fiche.codecom, commune, site, fiche.iddep, date1, date2, observateur, c.x, c.y, c.lng, c.lat, c.codel93 FROM obs.fiche
+INNER JOIN obs.obs USING(idfiche) 
+INNER JOIN referentiel.commune USING(codecom) 
+LEFT JOIN obs.site USING(idsite) 
+INNER JOIN obs.coordonnee AS c ON c.idcoord = fiche.idcoord 
+INNER JOIN referentiel.observateur USING(idobser) 
+WHERE obs.observa IN('ornito') ), 
+sel1 AS (
+SELECT sel.idfiche, idobs, liste.nom, nomvern AS nomfr, sel.codecom, commune, site, iddep, date1, date2, CONCAT(sel.observateur, ', ', string_agg(DISTINCT observateur.observateur, ', ')) AS observateur, x, y, lng, lat, codel93, iddet,rqobs FROM sel 
+INNER JOIN obs.obs USING(idfiche) 
+INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref 
+LEFT JOIN obs.plusobser ON plusobser.idfiche = sel.idfiche 
+LEFT JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser 
+WHERE observa IN('ornito') 
+GROUP BY sel.idfiche, idobs, sel.codecom, commune, site, iddep, date1, date2, liste.cdnom, liste.nom, nomvern, sel.observateur, x, y, lng, lat, codel93) 
+SELECT idobs, sel1.nom, sel1.nomfr, commune, site, date1, to_char(date1, 'DD/MM/YYYY') AS date, to_char(date2, 'DD/MM/YYYY') AS date2, sel1.observateur, observateur.observateur AS det, stade.stade, '' AS nb, ndiff, male, femelle, CASE WHEN denom = 'Co' THEN 'Compté' WHEN denom = 'Es' THEN 'Estimé' WHEN denom = 'NSP' THEN 'Non Rens.' END AS denom, typedenom, nbmin, nbmax, etatbio, methode, prospection, statutbio, idfiche, codecom, iddep, x, y, lng, lat, codel93,rqobs FROM sel1 
+LEFT JOIN referentiel.observateur ON observateur.idobser = sel1.iddet 
+INNER JOIN obs.ligneobs AS l USING(idobs) 
+INNER JOIN referentiel.stade ON stade.idstade = l.stade 
+INNER JOIN referentiel.methode USING(idmethode) 
+INNER JOIN referentiel.prospection USING(idpros) 
+INNER JOIN referentiel.occetatbio USING(idetatbio) 
+INNER JOIN referentiel.occstatutbio USING(idstbio) 
+INNER JOIN referentiel.occtype USING(tdenom)
+
+WITH sel AS (
+SELECT DISTINCT fiche.idfiche, fiche.codecom, commune, site, fiche.iddep, date1, date2, observateur, c.x, c.y, c.lng, c.lat, c.codel93 FROM obs.fiche
+INNER JOIN obs.obs USING(idfiche) 
+INNER JOIN referentiel.commune USING(codecom) 
+LEFT JOIN obs.site USING(idsite) 
+INNER JOIN obs.coordonnee AS c ON c.idcoord = fiche.idcoord 
+INNER JOIN referentiel.observateur USING(idobser)
+INNER JOIN statut.statut ON statut.cdnom = obs.cdref INNER JOIN statut.statutsite USING(cdprotect) 
+WHERE obs.observa IN('lepido') and type = 'LRR' and lr = 'CR'), 
+sel1 AS (
+SELECT sel.idfiche, idobs, liste.nom, nomvern AS nomfr, sel.codecom, commune, site, iddep, date1, date2, CONCAT(sel.observateur, ', ', string_agg(DISTINCT observateur.observateur, ', ')) AS observateur, x, y, lng, lat, codel93, iddet,rqobs FROM sel 
+INNER JOIN obs.obs USING(idfiche) 
+INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref 
+LEFT JOIN obs.plusobser ON plusobser.idfiche = sel.idfiche 
+LEFT JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
+INNER JOIN statut.statut ON statut.cdnom = obs.cdref INNER JOIN statut.statutsite USING(cdprotect)  
+WHERE obs.observa IN('lepido') and type = 'LRR' and lr = 'CR'
+GROUP BY sel.idfiche, idobs, sel.codecom, commune, site, iddep, date1, date2, liste.cdnom, liste.nom, nomvern, sel.observateur, x, y, lng, lat, codel93) 
+SELECT idobs, sel1.nom, sel1.nomfr, commune, site, date1, to_char(date1, 'DD/MM/YYYY') AS date, to_char(date2, 'DD/MM/YYYY') AS date2, sel1.observateur, observateur.observateur AS det, stade.stade, '' AS nb, ndiff, male, femelle, CASE WHEN denom = 'Co' THEN 'Compté' WHEN denom = 'Es' THEN 'Estimé' WHEN denom = 'NSP' THEN 'Non Rens.' END AS denom, typedenom, nbmin, nbmax, etatbio, methode, prospection, statutbio, idfiche, codecom, iddep, x, y, lng, lat, codel93,rqobs FROM sel1 
+LEFT JOIN referentiel.observateur ON observateur.idobser = sel1.iddet 
+INNER JOIN obs.ligneobs AS l USING(idobs) 
+INNER JOIN referentiel.stade ON stade.idstade = l.stade 
+INNER JOIN referentiel.methode USING(idmethode) 
+INNER JOIN referentiel.prospection USING(idpros) 
+INNER JOIN referentiel.occetatbio USING(idetatbio) 
+INNER JOIN referentiel.occstatutbio USING(idstbio) 
+INNER JOIN referentiel.occtype USING(tdenom)
+
+SINP
+WITH sel AS (
+SELECT DISTINCT source, typedon, floutage, fiche.idfiche, fiche.codecom, commune, fiche.iddep, date1, date2, observateur, c.lng, c.lat, c.codel93, organisme AS orga FROM obs.fiche
+INNER JOIN obs.obs USING(idfiche) 
+INNER JOIN referentiel.commune USING(codecom) 
+LEFT JOIN obs.site USING(idsite) 
+INNER JOIN obs.coordonnee AS c ON c.idcoord = fiche.idcoord
+LEFT JOIN referentiel.organisme USING(idorg)  
+INNER JOIN referentiel.observateur USING(idobser)
+INNER JOIN statut.statut ON statut.cdnom = obs.cdref INNER JOIN statut.statutsite USING(cdprotect) 
+WHERE obs.observa IN('lepido') and type = 'LRR' and lr = 'CR'), 
+sel1 AS (
+SELECT sel.source, sel.typedon, obs.datesaisie, sel.floutage, statutobs, liste.cdnom, obs.cdref, sel.idfiche, idobs, liste.nom, sel.codecom, commune, iddep, date1, date2, sel.orga, CONCAT(sel.observateur, ', ', string_agg(DISTINCT observateur.observateur, ', ')) AS observateur, lng, lat, codel93, iddet FROM sel 
+INNER JOIN obs.obs USING(idfiche) 
+INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref 
+LEFT JOIN obs.plusobser ON plusobser.idfiche = sel.idfiche 
+LEFT JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
+INNER JOIN statut.statut ON statut.cdnom = obs.cdref INNER JOIN statut.statutsite USING(cdprotect)  
+WHERE obs.observa IN('lepido') and type = 'LRR' and lr = 'CR'
+GROUP BY sel.idfiche, idobs, sel.codecom, commune, iddep, date1, date2, liste.cdnom, liste.nom, nomvern, sel.observateur, lng, lat, codel93, source, typedon, obs.datesaisie, floutage, statutobs, obs.cdref, orga) 
+SELECT sel1.source, idobs, sel1.typedon, sel1.datesaisie, sel1.floutage, sel1.statutobs, sel1.nom, sel1.cdnom, sel1.cdref, nbmin, nbmax, tdenom, idmethode, idetatbio, sexe, stade, idstbio, date1, date2, codel93, codecom, commune, iddep, sel1.orga, sel1.observateur, observateur.observateur AS det, organisme AS orgadet, lng, lat FROM sel1 
+LEFT JOIN referentiel.observateur ON observateur.idobser = sel1.iddet 
+INNER JOIN obs.ligneobs AS l USING(idobs)
+LEFT JOIN site.prefmembre ON prefmembre.idmembre = observateur.idm
+LEFT JOIN referentiel.organisme ON organisme.idorg = prefmembre.org
+
+statut
+with sel as (
+SELECT COUNT(idobs) AS nb, liste.nom, liste.nomvern, liste.cdref FROM obs.obs 
+INNER JOIN obs.fiche USING(idfiche) 
+INNER JOIN lepido.liste ON liste.cdnom = obs.cdref
+WHERE fiche.codecom IN('36093') AND (rang = 'ES' OR rang ='SSES') 
+GROUP BY liste.cdref, liste.nom, liste.nomvern
+)
+select distinct nom, nb, cdprotect, lr, type from sel
+LEFT JOIN statut.statut ON statut.cdnom = sel.cdref
+left join statut.statutsite USING(cdprotect) 
+
+with sel as (
+SELECT COUNT(idobs) AS nb, liste.nom, liste.nomvern, liste.cdref FROM obs.obs 
+INNER JOIN obs.fiche USING(idfiche) 
+INNER JOIN lepido.liste ON liste.cdnom = obs.cdref
+WHERE fiche.codecom IN('36093') AND (rang = 'ES' OR rang ='SSES') 
+GROUP BY liste.cdref, liste.nom, liste.nomvern
+), sel1 as (
+select distinct nom, nb, cdprotect, lr, type from sel
+LEFT JOIN statut.statut ON statut.cdnom = sel.cdref
+left join statut.statutsite USING(cdprotect)
+)
+select nom, nb, string_agg(cdprotect, ',') from sel1
+--select nom, nb, array_agg(cdprotect) from sel1
+group by nom, nb
+
+with sel as (
+SELECT COUNT(idobs) AS nb, liste.nom, liste.nomvern, liste.cdref FROM obs.obs 
+INNER JOIN obs.fiche USING(idfiche) 
+INNER JOIN lepido.liste ON liste.cdnom = obs.cdref
+WHERE fiche.codecom IN('36004') AND (rang = 'ES' OR rang ='SSES') 
+GROUP BY liste.cdref, liste.nom, liste.nomvern
+), sel1 as (
+select distinct cdref, nom, nomvern, nb, cdprotect, lr, type from sel
+LEFT JOIN statut.statut ON statut.cdnom = sel.cdref
+left join statut.statutsite USING(cdprotect)
+)
+SELECT cdref, nom, nomvern, nb, array_agg(type) as t, array_agg(cdprotect) as cd, array_agg(lr) as lr FROM sel1
+GROUP BY cdref, nom, nomvern, nb

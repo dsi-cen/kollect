@@ -1,0 +1,1 @@
+<?php$nomdM = ucfirst($nomd);$titre = ''.$nomdM.' - Cartographie';$description = '';$script = '<script src="../js/jquery.js" defer></script>';$css = '';$menulight = 'oui';$sansheader = 'oui';$pasdebdp = 'oui';$titrep = 'Cartographie des '.$nomd.' '.$rjson_site['ad1'].' '.$rjson_site['lieu'];include CHEMIN_VUE.'carto.php';

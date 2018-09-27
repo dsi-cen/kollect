@@ -1,0 +1,18 @@
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+   readers do not read off random characters that represent icons */
+
+.#{$fa-css-prefix}-bars:before { content: $fa-var-bars; }
+.#{$fa-css-prefix}-link:before { content: $fa-var-link; }
+.#{$fa-css-prefix}-copyright:before { content: $fa-var-copyright; }
+.#{$fa-css-prefix}-eye:before { content: $fa-var-eye; }
+.#{$fa-css-prefix}-times:before { content: $fa-var-times; }
+.#{$fa-css-prefix}-file-pdf-o:before { content: $fa-var-file-pdf-o; }
+.#{$fa-css-prefix}-file-text-o:before { content: $fa-var-file-text-o; }
+.#{$fa-css-prefix}-tag:before { content: $fa-var-tag; }
+.#{$fa-css-prefix}-external-link:before { content: $fa-var-external-link; }
+.#{$fa-css-prefix}-download:before { content: $fa-var-download; }
+.#{$fa-css-prefix}-user-o:before { content: $fa-var-user-o; }
+.#{$fa-css-prefix}-book:before { content: $fa-var-book; }
+.#{$fa-css-prefix}-list:before { content: $fa-var-list; }
+.#{$fa-css-prefix}-map-marker:before { content: $fa-var-map-marker; }
+.#{$fa-css-prefix}-pencil:before { content: $fa-var-pencil; }

@@ -1,0 +1,34 @@
+SELECT idfiche, fiche.codecom, '36' as iddep, date1, date2, site, station, lat, lng, x, y, codel93, idobser, Observateur2, CodeBiblio from fiche
+left join site on site.CodeSite = fiche.IdSite
+left join station on station.CodeStat = fiche.IdStation
+inner join coordonnee on coordonnee.IdCoord = fiche.IdCoord
+inner join observateurs on observateurs.Observateur = fiche.Observateur
+
+46.761
+1.16336
+559835
+6630616
+
+
+CREATE TABLE import.fichetmp
+(
+  idor integer NOT NULL,
+  codecom character varying(5),
+  iddep character(2),
+  date1 date,
+  date2 date,
+  site text,
+  lat character varying(20),
+  lng character varying(20),
+  x character varying(20),
+  y character varying(20),
+  codel93 character varying(10),
+  alti smallint,
+  observateur text,
+  pre smallint,
+  idfiche integer,
+  idcoord integer,
+  CONSTRAINT fichetmp_pkey PRIMARY KEY (idor)
+)
+select idobs, idfiche, idobser, taxref, RqObservation, DateSaisie, 'lepido' as obser, validation, stade, NonDiff, Male, Femelle, Denombrement, Prospection  from obs
+left join observateurs on observateurs.Observateur = obs.Determinateur

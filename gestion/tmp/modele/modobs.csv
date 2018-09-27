@@ -1,0 +1,20 @@
+Colonne 1 :;0;id de l'observation (int);;
+Colonne 2 :;1;idfiche (le même que fiche);;obligatoire
+Colonne 3 :;2;cdnom;;obligatoire
+colonne 5:;3;iddet (id du déterminateur, vide si pas connu);;
+colonne 6 :;4;remarques sur l'observation;;
+colonne 7;5;date de saisie (vide si pas connu -> sera alors la date de l'import);;
+;6;variable de l'observatoire;;
+;7;Validation;;
+;8;Pr (si espèce présente) No (si espèce non observé);;
+;9;Id du protocole;;0 si aucun
+;10;Id etude;;0 si aucun
+;11;Idstade;;
+;12;ndiff;;
+;13;male;;
+;14;femelle;;
+;15;Denombrement (Co : Compté, Es : Estimé, NSP : Non Rens,);;
+;16;Etat biologique (0 : Inconnu, 1 : Non renseigné, 2: Observé vivant, 3: Trouvé mort)
+;17;Idmethode d'observation
+;18;Id Méthode de collecte
+;19;Id Statut biologique

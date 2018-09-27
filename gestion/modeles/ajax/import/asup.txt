@@ -1,0 +1,131 @@
+DELETE FROM import.fiche;
+
+DELETE FROM obs.fiche WHERE idfiche > 1;
+
+DELETE FROM obs.site WHERE idsite > 1;
+
+DELETE FROM obs.coordonnee WHERE idcoord > 1;
+
+DELETE FROM obs.plusobser;
+
+SELECT idobs, idfiche, Taxref, idobser,RqObservation, DateSaisie, 'lepido' AS nomvar, 2 AS vali, 'Pr' AS pr, 0 AS idproto, 0 AS idetude, stade, nondiff, Male, Femelle, Denombrement, 1 AS bio, 0 AS meth, Prospection, 1 AS stbio FROM obs
+LEFT JOIN observateurs ON observateurs.Observateur = obs.Determinateur
+WHERE idfiche <= 11202
+
+select * from obs.obs
+where not exists (select * from obs.ligneobs where obs.idobs = ligneobs.idobs)
+
+SELECT idobser, nom, prenom FROM referentiel.observateur 
+WHERE NOT EXISTS (SELECT idobser FROM obs.fiche WHERE observateur.idobser = fiche.idobser)
+
+select idobs, idligne from obs.obs 
+left join obs.ligneobs using(idobs) 
+where idfiche = 0
+
+select idligne from obs.ligneobs 
+left join obs.obs using(idobs) 
+where idfiche = 0
+
+SELECT DISTINCT idobs, idfiche, cdnom, idligne, stade FROM obs.obs t1
+INNER JOIN obs.ligneobs USING(idobs)
+WHERE EXISTS (
+              SELECT * FROM obs.obs t2
+              WHERE t1.idobs <> t2.idobs
+              AND   t1.idfiche = t2.idfiche
+              AND   t1.cdnom = t2.cdnom )
+              order by idfiche
+
+CREATE TABLE obs.ligneobs
+(
+  idligne serial NOT NULL,
+  idobs integer,
+  stade smallint,
+  ndiff smallint,
+  male smallint,
+  femelle smallint,
+  denom character varying(3),
+  idetatbio smallint,
+  idmethode smallint,
+  idpros smallint,
+  idstbio smallint,
+  CONSTRAINT ligneobs_pkey PRIMARY KEY (idligne)
+);
+CREATE TABLE obs.obs
+(
+  idobs serial NOT NULL,
+  idfiche integer,
+  cdnom integer,
+  cdref integer,
+  iddet smallint,
+  nb smallint,
+  rqobs text,
+  validation smallint,
+  datesaisie date,
+  observa character varying(10),
+  comobs boolean,
+  statutobs character varying(2),
+  idprotocole smallint,
+  idetude smallint,
+  CONSTRAINT obs_pkey PRIMARY KEY (idobs)
+);
+CREATE TABLE obs.coordonnee
+(
+  idcoord serial NOT NULL,
+  x integer,
+  y integer,
+  altitude smallint,
+  lat real,
+  lng real,
+  codel93 character varying(10),
+  utm character varying(10),
+  utm1 character varying(10),
+  CONSTRAINT coordonnee_pkey PRIMARY KEY (idcoord)
+);
+CREATE TABLE obs.plusobser
+(
+  idplus serial NOT NULL,
+  idfiche integer,
+  idobser integer,
+  CONSTRAINT plusobser_pkey PRIMARY KEY (idplus)
+);
+CREATE TABLE obs.site
+(
+  idsite serial NOT NULL,
+  idcoord integer,
+  codecom character varying(5),
+  site character varying(100),
+  rqsite text,
+  CONSTRAINT site_pkey PRIMARY KEY (idsite)
+);
+CREATE TABLE obs.fiche
+(
+  idfiche serial NOT NULL,
+  iddep character(2),
+  codecom character varying(5),
+  idsite integer,
+  idbiblio integer,
+  date1 date,
+  date2 date,
+  idobser smallint,
+  decade character(3),
+  localisation smallint,
+  idcoord integer,
+  floutage smallint,
+  plusobser character varying(3),
+  typedon character varying(2),
+  source character varying(3),
+  CONSTRAINT fiche_pkey PRIMARY KEY (idfiche)
+);
+
+Select distinct idfiche, fiche.codecom, iddep, date1, date2, site, lat, lng, x, y, codel93, '' AS maille, altitude, idobser, localisation from obs.fiche
+inner join obs.coordonnee USING(idcoord)
+inner join obs.site using(idsite)
+inner join obs.obs using(idfiche)
+inner join lepido.liste using(cdref)
+WHERE idobser = 2 and famille = 185330
+
+Select distinct idobs, idfiche, obs.cdnom, iddet, rqobs, datesaisie, 'zyg' AS obser, validation, statutobs, idprotocole, idetude, stade, ndiff, male, femelle, denom, idetatbio, idmethode, idpros, idstbio from obs.obs
+inner join obs.fiche using(idfiche)
+inner join obs.ligneobs using(idobs)
+inner join lepido.liste using(cdref)
+WHERE idobser = 2 and famille = 185330

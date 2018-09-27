@@ -1,0 +1,164 @@
+/* Couleurs FCEN */
+
+
+.iconesdroite{
+    color:#9a2955;
+}
+
+.tomate{
+    background-color: #d64c4c;
+    color: #fff;
+}
+
+.turquoise{
+    background-color: #3dacc2;
+    color: #fff;
+}
+
+.marron{
+    background-color: #b17527;
+    color: #fff;
+}
+
+.prune{
+    background-color: #6c4182;
+    color: #fff;
+}
+
+.glauque{
+    background-color: #399f68;
+    color: #fff;
+}
+
+.violet{
+    background-color: #9a2955;
+    color: #fff;
+}
+
+.raisin{
+    background-color: #b720a8;
+    color: #fff;
+}
+
+.moutarde{
+    background-color: #7a893a;
+    color: #fff;
+}
+
+.vert{
+    background-color: #79b51c;
+    color: #fff;
+}
+
+.bleu{
+    background-color: #004494;
+    color: #fff;
+}
+
+.orange{
+    background-color: #d77a0e;
+    color: #fff;
+}
+
+.gris{
+    background-color: #888888;
+    color: #fff;
+}
+
+/* Couleurs FCEN */
+
+.color_body{
+    color:black /* Couleur du texte */
+}
+.color1_bg{
+    background-color:#9a2955
+}
+.color2_bg{
+    background-color:#47bac1
+}
+.color3_bg{
+    background-color:#ae69af
+}
+.color4_bg{
+    background-color:#354052
+}
+.color5_bg{
+    background-color:#36b0c8
+}
+.color6_bg{
+    background-color:#8cc63d
+}
+.color1{
+    color:#36b0c8
+}
+.color2{
+    color:#a0abbe
+}
+.color3{
+    color:#ae69af
+}
+.color5{
+    color:#36b0c8
+}
+.blanc{
+    color:#fff
+}
+.nav-inline .nav-link,.nav-tabs .nav-link,.side-menu li a{
+    color:#a0abbe
+}
+.bg{
+    background-color:#E6E6E6 /* Couleur du fond */
+}
+.tabs-left .nav-link{
+    border-bottom:1px solid #a0abbe
+}
+.tabs-hor .nav-item{
+    border-right:1px solid #a0abbe
+}
+.side-menu li.active a,.side-menu li:hover a{
+    color:#fff
+}
+.side-menu.nav>li>a:focus,.side-menu.nav>li>a:hover{
+    background:#9a2955
+}
+.side-menu li .nav-second-level li a{
+    color:#6a6c6f
+}
+.side-menu li .nav-second-level li:hover a{
+    color:#34495e;
+    background-color:#f7f9fa
+}
+.simplefilter li,.tooltip-inner{
+    background-color:#36b0c8
+}
+.btn-contour{
+    border-color:#7b8594
+}
+.bb-light{
+    border-bottom:1px solid #7b8594
+}
+.vertical-timeline-icon{
+    border:0px solid #ae69af
+}
+.vertical-timeline-block a:hover{
+    color:#9a2955
+}
+.tooltip.bs-tether-element-attached-bottom .tooltip-arrow,.tooltip.tooltip-top .tooltip-arrow{
+    border-top-color:#36b0c8
+}
+.rd1{
+    color:#8A195A
+}
+.rd2{
+    color:#8CAE1C
+}
+.rd3{
+    color:#0C65A7
+}
+.page-item.active .page-link{
+    border-color:#36b0c8;
+    background-color:#36b0c8
+}
+.simplefilter li.active{
+    background-color:#354052
+}
