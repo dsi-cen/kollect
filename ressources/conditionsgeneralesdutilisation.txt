@@ -1,0 +1,139 @@
+Mise à jour : 1er septembre 2018
+
+
+
+1 - Qu’est-ce que Kollect ?
+
+Kollect est un système de recueil, de gestion et de valorisation des données naturalistes.
+Il se matérialise sous la forme d’un portail web permettant de saisir, modifier, stocker, cartographier, exporter des observations naturalistes.
+
+Kollect peut également être utilisé sur des thématiques autres que la donnée naturaliste, par exemple :
+- la collecte d'informations (foncières, habitats naturels, usages...),
+- le suivi des opérations de gestion (travaux, aménagements...),
+- le signalement de dépôts sauvages,
+- la présence de points d'intérêts (touristiques, patrimoniaux, archéologiques...),
+
+Et bien d'autres choses !
+
+Basé sur le projet libre et Open-Source nommé Obs'Nat, initialement développé par Denis VANDROMME sous licence AGPL3, Kollect et ses nouveaux développements associés demeurent un logiciel libre et seront accessibles sous les mêmes conditions.
+Structuré autour d’une base de données dont l’organisation est conforme au standard SINP son objectif est de recueillir, stocker et diffuser l’ensemble des données d’observations naturalistes sur une emprise géographique définie.
+
+Kollect offre les services suivants :
+
+- La saisie de données naturalistes,
+- La création automatique de bilan de connaissances sous forme d’atlas et d'aide à la prospection,
+- De nombreuses synthèses cartographiques disponibles en temps réel,
+- La gestion d'un fond bibliographique et des données naturalistes associées,
+- La gestion d'une photothèque et des données naturalistes associées,
+- La validation interactive des données avec des personnes expertes mandatées,
+- La possibilité de demander une détermination d'espèce à partir de photos ou sons,
+- Le lien dynamique au SINP / INPN,
+- La notification automatique des statuts de protection des espèces observées,
+- La possibilité de rajouter des statuts territoriaux personnalisés,
+- La gestion des versions de Taxref,
+- Ergonomie et fluidité de navigation,
+
+Et beaucoup d'autres options déjà fonctionnelles ou à développer ensemble !
+
+
+2 - Utilisation de Kollect
+
+2.1 La consultation des données de Kollect est libre pour tous. L’échelle de visualisation de chaque donnée (point précis, commune, maille 10x10, département) est définie par l’observateur qui l’a entrée dans la base (cf. § 4.3). Les données d’espèces définies comme sensibles(1) sont obligatoirement dégradées à la commune ou la maille 10x10 ou au département selon l’espèce en suivant les indications du SINP.
+
+2.2 La saisie et l’extraction de données nécessitent l’inscription préalable. Celle-ci est gratuite et immédiate. Elle implique l’acceptation des conditions d’utilisation. Elle exige l’utilisation d’un mot de passe personnel. Celui-ci garantit un accès sécurisé aux données personnelles de l’observateur. L’observateur enregistré a ainsi accès directement aux données naturalistes personnelles qu’il a saisies dans Kollect pour les visualiser, les compléter, les corriger le cas échéant ou les supprimer, et les extraire. L’extraction n’est possible par défaut, que pour ses propres observations.
+
+
+3 - Droits et responsabilité du gestionnaire
+
+XXXX SAISIR ICI LE NOM DE LA STRUCTURE GESTIONNAIRE XXXX est le gestionnaire de Kollect. A ce titre il dispose des droits et responsabilités suivants :
+
+3.1 Qualification-validation-modification des données. Le gestionnaire a mis en place dans le cadre de Kollect un processus de validation des données. La validation des données est soit :
+
+3.1.1 Validée dès la saisie
+Ce mode de validation est réservé aux espèces très courantes et faciles à identifier. A posteriori un contrôle peut cependant être effectué par les validateurs.
+
+3.1.2 Automatique
+C’est-à-dire réalisée lors de la saisie par le biais d’un algorithme prenant en considération les données déjà connues pour l’espèce observée (localisation – période) et l'expérience de l'observateur (espèces déjà observée par l’observateur...).
+
+3.1.3 Manuelle
+C’est-à-dire soumise à l’avis d’un expert validateur. Cela concerne quelques espèces déterminées à priori par le ou les administrateurs de chaque observatoire. Le nom des validateurs est, pour chaque observatoire, indiqué à la fin du texte de présentation en page d’accueil de l’observatoire. Dans le cadre de ce processus de validation le gestionnaire se réserve ainsi le droit de qualifier les données saisies dans Kollect en donnée validée ou non validée. Le validateur peut interroger l’observateur pour demander des précisions sur la donnée saisie.
+
+3.1.4 Le gestionnaire ne pourra pas modifier une donnée sans l’accord de l’observateur. En cas d’absence de réponse de l’observateur à une demande de précision du validateur ou de désaccord persistant après échange avec le validateur, ce dernier sera libre d’affecter à la donnée le niveau de validation de son choix.
+
+Même si une donnée est validée, le gestionnaire ne pourra être tenu responsable des erreurs de localisation, d’identification ou d’actualisation ou des imprécisions qui pourraient subsister.
+
+
+3.2 Valorisation des données.
+La valorisation de la donnée, c'est à dire sa mise à disposition de manière publique et gratuite, permet de porter à connaissance et de favoriser la prise en compte des espèces animales et végétales dans les activités humaines : loisirs, activités industrielles, aménagement du territoire...
+En saisissant ses données dans Kollect tout utilisateur accepte de fait leur valorisation par la structure gestionnaire qui s'engage à mentionner systématiquement les auteurs concernés.
+
+3.3 Transmission aux portails de données naturalistes régionaux et nationaux. Dans le cadre de ses engagements, le gestionnaire est tenu de transmettre les données publiques (données obtenues sur financement public, données dont le statut « public » a été défini par l’observateur cf. § 4.2) aux organismes publics (DREAL, SINP, Muséum) ainsi qu’au portails régionaux.
+Ce transfert concerne toutes les données contenues dans Kollect quel que soit leur statut (cf. § 4.2).
+
+3.4 Utilisation des données par des tiers. Le gestionnaire ne peut être tenu pour responsable de l’usage qui sera fait par des tiers des données de Kollect ni des dommages directs ou indirects qui pourraient résulter de l’utilisation faite par des tiers des données contenues dans Kollect.
+
+3.5 Utilisation des fichiers photos et son. Les photographies et fichiers-sons, postés sur Kollect restent la propriété de leurs auteurs. Le gestionnaire de la base de données, pourra utiliser ces fichiers pour son propre usage si l’observateur en a autorisé l’usage dans le choix de ses préférences (cf. § 4.8). LE gestionnaire s’engage à mentionner systématiquement le nom de l’auteur de la photo / son.
+
+3.6 Ethique – respect de l’animal et de la sensibilité du public : le gestionnaire s’engage à suivre des règles de respect de l’animal et retirer toute photographie / son présentant des animaux ayant fait l’objet de sévices ou pouvant heurter la sensibilité de personnes consultant le site. Les animateurs d’observatoires se réservent le droit de ne pas rendre visibles ce type de photo / son.
+
+La prise de photo ne doit pas entrainer de dérangement de l’animal (hors protocole spécifique); par exemple la photo d’oiseaux au nid ou de jeunes animaux en cours d’élevage ne doit pas perturber le bon déroulement de la nidification ou de l’élevage des jeunes.
+
+
+4 - Droits et responsabilités de l'utilisateur inscrit sur Kollect
+
+4.1 Inscription comme membre
+Toute personne physique qui souhaite saisir des données dans Kollect doit préalablement s’inscrire. L’inscription est obligatoirement nominative (nom et prénom complets en toutes lettres) et individuelle. Toutes les inscriptions ne satisfaisant pas à ces obligations (ex : noms ou prénoms réduits à des initiales, inscriptions collectives (couple, famille, etc…) seront supprimées. Cette inscription est gratuite et automatique sous réserve d’acceptation des conditions d’utilisation et de la fourniture d’une adresse mail permettant de communiquer avec le gestionnaire dans le cadre de la procédure de validation des données lorsqu’un échange avec le validateur est nécessaire. Tout utilisateur inscrit est désigné dans Kollect comme membre. Les données stockées (nom, prénom, adresse mail) font l'objet d'une déclaration RGPD. L'accès à la modification et suppression de vos données personnelles est possible en contactant le gestionnaire via le formulaire de contact.
+
+4.2 Choix du statut des données
+Chaque membre a le choix (Menu : Vos préférences) de définir le statut des données qu’il confie à Kollect. Il a le choix entre un statut privé ou public. Ce choix s’appliquera par défaut à toutes les observations de ce membre. Ce choix peut cependant être modifié pour une donnée lors de sa saisie.
+
+Affecter à une donnée le statut privé permet,
+- de dégrader le niveau de précision lors de la visualisation de ces données par d’autres observateurs hormis le gestionnaire ;
+- de limiter le droit d’extraction et d’exploitation des données à des fins d’études à l’observateur lui-même et au gestionnaire. Dans le cas de transfert à des portails publics (régionaux, nationaux, thématiques) le niveau de floutage attribué à la donnée par l’observateur n'est pas conservé.
+
+Affecter à une donnée le statut public autorise,
+Sous réserve du respect de la propriété intellectuelle (cf. § 5) l’exploitation de la donnée par toute personne. Cela autorise aussi la transmission aux portails de données naturalistes régionaux et nationaux (cf. § 3.3). Une donnée affectée du statut public ne peut pas être floutée (sauf espèces sensibles).
+Le choix du statut privé ou public de la donnée n’a pas d’impact sur la propriété intellectuelle de l’observateur sur ses données (cf. § 4.5).
+Toute données publique ou privée saisie dans Kollect est transmise aux observatoires régionaux, nationaux et thématiques par le gestionnaire, sans tenir compte d'éventuelle dégradation du niveau de précision. Les données sont fournies dans le respect du cadre légal en vigueur. 
+
+4.3 Choix de l’échelle de visualisation
+Chaque membre a le choix (Menu Vos préférences) de définir l’échelle à laquelle n’importe quel autre utilisateur que lui-même verra les données qu’il confie à Kollect. Cette échelle de visualisation comporte les niveaux suivants : point précis, commune, maille 10x10, département.
+Ce choix s’appliquera par défaut à toutes les observations privées de ce membre à l’exception des observations d’espèces considérées comme sensibles pour lesquelles l’échelle de visualisation sera pour tous les utilisateurs autre que l’observateur et le gestionnaire, à la maille 10x10. Ce choix peut cependant être modifié par l’observateur pour chaque donnée lors de sa saisie.
+
+4.4 Choix de l'organisme
+Les données collectées dans le cadre de missions professionnelles ou bénévoles missionnés doivent être rattachées à l'organisme employeur.
+Les autres données collectées doivent être notifiées comme "Indépendant"
+
+4.5 Propriété intellectuelle
+La propriété intellectuelle de la donnée à son observateur est inaliénable. Dans le cas où une donnée sera obtenue dans un cadre contractuel avec financement extérieur, le partage des droits patrimoniaux en matière de copie, traitement ou diffusion sera défini par les termes du contrat. En règle générale les données acquises sur fonds publics ont de facto le caractère de donnée publique.
+
+4.6 Honnêteté et respect de la règlementation
+L’observateur garantit que les données naturalistes / photographies / sons qu’il a saisis dans Kollect sont issues de ses propres observations originales.
+L’observateur garantit que la donnée a été obtenue dans le respect de la propriété privée et des lois et règlements en vigueur.
+
+4.7 Ethique – respect de l’animal
+L’observateur s’engage à respecter les règles d’éthique et de non dérangement de l’animal définies au § 3.6 et à ne pas mettre de photos / sons contrevenant à ces règles.
+
+4.8 Utilisation des photos et fichiers-sons
+Les photos et fichiers-sons confiés à Kollect peuvent être utilisés sous réserve d'avoir obtenu une autorisation écrite de l'auteur de l'œuvre. Le gestionnaire ne peut être tenu pour responsable d'une utilisation non conforme à ces règles.
+
+4.9 Droit de retrait
+Tout observateur dispose à tout moment du droit de retirer de la base Kollect ses données personnelles (cf. § 4.1).
+
+4.10 Utilisation des données autres que ses données propres
+Toute personne physique ou morale qui souhaite utiliser pour ses besoins propres d’autres données saisies dans Kollect que ses propres données est tenue de mentionner les auteurs des observations et structure de rattachement (si elle existe).
+
+
+5 - Respect de la propriété intellectuelle - citation
+Toute personne quelle qu’elle soit, utilisateur inscrit ou utilisateur non inscrit, qui utiliserait des données saisies dans Kollect pour ses besoins propres s’engage à respecter la propriété intellectuelle des données en :
+- citant la source des données utilisées : nom de l’observateur et structure de rattachement (si elle existe).
+- ne dénaturant pas les données,
+- ne les utilisant pas dans un but contraire à la préservation du patrimoine naturel.
+
+
+6 - Règles spécifiques aux photographies liées aux observations
+Les photos accompagnant les observations doivent être strictement liées à l’observation saisie (même espèce, même lieu, même jour).
+Les photos « en main » d’espèces protégées sont proscrites sauf si l’observateur bénéficie d’une autorisation de capture.
+Les photos doivent respecter les règles d’éthique et de non dérangement de l’animal établies au chapitre 3.6. Dans le cas contraire elles seront retirées par les administrateurs du site.
+
+(1) Sont retenues comme espèces sensibles dans Kollect les espèces identifiées comme telles par le SINP et espèces identifiées comme "sensibles" par les experts locaux.
