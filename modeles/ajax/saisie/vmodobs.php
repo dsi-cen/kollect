@@ -37,11 +37,11 @@ function cherchenbor($idobs)
 	$req->closeCursor();
 	return $resultat;	
 }
-function modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$nomvar)
+function modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$nomvar,$nom_cite)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("UPDATE obs.obs SET cdnom = :cdnom, cdref = :cdref, iddet = :iddet, nb = :nb, rqobs = :rq, validation = :vali, datesaisie = :datesaisie, observa = :observa, statutobs = :statut, idprotocole = :idproto, idetude = :idetude WHERE idobs = :idobs ");
+	$req = $bdd->prepare("UPDATE obs.obs SET cdnom = :cdnom, cdref = :cdref, iddet = :iddet, nb = :nb, rqobs = :rq, validation = :vali, datesaisie = :datesaisie, observa = :observa, statutobs = :statut, idprotocole = :idproto, idetude = :idetude, nom_cite = :nom_cite WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':iddet', $iddet);
@@ -54,6 +54,7 @@ function modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$
 	$req->bindValue(':statut', $statutobs);
 	$req->bindValue(':idproto', $idproto);
 	$req->bindValue(':idetude', $idetude);
+    $req->bindValue(':nom_cite', $nom_cite);
 	$req->execute();
 	$req->closeCursor();
 }
@@ -105,11 +106,11 @@ function modif($idobs,$idmembre,$nom,$datem,$cdref)
 	$req->execute();
 	$req->closeCursor();
 }
-function modif_ligneobs($idligne,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom)
+function modif_ligneobs($idligne,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom, $idcomp)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("UPDATE obs.ligneobs SET stade = :stade, ndiff = :ndiff, male = :m, femelle = :f, denom = :denom, idetatbio = :etat, idmethode = :meth, idpros = :pros, idstbio = :bio, nbmin = :nbmin, nbmax = :nbmax, sexe = :sexe, tdenom = :tdenom WHERE idligne = :idligne ");
+	$req = $bdd->prepare("UPDATE obs.ligneobs SET stade = :stade, ndiff = :ndiff, male = :m, femelle = :f, denom = :denom, idetatbio = :etat, idmethode = :meth, idpros = :pros, idstbio = :bio, nbmin = :nbmin, nbmax = :nbmax, sexe = :sexe, tdenom = :tdenom, idcomp = :idcomp WHERE idligne = :idligne ");
 	$req->bindValue(':idligne', $idligne);
 	$req->bindValue(':stade', $stade);
 	$req->bindValue(':ndiff', $ndiff);
@@ -124,6 +125,7 @@ function modif_ligneobs($idligne,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$
 	$req->bindValue(':nbmax', $nbmax);
 	$req->bindValue(':sexe', $sexe);
 	$req->bindValue(':tdenom', $tdenom);
+    $req->bindValue(':idcomp', $idcomp);
 	$req->execute();
 	$req->closeCursor();
 }
@@ -571,8 +573,8 @@ if(isset($_POST['idobs']) && isset($_POST['idligne']) && isset($_POST['cdnom']))
 		{
 			$vali = $cdrefor['validation'];
 		}
-		
-		modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$nomvar);
+		$nom_cite = $_POST['nom_cite'];
+		modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$nomvar,$nom_cite);
 		if($_POST['newsp'] == 'oui')
 		{
 			modif_listeob($cdref,$nomvar);
@@ -598,7 +600,8 @@ if(isset($_POST['idobs']) && isset($_POST['idligne']) && isset($_POST['cdnom']))
 		//modif ligneobs
 		if($statutobs == 'Pr')
 		{
-			modif_ligneobs($idligne,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom);
+            $idcomp = $_POST['comportement'];
+			modif_ligneobs($idligne,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom,$idcomp);
 			$idligneobs = $idligne;
 			//habitat
 			$habitat = habitat($idobs);

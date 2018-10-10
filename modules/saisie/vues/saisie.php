@@ -226,6 +226,10 @@
 									<div class="col-sm-4"><input type="text" class="form-control" id="nomf" name="nomf" placeholder="où nom français"></div>
 									<div class="col-sm-4"><input type="text" class="form-control" id="nomb" required=""></div>								
 								</div>
+                                <div class="form-group row form-inline">
+                                    <label for="nom_cite" class="ml-3 mr-1">Nom cité</label><i id="infocite" class="fa fa-info-circle curseurlien text-info info"></i>
+                                    <div class="col-sm-4"><input type="text" class="form-control" id="nom_cite" name="nom_cite" placeholder="Indiquez le nom cité"></div>
+                                </div>
 								<p id="mesvali" class="font-weight-bold text-danger"></p>
 							</fieldset>
 							<fieldset>
@@ -310,8 +314,10 @@
 									<label for="obscoll" class="ml-3 mr-1">Prospection</label><i id="info2" class="fa fa-info-circle curseurlien text-info info"></i>
 									<select id="obscoll" required="" name="obscoll" class="ml-2 form-control form-control-sm"></select>
 									<label for="bio" class="ml-3 mr-1">Statut biologique</label><i id="info3" class="fa fa-info-circle curseurlien text-info info"></i>
-									<select id="bio" required="" name="bio" class="ml-2 form-control form-control-sm"></select>									
-								</div>
+                                    <select id="bio" required="" name="bio" class="ml-2 form-control form-control-sm"></select>
+                                    <label for="comportement" class="ml-3 mr-1">Comportement</label><i id="infocomp" class="fa fa-info-circle curseurlien text-info info"></i>
+                                    <select id="comportement" required="" name="comportement" class="ml-2 form-control form-control-sm"></select>
+                                </div>
 							</fieldset>
 							<fieldset class="stadecache ndecache">
 								<legend class="legendesaisie">Détermination</legend>

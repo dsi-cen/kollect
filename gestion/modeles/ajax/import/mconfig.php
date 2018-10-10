@@ -63,6 +63,20 @@ if (isset($_POST['sel']) && !empty($_POST['sel']))
 	{
 		$liste .= '<h3 class="h6">Statut biologique - non définit !</h3>';
 	}
+    if (isset($rjson['saisie']['comportement']))
+    {
+        $liste .= '<h3 class="h6">Comportement</h3>';
+        $liste .= '<ul>';
+        foreach($rjson['saisie']['comportement'] as $cle => $n)
+        {
+            $liste .= '<li><b>'.$n.'</b> '.$cle.'</li>';
+        }
+        $liste .= '</ul>';
+    }
+    else
+    {
+        $liste .= '<h3 class="h6">Comportement - non définit !</h3>';
+    }
 	if (isset($rjson['saisie']['protocole']))
 	{
 		$liste .= '<h3 class="h6">Protocole</h3>';

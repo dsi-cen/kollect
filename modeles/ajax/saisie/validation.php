@@ -201,12 +201,12 @@ function verifobs($idfiche,$cdref)
 	$req->closeCursor();
 	return $resultat;	
 }
-function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$idm)
+function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$idm,$nom_cite)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("INSERT INTO obs.obs (idfiche, cdnom, cdref, iddet, nb, rqobs, validation, datesaisie, observa, statutobs, idprotocole, idetude, idmor)
-						VALUES(:idfiche, :cdnom, :cdref, :iddet, :nb, :rq, :vali, :datesaisie, :var, :statut, :idproto, :idetude, :idm) ");
+	$req = $bdd->prepare("INSERT INTO obs.obs (idfiche, cdnom, cdref, iddet, nb, rqobs, validation, datesaisie, observa, statutobs, idprotocole, idetude, idmor, nom_cite)
+						VALUES(:idfiche, :cdnom, :cdref, :iddet, :nb, :rq, :vali, :datesaisie, :var, :statut, :idproto, :idetude, :idm, :nom_cite) ");
 	$req->bindValue(':idfiche', $idfiche);
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':iddet', $iddet);
@@ -220,6 +220,8 @@ function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$
 	$req->bindValue(':idproto', $idproto);
 	$req->bindValue(':idetude', $idetude);
 	$req->bindValue(':idm', $idm);
+    $req->bindValue(':nom_cite', $nom_cite);
+
 	if ($req->execute())
 	{
 		$idobs = $bdd->lastInsertId('obs.obs_idobs_seq');
@@ -227,12 +229,12 @@ function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$
 	$req->closeCursor();
 	return $idobs;	
 }
-function insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom)
+function insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom,$idcomp)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("INSERT INTO obs.ligneobs (idobs, stade, ndiff, male, femelle, denom, idetatbio, idmethode, idpros, idstbio, nbmin, nbmax, sexe, tdenom)
-						VALUES(:idobs, :stade, :ndiff, :m, :f, :denom, :etat, :meth, :pros, :bio, :nbmin, :nbmax, :sexe, :tdenom) ");
+	$req = $bdd->prepare("INSERT INTO obs.ligneobs (idobs, stade, ndiff, male, femelle, denom, idetatbio, idmethode, idpros, idstbio, nbmin, nbmax, sexe, tdenom, idcomp)
+						VALUES(:idobs, :stade, :ndiff, :m, :f, :denom, :etat, :meth, :pros, :bio, :nbmin, :nbmax, :sexe, :tdenom, :idcomp) ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':stade', $stade);
 	$req->bindValue(':ndiff', $ndiff);
@@ -247,6 +249,7 @@ function insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$i
 	$req->bindValue(':nbmax', $nbmax);
 	$req->bindValue(':sexe', $sexe);
 	$req->bindValue(':tdenom', $tdenom);
+    $req->bindValue(':idcomp', $idcomp);
 	if ($req->execute())
 	{
 		$idligneobs = $bdd->lastInsertId('obs.ligneobs_idligne_seq');
@@ -771,7 +774,8 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 						if(isset($idobser)) { $iddet = $idobser; }
 						else { $iddet = rechercheobservateurid($idm); }
 					}	
-					$idobs = insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$idm);
+					$nom_cite = $_POST['nom_cite'];
+					$idobs = insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$idm,$nom_cite);
 					if($_POST['newsp'] == 'oui')
 					{
 						modif_listeob($cdref,$nomvar);
@@ -812,7 +816,8 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 						$idmethode = $_POST['obsmethode'];
 						$idpros = (isset($_POST['obscoll'])) ? $_POST['obscoll'] : 0;
 						$idstbio = (isset($_POST['bio'])) ? $_POST['bio'] : 0;
-						$idligneobs = insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom);
+                        $idcomp = $_POST['comportement'];
+						$idligneobs = insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom,$idcomp);
 						insere_identif($idligneobs,$idobs,$idfiche,$dates);
 						//insertion habitat
 						if(isset($_POST['cdhab']) && $_POST['cdhab'] != '')
@@ -856,7 +861,8 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 					$nbmod = $nbor + $nb;
 					modif_obs($idobs,$nbmod);
 				}
-				$idligneobs = insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom);
+                $idcomp = $_POST['comportement'];
+				$idligneobs = insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom,$idcomp);
 				$dates = date("Y-m-d");	
 				insere_identif($idligneobs,$idobs,$idfiche,$dates);
 				$retour['idobs'] = $idobs;

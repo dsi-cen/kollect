@@ -126,11 +126,12 @@ function recherche_ligne($idobs)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("SELECT stade.stade, ndiff, male, femelle, denom, nbmin, nbmax, tdenom, idetatbio, methode, prospection, statutbio FROM obs.ligneobs
+	$req = $bdd->prepare("SELECT stade.stade, ndiff, male, femelle, denom, nbmin, nbmax, tdenom, idetatbio, methode, prospection, statutbio, comportement.libcomp FROM obs.ligneobs
 						INNER JOIN referentiel.stade ON stade.idstade = ligneobs.stade
 						INNER JOIN referentiel.methode USING(idmethode)
 						INNER JOIN referentiel.prospection USING(idpros)
 						INNER JOIN referentiel.occstatutbio USING(idstbio)
+						INNER JOIN referentiel.comportement USING(idcomp)
 						WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->execute();

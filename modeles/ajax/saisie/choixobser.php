@@ -30,6 +30,7 @@ if(isset($_POST['sel']))
 		$retour['methode'] = (isset($rjson['saisie']['methode'])) ? $rjson['saisie']['methode'] : '';
 		$retour['collecte'] = (isset($rjson['saisie']['collecte'])) ? $rjson['saisie']['collecte'] : '';
 		$retour['statutbio'] = (isset($rjson['saisie']['statutbio'])) ? $rjson['saisie']['statutbio'] : '';
+        $retour['comportement'] = (isset($rjson['saisie']['comportement'])) ? $rjson['saisie']['comportement'] : '';
 		$retour['mort'] = (isset($rjson['saisie']['mort']) && !empty($rjson['saisie']['mort'])) ? $rjson['saisie']['mort'] : '';
 		$retour['obdenom'] = (isset($rjson['saisie']['denom'])) ? $rjson['saisie']['denom'] : ['Nombre d\'individus observés'=>'IND'];
 		$retour['protocole'] = (isset($rjson['saisie']['protocole'])) ? $rjson['saisie']['protocole'] : array('aucun'=>'0');

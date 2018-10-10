@@ -37,12 +37,21 @@ function liste_collecte()
 }
 function liste_statutbio()
 {
-	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->query("SELECT idstbio, statutbio, libelle FROM referentiel.occstatutbio ORDER BY statutbio") or die(print_r($bdd->errorInfo()));
-	$statutbio = $req->fetchAll(PDO::FETCH_ASSOC);
-	$req->closeCursor();	
-	return $statutbio;
+    $bdd = PDO2::getInstance();
+    $bdd->query('SET NAMES "utf8"');
+    $req = $bdd->query("SELECT idstbio, statutbio, libelle FROM referentiel.occstatutbio ORDER BY statutbio") or die(print_r($bdd->errorInfo()));
+    $statutbio = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    return $statutbio;
+}
+function liste_comportement()
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query('SET NAMES "utf8"');
+    $req = $bdd->query("SELECT idcomp, libcomp, mdcomp FROM referentiel.comportement ORDER BY idcomp") or die(print_r($bdd->errorInfo()));
+    $comportement = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    return $comportement;
 }
 function liste_protocole()
 {
@@ -177,9 +186,35 @@ if(isset($_POST['sel']))
 			$tabstbio[] = array('label'=>$n['statutbio'],'value'=>$n['idstbio']);
 		}
 		$retour['statutbio'] = $tabstbio;
-	}	
-	
-	$mort = liste_mort();
+	}
+
+    $comportement = liste_comportement();
+    if(isset($rjson['saisie']['comportement']) && !isset($rjson['saisie']['comportement']['']))
+    {
+        foreach($rjson['saisie']['comportement'] as $cle => $n)
+        {
+            $tabcomp[] = array('label'=>$cle,'value'=>$n,'selected'=>true);
+            $tabcompid[] = $n;
+        }
+        foreach($comportement as $n)
+        {
+            if(!in_array($n['idcomp'], $tabcompid))
+            {
+                $tabcomp[] = array('label'=>$n['libcomp'],'value'=>$n['idcomp']);
+            }
+        }
+        $retour['comportement'] = $tabcomp;
+    }
+    else
+    {
+        foreach($comportement as $n)
+        {
+            $tabcomp[] = array('label'=>$n['libcomp'],'value'=>$n['idcomp']);
+        }
+        $retour['comportement'] = $tabcomp;
+    }
+
+    $mort = liste_mort();
 	if(isset($rjson['saisie']['mort']) && !isset($rjson['saisie']['mort']['']))
 	{
 		foreach($rjson['saisie']['mort'] as $cle => $n)
