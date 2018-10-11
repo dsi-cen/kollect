@@ -49,8 +49,8 @@ if(isset($_GET['term']))
 								LEFT JOIN referentiel.liste ON liste.cdnom = l.cdref
 								WHERE trim(both substring(l.nom FROM 1 for CASE WHEN position( ' ' in l.nom ) > 0 THEN position( ' ' in l.nom ) ELSE length(l.nom) END)) ILIKE :recherche 
 								AND trim(both substring(l.nom FROM CASE WHEN position( ' ' in l.nom ) > 0 THEN position( ' ' in l.nom ) ELSE 0 END for CASE WHEN position( ' ' in l.nom ) > 0 THEN length(l.nom) ELSE 0 END)) ILIKE :recherche2 AND locale = 'oui' ORDER BY l.nom LIMIT 30");
-			$req->bindValue(':recherche', '%'.$combinaison[0].'%');
-			$req->bindValue(':recherche2', '%'.$combinaison[1].'%');
+			$req->bindValue(':recherche', $combinaison[0].'%');
+			$req->bindValue(':recherche2', $combinaison[1].'%');
 			$req->execute();
 			$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 			$req->closeCursor();
