@@ -1740,11 +1740,11 @@ ALTER TABLE ONLY methode ADD CONSTRAINT obsmethode_pkey PRIMARY KEY (idmethode);
 	
 ALTER TABLE ONLY occetatbio ADD CONSTRAINT occetatbio_pkey PRIMARY KEY (idetatbio);
 
-ALTER TABLE ONLY comportement ADD CONSTRAINT comportement_pkey PRIMARY KEY (idcomp);
-
 ALTER TABLE ONLY occmort ADD CONSTRAINT occmort_pkey PRIMARY KEY (idmort);
 
-ALTER TABLE ONLY occstatutbio ADD CONSTRAINT comportement_pkey PRIMARY KEY (idstbio);
+ALTER TABLE ONLY occstatutbio ADD CONSTRAINT occstatutbio_pkey PRIMARY KEY (idstbio);
+
+ALTER TABLE ONLY comportement ADD CONSTRAINT comportement_pkey PRIMARY KEY (idcomp);
 
 ALTER TABLE ONLY occtype ADD CONSTRAINT occtype_pkey PRIMARY KEY (tdenom);
 
