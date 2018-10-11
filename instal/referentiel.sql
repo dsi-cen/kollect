@@ -1640,6 +1640,32 @@ INSERT INTO occstatutbio VALUES (5, 'Estivation', 'Estivation : L''estivation es
 INSERT INTO occstatutbio VALUES (9, 'Pas de reproduction / Végétatif', 'Pas de reproduction : Indique que l''individu n''a pas un comportement reproducteur. Chez les végétaux : absence de fleurs, de fruits…', NULL);
 INSERT INTO occstatutbio VALUES (13, 'Végétatif', 'L''individu est au stade végétatif.', NULL);
 
+ INSERT INTO referentiel.comportement VALUES
+  (0,'Inconnu','Le statut biologique de l''individu n''est pas connu'),
+  (1,'Non renseigné','Le statut biologique de l''individu n''a pas été renseigné'),
+  (2,'Echouage','L''individu tente de s''échouer ou vient de s''échouer sur le rivage'),
+  (3,'Dortoir','Individus se regroupant dans une zone définie pour y passer la nuit ou la journée'),
+  (4,'Migration','L''individu (ou groupe d''individus) est en migration active'),
+  (5,'Toile','Construction de toile : l''individu construit sa toile'),
+  (6,'Halte migratoire','L''individu procède à une halte au cours de sa migration, et a été découvert sur sa zone de halte'),
+  (7,'Swarming','L''individu a un comportement de swarming : il se regroupe avec d''autres individus de taille similaire, sur une zone spécifique, ou en mouvement'),
+  (8,'Chasse / alimentation','L''individu est sur une zone qui lui permet de chasser ou de s''alimenter.'),
+  (9,'Hivernage','L''individu hiverne (modification de son comportement liée à l''hiver pouvant par exemple comporter un changement de lieu, d''alimentation, de production de sève ou de graisse...)'),
+  (10,'Passage en vol','L''individu est de passage et en vol'),
+  (11,'Erratique','Individu d''une ou de populations d''un taxon qui ne se trouve, actuellement, que de manière occasionnelle dans les limites d’une région. Il a été retenu comme seuil, une absence de 80% d''un laps de temps donné (année, saisons...)'),
+  (12,'Sédentaire','Individu demeurant à un seul emplacement, ou restant toute l''année dans sa région d''origine, même s''il effectue des déplacements locaux'),
+  (13,'Estivage','L''individu estive (modification de son comportement liée à l''été pouvant par exemple comporter un changement de lieu, d''alimentation, de production de sève ou de graisse...)'),
+  (14,'Nourrissage jeunes','Nourrissage des jeunes'),
+  (15,'Posé','Individu(s) posé(s)'),
+  (16,'Déplacement','Individu(s) en déplacement'),
+  (17,'Repos','Repos'),
+  (18,'Chant','Chant'),
+  (19,'Accouplement','Accouplement'),
+  (20,'Coeur copulatoire','Coeur copulatoire'),
+  (21,'Tandem','Tandem'),
+  (22,'Territorial','Territorial'),
+  (23,'Pond','Pond');
+
 INSERT INTO occtype VALUES ('COL', 'Colonie');
 INSERT INTO occtype VALUES ('CPL', 'Couple');
 INSERT INTO occtype VALUES ('HAM', 'Hampe florale');
