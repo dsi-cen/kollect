@@ -51,6 +51,7 @@ CREATE TABLE observateur
 CREATE TABLE occetatbio (idetatbio smallint NOT NULL,etatbio character varying(30),libelle text,idval smallint);
 CREATE TABLE occmort (idmort smallint NOT NULL,cause character varying(40),libelle text);
 CREATE TABLE occstatutbio (idstbio smallint NOT NULL,statutbio character varying(40),libelle text,idval smallint);
+CREATE TABLE comportement (idcomp smallint NOT NULL,libcomp character varying (50),mdcomp text);
 CREATE TABLE occtype (tdenom character varying(4) NOT NULL,typedenom character varying(20));
 CREATE TABLE organisme (idorg serial NOT NULL,organisme character varying(150),descri text);
 CREATE TABLE prospection (idpros smallint NOT NULL,prospection character varying(30),idval smallint,libelle text);
@@ -1613,11 +1614,13 @@ INSERT INTO methode VALUES (22, 'Mine', 'Galerie forée dans l''épaisseur d''un
 INSERT INTO methode VALUES (23, 'Galerie/terrier', 'Galerie forée dans le bois, les racines ou les tiges, par des larves (Lépidoptères, Coléoptères, Diptères) ou creusée dans la terre (micro-mammifères, mammifères... ).');
 INSERT INTO methode VALUES (24, 'Oothèque', 'Membrane-coque qui protège la ponte de certains insectes et certains mollusques.');
 INSERT INTO methode VALUES (25, 'Vu et entendu', 'Vu et entendu : l''occurrence a à la fois été vue et entendue.');
+INSERT INTO methode VALUES (26, 'Contact olfactif',	'Contact olfactif : l''occurrence a été sentie sur le lieu d''observation');
+INSERT INTO methode VALUES (27, 'Empreinte et fèces',	'Empreinte et fèces');
 
 INSERT INTO occetatbio VALUES (0, 'Inconu', 'Inconnu (peut être utilisé pour les virus ou les végétaux fanés par exemple).', NULL);
-INSERT INTO occetatbio VALUES (3, 'Trouvé mort', 'L''individu a été trouvé mort : Cadavre entier ou crâne par exemple. La mort est antérieure au processus d''observation', NULL);
-INSERT INTO occetatbio VALUES (2, 'Observé vivant', 'L''individu a été observé vivant.', NULL);
 INSERT INTO occetatbio VALUES (1, 'Non renseigné', 'L''information n''a pas été renseignée.', NULL);
+INSERT INTO occetatbio VALUES (2, 'Observé vivant', 'L''individu a été observé vivant.', NULL);
+INSERT INTO occetatbio VALUES (3, 'Trouvé mort', 'L''individu a été trouvé mort : Cadavre entier ou crâne par exemple. La mort est antérieure au processus d''observation', NULL);
 
 INSERT INTO occmort VALUES (8, 'Autre', 'A préciser dans le champ remarque');
 INSERT INTO occmort VALUES (7, 'Chasse', NULL);
@@ -1629,19 +1632,13 @@ INSERT INTO occmort VALUES (2, 'Prédation', NULL);
 INSERT INTO occmort VALUES (1, 'Inconnu', NULL);
 
 INSERT INTO occstatutbio VALUES (0, 'Inconnu', 'Inconnu : Le statut biologique de l''individu n''est pas connu.', NULL);
-INSERT INTO occstatutbio VALUES (3, 'Reproduction', 'Reproduction : Le sujet d''observation en est au stade de reproduction (nicheur, gravide, carpophore, floraison, fructification…)', NULL);
-INSERT INTO occstatutbio VALUES (2, 'Non déterminable', 'Non déterminé : Le statut biologique de l''individu n''a pas pu être déterminé.', NULL);
 INSERT INTO occstatutbio VALUES (1, 'Non renseigné', 'Non renseigné : Le statut biologique de l''individu n''a pas été renseigné.', NULL);
-INSERT INTO occstatutbio VALUES (6, 'Halte migratoire', 'Halte migratoire : Indique que l''individu procède à une halte au cours de sa migration, et a été découvert sur sa zone de halte.', NULL);
-INSERT INTO occstatutbio VALUES (5, 'Estivation', 'Estivation : L''estivation est un phénomène analogue à celui de l''hibernation, au cours duquel les animaux tombent en léthargie. L''estivation se produit durant les périodes les plus chaudes et les plus sèches de l''été', NULL);
+INSERT INTO occstatutbio VALUES (2, 'Non déterminable', 'Non déterminé : Le statut biologique de l''individu n''a pas pu être déterminé.', NULL);
+INSERT INTO occstatutbio VALUES (3, 'Reproduction', 'Reproduction : Le sujet d''observation en est au stade de reproduction (nicheur, gravide, carpophore, floraison, fructification…)', NULL);
 INSERT INTO occstatutbio VALUES (4, 'Hibernation', 'Hibernation : L’hibernation est un état d’hypothermie régulée, durant plusieurs jours ou semaines qui permet aux animaux de conserver leur énergie pendant l’hiver.', NULL);
-INSERT INTO occstatutbio VALUES (8, 'Chasse / alimentation', 'Chasse / alimentation : Indique que l''individu est sur une zone qui lui permet de chasser ou de s''alimenter.', NULL);
-INSERT INTO occstatutbio VALUES (7, 'Swarming', 'Swarming : Indique que l''individu a un comportement de swarming : il se regroupe avec d''autres individus de taille similaire, sur une zone spécifique, ou en mouvement', NULL);
+INSERT INTO occstatutbio VALUES (5, 'Estivation', 'Estivation : L''estivation est un phénomène analogue à celui de l''hibernation, au cours duquel les animaux tombent en léthargie. L''estivation se produit durant les périodes les plus chaudes et les plus sèches de l''été', NULL);
 INSERT INTO occstatutbio VALUES (9, 'Pas de reproduction / Végétatif', 'Pas de reproduction : Indique que l''individu n''a pas un comportement reproducteur. Chez les végétaux : absence de fleurs, de fruits…', NULL);
-INSERT INTO occstatutbio VALUES (12, 'Sédentaire', 'Sédentaire : Individu demeurant à un seul emplacement, ou restant toute l''année dans sa région d''origine, même s''il effectue des déplacements locaux.', NULL);
-INSERT INTO occstatutbio VALUES (11, 'Erratique', 'Erratique : Individu d''une ou de populations d''un taxon qui ne se trouve, actuellement, que de manière occasionnelle dans les limites d’une région. Il a été retenu comme seuil, une absence de 80% d''un laps de temps donné (année, saisons...).', NULL);
-INSERT INTO occstatutbio VALUES (10, 'Passage en vol', 'Passage en vol : Indique que l''individu est de passage et en vol.', NULL);
-INSERT INTO occstatutbio VALUES (100, 'Migration', 'Indique que l''individu est en migration active (Correspondance SINP -> Passage en vol)', 10);
+INSERT INTO occstatutbio VALUES (13, 'Végétatif', 'L''individu est au stade végétatif.', NULL);
 
 INSERT INTO occtype VALUES ('COL', 'Colonie');
 INSERT INTO occtype VALUES ('CPL', 'Couple');
@@ -1654,8 +1651,8 @@ INSERT INTO occtype VALUES ('SURF', 'Surface');
 INSERT INTO occtype VALUES ('TIGE', 'Tiges');
 INSERT INTO occtype VALUES ('TOUF', 'Touffes');
 
-INSERT INTO organisme VALUES (1, 'Inconnu', 'SINP : Aucun organisme n''est présent sur l''information d''origine');
-INSERT INTO organisme VALUES (2, 'Indépendant', 'SINP : L''observateur n''appartient pas à un organisme');
+INSERT INTO organisme (organisme, descri) VALUES ('Inconnu', 'SINP : Aucun organisme n''est présent sur l''information d''origine');
+INSERT INTO organisme (organisme, descri) VALUES ('Indépendant', 'SINP : L''observateur n''appartient pas à un organisme');
 
 INSERT INTO prospection VALUES (1, 'A vue', NULL, NULL);
 INSERT INTO prospection VALUES (2, 'Autre', NULL, NULL);
@@ -1702,8 +1699,12 @@ INSERT INTO protocole VALUES (12, 'SON', 'Suivi des Orthoptères Nocturnes', NUL
 INSERT INTO protocole VALUES (13, 'Vigie-Chiro', NULL, NULL);
 INSERT INTO protocole VALUES (3, 'IPA', '', '');
 
+INSERT INTO stade VALUES (0,	'Inconnu',1,	'Le stade de vie de l''individu n''est pas connu.');
 INSERT INTO stade VALUES (1, 'Indéterminé', 1, 'Le stade de vie de l''individu n''a pu être déterminé (observation insuffisante pour la détermination).');
 INSERT INTO stade VALUES (2, 'Adulte', 2, 'L''individu est au stade adulte.');
+INSERT INTO stade VALUES (3, 'Juvénile', 3, 'L''individu n''a pas encore atteint le stade adulte. C''est un individu jeune.');
+INSERT INTO stade VALUES (4, 'Immature', 3, 'Individu n''ayant pas atteint sa maturité sexuelle.');
+INSERT INTO stade VALUES (5, 'Sub-adulte', 3, 'Individu ayant presque atteint la taille adulte mais qui n''est pas considéré en tant que tel par ses congénères. Stéréotype');
 INSERT INTO stade VALUES (6, 'Larve', 6, 'Individu dans l''état où il est en sortant de l''oeuf, état dans lequel il passe un temps plus ou moins long avant métamorphose.');
 INSERT INTO stade VALUES (7, 'Chenille', 6, 'Larve éruciforme des lépidoptères ou papillons.');
 INSERT INTO stade VALUES (8, 'Têtard', 6, 'Larve de batracien.');
@@ -1714,8 +1715,8 @@ INSERT INTO stade VALUES (12, 'Chrysalide', 13, 'Nymphe des lépidoptères ou pa
 INSERT INTO stade VALUES (13, 'Nymphe', 13, 'Stade de développement intermédiaire, entre larve et imago, pendant lequel l''individu ne se nourrit pas.');
 INSERT INTO stade VALUES (14, 'Pupe', 13, 'Nymphe des diptères.');
 INSERT INTO stade VALUES (15, 'Imago', 2, 'Stade final d''un individu dont le développement se déroule en plusieurs phases (en général, oeuf, larve, imago).');
-INSERT INTO stade VALUES (17, 'Alevin', 6, 'L''individu, un poisson, est à un stade juvénile.');
 INSERT INTO stade VALUES (16, 'Sub-imago', NULL, 'Stade de développement chez certains insectes : insecte mobile, incomplet et sexuellement immature, bien qu''évoquant assez fortement la forme définitive de l''adulte, l''imago.');
+INSERT INTO stade VALUES (17, 'Alevin', 6, 'L''individu, un poisson, est à un stade juvénile.');
 INSERT INTO stade VALUES (18, 'Germination', NULL, 'L''individu est en cours de germination.');
 INSERT INTO stade VALUES (19, 'Fané', NULL, 'L''individu est altéré dans ses couleurs et sa fraîcheur, par rapport à un individu normal.');
 INSERT INTO stade VALUES (20, 'Graine', NULL, 'La graine est la structure qui contient et protège l''embryon végétal.');
@@ -1724,9 +1725,10 @@ INSERT INTO stade VALUES (22, 'Tubercule', NULL, 'Un tubercule est un organe de 
 INSERT INTO stade VALUES (23, 'Bulbe', NULL, 'Un bulbe est une pousse souterraine verticale disposant de feuilles modifiées utilisées comme organe de stockage de nourriture par une plante à dormance.');
 INSERT INTO stade VALUES (24, 'Rhizome', NULL, 'Le rhizome est une tige souterraine et parfois subaquatique remplie de réserves alimentaires chez certaines plantes vivaces.');
 INSERT INTO stade VALUES (25, 'Emergent', NULL, 'L''individu est au stade émergent : sortie de l''oeuf.');
-INSERT INTO stade VALUES (3, 'Juvénile', 3, 'L''individu n''a pas encore atteint le stade adulte. C''est un individu jeune.');
-INSERT INTO stade VALUES (4, 'Immature', 3, 'Individu n''ayant pas atteint sa maturité sexuelle.');
-INSERT INTO stade VALUES (5, 'Sub-adulte', 3, 'Individu ayant presque atteint la taille adulte mais qui n''est pas considéré en tant que tel par ses congénères. Stéréotype');
+INSERT INTO stade VALUES (26, 'Post-Larve',NULL,'Post-larve : Stade qui suit immédiatement celui de la larve et présente certains caractères du juvénile.');
+INSERT INTO stade VALUES (27,	'Fruit', NULL,'Fruit : L''individu est sous forme de fruit.');
+
+
 
 INSERT INTO referentiel.etude (idetude, etude, libelle, masquer) VALUES(0, 'Aucune', 'Aucune', 'non');
 
@@ -1737,6 +1739,8 @@ ALTER TABLE ONLY eunis ADD CONSTRAINT eunis_pkey PRIMARY KEY (cdhab);
 ALTER TABLE ONLY methode ADD CONSTRAINT obsmethode_pkey PRIMARY KEY (idmethode);
 	
 ALTER TABLE ONLY occetatbio ADD CONSTRAINT occetatbio_pkey PRIMARY KEY (idetatbio);
+
+ALTER TABLE ONLY comportement ADD CONSTRAINT comportement_pkey PRIMARY KEY (idcomp);
 
 ALTER TABLE ONLY occmort ADD CONSTRAINT occmort_pkey PRIMARY KEY (idmort);
 
