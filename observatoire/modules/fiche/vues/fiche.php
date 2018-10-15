@@ -452,8 +452,8 @@
 									</div>
 									<div>
 										<figure>
-											<object data="https://inpn.mnhn.fr/cartosvg/couchegeo/repartition/atlas/<?php echo $id;?>/fr_light_l93,fr_lit_l93" 
-												type="image/svg+xml" class="mx-auto d-block" width="50%" height="50%">											
+											<object data="https://inpn.mnhn.fr/cartosvg/couchegeo/repartition/atlas/<?php echo $id;?>/fr_light_l93,fr_light_mer_l93,fr_lit_l93"
+												type="image/svg+xml" class="mx-auto d-block" width="100%" height="100%">
 											</object>
 											<figcaption>Répartition en France métropolitaine - <a class="" href="http://inpn.mnhn.fr/espece/cd_nom/<?php echo $id; ?>" title="Accéder à la fiche de l'INPN"><img src="../dist/img/inpn.png" width="50" height="18" alt="logo INPN"/></a></figcaption>
 										</figure>

@@ -129,12 +129,12 @@ function modif_ligneobs($idligne,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$
 	$req->execute();
 	$req->closeCursor();
 }
-function insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom)
+function insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom,$idcomp)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("INSERT INTO obs.ligneobs (idobs, stade, ndiff, male, femelle, denom, idetatbio, idmethode, idpros, idstbio, nbmin, nbmax, sexe, tdenom)
-						VALUES(:idobs, :stade, :ndiff, :m, :f, :denom, :etat, :meth, :pros, :bio, :nbmin, :nbmax, :sexe, :tdenom) ");
+	$req = $bdd->prepare("INSERT INTO obs.ligneobs (idobs, stade, ndiff, male, femelle, denom, idetatbio, idmethode, idpros, idstbio, nbmin, nbmax, sexe, tdenom, idcomp)
+						VALUES(:idobs, :stade, :ndiff, :m, :f, :denom, :etat, :meth, :pros, :bio, :nbmin, :nbmax, :sexe, :tdenom, :idcomp) ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':stade', $stade);
 	$req->bindValue(':ndiff', $ndiff);
@@ -149,6 +149,7 @@ function insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$i
 	$req->bindValue(':nbmax', $nbmax);
 	$req->bindValue(':sexe', $sexe);
 	$req->bindValue(':tdenom', $tdenom);
+    $req->bindValue(':idcomp', $idcomp);
 	if ($req->execute())
 	{
 		$idligneobs = $bdd->lastInsertId('obs.ligneobs_idligne_seq');
@@ -641,7 +642,8 @@ if(isset($_POST['idobs']) && isset($_POST['idligne']) && isset($_POST['cdnom']))
 			$nbmod = $nbor + $nb;
 			modif_obsdeux($idobs,$nbmod,$dates);
 		}
-		$idligneobs = insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom);
+        $idcomp = $_POST['comportement'];
+		$idligneobs = insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom,$idcomp);
 		insere_identif($idligneobs,$idobs,$idfiche,$dates);
 		$retour['stade'] = $_POST['stadeval'];
 	}
