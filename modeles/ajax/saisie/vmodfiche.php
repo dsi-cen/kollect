@@ -270,7 +270,7 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 		$retour['modcoord'] = 'Oui';
 		$x = $_POST['x'];
 		$y = $_POST['y'];
-		$alt = $_POST['alt'];
+		$alt = (empty($_POST['alt'])) && $_POST['alt'] != '0' ? null : $_POST['alt'];
 		$lat = $_POST['lat'];
 		$lng = $_POST['lng'];
 		$l93 = $_POST['l93'];
