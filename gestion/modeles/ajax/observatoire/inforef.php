@@ -22,6 +22,10 @@ function liste($table)
 	{
 		$req = $bdd->query("SELECT idstbio, statutbio, libelle FROM referentiel.occstatutbio ORDER BY idstbio");
 	}
+    elseif($table == 'comportement')
+    {
+        $req = $bdd->query("SELECT idcomp, libcomp, mdcomp FROM referentiel.comportement ORDER BY idcomp");
+    }
 	elseif($table == 'occmort')
 	{
 		$req = $bdd->query("SELECT idmort, cause, libelle FROM referentiel.occmort");
@@ -52,6 +56,10 @@ if (isset($_POST['table']))
 	{
 		$ref .= '<th>Id</th><th>Type de statut</th><th>descriptif</th>';
 	}
+    elseif($table == 'comportement')
+    {
+        $ref .= '<th>Id</th><th>Type de comportement</th><th>descriptif</th>';
+    }
 	elseif($table == 'occmort')
 	{
 		$ref .= '<th>Id</th><th>Cause de la mort</th><th>descriptif</th>';
@@ -75,6 +83,10 @@ if (isset($_POST['table']))
 		{
 			$ref .= '<tr><td>'.$n['idstbio'].'</td><td>'.$n['statutbio'].'</td><td>'.$n['libelle'].'</td></tr>';
 		}
+        elseif($table == 'comportement')
+        {
+            $ref .= '<tr><td>'.$n['idcomp'].'</td><td>'.$n['libcomp'].'</td><td>'.$n['mdcomp'].'</td></tr>';
+        }
 		elseif($table == 'occmort')
 		{
 			$ref .= '<tr><td>'.$n['idmort'].'</td><td>'.$n['cause'].'</td><td>'.$n['libelle'].'</td></tr>';

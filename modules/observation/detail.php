@@ -208,11 +208,11 @@ if(isset($_GET['idobs']))
 					case 2:$etat = 'Observé vivant'; break;
 					case 3:$etat = 'Trouvé mort'; break;
 				}
-				$etatbio = ', Etat biologique : '.$etat;
-				$methode = '<br />Contact : '.$n['methode'];
-				$pros = '<br />Prospection : '.$n['prospection'];
-				$statutbio = '<br />Statut biologique : '.$n['statutbio'];
-				
+				$etatbio = '<br /><strong>Etat biologique : </strong>'.$etat;
+				$methode = '<br /><strong>Contact : </strong>'.$n['methode'];
+				$pros = '<br /><strong>Prospection : </strong>'.$n['prospection'];
+				$statutbio = '<br /><strong>Statut biologique : </strong>'.$n['statutbio'];
+                $comportement = '<br /><strong>Comportement : </strong>'.$n['libcomp'];
 				if($n['denom'] == 'Co' && ($n['tdenom'] == 'IND' || $n['tdenom'] == '' || $n['tdenom'] == 'NSP'))
 				{
 					if(($n['ndiff'] != 0 && !empty($n['ndiff'])) && ($n['male'] != 0 && !empty($n['male'])) && ($n['femelle'] != 0 && !empty($n['femelle'])))
@@ -314,7 +314,7 @@ if(isset($_GET['idobs']))
 				{
 					$tmpnb = '( Espèce présente )';
 				}
-				$tmpligne[] = '- '.$n['stade'].' '.$tmpnb.$etatbio.$methode.$pros.$statutbio;
+				$tmpligne[] = '&rarr; '.$n['stade'].' '.$tmpnb.$etatbio.$methode.$pros.$statutbio.$comportement.'<br />';
 			}
 			$ligne = implode('<br /> ', $tmpligne);
 			

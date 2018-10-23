@@ -29,6 +29,15 @@ function occstatutbio($listeid)
 	$req->closeCursor();
 	return $resultat;		
 }
+function comportement($listeid)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query('SET NAMES "utf8"');
+    $req = $bdd->query('SELECT idcomp AS id, libcomp AS lib, mdcomp AS desc FROM referentiel.comportement WHERE idcomp IN('.$listeid.') ORDER BY libcomp ') or die(print_r($bdd->errorInfo()));
+    $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    return $resultat;
+}
 function stade($listeid)
 {
 	$bdd = PDO2::getInstance();
@@ -95,6 +104,19 @@ if(isset($_POST['sel']) && isset($_POST['id']))
 		}
 		$sinp = 'OccurrenceStatutBiologiqueValue';
 	}
+    elseif($id == 'infocomp')
+    {
+        if(isset($rjson['saisie']['comportement']))
+        {
+            foreach($rjson['saisie']['comportement'] as $cle => $n)
+            {
+                $tab[] = $n;
+            }
+            $listeid = implode(",", $tab);
+            $table = comportement($listeid);
+        }
+        $sinp = 'OccurrenceComportementValue';
+    }
 	elseif($id == 'info4')
 	{
 		if(isset($rjson['saisie']['stade']))
@@ -146,10 +168,12 @@ if(isset($_POST['sel']) && isset($_POST['id']))
 		$ref .= '</tbody></table>';		
 		$liste = $ref;		
 	}
+    elseif($id == 'infocite'){
+        $liste = 'TO DO : A renseigner ';
+    }
 	else
 	{
-		$liste = 'ras';
+		$liste = 'RAS';
 	}
-	
 	echo $liste;
 }

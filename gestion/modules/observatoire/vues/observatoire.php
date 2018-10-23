@@ -62,6 +62,8 @@
 			<select id="col" multiple="multiple" class="multit"></select>
 			<p class="mt-2 mb-0"><b>5 - Statut biologique</b> <i class="fa fa-info-circle curseurlien text-info info" id="info4"></i></p>
 			<select id="bio" multiple="multiple" class="multit"></select>
+            <p class="mt-2 mb-0"><b>5b - Comportement</b> <i class="fa fa-info-circle curseurlien text-info info" id="infocomp"></i></p>
+            <select id="comport" multiple="multiple" class="multit"></select>
 			<p class="mt-2 mb-0"><b>6 - Protocole</b> (Mettre toujours "Aucun" en premier)</p>
 			<select id="proto" multiple="multiple" class="multit"></select>
 			<p class="mt-2 mb-0"><b>7 - Denombrement</b> (Mettre toujours "Nombre d'individus observés" en premier)</p>

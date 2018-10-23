@@ -63,6 +63,10 @@ ADD CONSTRAINT ligneobs_idstbio_fk
 FOREIGN KEY (idstbio) REFERENCES referentiel.occstatutbio (idstbio);
 
 ALTER TABLE obs.ligneobs
+ADD CONSTRAINT ligneobs_idcomp_fk
+FOREIGN KEY (idcomp) REFERENCES referentiel.comportement (idcomp);
+
+ALTER TABLE obs.ligneobs
 ADD CONSTRAINT ligneobs_tdenom_fk
 FOREIGN KEY (tdenom) REFERENCES referentiel.occtype (tdenom);
 

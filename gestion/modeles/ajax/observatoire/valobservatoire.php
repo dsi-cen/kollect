@@ -99,6 +99,8 @@ if (isset($_POST['stadeid']) and isset($_POST['sel']))
 	$colval = $_POST['colval'];
 	$bioid = $_POST['bioid'];
 	$bioval = $_POST['bioval'];
+    $compid = $_POST['compid'];
+    $compval = $_POST['compval'];
 	$mortid = $_POST['mortid'];
 	$mortval = $_POST['mortval'];
 	$protoid = $_POST['protoid'];
@@ -160,6 +162,7 @@ if (isset($_POST['stadeid']) and isset($_POST['sel']))
 	$tabmethode = array_combine($methval, $methid);
 	$tabcollecte = array_combine($colval, $colid);
 	$tabstatutbio = array_combine($bioval, $bioid);
+    $tabcomp = array_combine($compval, $compid);
 	$tabmort = (count($mortid) > 1) ? array_combine($mortval, $mortid) : null;
 	$tabprotocole = array_combine($protoval, $protoid);
 	$tabdenom = array_combine($denomval, $denomid);
@@ -180,19 +183,19 @@ if (isset($_POST['stadeid']) and isset($_POST['sel']))
 	if(isset($rjson['indice'])) { $datajson['indice'] = $rjson['indice']; }
 	if($plteh == 'oui')
 	{
-		$datajson['saisie'] = array('stade'=>$tabstade,'methode'=>$tabmethode,'collecte'=>$tabcollecte,'statutbio'=>$tabstatutbio,'mort'=>$tabmort,'protocole'=>$tabprotocole,'denom'=>$tabdenom,'locale'=>$locale,'col'=>$col,'mf'=>$mf,'stbio'=>$stbio,'plteh'=>$plteh,'listebota'=>$listebota);
+		$datajson['saisie'] = array('stade'=>$tabstade,'methode'=>$tabmethode,'collecte'=>$tabcollecte,'statutbio'=>$tabstatutbio, 'comportement'=>$tabcomp, 'mort'=>$tabmort,'protocole'=>$tabprotocole,'denom'=>$tabdenom,'locale'=>$locale,'col'=>$col,'mf'=>$mf,'stbio'=>$stbio,'plteh'=>$plteh,'listebota'=>$listebota);
 	}
 	elseif($aves == 'oui')
 	{
-		$datajson['saisie'] = array('stade'=>$tabstade,'methode'=>$tabmethode,'collecte'=>$tabcollecte,'statutbio'=>$tabstatutbio,'mort'=>$tabmort,'protocole'=>$tabprotocole,'denom'=>$tabdenom,'locale'=>$locale,'col'=>$col,'mf'=>$mf,'stbio'=>$stbio,'aves'=>$aves);
+		$datajson['saisie'] = array('stade'=>$tabstade,'methode'=>$tabmethode,'collecte'=>$tabcollecte,'statutbio'=>$tabstatutbio, 'comportement'=>$tabcomp, 'mort'=>$tabmort,'protocole'=>$tabprotocole,'denom'=>$tabdenom,'locale'=>$locale,'col'=>$col,'mf'=>$mf,'stbio'=>$stbio,'aves'=>$aves);
 	}
 	elseif($clbota == 'oui')
 	{
-		$datajson['saisie'] = array('stade'=>$tabstade,'methode'=>$tabmethode,'collecte'=>$tabcollecte,'statutbio'=>$tabstatutbio,'mort'=>$tabmort,'protocole'=>$tabprotocole,'denom'=>$tabdenom,'locale'=>$locale,'col'=>$col,'mf'=>$mf,'stbio'=>$stbio,'bota'=>$clbota);
+		$datajson['saisie'] = array('stade'=>$tabstade,'methode'=>$tabmethode,'collecte'=>$tabcollecte,'statutbio'=>$tabstatutbio, 'comportement'=>$tabcomp, 'mort'=>$tabmort,'protocole'=>$tabprotocole,'denom'=>$tabdenom,'locale'=>$locale,'col'=>$col,'mf'=>$mf,'stbio'=>$stbio,'bota'=>$clbota);
 	}
 	else
 	{
-		$datajson['saisie'] = array('stade'=>$tabstade,'methode'=>$tabmethode,'collecte'=>$tabcollecte,'statutbio'=>$tabstatutbio,'mort'=>$tabmort,'protocole'=>$tabprotocole,'denom'=>$tabdenom,'locale'=>$locale,'col'=>$col,'mf'=>$mf,'stbio'=>$stbio);
+		$datajson['saisie'] = array('stade'=>$tabstade,'methode'=>$tabmethode,'collecte'=>$tabcollecte,'statutbio'=>$tabstatutbio, 'comportement'=>$tabcomp, 'mort'=>$tabmort,'protocole'=>$tabprotocole,'denom'=>$tabdenom,'locale'=>$locale,'col'=>$col,'mf'=>$mf,'stbio'=>$stbio);
 	}	
 	if(isset($rjson['categorie'])) { $datajson["categorie"] = $rjson['categorie']; }
 	if(isset($rjson['systematique'])) { $datajson["systematique"] = $rjson['systematique']; }
