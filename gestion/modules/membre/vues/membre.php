@@ -36,6 +36,7 @@
 						<th>Membre</th>
 						<th>Id</th>
 						<th>Droits</th>
+                        <th>Structure(s)</th>
 						<th>Validateur</th>
 						<th>Gestion</th>
 						<th>Floutage</th>
@@ -78,6 +79,10 @@
 								<label for="droits" class="col-sm-2 col-form-label">Droits</label>
 								<div class="col-sm-3"><input type="number" min="0" max="4" class="form-control" id="droits"></div>
 							</div>
+                            <div class="form-group row ui-front">
+                                <label for="structures" class="col-sm-2 col-form-label">Structure(s)</label>
+                                <div class="col-sm-8"><input type="text" class="form-control" id="structures" disabled></div>
+                            </div>
 							<div class="form-group row ui-front">
 								<label for="theme" class="col-sm-2 col-form-label">Validateur</label>
 								<div class="col-sm-8"><input type="text" class="form-control" id="theme"></div>
