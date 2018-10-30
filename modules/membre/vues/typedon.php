@@ -10,7 +10,7 @@
 		<div class="col-md-6 col-lg-6">
 			<article class="card card-body">				
 				<h2 class="h3">Tableau synthétique</h2>
-				<p>Uniquement les données que vous avez vous même saisies, ou saisies à votre nom</p>
+				<p>Uniquement les données que vous avez vous-même saisies, ou saisies à votre nom</p>
 				<table class="table table-sm table-hover">
 					<thead>
 						<tr>
@@ -20,8 +20,8 @@
 					</thead>
 					<tbody>
 						<tr><td>Publiques</td><td><?php echo $nbpu;?></td></tr>
-						<tr><td>Acquises sur fonds publics</td><td><?php echo $nbac;?></td></tr>
-						<tr><td>Privées</td><td><?php echo $nbpr;?></td></tr>
+						<tr><td>Selon étude</td><td><?php echo $nbac;?></td></tr>
+						<tr><td>D'origine privée</td><td><?php echo $nbpr;?></td></tr>
 						<tr class="table-active">
 							<td>Total</td><td><?php echo $nbtotal;?></td>
 						</tr>
@@ -35,7 +35,7 @@
 				if($nbpr > 0)
 				{
 					?>
-					<h3 class="h5">Détail de vos données privées</h3>
+					<h3 class="h5">Détail de vos données d'origine privées</h3>
 					<p>Vous pouvez changer le type de floutage attribué à vos données</p>
 					<table class="table table-sm table-hover">
 						<thead>
@@ -47,7 +47,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>Tel que (x/y)</td><td><?php echo $nb0;?></td>
+								<td>Aucune dégradation</td><td><?php echo $nb0;?></td>
 								<?php if($nb0 > 0) 
 								{ 
 									?><td><i class="fa fa-pencil curseurlien" id="nb0"></i></td><?php
@@ -102,7 +102,7 @@
 					<div id="modif">
 						<p>Changer en :</p>
 						<select id="floutage" class="">
-							<option value="0">Tel que (x/y)</option>
+							<option value="0">Pas de dégradation</option>
 							<option value="1">Commune/maille 10x10</option>
 							<option value="2">Maille 10x10</option>
 							<option value="3">Département</option>

@@ -15,7 +15,7 @@ if (isset($_SESSION['prenom']))
 	$latin = $_SESSION['latin'];
 	$obser = (!empty($_SESSION['obser'])) ? $_SESSION['obser'] : 'aucun';
 	$flou = (!empty($_SESSION['flou'])) ? $_SESSION['flou'] : 0;
-	$typedon = (!empty($_SESSION['typedon'])) ? $_SESSION['typedon'] : 'Pr';
+	// $typedon = (!empty($_SESSION['typedon'])) ? $_SESSION['typedon'] : 'Pr';
 	$couche = (!empty($_SESSION['couche'])) ? $_SESSION['couche'] : $couche = (isset($rjson_emprise['couche'])) ? $rjson_emprise['couche'] : 'osm';
 	$favatar = 'photo/avatar/'.$_SESSION['prenom'].''.$_SESSION['idmembre'].'.jpg';
 	include CHEMIN_MODELE.'membre.php';

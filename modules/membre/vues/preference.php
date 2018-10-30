@@ -10,6 +10,7 @@
 		<div class="col-md-5 col-lg-5">
 			<article class="card card-body">				
 				<h2 class="">Votre compte</h2>
+                <div class="alert alert-primary mt-2 mb-2">
 				<h3 class="h4">Votre avatar</h3>
 				<p>Votre avatar doit faire au minimum 36 x 36, 500 ko max et être au format jpg.</p>
 				<form class="row" id="favatar" enctype="multipart/form-data" method="post">
@@ -33,14 +34,18 @@
 					</div>
 					<div class="col-md-4 col-lg-4"><button type="submit" class="btn btn-success" id="BttA">Valider</button></div>
 					<input id="idm" name="idm" type="hidden" value="<?php echo $idm;?>"/><input id="prenom" name="prenom" type="hidden" value="<?php echo $_SESSION['prenom'];?>"/>		
-				</form>		
-				<div id="mesa" class="mt-1"></div>			
+				</form>
+                </div>
+				<div id="mesa" class="mt-1"></div>
+                <div class="alert alert-primary mt-2 mb-2">
 				<h3 class="h4 mt-2">Votre mail</h3>
 				<p>Vous pouvez changer votre adresse de messagerie</p>
 				<form class="form-inline">
 					<input type="email" class="form-control form-control-sm mr-1" id="mail" value="<?php echo $mail;?>">
 					<button type="button" id="BttMail" class="btn btn-success btn-sm">Valider si modification</button>
 				</form>
+                </div>
+                <div class="alert alert-primary mt-2 mb-2">
 				<h3 class="h4 mt-3">Votre mot de passe</h3>
 				<p>Vous pouvez changer votre mot de passe</p>
 				<form>
@@ -56,12 +61,14 @@
 						<div class="col-sm-8"><button type="button" class="btn btn-success" id="Bttmdp">Valider</button></div>
 					</div>
 				</form>
+                </div>
 				<div id="mes1"></div>
 			</article>
 		</div>
 		<div class="col-md-7 col-lg-7">
 			<article class="card card-body">
 				<h2 class="">Vos préférences</h2>
+                <div class="alert alert-primary mt-2 mb-2">
 				<p>Il vous est possible de choisir un observatoire. Sur la fiche de saisie et la page observation cet observatoire vous sera proposé par défaut.</p>
 				<?php
 				if (isset ($rjson_site['observatoire']))
@@ -86,7 +93,9 @@
 					<?php
 				}
 				?>
-				<p class="mt-2 mb-1">
+                </div>
+                <div class="alert alert-primary mt-2 mb-2">
+				<p>
 					Vous pouvez choisir par défaut l'organisme auquel vous êtes rattaché (il est toujours possible de le modifier lors de la saisie)
 				</p>
 				<form class="form-inline">
@@ -106,20 +115,11 @@
 						?>								
 					</select>
 				</form>
-				<p class="mt-2 mb-1">
-					Vous pouvez choisir par défaut si vos données sont publiques ou privées (il est toujours possible de le modifier lors de la saisie)
-				</p>
-				<form class="form-inline">
-					<select id="typedon" class="form-control form-control-sm">
-						<option value="Pr">Privée</option>
-						<option value="Pu">Publique</option>
-						<option value="Ac">Acquise sur fonds publics</option>					
-					</select>
-					<i class="fa fa-info-circle text-info curseurlien ml-2" title="information type de donnée" data-toggle="modal" data-target="#adonoui"></i>
-				</form>
-				<p class="mt-2 mb-1">
-					Pour vos données privées, vous pouvez choisir la façon dont elles apparaitront sur le site (il est toujours possible de le modifier lors de la saisie)					
-				</p>
+                </div>
+<!--				<div class="alert alert-primary mt-2 mb-2">
+                    <p>
+					Pour vos données d'origine privées (réalisées en temps qu'indépendant), vous pouvez choisir la façon dont elles apparaitront sur le site (il est toujours possible de le modifier lors de la saisie)
+                    </p>
 				<form class="form-inline">
 					<select id="floutage" class="form-control form-control-sm">
 						<option value="0">Tel que (x/y)</option>
@@ -127,10 +127,11 @@
 						<option value="2">Maille 10x10</option>
 						<option value="3">Département</option>
 					</select>
-				</form>				
-				<p class="mt-3 mb-1">
-					En fonction des paramétrages des observatoires par les administrateurs du site, l'affichage pour les espèces peut changer (nom latin / nom vernaculaire).<br />
-					Vous pouvez si vous le souhaitez choisir votre préférence :<br />						
+				</form>
+                </div>       -->
+                <div class="alert alert-primary mt-2 mb-2">
+				<p>
+					En fonction des paramétrages des observatoires par les administrateurs du site, l'affichage pour les espèces peut changer (nom latin / nom vernaculaire). Vous pouvez si vous le souhaitez choisir votre préférence :<br />
 				</p>
 				<form class="form-inline">
 					<div class="custom-control custom-radio">
@@ -145,8 +146,10 @@
 						<input type="radio" class="custom-control-input" id="vern" name="radionom" value="non" <?php if($latin == 'non') {echo 'checked';}?>>
 						<label class="custom-control-label" for="vern">Nom vernaculaire</label>
 					</div>
-				</form>				
-				<p class="mt-2 mb-1">Vous pouvez choisir le fond de carte que vous souhaitez par défaut (fiche de saisie et cartographie)</p>
+				</form>
+                </div>
+                <div class="alert alert-primary mt-2 mb-2">
+                    <p>Vous pouvez choisir le fond de carte que vous souhaitez par défaut (fiche de saisie et cartographie)</p>
 				<form class="form-inline">
 					<select id="choixcouche" class="form-control form-control-sm">
 						<option value="osm" name="type">Carte Open Street (OSM)</option>
@@ -156,23 +159,7 @@
 						<option value="photo " name="type">Photo aériennes IGN</option>	
 					</select>
 				</form>
-				<p class="mt-2 mb-1">
-					Autorisez-vous .... à transmettre vos données privées au portails régionaux, nationaux, thématique ?
-					Autorisez-vous les autres membres (en dehors des administrateurs/validateurs) à vous contacter par mail ? <br />
-					Nb : Votre mail n'est pas visible directement sur le site.
-				</p>
-				<form class="form-inline">
-					<label class="custom-control custom-radio">
-						<input type="radio" class="custom-control-input" name="radiocontact" value="oui" <?php if($contact == 'oui') {echo 'checked';}?>>
-						<span class="custom-control-indicator"></span>
-						<span class="custom-control-description">Oui</span>
-					</label>
-					<label class="custom-control custom-radio">
-						<input type="radio" class="custom-control-input" name="radiocontact" value="non" <?php if($contact == 'non') {echo 'checked';}?>>
-						<span class="custom-control-indicator"></span>
-						<span class="custom-control-description">Non</span>
-					</label>
-				</form>
+                </div>
 				<button type="button" class="btn btn-success mt-3 col-3" id="BttV">Valider</button>
 				<div id="valajax"><progress></progress></div><div id="mes"></div>				
 			</article>
