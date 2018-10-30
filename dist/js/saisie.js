@@ -362,6 +362,30 @@ function verifinfo() {
     return e
 }
 
+function postorg() {
+    "use strict";
+    var e = $("#org").val();
+    $.ajax({
+        url: "modeles/ajax/saisie/etudes.php",
+        type: "POST",
+        dataType: "json",
+        data: {'organisme': e},
+        success: function(res) {
+            $('#etude').empty();
+            $('#etude').append('<option value="0">Aucune étude</option>');
+            var JSONObject = res;
+            for (var key in JSONObject) {
+                if (JSONObject.hasOwnProperty(key)) {
+                    $('#etude').append('<option value="' + JSONObject[key]["idetude"]+ '">' + JSONObject[key]["etude"]  + '</option>');
+                }
+            }
+        },
+        error: function(res) {
+            console.log("Erreur");
+        }
+    });
+}
+
 function veriffiche() {
     "use strict";
     var e = $("#codesite").val(), a = $("#idcoord").val(), t = $("#date").val(), l = $("#idobseror").val();
@@ -509,11 +533,43 @@ function recupfiche(e) {
         data: {idfiche: e},
         success: function (e) {
             if ("Oui" == e.statut) {
-                if ($(".afcarte").hide(), $("#xlambert").val(""), $("#ylambert").val(""), $("#altitude").val(""), $("#l93").val(""), $("#l935").val(""), $("#lat").val(""), $("#lng").val(""), $("#communeb").val(e.fiche.commune), $("#lieub").val(e.fiche.site), $("#date").val(e.fiche.date1fr), $("#date2").val(e.fiche.date2fr), $("#idfiche").val(e.fiche.idfiche), $("#codecom").val(e.fiche.codecom), $("#codedep").val(e.fiche.iddep), $("#codesite").val(e.fiche.idsite), $("#idcoord").val(e.fiche.idcoord), $("#pr").val(e.fiche.localisation), $("#typepoly").val(e.fiche.geo), $("#typedon").val(e.fiche.typedon), $("#source").val(e.fiche.source), $("#floutage").val(e.fiche.floutage), $("#heure").val(e.fiche.hdebut), $("#heure2").val(e.fiche.hfin), $("#tempdeb").val(e.fiche.tempdebut), $("#tempfin").val(e.fiche.tempfin), $("#valf").show(), e.fiche.idorg && $("#org").val(e.fiche.idorg), "Pr" != e.fiche.typedon && $("#foutagecache").hide(), e.fiche.site || (nonsite(), 0 == e.fiche.idsite && $("#codesite").val("Nouv")), e.idobser && ($("#observateur2").val(e.obser), $("#idobser").val(e.idobser)), 1 == e.fiche.localisation && e.fiche.lat) {
-                    supmarker(), mod = "oui";
-                    var a = e.fiche.lat + "," + e.fiche.lng, t = 16;
-                    centrersite(a, t, e.fiche.geo)
-                }
+                if ($(".afcarte").hide(),
+                    $("#xlambert").val(""),
+                    $("#ylambert").val(""),
+                    $("#altitude").val(""),
+                    $("#l93").val(""),
+                    $("#l935").val(""),
+                    $("#lat").val(""),
+                    $("#lng").val(""),
+                    $("#communeb").val(e.fiche.commune),
+                    $("#lieub").val(e.fiche.site),
+                    $("#date").val(e.fiche.date1fr),
+                    $("#date2").val(e.fiche.date2fr),
+                    $("#idfiche").val(e.fiche.idfiche),
+                    $("#codecom").val(e.fiche.codecom),
+                    $("#codedep").val(e.fiche.iddep),
+                    $("#codesite").val(e.fiche.idsite),
+                    $("#idcoord").val(e.fiche.idcoord),
+                    $("#pr").val(e.fiche.localisation),
+                    $("#typepoly").val(e.fiche.geo),
+                    $("#typedon").val(e.fiche.typedon),
+                    $("#source").val(e.fiche.source),
+                    $("#floutage").val(e.fiche.floutage),
+                    $("#heure").val(e.fiche.hdebut),
+                    $("#heure2").val(e.fiche.hfin),
+                    $("#tempdeb").val(e.fiche.tempdebut),
+                    $("#tempfin").val(e.fiche.tempfin),
+                    $("#valf").show(),
+                    $("#org").val(e.fiche.idorg),
+                    e.fiche.site || (nonsite(),
+                    0 == e.fiche.idsite && $("#codesite").val("Nouv")),
+                    e.idobser && ($("#observateur2").val(e.obser),
+                    $("#idobser").val(e.idobser)),
+                    1 == e.fiche.localisation && e.fiche.lat) {
+                        supmarker(), mod = "oui";
+                        var a = e.fiche.lat + "," + e.fiche.lng, t = 16;
+                        centrersite(a, t, e.fiche.geo)
+                    }
                 if (2 == e.fiche.localisation && e.fiche.lat) {
                     supmarker();
                     var a = e.fiche.lat + "," + e.fiche.lng, t = 13;
@@ -622,6 +678,7 @@ function enregistrermod(e) {
 }
 
 var sel, utm, dep, map, marker, markers, contoursite, contour, stylecontour, drawnItems, mod = "non";
+
 $(document).ready(function () {
     "use strict";
     var e = {};
@@ -629,14 +686,27 @@ $(document).ready(function () {
         url: "emprise/emprise.json", dataType: "json", success: function (a) {
             e = a, carte(e)
         }
-    }), $("#valajaxs").hide(), $("#blocobs").hide(), $("#pluslatin1").hide(), $("#pluscoord").hide(), $("#pluscol").hide(), $("#plushab").hide(), $("#plusproto").hide(), $("#valm").removeClass("d-flex").hide(), $("#liste10").hide(), $("#photo").hide(), $("#pltehote").hide(), $("#vsite").hide(), $("#plusfiche").hide(), $("#valf").hide(), $("#estim").hide(), $("#nbtmp").hide(), $("#habitat2").hide(), $("#habitat3").hide(), $("#observateur").prop("disabled", !0), $("#dep").prop("disabled", !0), $("#communeb").prop("disabled", !0), $("#altitude").prop("disabled", !0), $("#xlambert").prop("disabled", !0), $("#ylambert").prop("disabled", !0), $("#lat").prop("disabled", !0), $("#lng").prop("disabled", !0), $("#l93").prop("disabled", !0), $("#l935").prop("disabled", !0), $("#utm").prop("disabled", !0), $("#utm1").prop("disabled", !0), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#btnaide").on("click", aide);
+    }), $("#valajaxs").hide(), $("#blocobs").hide(), $("#pluslatin1").hide(), $("#pluscoord").hide(), $("#pluscol").hide(), $("#plushab").hide(), $("#plusproto").show(), $("#valm").removeClass("d-flex").hide(), $("#liste10").hide(), $("#photo").hide(), $("#pltehote").hide(), $("#vsite").hide(), $("#plusfiche").hide(), $("#valf").hide(), $("#estim").hide(), $("#nbtmp").hide(), $("#habitat2").hide(), $("#habitat3").hide(), $("#observateur").prop("disabled", !0), $("#dep").prop("disabled", !0), $("#communeb").prop("disabled", !0), $("#altitude").prop("disabled", !0), $("#xlambert").prop("disabled", !0), $("#ylambert").prop("disabled", !0), $("#lat").prop("disabled", !0), $("#lng").prop("disabled", !0), $("#l93").prop("disabled", !0), $("#l935").prop("disabled", !0), $("#utm").prop("disabled", !0), $("#utm1").prop("disabled", !0), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#btnaide").on("click", aide);
+
     var a = $("#flou").val();
     $('#floutage option[value="' + a + '"]').prop("selected", !0);
     var t = $("#tdon").val();
     $('#typedon option[value="' + t + '"]').prop("selected", !0), "Pr" != t && $("#foutagecache").hide();
     var l = $("#getidfiche").val();
     "" != l && recupfiche(l)
-}), $("#vsite").click(function () {
+
+    // Récup des filtres au chargement de la page
+    var e = $("#org").val();
+    if ("3" <= e){
+        $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show();
+    } else {
+        $("#foutagecache").show() && $("#typedoncache").hide() && $("#inforg").hide();
+        console.log("ok");
+    }
+    //
+}),
+
+    $("#vsite").click(function () {
     "use strict";
     var e = $("#codecom").val();
     $("#vsite").hide(), $.ajax({
@@ -736,7 +806,20 @@ $(document).ready(function () {
     "use strict";
     var e = $("#typedon").val();
     "Pr" != e ? $("#foutagecache").hide() : $("#foutagecache").show()
-}), $(function () {
+}), $("#org").change(function () {
+    "use strict";
+    // RLE : fonction conditionnelle
+    // Cas 1 _ s'il s'agit d'une organisation soumise au financements publics et/ou dossiers particuliers (typedon = AC et floutage = 0).
+    // Cas 2 _ s'il s'agit d'un inconnu ou indépendant, valeur par défaut (typedon = Pr et floutage = 0).
+    var e = $("#org").val();
+    $("#typedon").removeAttr("disabled");
+    if ("3" <= e){
+        $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show() && $("#typedon").val("Ac") && $("#floutage").val("0");
+    } else {
+        $("#foutagecache").show() && $("#typedoncache").hide() && $("#inforg").hide() && $("#typedon").val("Pr") && $("#floutage").val("0");
+    }
+}), // RLE : end
+    $(function () {
     $("#date").datepicker({
         changeMonth: !0, changeYear: !0, onClose: function (e) {
             $("#date2").datepicker("option", "minDate", e), $("#date2").val($(this).val())
@@ -773,6 +856,7 @@ $(document).ready(function () {
 }), $(".afcarte").click(function () {
     "use strict";
     if ($(this).hasClass("btn")) {
+        postorg();
         var e = verifinfo();
         "non" == e && ($("#blocmap").toggle(), $("#blocfiche").toggle(), $("#change").removeClass("w-50").addClass("w-100"), $("#blocobs").toggle(), sel = $("#sel").val(), "aucun" != sel ? $("#selm").val() == sel && "oui" == $("#valsel").val() ? $("#blocsaisie").show() : choixobser(sel) : $("#blocsaisie").hide())
     } else $("#blocmap").toggle(), $("#change").removeClass("w-100").addClass("w-50"), $("#blocobs").toggle(), $("#blocfiche").toggle(), $("#selm").val(sel)

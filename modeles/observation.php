@@ -29,7 +29,7 @@ function recherche_obs($idobs,$biblio)
 							LEFT JOIN referentiel.sensible ON sensible.cdnom = obs.cdref
 							LEFT JOIN obs.obscoll ON obscoll.idobs = obs.idobs
 							LEFT JOIN referentiel.organisme ON organisme.idorg = fiche.idorg
-							LEFT JOIN referentiel.etude USING(idetude)
+							LEFT JOIN referentiel.etude on etude.idetude = obs.idetude
 							LEFT JOIN biblio.bibliofiche ON bibliofiche.idfiche = fiche.idfiche
 							WHERE obs.idobs = :idobs ");
 	}

@@ -570,7 +570,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 			{
 				$decade = '';
 			}
-			//insertion fiche
+			// Insertion de la fiche
 			$typedon = $_POST['typedon'];
 			$floutage = ($typedon == 'Pr') ? $_POST['floutage'] : 0;
 			$source = $_POST['source'];

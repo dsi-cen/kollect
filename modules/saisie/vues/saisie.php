@@ -122,41 +122,41 @@
 					</fieldset>
 					<fieldset>
 						<legend class="legendesaisie">Diffusion, type et source de(ou des) données</legend>
-						<div class="form-group row">
-							<label for="typedon" class="col-sm-5 col-form-label">Type de données</label>
+                        <div class="form-group row">
+                            <label for="org" class="col-sm-5 col-form-label">Organisme</label>
+                            <div class="col-sm-6">
+                                <select id="org" name="org" class="form-control">
+                                    <?php
+                                    foreach($org as $n)
+                                    {
+                                        if($n['idorg'] == $idorg)
+                                        {
+                                            ?><option value="<?php echo $n['idorg'];?>" selected><?php echo $n['organisme'];?></option><?php
+                                        }
+                                        else
+                                        {
+                                            ?><option value="<?php echo $n['idorg'];?>"><?php echo $n['organisme'];?></option><?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row" id="typedoncache">
+							<label for="typedon" class="col-sm-5 col-form-label">Origine de la donnée</label>
 							<div class="col-sm-6">
 								<select id="typedon" required="" name="typedon" class="form-control">
-									<option value="Pr">privée</option>
-									<option value="Pu">publique</option>														
-									<option value="Ac">acquise sur fonds publics</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label for="org" class="col-sm-5 col-form-label">Organisme</label>
-							<div class="col-sm-6">
-								<select id="org" name="org" class="form-control">														
-									<?php
-									foreach($org as $n)
-									{
-										if($n['idorg'] == $idorg)
-										{
-											?><option value="<?php echo $n['idorg'];?>" selected><?php echo $n['organisme'];?></option><?php
-										}
-										else
-										{
-											?><option value="<?php echo $n['idorg'];?>"><?php echo $n['organisme'];?></option><?php
-										}										
-									}
-									?>								
+                                    <option value="Pu">Publique</option>
+                                    <option value="Pr">Privée</option>
+									<option value="Ac" style="display:none;">Selon étude</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group row" id="foutagecache">
-							<label for="floutage" class="col-sm-5 col-form-label">DIFFUSION : niveau de précision</label>
+							<label for="floutage" class="col-sm-5 col-form-label">Restitution dans Kollect</label>
 							<div class="col-sm-6">
 								<select id="floutage" required="" name="floutage" class="form-control">
-									<option value="0">Tel que (x/y)</option>
+									<option value="0">Pas de dégradation</option>
 									<option value="1">Commune/maille 10x10</option>
 									<option value="2">Maille 10x10</option>
 									<option value="3">Département</option>
@@ -216,7 +216,7 @@
 						?>
 						<div class="card card-body min" id="blocsaisie">
 							<div id="R1"></div>
-							<fieldset class="stadecache ndecache">
+							<fieldset class="stadecache ndecache alert alert-success">
 								<legend class="legendesaisie">Choix de l'espèce <i class="fa fa-plus text-success curseurlien ml-3" id="imgpluslocale" data-toggle="tooltip" data-placement="bottom" data-title="Chercher dans les espèces non inclusent (espèces nouvelles)"></i></legend>
 								<div class="form-group row" id="pluslatin1">
 									<div class="col-sm-5"><input type="text" class="form-control" id="latin1" placeholder="nom latin (liste entière)"></div>
@@ -232,7 +232,21 @@
                                 </div>
 								<p id="mesvali" class="font-weight-bold text-danger"></p>
 							</fieldset>
-							<fieldset>
+                            <fieldset class="alert alert-primary">
+                                <legend class="legendesaisie">Protocoles et études </legend>
+                                <div id="plusproto">
+                                    <div class="form-inline">
+                                        <label for="etude" class="ml-3 mr-4">Etude</label>
+                                        <select id="etude" required="" name="etude" class="form-control form-control-sm">
+                                        </select>
+                                        <label for="protocol" class="ml-3 mr-4">Protocole</label>
+                                        <select id="protocol" required="" name="protocol" class="form-control form-control-sm"></select>
+                                        <!-- <label for="comp" class="ml-3 mr-2">Complement</label>
+                                        <select id="comp" name="comp" class="form-control form-control-sm"></select> -->
+                                    </div>
+                                </div>
+                            </fieldset>
+							<fieldset class="alert alert-secondary">
 								<legend class="legendesaisie">Renseignements sur l'observation</legend>
 								<div class="form-inline">
 									<label for="stade" class="mr-1">Stade</label><i id="info4" class="fa fa-info-circle curseurlien text-info info"></i>
@@ -265,7 +279,7 @@
 									<select id="mort" name="mort" class="ml-2 form-control form-control-sm"></select>
 								</div>
 							</fieldset>
-							<div class="row mt-3">
+							<div class="row mt-3 ">
 								<fieldset class="col-md-6">
 									<div class="form-group row mb-0">
 										<label for="ndiff" class="col-sm-2 col-form-label">Indéterminé</label>
@@ -276,7 +290,7 @@
 									<div class="form-group row" >
 										<label for="femelle" class="col-sm-2 col-form-label">Femelle</label>
 										<div class="col-sm-4"><input type="number" class="form-control form-control-sm nbexact" min="0" name="femelle" id="femelle" pattern="^\d*"></div>
-									</div>									
+									</div>
 								</fieldset>
 								<div class="col-md-6">
 									<div id="estim">
@@ -305,8 +319,9 @@
 										<input type="number" class="form-control form-control-sm" name="nbmax" id="nbmax" placeholder="max" disabled>
 									</div>									
 								</div>								
-							</div>													
-							<fieldset class="mb-2">
+							</div>
+
+							<fieldset class="mb-2 alert alert-warning">
 								<legend class="legendesaisie">Contact, méthode de prospection, statut biologique</legend>
 								<div class="form-inline">
 									<label for="obsmethode" class="mr-1">Type de contact </label><i id="info1" class="fa fa-info-circle curseurlien text-info info"></i>
@@ -417,27 +432,6 @@
 										<select id="indnid" name="indnid" class="form-control form-control-sm"></select>
 									</div>
 								</div>										
-							</fieldset>
-							<fieldset class="stadecache ndecache">
-								<legend class="legendesaisie">Protocoles et études <i class="fa fa-plus text-success curseurlien ml-3" id="imgplusproto"></i></legend>
-								<div id="plusproto">	
-									<div class="form-inline">
-										<label for="protocol" class="mr-2">Protocole</label>
-										<select id="protocol" required="" name="protocol" class="form-control form-control-sm"></select>
-										<label for="etude" class="ml-3 mr-2">Etude</label>
-										<select id="etude" required="" name="etude" class="form-control form-control-sm">
-											<option value="0">Aucune</option>
-											<?php
-											foreach($etude as $n)
-											{
-												?><option value="<?php echo $n['idetude'];?>"><?php echo $n['etude'];?></option><?php
-											}
-											?>
-										</select>
-										<label for="comp" class="ml-3 mr-2">Complement</label>
-										<select id="comp" name="comp" class="form-control form-control-sm"></select>
-									</div>									
-								</div>
 							</fieldset>
 							<fieldset>
 								<legend class="legendesaisie">Remarques sur l'observation
