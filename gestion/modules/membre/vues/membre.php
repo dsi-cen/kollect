@@ -36,7 +36,7 @@
 						<th>Membre</th>
 						<th>Id</th>
 						<th>Droits</th>
-                        <th>Structure(s)</th>
+                        <th>Organismes</th>
 						<th>Validateur</th>
 						<th>Gestion</th>
 						<th>Floutage</th>
@@ -80,8 +80,8 @@
 								<div class="col-sm-3"><input type="number" min="0" max="4" class="form-control" id="droits"></div>
 							</div>
                             <div class="form-group row ui-front">
-                                <label for="structures" class="col-sm-2 col-form-label">Structure(s)</label>
-                                <div class="col-sm-8"><input type="text" class="form-control" id="structures" disabled></div>
+                                <label for="organisme" class="col-sm-2 col-form-label">Organismes</label>
+                                <div class="col-sm-8"><input type="text" class="form-control" id="organisme" readonly></div>
                             </div>
 							<div class="form-group row ui-front">
 								<label for="theme" class="col-sm-2 col-form-label">Validateur</label>
@@ -148,7 +148,7 @@ function modifier(id) {
 		success: function(reponse) {
 			if (reponse.statut == 'Ok') {
 				var info = reponse.info;
-				$("#nom").val(info.nom); $("#prenom").val(info.prenom); $("#mail").val(info.mail); $("#droits").val(info.droits); $("#theme").val(info.discipline); $("#gestion").val(info.gestionobs); $("#idmembredia1").val(info.idmembre);
+				$("#nom").val(info.nom); $("#prenom").val(info.prenom); $("#mail").val(info.mail); $("#droits").val(info.droits); $("#organisme").val(info.organisme); $("#theme").val(info.discipline); $("#gestion").val(info.gestionobs); $("#idmembredia1").val(info.idmembre);
 				if (info.droits < 2) {
 					$("#theme").hide(); $("#gestion").hide();
 				} else {

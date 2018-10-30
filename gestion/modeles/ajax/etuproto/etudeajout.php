@@ -83,8 +83,8 @@ if(isset($_POST['id']))
 		foreach($etude as $n)
 		{
 			$tabid[] = $n['idetude'];
-			$l .= '<tr class="mod" id="'.$n['idetude'].'" data-etude="'.$n['etude'].'" data-lib="'.$n['libelle'].'" data-voir="'.$n['masquer'].'">';
-			$l .= '<td><i class="fa fa-pencil curseurlien text-warning" title="modifier l\'étude"></i></td><td>'.$n['idetude'].'</td><td>'.$n['etude'].'</td><td>'.$n['libelle'].'</td><td>'.$n['masquer'].'</td>';
+			$l .= '<tr class="mod" id="'.$n['idetude'].'" data-etude="'.$n['etude'].'" data-lib="'.$n['libelle'].'" data-org="'.$n['organisme'].'" data-voir="'.$n['masquer'].'">';
+			$l .= '<td><i class="fa fa-pencil curseurlien text-warning" title="modifier l\'étude"></i></td><td>'.$n['idetude'].'</td><td>'.$n['etude'].'</td><td>'.$n['libelle'].'</td><td>'.$n['organisme'].'</td><td>'.$n['masquer'].'</td>';
 			$l .= '</tr>';			
 		}
 		$retour['maxid'] = max($tabid) + 1;

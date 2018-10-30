@@ -24,6 +24,7 @@
 						<th>Id</th>
 						<th>Etude</th>
 						<th>Libellé</th>
+                        <th>Organismes</th>
 						<th>Voir</th>
 					</tr>
 				</thead>
@@ -32,8 +33,8 @@
 					foreach($etude as $n)
 					{
 						?>
-						<tr class="mod" id="<?php echo $n['idetude'];?>" data-etude="<?php echo $n['etude'];?>" data-lib="<?php echo $n['libelle'];?>" data-voir="<?php echo $n['masquer'];?>">
-							<td><i class="fa fa-pencil curseurlien text-warning" title="modifier l'étude"></i></td><td><?php echo $n['idetude'];?></td><td><?php echo $n['etude'];?></td><td><?php echo $n['libelle'];?></td><td><?php echo $n['masquer'];?></td>
+						<tr class="mod" id="<?php echo $n['idetude'];?>" data-etude="<?php echo $n['etude'];?>" data-lib="<?php echo $n['libelle'];?>" data-org="<?php echo $n['organisme'];?>" data-voir="<?php echo $n['masquer'];?>">
+							<td><i class="fa fa-pencil curseurlien text-warning" title="modifier l'étude"></i></td><td><?php echo $n['idetude'];?></td><td><?php echo $n['etude'];?></td><td><?php echo $n['libelle'];?></td><td><?php echo $n['organisme'];?></td><td><?php echo $n['masquer'];?></td>
 						</tr>
 						<?php
 					}
@@ -57,6 +58,10 @@
 						<label for="lib" class="">Libellé</label>
 						<input type="text" class="form-control" id="lib"  placeholder="Description de l'étude si besoin">							
 					</div>
+                    <div class="form-group">
+                        <label for="org" class="">Organismes</label>
+                        <input type="text" class="form-control" id="org"  placeholder="Organismes affiliés à cette étude" readonly>
+                    </div>
 					<div class="form-group row">
 						<label for="voir" class="col-sm-4 col-form-label">Masqué à la saisie</label>
 						<div class="col-sm-6">
@@ -87,7 +92,7 @@ $('#liste').on('click', '.mod', function() {
 	'use strict';
 	$('#idetude').val($(this).attr('id'));
 	var $this = $(this);
-	$('#etude').val($this.data('etude')); $('#lib').val($this.data('lib')); $('#voir').val($this.data('voir'));	
+	$('#etude').val($this.data('etude')); $('#lib').val($this.data('lib')); $('#org').val($this.data('org')); $('#voir').val($this.data('voir'));
 	$('#ajoutetude').show(); $('#mes').html(''); $('#typeval').val('mod');
 });
 //Ajout
