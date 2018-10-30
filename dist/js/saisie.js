@@ -575,6 +575,7 @@ function recupfiche(e) {
                     var a = e.fiche.lat + "," + e.fiche.lng, t = 13;
                     centrer(a, t, e.fiche.codecom)
                 }
+
             } else alert("problème ! pour récupérer les informations de la fiche")
         }
     })
@@ -698,10 +699,10 @@ $(document).ready(function () {
     // Récup des filtres au chargement de la page
     var e = $("#org").val();
     if ("3" <= e){
-        $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show();
+        $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show() && $("#typedon").val("Ac") && $("#floutage").val("0");
     } else {
-        $("#foutagecache").show() && $("#typedoncache").hide() && $("#inforg").hide();
-        console.log("ok");
+        $("#foutagecache").show() && $("#typedoncache").hide() && $("#inforg").hide() && $("#typedon").val("Pr");
+        console.log("indé");
     }
     //
 }),
