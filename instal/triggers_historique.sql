@@ -32,15 +32,32 @@ CREATE TABLE obs_historique.histo_obs
     CONSTRAINT histo_obs_pkey PRIMARY KEY (date_operation, utilisateur, idobs)
 );
 
+CREATE TABLE obs_historique.histo_obs_synthese
+(
+    idobs integer NOT NULL,
+    datetime_insert timestamp without time zone NOT NULL,
+    date_insert date NOT NULL,
+    datetime_update timestamp without time zone,
+    date_update date,
+    table_update text,
+    CONSTRAINT histo_obs_synthese_pkey PRIMARY KEY (idobs)
+);
+
 CREATE FUNCTION obs_historique.alimente_histo_obs() RETURNS trigger AS 
 	$BODY$
         declare user_login integer;
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obs SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obs SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obs SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obs SELECT 'DELETE', now(), user_login, OLD.*;
+                                    DELETE FROM obs_historique.histo_obs_synthese WHERE idobs = OLD.idobs;
+                                    RETURN OLD;
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obs SELECT 'UPDATE', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obs' WHERE idobs = NEW.idobs;
+                                        RETURN NEW; 
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obs SELECT 'INSERT', now(), user_login, NEW.*;
+                                        INSERT INTO obs_historique.histo_obs_synthese VALUES (NEW.idobs, now(),now(),NULL,NULL,NULL);
+										RETURN NEW;
 			END IF; 
 			RETURN NULL; 
 		END;
@@ -85,9 +102,14 @@ CREATE FUNCTION obs_historique.alimente_histo_ligneobs() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_ligneobs SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_ligneobs SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_ligneobs SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_ligneobs SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD;
+			    ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_ligneobs SELECT 'UPDATE', now(), user_login, NEW.*;
+                                            UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.ligneobs' WHERE idobs = NEW.idobs; 
+                                            RETURN NEW; 
+			    ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_ligneobs SELECT 'INSERT', now(), user_login, NEW.*;
+                                            UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.ligneobs' 
+                                            WHERE idobs = NEW.idobs AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                            RETURN NEW; 
 			END IF; 
 			RETURN NULL; 
 		END;
@@ -126,10 +148,17 @@ CREATE FUNCTION obs_historique.alimente_histo_obscoll() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obscoll SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obscoll SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obscoll SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
-			END IF; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obscoll SELECT 'DELETE', now(), user_login, OLD.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obscoll' WHERE idobs = OLD.idobs;
+                                    RETURN OLD;
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obscoll SELECT 'UPDATE', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obscoll' WHERE idobs = NEW.idobs; 
+                                        RETURN NEW; 
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obscoll SELECT 'INSERT', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obscoll' 
+                                        WHERE idobs = NEW.idobs AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                        RETURN NEW; 
+			END IF;
 			RETURN NULL; 
 		END;
 	$BODY$ 
@@ -172,8 +201,11 @@ CREATE FUNCTION obs_historique.alimente_histo_fiche() RETURNS trigger AS
             user_login = outils.get_user();
 
 			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_fiche SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_fiche SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_fiche SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+			    ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_fiche SELECT 'UPDATE', now(), user_login, NEW.*;
+                                            UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.fiche' 
+                                            WHERE idobs IN (SELECT idobs FROM obs.obs WHERE obs.idfiche = NEW.idfiche);
+                                            RETURN NEW;  
+    		    ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_fiche SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
 			END IF; 
 			RETURN NULL; 
 		END;
@@ -209,10 +241,20 @@ CREATE FUNCTION obs_historique.alimente_histo_fichesup() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_fichesup SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_fichesup SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_fichesup SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
-			END IF; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_fichesup SELECT 'DELETE', now(), user_login, OLD.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.fichesup' 
+                                        WHERE idobs IN (SELECT idobs FROM obs.obs WHERE obs.idfiche = OLD.idfiche);
+                                        RETURN OLD; 
+
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_fichesup SELECT 'UPDATE', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.fichesup' 
+                                        WHERE idobs IN (SELECT idobs FROM obs.obs WHERE obs.idfiche = NEW.idfiche);
+                                        RETURN NEW;  
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_fichesup SELECT 'INSERT', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.fichesup' 
+                                        WHERE idobs IN (SELECT idobs FROM obs.obs WHERE obs.idfiche = NEW.idfiche) AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                        RETURN NEW; 
+            END IF;
 			RETURN NULL; 
 		END;
 	$BODY$ 
@@ -249,8 +291,16 @@ CREATE FUNCTION obs_historique.alimente_histo_coordonnee() RETURNS trigger AS
             user_login = outils.get_user();
 
 			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_coordonnee SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_coordonnee SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_coordonnee SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_coordonnee SELECT 'UPDATE', now(), user_login, NEW.*; 
+                                     UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.coordonnee' 
+                                     WHERE idobs IN (SELECT idobs FROM obs.obs JOIN obs.fiche ON fiche.idfiche = obs.idfiche WHERE fiche.idcoord = NEW.idcoord);
+                                     RETURN NEW;  
+
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_coordonnee SELECT 'INSERT', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.coordonnee' 
+                                        WHERE idobs IN (SELECT idobs FROM obs.obs JOIN obs.fiche ON fiche.idfiche = obs.idfiche WHERE fiche.idcoord = NEW.idcoord)
+                                        AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                        RETURN NEW; 
 			END IF; 
 			RETURN NULL; 
 		END;
@@ -314,10 +364,17 @@ CREATE FUNCTION obs_historique.alimente_histo_obshab() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obshab SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obshab SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obshab SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
-			END IF; 
+		    IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obshab SELECT 'DELETE', now(), user_login, OLD.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obshab' WHERE idobs = OLD.idobs;
+                                    RETURN OLD;
+			    ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obshab SELECT 'UPDATE', now(), user_login, NEW.*;
+                                            UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obshab' WHERE idobs = NEW.idobs;
+                                            RETURN NEW; 
+			    ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obshab SELECT 'INSERT', now(), user_login, NEW.*;
+                                            UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obshab' 
+                                            WHERE idobs = NEW.idobs AND date_trunc('second',datetime_insert) != date_trunc('second',now()); 
+                                            RETURN NEW; 
+			END IF;
 			RETURN NULL; 
 		END;
 	$BODY$ 
@@ -347,10 +404,17 @@ CREATE FUNCTION obs_historique.alimente_histo_obsmort() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obsmort SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obsmort SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obsmort SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
-			END IF; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obsmort SELECT 'DELETE', now(), user_login, OLD.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obsmort' WHERE idobs = OLD.idobs;
+                                    RETURN OLD;
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obsmort SELECT 'UPDATE', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obsmort' WHERE idobs = NEW.idobs;
+                                        RETURN NEW;
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obsmort SELECT 'INSERT', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obsmort' 
+                                        WHERE idobs = NEW.idobs AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                        RETURN NEW;
+			END IF;  
 			RETURN NULL; 
 		END;
 	$BODY$ 
@@ -381,9 +445,16 @@ CREATE FUNCTION obs_historique.alimente_histo_obsplte() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obsplte SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obsplte SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obsplte SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_obsplte SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obsplte' WHERE idobs = OLD.idobs; 
+                                        RETURN OLD; 
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_obsplte SELECT 'UPDATE', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(),datetime_update = now(), table_update = 'obs.obsplte' WHERE idobs = NEW.idobs;
+                                        RETURN NEW;
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_obsplte SELECT 'INSERT', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.obsplte' 
+                                        WHERE idobs = NEW.idobs AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                        RETURN NEW;
 			END IF; 
 			RETURN NULL; 
 		END;
@@ -413,9 +484,18 @@ CREATE FUNCTION obs_historique.alimente_histo_plusobser() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_plusobser SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_plusobser SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_plusobser SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_plusobser SELECT 'DELETE', now(), user_login, OLD.*; 
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.plusobser' 
+                                        WHERE idobs IN (SELECT idobs FROM obs.obs WHERE obs.idfiche = OLD.idfiche);
+                                        RETURN OLD; 
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_plusobser SELECT 'UPDATE', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.plusobser' 
+                                        WHERE idobs IN (SELECT idobs FROM obs.obs WHERE obs.idfiche = NEW.idfiche);
+                                        RETURN NEW;  
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_plusobser SELECT 'INSERT', now(), user_login, NEW.*;
+                                        UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.plusobser' 
+                                        WHERE idobs IN (SELECT idobs FROM obs.obs WHERE obs.idfiche = NEW.idfiche) AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                        RETURN NEW; 
 			END IF; 
 			RETURN NULL; 
 		END;

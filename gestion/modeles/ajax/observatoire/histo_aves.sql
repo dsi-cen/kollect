@@ -26,10 +26,17 @@ CREATE FUNCTION obs_historique.alimente_histo_aves() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_aves SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_aves SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_aves SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
-			END IF; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_aves SELECT 'DELETE', now(), user_login, OLD.*; 
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(),table_update = 'obs.aves' WHERE idobs = OLD.idobs; 
+                                    RETURN OLD;
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_aves SELECT 'UPDATE', now(), user_login, NEW.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(),table_update = 'obs.aves' WHERE idobs = NEW.idobs;
+                                    RETURN NEW; 
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_aves SELECT 'INSERT', now(), user_login, NEW.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(),table_update = 'obs.aves' 
+                                    WHERE idobs = NEW.idobs AND date_trunc('second',datetime_insert) != date_trunc('second',now()); 
+                                    RETURN NEW; 
+			END IF;
 			RETURN NULL; 
 		END;
 	$BODY$ 
