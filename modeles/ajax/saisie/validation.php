@@ -137,12 +137,12 @@ function insere_site($codecom, $idcoord, $rqsite, $site)
 	$req->closeCursor();
 	return $idsite;	
 }
-function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep1,$pr,$floutage,$plusobser,$typedon,$source,$org)
+function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep1,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("INSERT INTO obs.fiche (iddep, codecom, idsite, date1, date2, idobser, decade, localisation, idcoord, floutage, plusobser, typedon, source, idorg)
-						VALUES(:iddep, :codecom, :idsite, :date1, :date2, :obs, :decade, :pr, :idcoord, :floutage, :plusobser, :typedon, :source, :org) ");
+	$req = $bdd->prepare("INSERT INTO obs.fiche (iddep, codecom, idsite, date1, date2, idobser, decade, localisation, idcoord, floutage, plusobser, typedon, source, idorg, idetude)
+						VALUES(:iddep, :codecom, :idsite, :date1, :date2, :obs, :decade, :pr, :idcoord, :floutage, :plusobser, :typedon, :source, :org, :etude) ");
 	$req->bindValue(':iddep', $iddep1);
 	$req->bindValue(':codecom', $codecom);
 	$req->bindValue(':idsite', $idsite);
@@ -157,6 +157,8 @@ function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,
 	$req->bindValue(':typedon', $typedon);
 	$req->bindValue(':source', $source);
 	$req->bindValue(':org', $org);
+    $req->bindValue(':etude', $etude);
+
 	if ($req->execute())
 	{
 		$idfiche = $bdd->lastInsertId('obs.fiche_idfiche_seq');
@@ -201,12 +203,12 @@ function verifobs($idfiche,$cdref)
 	$req->closeCursor();
 	return $resultat;	
 }
-function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$idm,$nom_cite)
+function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idproto,$idm,$nom_cite)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("INSERT INTO obs.obs (idfiche, cdnom, cdref, iddet, nb, rqobs, validation, datesaisie, observa, statutobs, idprotocole, idetude, idmor, nom_cite)
-						VALUES(:idfiche, :cdnom, :cdref, :iddet, :nb, :rq, :vali, :datesaisie, :var, :statut, :idproto, :idetude, :idm, :nom_cite) ");
+	$req = $bdd->prepare("INSERT INTO obs.obs (idfiche, cdnom, cdref, iddet, nb, rqobs, validation, datesaisie, observa, statutobs, idprotocole, idmor, nom_cite)
+						VALUES(:idfiche, :cdnom, :cdref, :iddet, :nb, :rq, :vali, :datesaisie, :var, :statut, :idproto, :idm, :nom_cite) ");
 	$req->bindValue(':idfiche', $idfiche);
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':iddet', $iddet);
@@ -218,7 +220,6 @@ function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$
 	$req->bindValue(':nb', $nb);
 	$req->bindValue(':statut', $statutobs);
 	$req->bindValue(':idproto', $idproto);
-	$req->bindValue(':idetude', $idetude);
 	$req->bindValue(':idm', $idm);
     $req->bindValue(':nom_cite', $nom_cite);
 
@@ -575,6 +576,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 			$floutage = ($typedon == 'Pr') ? $_POST['floutage'] : 0;
 			$source = $_POST['source'];
 			$org = $_POST['org'];
+            $etude = $_POST['etude']; // Passage de l'étude au niveau de la fiche
 			$obs = explode(", ", $_POST['idobser']);
 			if($obs[0] == 0)
 			{
@@ -603,7 +605,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 				$idobser = $obs[0];
 			}
 			$plusobser = (count($obs) > 1) ? 'oui' : 'non';
-			$idfiche = insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$idobser,$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org);
+			$idfiche = insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$idobser,$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude);
 			//si plusieurs observateurs
 			if(count($obs) > 1)
 			{
@@ -737,7 +739,6 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 				$cdnom = $_POST['cdnom'];
 				$cdref = $_POST['cdref'];
 				$nomvar = $_POST['sel'];
-				$idetude = $_POST['etude'];
 				$idproto = $_POST['protocol'];
 				
 				if($_POST['validateur'] == 'oui' || $_POST['validateur'] == '')
@@ -775,7 +776,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 						else { $iddet = rechercheobservateurid($idm); }
 					}	
 					$nom_cite = $_POST['nom_cite'];
-					$idobs = insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$idm,$nom_cite);
+					$idobs = insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idproto,$idm,$nom_cite);
 					if($_POST['newsp'] == 'oui')
 					{
 						modif_listeob($cdref,$nomvar);

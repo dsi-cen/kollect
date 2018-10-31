@@ -142,6 +142,12 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group row" id="etudecache">
+                        <label for="etude"class="col-sm-5 col-form-label">Etude - dossier</label>
+                            <div class="col-sm-6">
+                            <select id="etude" required="" name="etude" class="form-control"></select>
+                            </div>
+                        </div>
                         <div class="form-group row" id="typedoncache">
 							<label for="typedon" class="col-sm-5 col-form-label">Origine de la donnée</label>
 							<div class="col-sm-6">
@@ -233,16 +239,11 @@
 								<p id="mesvali" class="font-weight-bold text-danger"></p>
 							</fieldset>
                             <fieldset class="alert alert-primary">
-                                <legend class="legendesaisie">Protocoles et études </legend>
+                                <legend class="legendesaisie">Protocoles</legend>
                                 <div id="plusproto">
                                     <div class="form-inline">
-                                        <label for="etude" class="ml-3 mr-4">Etude</label>
-                                        <select id="etude" required="" name="etude" class="form-control form-control-sm">
-                                        </select>
                                         <label for="protocol" class="ml-3 mr-4">Protocole</label>
                                         <select id="protocol" required="" name="protocol" class="form-control form-control-sm"></select>
-                                        <!-- <label for="comp" class="ml-3 mr-2">Complement</label>
-                                        <select id="comp" name="comp" class="form-control form-control-sm"></select> -->
                                     </div>
                                 </div>
                             </fieldset>

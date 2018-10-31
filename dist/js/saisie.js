@@ -362,14 +362,13 @@ function verifinfo() {
     return e
 }
 
-function postorg() {
-    "use strict";
-    var e = $("#org").val();
+function postorg(o, s=0) {
+    // "use strict";
     $.ajax({
         url: "modeles/ajax/saisie/etudes.php",
         type: "POST",
         dataType: "json",
-        data: {'organisme': e},
+        data: {'organisme': o},
         success: function(res) {
             $('#etude').empty();
             $('#etude').append('<option value="0">Aucune étude</option>');
@@ -379,12 +378,23 @@ function postorg() {
                     $('#etude').append('<option value="' + JSONObject[key]["idetude"]+ '">' + JSONObject[key]["etude"]  + '</option>');
                 }
             }
+            $('#etude option[value="' + s + '"]').prop("selected","selected"); // Selection 0 par défaut
         },
         error: function(res) {
             console.log("Erreur");
         }
     });
 }
+
+    // Récup des filtres au chargement de la page
+    function filter(o) {
+        if ("3" <= o) {
+            $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show() && $("#typedon").val("Ac") && $("#floutage").val("0") && $("#etudecache").show();
+        } else {
+            $("#foutagecache").show() && $("#typedoncache").hide() && $("#inforg").hide() && $("#typedon").val("Pr") && $("#etudecache").hide() && $('#etude').val("0");
+        }
+        //
+    }
 
 function veriffiche() {
     "use strict";
@@ -467,9 +477,9 @@ function mesvali(e, a, t, l, o) {
 
 function valider(e) {
     "use strict";
-    var a = $("#pr").val(), t = $("#cdnom").val(), l = $("#protocol").val(), o = $("#etude").val(),
+    var a = $("#pr").val(), t = $("#cdnom").val(), l = $("#protocol").val(),
         i = $("#statutobs").val();
-    "Nouv" == $("#idfiche").val() ? a && t ? "No" == i && 0 == l && 0 == o ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : verifeffectif(e, i) : ($("#BttV").show(), $("#BttN").show(), $("#valajaxs").hide(), $("#R1").html('<div class="alert alert-danger">Aucune localisation ou d\'espèce de saisie !</div>')) : t ? "No" == i && 0 == l && 0 == o ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : verifeffectif(e, i) : ($("#BttV").show(), $("#BttN").show(), $("#valajaxs").hide(), $("#R1").html('<div class="alert alert-danger">Aucune espèce de saisie !</div>'))
+    "Nouv" == $("#idfiche").val() ? a && t ? "No" == i && 0 == l ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : verifeffectif(e, i) : ($("#BttV").show(), $("#BttN").show(), $("#valajaxs").hide(), $("#R1").html('<div class="alert alert-danger">Aucune localisation ou d\'espèce de saisie !</div>')) : t ? "No" == i && 0 == l ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : verifeffectif(e, i) : ($("#BttV").show(), $("#BttN").show(), $("#valajaxs").hide(), $("#R1").html('<div class="alert alert-danger">Aucune espèce de saisie !</div>'))
 }
 
 function verifeffectif(e, a) {
@@ -500,7 +510,7 @@ function enregistrer(e) {
 
 function efface(e) {
     "use strict";
-    $(e + " :input").not(":button, :submit, :reset, #det, #stade, #etude, #floutage, #typedon, #org, #source, #idfiche, #idobs, #sel, input[name=orien], input[name=clabon]").val(""), $("#observateur2").val(""), $("#habitat").val("NR"), $("#habitat2").hide(), $("#habitat3").hide(), $("#cdnombotam").val(""), $("#nbpltem").val(""), $("#statutobs").val("Pr"), $("#denom").val("Co"), $("#tdenom").val("IND"), $("#etatbio").val("2"), $("#etude").val("0"), $("input[name=clabon]").prop("checked", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $(".nbexact").val(""), $(".nbexact").prop("disabled", !1), $("#nbtmp1").val(""), $("#iddet").val($("#iddetor").val()), $("#idobser").val($("#idobseror").val()), $(".afcarte").show(), $("#valf").hide(), $(".stadecache").find(":input").css("background-color", "#FFFFFF").css("cursor", "auto"), $("#observateur2").prop("disabled", !1), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#mrq").prop("checked", !1), $("#collect").is(":checked") && $("#collect").prop("checked", !1), $("#gen").is(":checked") && $("#gen").prop("checked", !1), $("#imgpluscol").hasClass("fa-minus") && ($("#imgpluscol").removeClass("fa-minus").addClass("fa-plus"), $("#pluscol").hide()), marker && (map.removeLayer(marker), marker = ""), drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), nonsite(), supmarker()
+    $(e + " :input").not(":button, :submit, :reset, #det, #stade, #etude, #floutage, #typedon, #org, #source, #idfiche, #idobs, #sel, input[name=orien], input[name=clabon]").val(""), $("#observateur2").val(""), $("#habitat").val("NR"), $("#habitat2").hide(), $("#habitat3").hide(), $("#cdnombotam").val(""), $("#nbpltem").val(""), $("#statutobs").val("Pr"), $("#denom").val("Co"), $("#tdenom").val("IND"), $("#etatbio").val("2"), $("input[name=clabon]").prop("checked", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $(".nbexact").val(""), $(".nbexact").prop("disabled", !1), $("#nbtmp1").val(""), $("#iddet").val($("#iddetor").val()), $("#idobser").val($("#idobseror").val()), $(".afcarte").show(), $("#valf").hide(), $(".stadecache").find(":input").css("background-color", "#FFFFFF").css("cursor", "auto"), $("#observateur2").prop("disabled", !1), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#mrq").prop("checked", !1), $("#collect").is(":checked") && $("#collect").prop("checked", !1), $("#gen").is(":checked") && $("#gen").prop("checked", !1), $("#imgpluscol").hasClass("fa-minus") && ($("#imgpluscol").removeClass("fa-minus").addClass("fa-plus"), $("#pluscol").hide()), marker && (map.removeLayer(marker), marker = ""), drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), nonsite(), supmarker()
 }
 
 function cache() {
@@ -541,6 +551,7 @@ function recupfiche(e) {
                     $("#l935").val(""),
                     $("#lat").val(""),
                     $("#lng").val(""),
+                    $("#org").val(e.fiche.idorg) && postorg(e.fiche.idorg, e.fiche.idetude),
                     $("#communeb").val(e.fiche.commune),
                     $("#lieub").val(e.fiche.site),
                     $("#date").val(e.fiche.date1fr),
@@ -552,7 +563,7 @@ function recupfiche(e) {
                     $("#idcoord").val(e.fiche.idcoord),
                     $("#pr").val(e.fiche.localisation),
                     $("#typepoly").val(e.fiche.geo),
-                    $("#typedon").val(e.fiche.typedon),
+                    $("#typedon").val(e.fiche.typedon) && filter(e.fiche.idorg),
                     $("#source").val(e.fiche.source),
                     $("#floutage").val(e.fiche.floutage),
                     $("#heure").val(e.fiche.hdebut),
@@ -560,7 +571,6 @@ function recupfiche(e) {
                     $("#tempdeb").val(e.fiche.tempdebut),
                     $("#tempfin").val(e.fiche.tempfin),
                     $("#valf").show(),
-                    $("#org").val(e.fiche.idorg),
                     e.fiche.site || (nonsite(),
                     0 == e.fiche.idsite && $("#codesite").val("Nouv")),
                     e.idobser && ($("#observateur2").val(e.obser),
@@ -575,7 +585,6 @@ function recupfiche(e) {
                     var a = e.fiche.lat + "," + e.fiche.lng, t = 13;
                     centrer(a, t, e.fiche.codecom)
                 }
-
             } else alert("problème ! pour récupérer les informations de la fiche")
         }
     })
@@ -640,7 +649,7 @@ function recupinfo(e, a) {
         dataType: "json",
         data: {idligne: e, sel: sel},
         success: function (a) {
-            "Oui" == a.statut ? ($(".nbexact").val(""), $("#val").removeClass("d-flex").hide(), $("#valm").addClass("d-flex").show(), $("#idobs").val(a.ligne.idobs), $("#idligneobs").val(e), $("#idfiche").val(a.ligne.idfiche), $("#cdnom").val(a.ligne.cdnom), $("#cdref").val(a.ligne.cdref), $("#nomb").val(a.ligne.nom + " (" + a.ligne.nomvern + ")"), $("#det").val(a.ligne.det), $("#nom_cite").val(a.ligne.nom_cite), $("#stade").val(a.ligne.stade), $("#etatbio").val(a.ligne.idetatbio), $("#statutobs").val(a.ligne.statutobs), $("#comportement").val(a.ligne.idcomp), $("#obsmethode").val(a.ligne.idmethode), $("#obscoll").val(a.ligne.idpros), $("#bio").val(a.ligne.idstbio), $("#protocol").val(a.ligne.idprotocole), $("#etude").val(a.ligne.idetude), $("#rq").val(a.ligne.rqobs), $("#denom").val(a.ligne.denom), $("#nbmin").val(a.ligne.nbmin), $("#nbmax").val(a.ligne.nbmax), a.ligne.tdenom ? $("#tdenom").val(a.ligne.tdenom) : $("#tdenom").val("IND"), "Co" == a.ligne.denom && ($(".nbexact").prop("disabled", !1), $("#estim").hide(), $("#nbtmp").hide(), $("#ndiff").val(a.ligne.ndiff), $("#male").val(a.ligne.male), $("#femelle").val(a.ligne.femelle), a.ligne.ndiff + a.ligne.male + a.ligne.femelle == a.ligne.nb ? $("#nb").val("") : $("#nb").val(a.ligne.nb), a.ligne.tdenom ? "IND" == a.ligne.tdenom || "NSP" == a.ligne.tdenom ? ($("#nbtmp").hide(), $(".nbexact").prop("disabled", !1)) : ($("#nbtmp").show(), $("#nbtmp1").val(a.ligne.nbmin), $(".nbexact").prop("disabled", !0)) : ($("#nbtmp").hide(), $(".nbexact").prop("disabled", !1))), 3 == a.ligne.idetatbio ? ($("#cmort").show(), a.mort ? $("#mort").val(a.mort) : $("#mort").val(0)) : ($("#cmort").hide(), $("#mort").val(0)), "Es" == a.ligne.denom && ("IND" == a.ligne.tdenom || "NSP" == a.ligne.tdenom ? ($("#ndiff").val(a.ligne.ndiff), $("#male").val(a.ligne.male), $("#femelle").val(a.ligne.femelle)) : $(".nbexact").prop("disabled", !0), (a.ligne.nbmax - (a.ligne.nbmin - 1)) / 2 == a.ligne.nb ? $("#nb").val("") : $("#nb").val(a.ligne.nb), $("#estim").show(), $("#nbtmp").hide()), a.ligne.cdhab ? ($("#imgplushab").hasClass("fa-plus") && ($("#imgplushab").removeClass("fa-plus").addClass("fa-minus"), $("#plushab").show()), $("#cdhab").val(a.ligne.cdhab), a.habitat3 ? ($("#habitat").val(a.hab1), $("#habitat2").show(), $("#habitat3").show(), rhab(a.hab1, a.hab2), rhab2(a.hab2, a.ligne.cdhab)) : ($("#habitat3").hide(), a.habitat2 ? ($("#habitat").val(a.hab1), $("#habitat2").show(), rhab(a.hab1, a.ligne.cdhab)) : ($("#habitat2").hide(), $("#habitat").val(a.ligne.cdhab)))) : ($("#cdhab").val(""), $("#habitat2").hide(), $("#habitat3").hide(), $("#imgplushab").hasClass("fa-minus") && ($("#imgplushab").removeClass("fa-minus").addClass("fa-plus"), $("#plushab").hide())), a.aves && $("#indnid").val(a.aves), a.cdnombota ? ($("#imgplusplte").hasClass("fa-plus") && ($("#imgplusplte").removeClass("fa-plus").addClass("fa-minus"), $("#pltehote").show()), $("#choixplte").val(""), $("#nbpltel").val(""), $("#cdnombota").val(a.cdnombota), $("#nbplte").val(a.nbbota), $("#ulplante").html(a.listebota)) : ($("#cdnombota").val(""), $("#nbplte").val(""), $("#ulplante").html(""), $("#choixplte").val(""), $("#nbpltel").val(""), $("#imgplusplte").hasClass("fa-minus") && ($("#imgplusplte").removeClass("fa-minus").addClass("fa-plus"), $("#pltehote").hide())), a.col ? ($("#imgpluscol").hasClass("fa-plus") && ($("#imgpluscol").removeClass("fa-plus").addClass("fa-minus"), $("#pluscol").show()), a.colobser ? ($("#collect").prop("checked", !0), $("#iddetcol").val(a.col.iddetcol), $("#detcol").val(a.colobser)) : ($("#collect").prop("checked", !1), $("#detcol").val(""), $("#iddetcol").val("")), a.colprep ? ($("#gen").prop("checked", !0), $("#codegen").val(a.col.codegen), $("#prepgen").val(a.colprep), $("#typegen").val(a.col.typedet), $("#sexegen").val(a.col.sexe), $("#iddetgen").val(a.col.iddetgen), $("#idprep").val(a.col.idprep), a.coldetgen ? $("#detgen").val(a.coldetgen) : $("#detgen").val("")) : ($("#gen").prop("checked", !1), $("#codegen").val(""), $("#detgen").val(""), $("#prepgen").val(""), $("#iddetgen").val(""), $("#idprep").val(""), $("#typegen").val("NR"), $("#sexegen").val(""))) : $("#imgpluscol").hasClass("fa-minus") && ($("#imgpluscol").removeClass("fa-minus").addClass("fa-plus"), $("#pluscol").hide())) : alert("problème ! pour récupérer les informations")
+            "Oui" == a.statut ? ($(".nbexact").val(""), $("#val").removeClass("d-flex").hide(), $("#valm").addClass("d-flex").show(), $("#idobs").val(a.ligne.idobs), $("#idligneobs").val(e), $("#idfiche").val(a.ligne.idfiche), $("#cdnom").val(a.ligne.cdnom), $("#cdref").val(a.ligne.cdref), $("#nomb").val(a.ligne.nom + " (" + a.ligne.nomvern + ")"), $("#det").val(a.ligne.det), $("#nom_cite").val(a.ligne.nom_cite), $("#stade").val(a.ligne.stade), $("#etatbio").val(a.ligne.idetatbio), $("#statutobs").val(a.ligne.statutobs), $("#comportement").val(a.ligne.idcomp), $("#obsmethode").val(a.ligne.idmethode), $("#obscoll").val(a.ligne.idpros), $("#bio").val(a.ligne.idstbio), $("#protocol").val(a.ligne.idprotocole), $("#rq").val(a.ligne.rqobs), $("#denom").val(a.ligne.denom), $("#nbmin").val(a.ligne.nbmin), $("#nbmax").val(a.ligne.nbmax), a.ligne.tdenom ? $("#tdenom").val(a.ligne.tdenom) : $("#tdenom").val("IND"), "Co" == a.ligne.denom && ($(".nbexact").prop("disabled", !1), $("#estim").hide(), $("#nbtmp").hide(), $("#ndiff").val(a.ligne.ndiff), $("#male").val(a.ligne.male), $("#femelle").val(a.ligne.femelle), a.ligne.ndiff + a.ligne.male + a.ligne.femelle == a.ligne.nb ? $("#nb").val("") : $("#nb").val(a.ligne.nb), a.ligne.tdenom ? "IND" == a.ligne.tdenom || "NSP" == a.ligne.tdenom ? ($("#nbtmp").hide(), $(".nbexact").prop("disabled", !1)) : ($("#nbtmp").show(), $("#nbtmp1").val(a.ligne.nbmin), $(".nbexact").prop("disabled", !0)) : ($("#nbtmp").hide(), $(".nbexact").prop("disabled", !1))), 3 == a.ligne.idetatbio ? ($("#cmort").show(), a.mort ? $("#mort").val(a.mort) : $("#mort").val(0)) : ($("#cmort").hide(), $("#mort").val(0)), "Es" == a.ligne.denom && ("IND" == a.ligne.tdenom || "NSP" == a.ligne.tdenom ? ($("#ndiff").val(a.ligne.ndiff), $("#male").val(a.ligne.male), $("#femelle").val(a.ligne.femelle)) : $(".nbexact").prop("disabled", !0), (a.ligne.nbmax - (a.ligne.nbmin - 1)) / 2 == a.ligne.nb ? $("#nb").val("") : $("#nb").val(a.ligne.nb), $("#estim").show(), $("#nbtmp").hide()), a.ligne.cdhab ? ($("#imgplushab").hasClass("fa-plus") && ($("#imgplushab").removeClass("fa-plus").addClass("fa-minus"), $("#plushab").show()), $("#cdhab").val(a.ligne.cdhab), a.habitat3 ? ($("#habitat").val(a.hab1), $("#habitat2").show(), $("#habitat3").show(), rhab(a.hab1, a.hab2), rhab2(a.hab2, a.ligne.cdhab)) : ($("#habitat3").hide(), a.habitat2 ? ($("#habitat").val(a.hab1), $("#habitat2").show(), rhab(a.hab1, a.ligne.cdhab)) : ($("#habitat2").hide(), $("#habitat").val(a.ligne.cdhab)))) : ($("#cdhab").val(""), $("#habitat2").hide(), $("#habitat3").hide(), $("#imgplushab").hasClass("fa-minus") && ($("#imgplushab").removeClass("fa-minus").addClass("fa-plus"), $("#plushab").hide())), a.aves && $("#indnid").val(a.aves), a.cdnombota ? ($("#imgplusplte").hasClass("fa-plus") && ($("#imgplusplte").removeClass("fa-plus").addClass("fa-minus"), $("#pltehote").show()), $("#choixplte").val(""), $("#nbpltel").val(""), $("#cdnombota").val(a.cdnombota), $("#nbplte").val(a.nbbota), $("#ulplante").html(a.listebota)) : ($("#cdnombota").val(""), $("#nbplte").val(""), $("#ulplante").html(""), $("#choixplte").val(""), $("#nbpltel").val(""), $("#imgplusplte").hasClass("fa-minus") && ($("#imgplusplte").removeClass("fa-minus").addClass("fa-plus"), $("#pltehote").hide())), a.col ? ($("#imgpluscol").hasClass("fa-plus") && ($("#imgpluscol").removeClass("fa-plus").addClass("fa-minus"), $("#pluscol").show()), a.colobser ? ($("#collect").prop("checked", !0), $("#iddetcol").val(a.col.iddetcol), $("#detcol").val(a.colobser)) : ($("#collect").prop("checked", !1), $("#detcol").val(""), $("#iddetcol").val("")), a.colprep ? ($("#gen").prop("checked", !0), $("#codegen").val(a.col.codegen), $("#prepgen").val(a.colprep), $("#typegen").val(a.col.typedet), $("#sexegen").val(a.col.sexe), $("#iddetgen").val(a.col.iddetgen), $("#idprep").val(a.col.idprep), a.coldetgen ? $("#detgen").val(a.coldetgen) : $("#detgen").val("")) : ($("#gen").prop("checked", !1), $("#codegen").val(""), $("#detgen").val(""), $("#prepgen").val(""), $("#iddetgen").val(""), $("#idprep").val(""), $("#typegen").val("NR"), $("#sexegen").val(""))) : $("#imgpluscol").hasClass("fa-minus") && ($("#imgpluscol").removeClass("fa-minus").addClass("fa-plus"), $("#pluscol").hide())) : alert("problème ! pour récupérer les informations")
         }
     })
 }
@@ -682,6 +691,7 @@ var sel, utm, dep, map, marker, markers, contoursite, contour, stylecontour, dra
 
 $(document).ready(function () {
     "use strict";
+
     var e = {};
     $.ajax({
         url: "emprise/emprise.json", dataType: "json", success: function (a) {
@@ -689,23 +699,18 @@ $(document).ready(function () {
         }
     }), $("#valajaxs").hide(), $("#blocobs").hide(), $("#pluslatin1").hide(), $("#pluscoord").hide(), $("#pluscol").hide(), $("#plushab").hide(), $("#plusproto").show(), $("#valm").removeClass("d-flex").hide(), $("#liste10").hide(), $("#photo").hide(), $("#pltehote").hide(), $("#vsite").hide(), $("#plusfiche").hide(), $("#valf").hide(), $("#estim").hide(), $("#nbtmp").hide(), $("#habitat2").hide(), $("#habitat3").hide(), $("#observateur").prop("disabled", !0), $("#dep").prop("disabled", !0), $("#communeb").prop("disabled", !0), $("#altitude").prop("disabled", !0), $("#xlambert").prop("disabled", !0), $("#ylambert").prop("disabled", !0), $("#lat").prop("disabled", !0), $("#lng").prop("disabled", !0), $("#l93").prop("disabled", !0), $("#l935").prop("disabled", !0), $("#utm").prop("disabled", !0), $("#utm1").prop("disabled", !0), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#btnaide").on("click", aide);
 
-    var a = $("#flou").val();
-    $('#floutage option[value="' + a + '"]').prop("selected", !0);
-    var t = $("#tdon").val();
-    $('#typedon option[value="' + t + '"]').prop("selected", !0), "Pr" != t && $("#foutagecache").hide();
-    var l = $("#getidfiche").val();
-    "" != l && recupfiche(l)
+    filter($("#org").val());
 
-    // Récup des filtres au chargement de la page
-    var e = $("#org").val();
-    if ("3" <= e){
-        $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show() && $("#typedon").val("Ac") && $("#floutage").val("0");
-    } else {
-        $("#foutagecache").show() && $("#typedoncache").hide() && $("#inforg").hide() && $("#typedon").val("Pr");
-        console.log("indé");
-    }
-    //
+    var l = $("#getidfiche").val();
+    "" != l && recupfiche(l);
 }),
+
+    // Recharger la liste des études au changement d'organisme
+    $("#org").click(function () {
+        filter($("#org").val());
+        postorg($("#org").val());
+    }),
+
 
     $("#vsite").click(function () {
     "use strict";
@@ -803,17 +808,18 @@ $(document).ready(function () {
 }), $("#btfiche10").click(function () {
     "use strict";
     $(this).hasClass("text-primary") ? ($(this).removeClass("text-primary").addClass("text-success"), $("#liste10").show(), fiche(), $("html, body").animate({scrollTop: $("#listefiche").offset().top}, "slow")) : ($(this).removeClass("text-success").addClass("text-primary"), $("#liste10").hide())
-}), $("#typedon").change(function () {
-    "use strict";
-    var e = $("#typedon").val();
-    "Pr" != e ? $("#foutagecache").hide() : $("#foutagecache").show()
+
+// }), $("#typedon").change(function () {
+    // "use strict";
+    // var e = $("#typedon").val();
+    // "Pr" != e ? $("#foutagecache").hide() : $("#foutagecache").show()
+
 }), $("#org").change(function () {
     "use strict";
     // RLE : fonction conditionnelle
     // Cas 1 _ s'il s'agit d'une organisation soumise au financements publics et/ou dossiers particuliers (typedon = AC et floutage = 0).
     // Cas 2 _ s'il s'agit d'un inconnu ou indépendant, valeur par défaut (typedon = Pr et floutage = 0).
     var e = $("#org").val();
-    $("#typedon").removeAttr("disabled");
     if ("3" <= e){
         $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show() && $("#typedon").val("Ac") && $("#floutage").val("0");
     } else {
@@ -857,7 +863,6 @@ $(document).ready(function () {
 }), $(".afcarte").click(function () {
     "use strict";
     if ($(this).hasClass("btn")) {
-        postorg();
         var e = verifinfo();
         "non" == e && ($("#blocmap").toggle(), $("#blocfiche").toggle(), $("#change").removeClass("w-50").addClass("w-100"), $("#blocobs").toggle(), sel = $("#sel").val(), "aucun" != sel ? $("#selm").val() == sel && "oui" == $("#valsel").val() ? $("#blocsaisie").show() : choixobser(sel) : $("#blocsaisie").hide())
     } else $("#blocmap").toggle(), $("#change").removeClass("w-100").addClass("w-50"), $("#blocobs").toggle(), $("#blocfiche").toggle(), $("#selm").val(sel)
@@ -1129,7 +1134,7 @@ $(document).ready(function () {
     var e = $(this).parent().parent().attr("id");
     $("#idfiche").val(e), afficheobs(), $("html, body").animate({scrollTop: 0}, "slow"), sel = $("#sel").val(), "aucun" != sel && choixobser(sel), $("#afiche").val("oui"), $(".ndecache :input").not(":button, :submit, :reset, #det, #stade, #denom, #etude, #protocol").val(""), $("#statutobs").val("Pr"), $("#etatbio").val("2"), $("#ndiff").val(0), $("#male").val(0), $("#femelle").val(0), $("#cdnom").val(""), $("#cdref").val(""), $("#idobs").val("Nouv"), $("#valm").removeClass("d-flex").hide(), $("#val").show(), $("#BttV").show(), $("#BttS").show(), $("#BttN").show()
 }), $("#aobsfiche").on("click", function () {
-    $(".ndecache :input").not(":button, :submit, :reset, #det, #stade, #denom, #etude, #protocol").val(""), $("#statutobs").val("Pr"), $("#etatbio").val("2"), $("#ndiff").val(0), $("#male").val(0), $("#femelle").val(0), $("#cdnom").val(""), $("#cdref").val(""), $("#idobs").val("Nouv"), $("#afiche").val("oui"), $("#valm").removeClass("d-flex").hide(), $("#val").show(), $("#BttV").show(), $("#BttS").show(), $("#BttN").show()
+    $(".ndecache :input").not(":button, :submit, :reset, #det, #stade, #denom, #protocol").val(""), $("#statutobs").val("Pr"), $("#etatbio").val("2"), $("#ndiff").val(0), $("#male").val(0), $("#femelle").val(0), $("#cdnom").val(""), $("#cdref").val(""), $("#idobs").val("Nouv"), $("#afiche").val("oui"), $("#valm").removeClass("d-flex").hide(), $("#val").show(), $("#BttV").show(), $("#BttS").show(), $("#BttN").show()
 }), $("#listefiche").on("click", ".modfiche", function () {
     "use strict";
     var e = $(this).parent().parent().attr("id");
@@ -1143,7 +1148,7 @@ $(document).ready(function () {
         c = $("#utm").val(), d = $("#utm1").val(), u = $("#typepoly").val(), p = $("#altitude").val(),
         m = $("#codecom").val(), v = $("#codedep").val(), h = $("#pr").val(), f = $("#lieub").val(),
         b = $("#date").val(), g = $("#date2").val(), x = $("#idobser").val(), w = $("#typedon").val(),
-        y = $("#floutage").val(), k = $("#source").val(), C = $("#org").val(), N = $("#heure").val(),
+        y = $("#floutage").val(), k = $("#source").val(), C = $("#org").val(), et = $("#etude").val(), N = $("#heure").val(),
         S = $("#heure2").val(), T = $("#tempdeb").val(), L = $("#tempfin").val();
     $.ajax({
         url: "modeles/ajax/saisie/vmodfiche.php",
@@ -1174,6 +1179,7 @@ $(document).ready(function () {
             floutage: y,
             source: k,
             org: C,
+            etude: et,
             heure: N,
             heure2: S,
             tempdeb: T,

@@ -1,7 +1,6 @@
 <?php
 include '../../../global/configbase.php';
 include '../../../lib/pdo2.php';
-
 function etudebyorg($organisme)
 {
     $bdd = PDO2::getInstance();

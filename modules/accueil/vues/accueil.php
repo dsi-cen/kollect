@@ -55,7 +55,7 @@
 								<div class="col-md-3 pr-0">
 									<div class="card text-center stats marron">
 										<span class="medium display-4"><?php echo $nbdonneespriv;?></span>													
-										<h3 class="stats-title">Données privées</h3>
+										<h3 class="stats-title">Données d'origine privée</h3>
 										<div style="#element { margin: auto; }">
 												<i class="fa fa-list-alt fa-3x"></i>	
 										</div>													
