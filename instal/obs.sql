@@ -51,6 +51,7 @@ CREATE TABLE obs.fiche
   typedon character varying(2),
   source character varying(3),
   idorg smallint,
+  idetude smallint,
   CONSTRAINT fiche_pkey PRIMARY KEY (idfiche)
 );
 
@@ -112,7 +113,6 @@ CREATE TABLE obs.obs
   observa character varying(10),
   statutobs character varying(2),
   idprotocole smallint,
-  idetude smallint,
   idmor integer,
   CONSTRAINT obs_pkey PRIMARY KEY (idobs)
 );

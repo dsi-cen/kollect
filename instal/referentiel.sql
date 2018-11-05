@@ -9,6 +9,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 CREATE TABLE decade (iddecade smallint NOT NULL,decade character varying(3),mois smallint);
+
 CREATE TABLE referentiel.etude
 (
   idetude smallint NOT NULL,
@@ -17,13 +18,16 @@ CREATE TABLE referentiel.etude
   masquer character(3),
   CONSTRAINT etude_pkey PRIMARY KEY (idetude)
 );
+
 CREATE TABLE eunis (cdhab integer NOT NULL,cdtypo smallint,lbcode character varying(50),lbhabitat text,niveau smallint,lbniveau character varying(100),cdhabsup integer,pathcdhab character varying(100),description text,locale character(3));
+
 CREATE TABLE referentiel.infosp
 (
   cdnom integer NOT NULL,
   repartition text,
   CONSTRAINT infosp_pkey PRIMARY KEY (cdnom)
 );
+
 CREATE TABLE liste
 (
   cdnom integer NOT NULL,
@@ -36,7 +40,9 @@ CREATE TABLE liste
   vali smallint,
   CONSTRAINT liste_pkey PRIMARY KEY (cdnom)
 );
+
 CREATE TABLE methode (idmethode smallint NOT NULL,methode character varying(40),libelle text);
+
 CREATE TABLE observateur
 (
   idobser serial NOT NULL,
@@ -48,6 +54,7 @@ CREATE TABLE observateur
   aff character(3),
   CONSTRAINT observateur_pkey PRIMARY KEY (idobser)
 );
+
 CREATE TABLE occetatbio (idetatbio smallint NOT NULL,etatbio character varying(30),libelle text,idval smallint);
 CREATE TABLE occmort (idmort smallint NOT NULL,cause character varying(40),libelle text);
 CREATE TABLE occstatutbio (idstbio smallint NOT NULL,statutbio character varying(40),libelle text,idval smallint);
@@ -56,6 +63,48 @@ CREATE TABLE occtype (tdenom character varying(4) NOT NULL,typedenom character v
 CREATE TABLE organisme (idorg serial NOT NULL,organisme character varying(150),descri text);
 CREATE TABLE prospection (idpros smallint NOT NULL,prospection character varying(30),idval smallint,libelle text);
 CREATE TABLE protocole (idprotocole smallint NOT NULL,protocole character varying(200),libelle text,url text);
+
+CREATE TABLE observateur_organisme
+(
+    idobser integer NOT NULL,
+    idorg integer NOT NULL,
+    CONSTRAINT observateur_organisme_pkey PRIMARY KEY (idobser, idorg),
+    CONSTRAINT observateur_organisme_idobser_fk FOREIGN KEY (idobser) REFERENCES referentiel.observateur (idobser),
+    CONSTRAINT observateur_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg)
+);
+
+CREATE TABLE etude_organisme
+(
+    idetude integer NOT NULL,
+    idorg integer NOT NULL,
+    CONSTRAINT etude_organisme_pkey PRIMARY KEY (idetude, idorg),
+    CONSTRAINT etude_organisme_idetude_fk FOREIGN KEY (idetude) REFERENCES referentiel.etude (idetude),
+    CONSTRAINT etude_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg)
+);
+
+CREATE TABLE fonction
+(
+    idfonc integer NOT NULL,
+    libfonc character varying (150),
+    mdfonc text,
+    CONSTRAINT fonction_pkey PRIMARY KEY (idfonc)
+);
+
+  INSERT INTO fonction VALUES
+  (1,'Salarié','La personne est salariée de l''organisme'),
+  (2,'Stagiaire','La personne est en stage au sein de l''organisme'),
+  (3,'Service civique','La personne est en service civique au sein de l''organisme'),
+  (4,'Bénévole','La personne agit pour l''organisme en tant que bénévole');
+
+CREATE TABLE referentiel.observateur_organisme
+(
+    idobser integer NOT NULL,
+    idorg integer NOT NULL,
+    CONSTRAINT observateur_organisme_pkey PRIMARY KEY (idobser, idorg),
+    CONSTRAINT observateur_organisme_idobser_fk FOREIGN KEY (idobser) REFERENCES referentiel.observateur (idobser),
+    CONSTRAINT observateur_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg)
+);
+
 CREATE TABLE sensible
 (
   cdnom integer NOT NULL,
@@ -1781,3 +1830,19 @@ ALTER TABLE ONLY prospection ADD CONSTRAINT prospection_pkey PRIMARY KEY (idpros
 ALTER TABLE ONLY protocole ADD CONSTRAINT protocole_pkey PRIMARY KEY (idprotocole);
 	
 ALTER TABLE ONLY stade ADD CONSTRAINT stade_pkey PRIMARY KEY (idstade);
+
+
+CREATE FUNCTION alimente_observateur_organisme() RETURNS trigger AS 
+	$BODY$
+		BEGIN
+			INSERT INTO referentiel.observateur_organisme (idobser, idorg) VALUES (NEW.idobser,2); 
+            RETURN NEW; 
+		END;
+	$BODY$ 
+	LANGUAGE plpgsql VOLATILE COST 100;
+
+  CREATE TRIGGER declenche_alimente_observateur_organisme 
+	AFTER INSERT
+	ON referentiel.observateur
+	FOR EACH ROW
+	EXECUTE PROCEDURE referentiel.alimente_observateur_organisme();
