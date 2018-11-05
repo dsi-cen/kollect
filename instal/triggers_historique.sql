@@ -404,7 +404,7 @@ CREATE TABLE obs_historique.histo_plusobser
   idplus integer NOT NULL,
   idfiche integer,
   idobser integer,
-  CONSTRAINT histo_plusobser_pkey PRIMARY KEY (date_operation, utilisateur,idfiche)
+  CONSTRAINT histo_plusobser_pkey PRIMARY KEY (date_operation, utilisateur,idplus)
 );
 
 CREATE FUNCTION obs_historique.alimente_histo_plusobser() RETURNS trigger AS 
