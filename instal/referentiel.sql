@@ -65,16 +65,18 @@ CREATE TABLE prospection (idpros smallint NOT NULL,prospection character varying
 CREATE TABLE protocole (idprotocole smallint NOT NULL,protocole character varying(200),libelle text,url text);
 
 CREATE TABLE observateur_organisme
-(
+(   
+    idobser_org serial NOT NULL,
     idobser integer NOT NULL,
     idorg integer NOT NULL,
-    CONSTRAINT observateur_organisme_pkey PRIMARY KEY (idobser, idorg),
+    CONSTRAINT observateur_organisme_pkey PRIMARY KEY (idobser_org),
     CONSTRAINT observateur_organisme_idobser_fk FOREIGN KEY (idobser) REFERENCES referentiel.observateur (idobser),
-    CONSTRAINT observateur_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg)
+    CONSTRAINT observateur_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg),
+    CONSTRAINT observateur_organisme_idobser_idorg_unique UNIQUE (idobser,idorg)
 );
 
 CREATE TABLE etude_organisme
-(
+(   
     idetude integer NOT NULL,
     idorg integer NOT NULL,
     CONSTRAINT etude_organisme_pkey PRIMARY KEY (idetude, idorg),
@@ -96,13 +98,15 @@ CREATE TABLE fonction
   (3,'Service civique','La personne est en service civique au sein de l''organisme'),
   (4,'Bénévole','La personne agit pour l''organisme en tant que bénévole');
 
-CREATE TABLE referentiel.observateur_organisme
+CREATE TABLE observateur_fonction 
 (
-    idobser integer NOT NULL,
-    idorg integer NOT NULL,
-    CONSTRAINT observateur_organisme_pkey PRIMARY KEY (idobser, idorg),
-    CONSTRAINT observateur_organisme_idobser_fk FOREIGN KEY (idobser) REFERENCES referentiel.observateur (idobser),
-    CONSTRAINT observateur_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg)
+    idobser_org integer NOT NULL, 
+    idfonc integer NOT NULL,
+    datedeb date NOT NULL,
+    datefin date,
+    CONSTRAINT observateur_fonction_pkey PRIMARY KEY (idobser_org,idfonc),
+    CONSTRAINT observateur_fonction_idobser_organisme_fk FOREIGN KEY (idobser_org) REFERENCES referentiel.observateur_organisme (idobser_org),
+    CONSTRAINT observateur_fonction_idfonc_fk FOREIGN KEY (idfonc) REFERENCES referentiel.fonction (idfonc)
 );
 
 CREATE TABLE sensible
