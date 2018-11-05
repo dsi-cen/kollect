@@ -95,8 +95,8 @@ if(!isset($sansheader))
 <aside id="menu" class="menu color4_bg">
 	<ul class="nav side-menu flex-column" role="navigation">
 		<li class="nav-item">
-			<a title="Liste des observatoires" class="nav-link bb-light" href="#menuobser" data-toggle="collapse"><i class="fe-webobs3 fa-2x blanc"></i><br /><span class="badge color1_bg blanc"><?php echo $nbobservatoire;?></span></a>
-			<ul class="menu menu-droit nav-second-level collapse list-unstyled" id="menuobser">
+			<a title="Liste des observatoires" class="nav-link bb-light" href="#menuobser" data-toggle="collapse"><i class="fe-webobs3 fa-2x blanc"></i><br /><span class="badge color1_bg blanc"><?php echo $nbobservatoire;?></span><span class="blanc font-weight-normal"><br>Observatoires</span></a>
+            <ul class="menu menu-droit nav-second-level collapse list-unstyled" id="menuobser">
 				<?php
 				foreach($menuobservatoire as $n)
 				{
