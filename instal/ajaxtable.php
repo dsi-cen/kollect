@@ -105,7 +105,7 @@ $table = table();
 if($table >= 8)
 {
 	$retour['statut'] = 'Oui';
-	$tab[] = '<div class="alert alert-success" role="alert">L\'installation des tables est finit. Remplissez le formulaire au-dessus.</div>';
+	$tab[] = '<div class="alert alert-success" role="alert">L\'installation des tables est finie. Remplissez le formulaire au-dessus.</div>';
 }
 else
 {
