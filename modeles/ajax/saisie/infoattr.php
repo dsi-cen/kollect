@@ -169,7 +169,7 @@ if(isset($_POST['sel']) && isset($_POST['id']))
 		$liste = $ref;		
 	}
     elseif($id == 'infocite'){
-        $liste = 'TO DO : A renseigner ';
+        $liste = 'Nom du taxon cité à l\'origine par l\'observateur. Utilisé lors de l\'intégration de données ou lors de la saisie de données bibliographiques';
     }
 	else
 	{

@@ -8,8 +8,15 @@ SET search_path = referentiel, pg_catalog;
 SET default_tablespace = '';
 SET default_with_oids = false;
 
-CREATE TABLE decade (iddecade smallint NOT NULL,decade character varying(3),mois smallint);
-CREATE TABLE referentiel.etude
+CREATE TABLE decade 
+(
+  iddecade smallint NOT NULL,
+  decade character varying(3),
+  mois smallint,
+  CONSTRAINT decade_pkey PRIMARY KEY (iddecade)
+);
+
+CREATE TABLE etude
 (
   idetude smallint NOT NULL,
   etude character varying(200),
@@ -17,13 +24,29 @@ CREATE TABLE referentiel.etude
   masquer character(3),
   CONSTRAINT etude_pkey PRIMARY KEY (idetude)
 );
-CREATE TABLE eunis (cdhab integer NOT NULL,cdtypo smallint,lbcode character varying(50),lbhabitat text,niveau smallint,lbniveau character varying(100),cdhabsup integer,pathcdhab character varying(100),description text,locale character(3));
+
+CREATE TABLE eunis 
+(
+  cdhab integer NOT NULL,
+  cdtypo smallint,
+  lbcode character varying(50),
+  lbhabitat text,
+  niveau smallint,
+  lbniveau character varying(100),
+  cdhabsup integer,
+  pathcdhab character varying(100),
+  description text,
+  locale character(3),
+  CONSTRAINT eunis_pkey PRIMARY KEY (cdhab)
+);
+
 CREATE TABLE referentiel.infosp
 (
   cdnom integer NOT NULL,
   repartition text,
   CONSTRAINT infosp_pkey PRIMARY KEY (cdnom)
 );
+
 CREATE TABLE liste
 (
   cdnom integer NOT NULL,
@@ -36,7 +59,15 @@ CREATE TABLE liste
   vali smallint,
   CONSTRAINT liste_pkey PRIMARY KEY (cdnom)
 );
-CREATE TABLE methode (idmethode smallint NOT NULL,methode character varying(40),libelle text);
+
+CREATE TABLE methode 
+(
+  idmethode smallint NOT NULL,
+  methode character varying(40),
+  libelle text,
+  CONSTRAINT obsmethode_pkey PRIMARY KEY (idmethode)
+);
+
 CREATE TABLE observateur
 (
   idobser serial NOT NULL,
@@ -48,14 +79,113 @@ CREATE TABLE observateur
   aff character(3),
   CONSTRAINT observateur_pkey PRIMARY KEY (idobser)
 );
-CREATE TABLE occetatbio (idetatbio smallint NOT NULL,etatbio character varying(30),libelle text,idval smallint);
-CREATE TABLE occmort (idmort smallint NOT NULL,cause character varying(40),libelle text);
-CREATE TABLE occstatutbio (idstbio smallint NOT NULL,statutbio character varying(40),libelle text,idval smallint);
-CREATE TABLE comportement (idcomp smallint NOT NULL,libcomp character varying (50),mdcomp text);
-CREATE TABLE occtype (tdenom character varying(4) NOT NULL,typedenom character varying(20));
-CREATE TABLE organisme (idorg serial NOT NULL,organisme character varying(150),descri text);
-CREATE TABLE prospection (idpros smallint NOT NULL,prospection character varying(30),idval smallint,libelle text);
-CREATE TABLE protocole (idprotocole smallint NOT NULL,protocole character varying(200),libelle text,url text);
+
+CREATE TABLE occetatbio 
+(
+  idetatbio smallint NOT NULL,
+  etatbio character varying(30),
+  libelle text,
+  idval smallint,
+  CONSTRAINT occetatbio_pkey PRIMARY KEY (idetatbio)
+);
+
+CREATE TABLE occmort 
+(
+  idmort smallint NOT NULL,
+  cause character varying(40),
+  libelle text,
+  CONSTRAINT occmort_pkey PRIMARY KEY (idmort)
+);
+
+CREATE TABLE occstatutbio 
+(
+  idstbio smallint NOT NULL,
+  statutbio character varying(40),
+  libelle text,
+  idval smallint,
+  CONSTRAINT occstatutbio_pkey PRIMARY KEY (idstbio)
+);
+
+CREATE TABLE comportement 
+(
+  idcomp smallint NOT NULL,
+  libcomp character varying (50),
+  mdcomp text,
+  CONSTRAINT comportement_pkey PRIMARY KEY (idcomp)
+);
+
+CREATE TABLE occtype 
+(
+  tdenom character varying(4) NOT NULL,
+  typedenom character varying(20),
+  CONSTRAINT occtype_pkey PRIMARY KEY (tdenom)
+);
+
+CREATE TABLE organisme 
+(
+  idorg serial NOT NULL,
+  organisme character varying(150),
+  descri text,
+  CONSTRAINT organisme_pkey PRIMARY KEY (idorg)
+);
+
+CREATE TABLE prospection 
+(
+  idpros smallint NOT NULL,
+  prospection character varying(30),
+  idval smallint,
+  libelle text,
+  CONSTRAINT prospection_pkey PRIMARY KEY (idpros)
+);
+
+CREATE TABLE protocole 
+(
+  idprotocole smallint NOT NULL,
+  protocole character varying(200),
+  libelle text,
+  url text,
+  CONSTRAINT protocole_pkey PRIMARY KEY (idprotocole)
+);
+
+CREATE TABLE observateur_organisme
+(   
+    idobser_org serial NOT NULL,
+    idobser integer NOT NULL,
+    idorg integer NOT NULL,
+    CONSTRAINT observateur_organisme_pkey PRIMARY KEY (idobser_org),
+    CONSTRAINT observateur_organisme_idobser_fk FOREIGN KEY (idobser) REFERENCES referentiel.observateur (idobser),
+    CONSTRAINT observateur_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg),
+    CONSTRAINT observateur_organisme_idobser_idorg_unique UNIQUE (idobser,idorg)
+);
+
+CREATE TABLE etude_organisme
+(   
+    idetude integer NOT NULL,
+    idorg integer NOT NULL,
+    CONSTRAINT etude_organisme_pkey PRIMARY KEY (idetude, idorg),
+    CONSTRAINT etude_organisme_idetude_fk FOREIGN KEY (idetude) REFERENCES referentiel.etude (idetude),
+    CONSTRAINT etude_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg)
+);
+
+CREATE TABLE fonction
+(
+    idfonc integer NOT NULL,
+    libfonc character varying (150),
+    mdfonc text,
+    CONSTRAINT fonction_pkey PRIMARY KEY (idfonc)
+);
+
+CREATE TABLE observateur_fonction 
+(
+    idobser_org integer NOT NULL, 
+    idfonc integer NOT NULL,
+    datedeb date NOT NULL,
+    datefin date,
+    CONSTRAINT observateur_fonction_pkey PRIMARY KEY (idobser_org,idfonc),
+    CONSTRAINT observateur_fonction_idobser_organisme_fk FOREIGN KEY (idobser_org) REFERENCES referentiel.observateur_organisme (idobser_org),
+    CONSTRAINT observateur_fonction_idfonc_fk FOREIGN KEY (idfonc) REFERENCES referentiel.fonction (idfonc)
+);
+
 CREATE TABLE sensible
 (
   cdnom integer NOT NULL,
@@ -63,6 +193,7 @@ CREATE TABLE sensible
   url text,
   CONSTRAINT sensible_pkey PRIMARY KEY (cdnom)
 );
+
 CREATE TABLE similaire
 (
   cdnom integer NOT NULL,
@@ -70,7 +201,15 @@ CREATE TABLE similaire
   com integer,
   CONSTRAINT similaire_pkey PRIMARY KEY (cdnom, simi)
 );
-CREATE TABLE stade (idstade smallint NOT NULL,stade character varying(30),idval smallint,libelle text);
+
+CREATE TABLE stade 
+(
+  idstade smallint NOT NULL,
+  stade character varying(30),
+  idval smallint,
+  libelle text,
+  CONSTRAINT stade_pkey PRIMARY KEY (idstade)
+);
 
 INSERT INTO decade VALUES (1, 'Ja1', 1);
 INSERT INTO decade VALUES (2, 'Ja2', 1);
@@ -1640,7 +1779,7 @@ INSERT INTO occstatutbio VALUES (5, 'Estivation', 'Estivation : L''estivation es
 INSERT INTO occstatutbio VALUES (9, 'Pas de reproduction / Végétatif', 'Pas de reproduction : Indique que l''individu n''a pas un comportement reproducteur. Chez les végétaux : absence de fleurs, de fruits…', NULL);
 INSERT INTO occstatutbio VALUES (13, 'Végétatif', 'L''individu est au stade végétatif.', NULL);
 
- INSERT INTO referentiel.comportement VALUES
+INSERT INTO referentiel.comportement VALUES
   (0,'Inconnu','Le statut biologique de l''individu n''est pas connu'),
   (1,'Non renseigné','Le statut biologique de l''individu n''a pas été renseigné'),
   (2,'Echouage','L''individu tente de s''échouer ou vient de s''échouer sur le rivage'),
@@ -1664,7 +1803,8 @@ INSERT INTO occstatutbio VALUES (13, 'Végétatif', 'L''individu est au stade v�
   (20,'Coeur copulatoire','Coeur copulatoire'),
   (21,'Tandem','Tandem'),
   (22,'Territorial','Territorial'),
-  (23,'Pond','Pond');
+  (23,'Pond','Pond')
+;
 
 INSERT INTO occtype VALUES ('COL', 'Colonie');
 INSERT INTO occtype VALUES ('CPL', 'Couple');
@@ -1754,30 +1894,26 @@ INSERT INTO stade VALUES (25, 'Emergent', NULL, 'L''individu est au stade émerg
 INSERT INTO stade VALUES (26, 'Post-Larve',NULL,'Post-larve : Stade qui suit immédiatement celui de la larve et présente certains caractères du juvénile.');
 INSERT INTO stade VALUES (27,	'Fruit', NULL,'Fruit : L''individu est sous forme de fruit.');
 
-
-
 INSERT INTO referentiel.etude (idetude, etude, libelle, masquer) VALUES(0, 'Aucune', 'Aucune', 'non');
 
-ALTER TABLE ONLY decade ADD CONSTRAINT decade_pkey PRIMARY KEY (iddecade);
+INSERT INTO fonction VALUES
+  (1,'Salarié','La personne est salariée de l''organisme'),
+  (2,'Stagiaire','La personne est en stage au sein de l''organisme'),
+  (3,'Service civique','La personne est en service civique au sein de l''organisme'),
+  (4,'Bénévole','La personne agit pour l''organisme en tant que bénévole')
+;
 
-ALTER TABLE ONLY eunis ADD CONSTRAINT eunis_pkey PRIMARY KEY (cdhab);
-	
-ALTER TABLE ONLY methode ADD CONSTRAINT obsmethode_pkey PRIMARY KEY (idmethode);
-	
-ALTER TABLE ONLY occetatbio ADD CONSTRAINT occetatbio_pkey PRIMARY KEY (idetatbio);
+CREATE FUNCTION alimente_observateur_organisme() RETURNS trigger AS 
+	$BODY$
+		BEGIN
+			INSERT INTO referentiel.observateur_organisme (idobser, idorg) VALUES (NEW.idobser,2); 
+            RETURN NEW; 
+		END;
+	$BODY$ 
+	LANGUAGE plpgsql VOLATILE COST 100;
 
-ALTER TABLE ONLY occmort ADD CONSTRAINT occmort_pkey PRIMARY KEY (idmort);
-
-ALTER TABLE ONLY occstatutbio ADD CONSTRAINT occstatutbio_pkey PRIMARY KEY (idstbio);
-
-ALTER TABLE ONLY comportement ADD CONSTRAINT comportement_pkey PRIMARY KEY (idcomp);
-
-ALTER TABLE ONLY occtype ADD CONSTRAINT occtype_pkey PRIMARY KEY (tdenom);
-
-ALTER TABLE ONLY organisme ADD CONSTRAINT organisme_pkey PRIMARY KEY (idorg);
-
-ALTER TABLE ONLY prospection ADD CONSTRAINT prospection_pkey PRIMARY KEY (idpros);
-	
-ALTER TABLE ONLY protocole ADD CONSTRAINT protocole_pkey PRIMARY KEY (idprotocole);
-	
-ALTER TABLE ONLY stade ADD CONSTRAINT stade_pkey PRIMARY KEY (idstade);
+  CREATE TRIGGER declenche_alimente_observateur_organisme 
+	AFTER INSERT
+	ON referentiel.observateur
+	FOR EACH ROW
+	EXECUTE PROCEDURE referentiel.alimente_observateur_organisme();

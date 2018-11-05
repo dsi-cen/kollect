@@ -81,18 +81,22 @@
 								{
 									?><p>(Saisie par : <?php echo $idmor['prenom'];?> <?php echo $idmor['nom'];?>)</p><?php
 								}
-								?>
+								if(!empty($obs['etude']))
+									{
+										echo '<h3 class="h5">Etude : <small>' . $obs['etude'] . '</small></h3>' ;
+									}
+								if(!empty($obs['protocole']))
+									{
+										echo '<h3 class="h5">Protocole : <small>' . $obs['protocole'] . '</small></h3>' ;
+									} ?>
 							</div>
+
 							<div class="col-md-7 col-lg-7">
 								<h3 class="h5">Détail de l'observation</h3>
 								<p>
 									<?php echo $ligne;?><br />
 									Déterminateur : <?php echo $determinateur;?>
 									<?php
-									if(!empty($obs['etude']))
-									{
-										?><br />Etude : <?php echo $obs['etude'];?>.<?php
-									}
 									if(!empty($obs['iddetcol']))
 									{
 										?><br />Conservé en collection de référence.<?php

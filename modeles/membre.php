@@ -43,12 +43,19 @@ function typedon($idm)
 }
 function organisme()
 {
-	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->query("SELECT idorg, organisme FROM referentiel.organisme ORDER BY organisme ");
-	$resultats = $req->fetchAll(PDO::FETCH_ASSOC);
-	$req->closeCursor();
-	return $resultats;
+    $bdd = PDO2::getInstance();
+    $bdd->query('SET NAMES "utf8"');
+    $req = $bdd->prepare("SELECT idorg, organisme
+                                        FROM referentiel.organisme
+                                        left join referentiel.observateur_organisme using (idorg)
+                                        left join referentiel.observateur ON observateur.idm = observateur_organisme.idobser
+                                        where observateur_organisme.idobser = :idmembre
+                                        ORDER BY organisme ");
+    $req->bindValue(':idmembre', $_SESSION['idmembre']);
+    $req->execute();
+    $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    return $resultats;
 }
 function rechercheobservateurid($idm)
 {

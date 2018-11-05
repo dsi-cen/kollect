@@ -26,7 +26,6 @@ CREATE TABLE obs_historique.histo_obs
     observa character varying(10),
     statutobs character varying(2),
     idprotocole smallint,
-    idetude smallint,
     idmor integer,
 
     CONSTRAINT histo_obs_pkey PRIMARY KEY (date_operation, utilisateur, idobs)
@@ -191,6 +190,7 @@ CREATE TABLE obs_historique.histo_fiche
   typedon character varying(2),
   source character varying(3),
   idorg smallint,
+  idetude smallint,
   CONSTRAINT histo_fiche_pkey PRIMARY KEY (date_operation, utilisateur, idfiche)
 );
 
@@ -475,7 +475,7 @@ CREATE TABLE obs_historique.histo_plusobser
   idplus integer NOT NULL,
   idfiche integer,
   idobser integer,
-  CONSTRAINT histo_plusobser_pkey PRIMARY KEY (date_operation, utilisateur,idfiche)
+  CONSTRAINT histo_plusobser_pkey PRIMARY KEY (date_operation, utilisateur,idplus)
 );
 
 CREATE FUNCTION obs_historique.alimente_histo_plusobser() RETURNS trigger AS 

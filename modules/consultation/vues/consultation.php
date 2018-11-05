@@ -3,7 +3,7 @@
 		<div class="col-md-12 col-lg-12 mt-3">
 			<div class="card card-body">
 				<div class="d-flex justify-content-start">
-					<h1 class="h2">Consultation des observations</h1>
+					<h1 class="h2">Consultation des observations <small id="nb"></small></h1>
 					<ol class="breadcrumb ml-auto mb-0">
 						<?php
 						if(isset($_GET['perso']) && $_GET['perso'] == 'oui')
@@ -19,7 +19,10 @@
 					</ol>					
 				</div>
 				<div>
-					<span id="rchoix" class="text-primary curseurlien">Retour au choix</span> <span id="lchoix"></span>
+					<button id="rchoix" class="btn btn-sm btn-success">Retourner à la page précédente en conservant les filtres</button>
+                    <p>
+                        <span id="lchoix"></span>
+                    </p>
 				</div>
 			</div>
 		</div>
@@ -303,7 +306,7 @@
 									{
 										?>
 										<div class="form-inline mt-2">
-											<button type="submit" class="btn btn-sm btn-success" id="BttE">Exporter</button>
+											<button type="submit" class="btn btn-sm btn-warning" id="BttE">Exporter</button>
 											<!--<button type="button" class="ml-3 btn btn-sm btn-success" id="BttG">Exporter fichier Geojson</button>
 											<button type="submit" class="ml-3 btn btn-sm btn-success" id="BttSINP">Exporter vers SINP</button>-->
 											<a class="ml-3" id="dlink">Cliquer pour télécharger le fichier</a>
@@ -315,7 +318,7 @@
 									{
 										?>
 										<div class="form-inline mt-2">
-											<button type="submit" class="btn btn-sm btn-success" id="BttE">Exporter</button>
+											<button type="submit" class="btn btn-sm btn-warning" id="BttE">Exporter</button>
 											<!--<button type="button" class="ml-3 btn btn-sm btn-success" id="BttG">Exporter fichier Geojson</button>-->
 											<a class="ml-3" id="dlink">Cliquer pour télécharger le fichier</a>
 										</div>

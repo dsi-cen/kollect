@@ -20,7 +20,7 @@ function recherche_obs($idobs,$biblio)
 	$bdd->query('SET NAMES "utf8"');
 	if($biblio == 'oui')
 	{
-		$req = $bdd->prepare("SELECT to_char(date1, 'DD/MM/YYYY') AS datefr, to_char(date2, 'DD/MM/YYYY') AS datefr2, site, commune, fiche.codecom, fiche.iddep, liste.nom, nomvern, nb, fiche.floutage, sensible, localisation, observateur.prenom, observateur.nom AS nomobs, fiche.idobser, obs.cdnom, obs.cdref, observa, fiche.idcoord, plusobser, idm, iddet, fiche.idfiche, statutobs, rqobs, validation, to_char(datesaisie, 'DD/MM/YYYY') AS dates, rang, iddetcol, typedet, organisme, idmor, idbiblio, etude FROM obs.fiche
+		$req = $bdd->prepare("SELECT to_char(date1, 'DD/MM/YYYY') AS datefr, to_char(date2, 'DD/MM/YYYY') AS datefr2, site, commune, fiche.codecom, fiche.iddep, liste.nom, nomvern, nb, fiche.floutage, sensible, localisation, observateur.prenom, observateur.nom AS nomobs, fiche.idobser, obs.cdnom, obs.cdref, observa, fiche.idcoord, plusobser, idm, iddet, fiche.idfiche, statutobs, rqobs, validation, to_char(datesaisie, 'DD/MM/YYYY') AS dates, rang, iddetcol, typedet, organisme, idmor, idbiblio, etude.etude, protocole.protocole FROM obs.fiche
 							INNER JOIN obs.obs ON obs.idfiche = fiche.idfiche
 							LEFT JOIN referentiel.commune ON commune.codecom = fiche.codecom
 							LEFT JOIN obs.site ON site.idsite = fiche.idsite
@@ -29,8 +29,9 @@ function recherche_obs($idobs,$biblio)
 							LEFT JOIN referentiel.sensible ON sensible.cdnom = obs.cdref
 							LEFT JOIN obs.obscoll ON obscoll.idobs = obs.idobs
 							LEFT JOIN referentiel.organisme ON organisme.idorg = fiche.idorg
-							LEFT JOIN referentiel.etude USING(idetude)
+							LEFT JOIN referentiel.etude on etude.idetude = fiche.idetude
 							LEFT JOIN biblio.bibliofiche ON bibliofiche.idfiche = fiche.idfiche
+							left join referentiel.protocole on protocole.idprotocole = obs.idprotocole
 							WHERE obs.idobs = :idobs ");
 	}
 	elseif($biblio == 'non')

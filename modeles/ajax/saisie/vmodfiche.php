@@ -140,11 +140,11 @@ function modif_site($idsite,$idcoord,$codecom,$site,$rqsite)
 	$req->execute();
 	$req->closeCursor();
 }
-function modif_fiche($idfiche,$codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org)
+function modif_fiche($idfiche,$codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("UPDATE obs.fiche SET iddep = :iddep, codecom = :codecom, idsite = :idsite, date1 = :date1, date2 = :date2, idobser = :idobser, decade = :decade, localisation = :pr, idcoord = :idcoord, floutage = :floutage, plusobser = :plusobser, typedon = :typedon, source = :source, idorg = :org WHERE idfiche = :idfiche ");
+	$req = $bdd->prepare("UPDATE obs.fiche SET iddep = :iddep, codecom = :codecom, idsite = :idsite, date1 = :date1, date2 = :date2, idobser = :idobser, decade = :decade, localisation = :pr, idcoord = :idcoord, floutage = :floutage, plusobser = :plusobser, typedon = :typedon, source = :source, idorg = :org, idetude = :etude WHERE idfiche = :idfiche ");
 	$req->bindValue(':iddep', $iddep);
 	$req->bindValue(':codecom', $codecom);
 	$req->bindValue(':idsite', $idsite);
@@ -160,6 +160,7 @@ function modif_fiche($idfiche,$codecom,$date1mysql,$date2mysql,$decade,$idcoord,
 	$req->bindValue(':source', $source);
 	$req->bindValue(':idfiche', $idfiche);
 	$req->bindValue(':org', $org);
+    $req->bindValue(':etude', $etude);
 	$ok = ($req->execute()) ? 'oui' : 'non';
 	$req->closeCursor();
 	return $ok;
@@ -380,9 +381,10 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 	$floutage = ($typedon == 'Pr') ? $_POST['floutage'] : 0;
 	$source = $_POST['source'];
 	$org = $_POST['org'];
+    $etude = $_POST['etude'];
 	$obs = explode(", ", $_POST['idobser']);
 	$plusobser = (count($obs) > 1) ? 'oui' : 'non';
-	$ok = modif_fiche($idfiche,$codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs[0],$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org);
+	$ok = modif_fiche($idfiche,$codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs[0],$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude);
 	$unseul = ($info['plusobser'] == 'non') ? substr($info['idobser'], 0, -2) : $info['idobser'];
 	if($unseul != $_POST['idobser'])
 	{

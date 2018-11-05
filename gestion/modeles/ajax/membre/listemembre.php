@@ -6,15 +6,18 @@ function liste_membre()
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->query("SELECT membre.idmembre, nom, prenom, droits, derniereconnection, mail, discipline, gestionobs, actif, latin, typedon, floutage FROM site.membre 
+	$req = $bdd->query("SELECT membre.idmembre, nom, prenom, droits, derniereconnection, mail, discipline, gestionobs, actif, latin, typedon, floutage, string_agg(organisme.organisme, ', ') AS organisme FROM site.membre 
 						LEFT JOIN site.validateur USING(idmembre)
 						LEFT JOIN site.prefmembre USING(idmembre)
+						LEFT JOIN referentiel.observateur_organisme ON membre.idmembre = observateur_organisme.idobser
+						LEFT JOIN referentiel.organisme USING (idorg)
+						group by membre.idmembre, nom, prenom, droits, derniereconnection, mail, discipline, gestionobs, actif, latin, typedon, floutage
 						ORDER BY nom");
 	$req->execute();
 	$nbresultats = $req->rowCount();
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
-	return array($nbresultats, $resultat);	
+	return array($nbresultats, $resultat);
 }
 
 //C
@@ -35,14 +38,14 @@ foreach($liste[1] as $n)
 		$listemembre .= '<tr><td class="text-center"><i class="fa fa-eye curseurlien text-primary" title="Se connecter en tant que" onclick="virtuel('.$n['idmembre'].')"></i></td>
 				<td class="text-center"></td>
 				<td class="text-center"></td><td><b>'.$n['nom'].'</b> '.$n['prenom'].'</td><td>'.$n['idmembre'].'</td>
-				<td class="text-center">'.$n['droits'].'</td><td>'.$n['discipline'].'</td><td>'.$n['gestionobs'].'</td><td>'.$flou.'</td><td>'.$n['typedon'].'</td><td>'.$n['latin'].'</td><td>'.$n['derniereconnection'].'</td><td>'.$actif.'</td><td>'.$n['mail'].'</td></tr>';
+				<td class="text-center">'.$n['droits'].'</td><td>'.$n['organisme'].'</td><td>'.$n['discipline'].'</td><td>'.$n['gestionobs'].'</td><td>'.$flou.'</td><td>'.$n['typedon'].'</td><td>'.$n['latin'].'</td><td>'.$n['derniereconnection'].'</td><td>'.$actif.'</td><td>'.$n['mail'].'</td></tr>';
 	}
 	else
 	{
 		$listemembre .= '<tr><td class="text-center"><i class="fa fa-eye curseurlien text-primary" title="Se connecter en tant que" onclick="virtuel('.$n['idmembre'].')"></i></td>
 				<td class="text-center"><i class="fa fa-pencil curseurlien text-warning" title="Modifier/corriger" onclick="modifier('.$n['idmembre'].')"></i></td>
 				<td class="text-center"><i class="fa fa-trash curseurlien text-danger" title="Supprimer ce membre" onclick="supmembre(id='.$n['idmembre'].')"></i></td><td><b>'.$n['nom'].'</b> '.$n['prenom'].'</td><td>'.$n['idmembre'].'</td>
-				<td class="text-center">'.$n['droits'].'</td><td>'.$n['discipline'].'</td><td>'.$n['gestionobs'].'</td><td>'.$flou.'</td><td>'.$n['typedon'].'</td><td>'.$n['latin'].'</td><td>'.$n['derniereconnection'].'</td><td>'.$actif.'</td><td>'.$n['mail'].'</td></tr>';
+				<td class="text-center">'.$n['droits'].'</td><td>'.$n['organisme'].'</td><td>'.$n['discipline'].'</td><td>'.$n['gestionobs'].'</td><td>'.$flou.'</td><td>'.$n['typedon'].'</td><td>'.$n['latin'].'</td><td>'.$n['derniereconnection'].'</td><td>'.$actif.'</td><td>'.$n['mail'].'</td></tr>';
 	}	
 	
 }
