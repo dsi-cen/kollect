@@ -6,7 +6,7 @@ function liste_fiched($obs)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$bdd->query('SET lc_time_names = "fr_FR"');
+	$bdd->query("SET lc_time = 'fr_FR.UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idfiche, departement, commune, site, to_char(date1, 'DD/MM/YYYY') AS date_fr, fiche.idsite, localisation FROM obs.fiche
 						INNER JOIN referentiel.departement ON departement.iddep = fiche.iddep
 						INNER JOIN obs.obs USING(idfiche)
@@ -26,7 +26,7 @@ function liste_fichec($obs)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$bdd->query('SET lc_time_names = "fr_FR"');
+	$bdd->query("SET lc_time = 'fr_FR.UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idfiche, commune, site, to_char(date1, 'DD/MM/YYYY') AS date_fr, fiche.idsite, localisation FROM obs.fiche
 						INNER JOIN referentiel.commune ON commune.codecom = fiche.codecom
 						INNER JOIN obs.obs USING(idfiche)

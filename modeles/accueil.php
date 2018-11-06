@@ -73,7 +73,7 @@ function photo()
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$bdd->query('SET lc_time_names = "fr_FR"');
+	$bdd->query("SET lc_time = 'fr_FR.UTF8'");
 	$req = $bdd->query("SELECT observateur.nom, prenom, nomphoto, photo.observatoire, to_char(datephoto, 'DD/MM/YYYY') as datefr, cdnom, idobs, liste.nom AS lat, nomvern FROM site.photo
 						INNER JOIN referentiel.observateur USING(idobser)
 						INNER JOIN referentiel.liste USING(cdnom)

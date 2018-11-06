@@ -161,7 +161,7 @@ function decade($nomvar,$decade)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$bdd->query('SET lc_time_names = "fr_FR"');
+	$bdd->query("SET lc_time = 'fr_FR.UTF8'");
 	$req = $bdd->prepare("WITH sel AS (SELECT obs.cdref, liste.nom, nomvern, COUNT(obs.idobs) AS nb FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN obs.ligneobs USING(idobs)
