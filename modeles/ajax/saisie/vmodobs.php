@@ -37,11 +37,11 @@ function cherchenbor($idobs)
 	$req->closeCursor();
 	return $resultat;	
 }
-function modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$nomvar,$nom_cite)
+function modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$idproto,$nomvar,$nom_cite)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("UPDATE obs.obs SET cdnom = :cdnom, cdref = :cdref, iddet = :iddet, nb = :nb, rqobs = :rq, validation = :vali, datesaisie = :datesaisie, observa = :observa, statutobs = :statut, idprotocole = :idproto, idetude = :idetude, nom_cite = :nom_cite WHERE idobs = :idobs ");
+	$req = $bdd->prepare("UPDATE obs.obs SET cdnom = :cdnom, cdref = :cdref, iddet = :iddet, nb = :nb, rqobs = :rq, validation = :vali, datesaisie = :datesaisie, observa = :observa, statutobs = :statut, idprotocole = :idproto, nom_cite = :nom_cite WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':iddet', $iddet);
@@ -53,7 +53,6 @@ function modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$
 	$req->bindValue(':nb', $nb);
 	$req->bindValue(':statut', $statutobs);
 	$req->bindValue(':idproto', $idproto);
-	$req->bindValue(':idetude', $idetude);
     $req->bindValue(':nom_cite', $nom_cite);
 	$req->execute();
 	$req->closeCursor();
@@ -575,7 +574,7 @@ if(isset($_POST['idobs']) && isset($_POST['idligne']) && isset($_POST['cdnom']))
 			$vali = $cdrefor['validation'];
 		}
 		$nom_cite = $_POST['nom_cite'];
-		modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$idetude,$idproto,$nomvar,$nom_cite);
+		modif_obs($idobs,$cdnom,$cdref,$iddet,$dates,$rq,$vali,$nb,$statutobs,$idproto,$nomvar,$nom_cite);
 		if($_POST['newsp'] == 'oui')
 		{
 			modif_listeob($cdref,$nomvar);

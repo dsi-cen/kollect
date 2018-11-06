@@ -6,7 +6,7 @@ function ligne($idligne)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query('SET NAMES "utf8"');
-	$req = $bdd->prepare("SELECT idfiche, idligne, obs.idobs, obs.cdnom, obs.cdref, nom_cite, iddet, nb, rqobs, observa, statutobs, idprotocole, idetude, ligneobs.stade, ndiff, male, femelle, denom, tdenom, idcomp, nbmin, nbmax, idetatbio,
+	$req = $bdd->prepare("SELECT idfiche, idligne, obs.idobs, obs.cdnom, obs.cdref, nom_cite, iddet, nb, rqobs, observa, statutobs, idprotocole, ligneobs.stade, ndiff, male, femelle, denom, tdenom, idcomp, nbmin, nbmax, idetatbio,
 						idmethode, idpros, idstbio, liste.nom, nomvern, observateur AS det, cdhab, mort FROM obs.ligneobs
 						INNER JOIN obs.obs USING(idobs)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
