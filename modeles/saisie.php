@@ -2,7 +2,7 @@
 function rechercheobservateurid($idm)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM referentiel.observateur WHERE idm = :idm ");
 	$req->bindValue(':idm', $idm);
 	$req->execute();
@@ -13,7 +13,7 @@ function rechercheobservateurid($idm)
 function doublon($nom,$prenom)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(*) AS Nb FROM referentiel.observateur WHERE nom = :nom AND prenom = :prenom ");
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenom);
@@ -25,7 +25,7 @@ function doublon($nom,$prenom)
 function rechercheobservateur($nom,$prenom)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM referentiel.observateur WHERE nom = :nom AND prenom = :prenom ");
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenom);
@@ -37,7 +37,7 @@ function rechercheobservateur($nom,$prenom)
 function insere_observateurs($nom,$prenom,$idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.observateur (observateur, nom, prenom, idm) VALUES (:observateur, :nom, :prenom, :idm) ");
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenom);
@@ -53,7 +53,7 @@ function insere_observateurs($nom,$prenom,$idm)
 function updateobservateur($idm,$idobser)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE referentiel.observateur SET idm = :idm WHERE idobser = :idobser ");
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':idobser', $idobser);
@@ -62,7 +62,7 @@ function updateobservateur($idm,$idobser)
 function modif($idm,$idobser,$modif,$datem)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typeid, numid, typemodif, modif, datemodif, idmembre)
 						VALUES(:typeid, :id, :type, :modif, :datem, :idm) ");
 	$req->bindValue(':id', $idobser);
@@ -77,7 +77,7 @@ function modif($idm,$idobser,$modif,$datem)
 function habitat()
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT cdhab, lbcode, lbhabitat FROM referentiel.eunis WHERE locale = 'oui' AND niveau = 1 ORDER BY lbcode ");
 	$resultats = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -86,7 +86,7 @@ function habitat()
 function etude()
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idetude, etude FROM referentiel.etude WHERE masquer = 'oui' ORDER BY etude ");
 	$resultats = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -96,7 +96,7 @@ function etude()
 function organisme()
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->prepare("SELECT idorg, organisme
                                         FROM referentiel.organisme
                                         left join referentiel.observateur_organisme using (idorg)

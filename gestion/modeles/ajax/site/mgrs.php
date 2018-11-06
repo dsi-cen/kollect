@@ -4,7 +4,7 @@ include '../../../../lib/pdo2.php';
 function mgrs()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT mgrs, geo FROM referentiel.mgrs10 ") or die(print_r($bdd->errorInfo()));
 	$cartomgrs = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

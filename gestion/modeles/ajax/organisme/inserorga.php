@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function insere_orga($orga,$descri)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.organisme (organisme, descri) VALUES (:orga, :descri) ");
 	$req->bindValue(':orga', $orga);
 	$req->bindValue(':descri', $descri);

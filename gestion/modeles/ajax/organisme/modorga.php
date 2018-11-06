@@ -7,7 +7,7 @@ if(isset($_POST['id']))
 	function mod($id,$orga,$descri)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("UPDATE referentiel.organisme SET organisme = :orga, descri = :descri WHERE idorg = :id ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':id', $id);
 		$req->bindValue(':orga', $orga);

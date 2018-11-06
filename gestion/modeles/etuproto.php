@@ -2,7 +2,7 @@
 function protocole()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idprotocole, protocole, libelle, url FROM referentiel.protocole ORDER BY idprotocole ");
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -11,7 +11,7 @@ function protocole()
 function etude()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT etude.idetude, etude, libelle, masquer, string_agg(organisme.organisme, ', ') as organisme 
                                     FROM referentiel.etude 
                                     LEFT JOIN referentiel.etude_organisme ON etude.idetude = etude_organisme.idetude

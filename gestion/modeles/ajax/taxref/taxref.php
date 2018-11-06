@@ -10,7 +10,7 @@ function vidertable()
 function insere_change($data)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.taxref (cdnom, cdsup, cdtaxsup, cdref, rang, nom, auteur, groupe, classe, ordre, famille, nomvern, statut) VALUES(:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k, :l, :m) ");
 	$req->bindParam(':a', $data0);
 	$req->bindParam(':b', $data1);

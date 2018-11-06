@@ -32,7 +32,7 @@ SELECT idobs, date1, to_char(date1, 'DD/MM/YYYY') AS datefr, stade.stade, nb, li
 function determinateur($iddet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur FROM referentiel.observateur WHERE idobser = :iddet ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':iddet', $iddet);
 	$req->execute();
@@ -43,7 +43,7 @@ function determinateur($iddet)
 function liste($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idligne, idobs, date1, to_char(date1, 'DD/MM/YYYY') AS datefr, liste.nom, nomvern, site, commune, observateur, stade.stade, nbmin, nbmax, rang, liste.cdnom, iddet, fiche.idobser, liste.vali, array_to_string(array(SELECT decision FROM vali.histovali WHERE histovali.idobs = obs.idobs), ' et ') AS decision FROM obs.fiche
 						INNER JOIN referentiel.commune USING(codecom)
 						LEFT JOIN obs.site USING(idsite)
@@ -62,7 +62,7 @@ function liste($nomvar)
 function listenouv($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idligne, idobs, date1, to_char(date1, 'DD/MM/YYYY') AS datefr, liste.nom, nomvern, site, commune, observateur, stade.stade, nbmin, nbmax, rang, liste.cdnom, iddet, fiche.idobser, liste.vali FROM obs.fiche
 						INNER JOIN referentiel.commune USING(codecom)
 						LEFT JOIN obs.site USING(idsite)

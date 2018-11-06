@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function verif($idobser,$date1,$idsite,$idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idfiche FROM obs.fiche WHERE idobser = :idobser AND idsite = :idsite AND idcoord = :idcoord AND date1 = :date ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobser', $idobser, PDO::PARAM_INT);
 	$req->bindValue(':idsite', $idsite, PDO::PARAM_INT);

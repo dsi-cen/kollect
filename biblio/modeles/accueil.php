@@ -2,7 +2,7 @@
 function derniere_ref()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idbiblio, nom, prenom, plusauteur, titre, publi, annee, tome, fascicule, page, to_char(datesaisie, 'DD/MM/YYYY') AS datefr, CONCAT(string_agg(DISTINCT codecom::text, ''',''')) AS codecom FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						LEFT JOIN biblio.bibliocom USING(idbiblio)
@@ -15,7 +15,7 @@ function derniere_ref()
 function recherche_auteur($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, idauteur FROM biblio.plusauteur
 						INNER JOIN biblio.auteurs USING(idauteur)
 						WHERE idbiblio = :idbiblio ");
@@ -28,7 +28,7 @@ function recherche_auteur($idbiblio)
 function nbref()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(*) AS Nb FROM biblio.biblio ");
 	$nbref = $req->fetchColumn();
 	$req->closeCursor();
@@ -37,7 +37,7 @@ function nbref()
 function nbauteur()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(*) AS Nb FROM biblio.auteurs ");
 	$nbauteur = $req->fetchColumn();
 	$req->closeCursor();
@@ -46,7 +46,7 @@ function nbauteur()
 function nbtaxon()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(DISTINCT cdnom) AS nb FROM biblio.bibliotaxon ");
 	$nbauteur = $req->fetchColumn();
 	$req->closeCursor();
@@ -55,7 +55,7 @@ function nbtaxon()
 function cherche_commune($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query('SELECT commune, codecom FROM referentiel.commune
 						WHERE codecom IN('.$codecom.')
 						ORDER BY commune ');
@@ -66,7 +66,7 @@ function cherche_commune($codecom)
 function dernier_taxon()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT nom, nomvern, auteur, idbiblio, to_char(biblio.datesaisie, 'DD/MM/YYYY') AS datefr FROM biblio.biblio
 						LEFT JOIN biblio.bibliofiche USING(idbiblio)
 						LEFT JOIN obs.obs USING(idfiche)

@@ -5,7 +5,7 @@ include '../lib/pdo2.php';
 function liste($iddep)
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT commune, codecom FROM install.communefr 
 						WHERE iddep = :iddep
 						ORDER BY commune ") or die(print_r($bdd->errorInfo()));
@@ -18,7 +18,7 @@ function liste($iddep)
 function listecom($com)
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT commune, codecom FROM install.communefr WHERE codecom IN($com) ") or die(print_r($bdd->errorInfo()));
 	$listecom = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

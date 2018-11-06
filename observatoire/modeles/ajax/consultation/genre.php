@@ -11,7 +11,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT DISTINCT genre.genre, genre.cdnom FROM $observa.genre
 							INNER JOIN $observa.liste ON liste.cdtaxsup = genre.cdnom
 							INNER JOIN obs.obs ON obs.cdref = liste.cdnom

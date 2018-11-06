@@ -45,7 +45,7 @@ function listeobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,
 	$strQuery .= " SELECT sel1.source, idobs, sel1.typedon, sel1.datesaisie, sel1.floutage, sel1.statutobs, sel1.nom, sel1.cdnom, sel1.cdref, nbmin, nbmax, tdenom, idmethode, idetatbio, sexe, stade, idstbio, date1, date2, codel93, codecom, commune, iddep, sel1.orga, sel1.observateur, observateur.observateur AS det, organisme AS orgadet, lng, lat FROM sel1";
 	$strQuery .= " LEFT JOIN referentiel.observateur ON observateur.idobser = sel1.iddet INNER JOIN obs.ligneobs AS l USING(idobs) LEFT JOIN site.prefmembre ON prefmembre.idmembre = observateur.idm LEFT JOIN referentiel.organisme ON organisme.idorg = prefmembre.org ";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser); }	
 	if(!empty($site)) { $req->bindValue(':site', '%'.$site.'%'); }

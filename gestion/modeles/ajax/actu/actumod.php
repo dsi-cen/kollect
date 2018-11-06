@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function mod_actu($idactu,$titre,$stitre,$actu,$tag,$theme,$lien,$visible)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE actu.actu SET titre =:titre, soustitre =:stitre, actu =:actu, tag =:tag, theme =:theme, url =:lien, visible =:visible WHERE idactu = :id ");
 	$req->bindValue(':id', $idactu);
 	$req->bindValue(':titre', $titre);
@@ -22,7 +22,7 @@ function mod_actu($idactu,$titre,$stitre,$actu,$tag,$theme,$lien,$visible)
 function cherchephoto($idactu)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idphoto, nom FROM actu.photoactu WHERE idactu = :id ");
 	$req->bindValue(':id', $idactu, PDO::PARAM_INT);
 	$req->execute();
@@ -33,7 +33,7 @@ function cherchephoto($idactu)
 function supprime_photo($idphoto)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM actu.photoactu WHERE idphoto = :id ");
 	$req->bindValue(':id', $idphoto);
 	$vali = ($req->execute()) ? 'oui' : 'non';
@@ -43,7 +43,7 @@ function supprime_photo($idphoto)
 function insere_photo($idactu,$nomphoto,$auteur,$info)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO actu.photoactu (idactu, nom, auteur, info) VALUES(:idactu, :nom, :auteur, :info) ");
 	$req->bindValue(':idactu', $idactu);
 	$req->bindValue(':nom', $nomphoto);
@@ -55,7 +55,7 @@ function insere_photo($idactu,$nomphoto,$auteur,$info)
 function mod_photo($idphoto,$auteur,$info)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE actu.photoactu SET auteur =:auteur, info =:info WHERE idphoto = :id ");
 	$req->bindValue(':id', $idphoto);
 	$req->bindValue(':auteur', $auteur);
@@ -66,7 +66,7 @@ function mod_photo($idphoto,$auteur,$info)
 function insere_pdf($idactu,$nomdoc)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO actu.docactu (nomdoc, idactu) VALUES(:nom, :idactu) ");
 	$req->bindValue(':idactu', $idactu);
 	$req->bindValue(':nom', $nomdoc);

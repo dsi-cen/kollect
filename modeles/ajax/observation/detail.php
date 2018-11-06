@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recherche_xy($idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT lat, lng, geo FROM obs.coordonnee 
 						LEFT JOIN obs.coordgeo USING(idcoord)
 						WHERE idcoord = :idcoord ") or die(print_r($bdd->errorInfo()));
@@ -18,7 +18,7 @@ function recherche_xy($idcoord)
 function recherche_compoly($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT poly, geojson FROM referentiel.commune WHERE codecom = :codecom ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();
@@ -29,7 +29,7 @@ function recherche_compoly($codecom)
 function recherche_deppoly($iddep)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT poly, geojson FROM referentiel.departement WHERE iddep = :iddep ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':iddep', $iddep);
 	$req->execute();
@@ -40,7 +40,7 @@ function recherche_deppoly($iddep)
 function recherche_maille($idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT codel93 FROM obs.coordonnee WHERE idcoord = :idcoord ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idcoord', $idcoord);
 	$req->execute();

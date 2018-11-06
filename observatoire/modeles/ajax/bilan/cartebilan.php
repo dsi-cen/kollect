@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function nbespece($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(DISTINCT obs.cdref) AS Nb FROM obs.obs
 						INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref
 						WHERE rang = 'ES' ") or die(print_r($bdd->errorInfo()));
@@ -16,7 +16,7 @@ function nbespece($nomvar)
 function cartodep($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (SELECT DISTINCT(obs.cdref), iddep FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref
@@ -31,7 +31,7 @@ function cartodep($nomvar)
 function departement()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement") or die(print_r($bdd->errorInfo()));
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -40,7 +40,7 @@ function departement()
 function cartocommune($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (SELECT DISTINCT(obs.cdref), codecom FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref
@@ -55,7 +55,7 @@ function cartocommune($nomvar)
 function commune()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codecom AS id, commune AS emp, poly, geojson FROM referentiel.commune") or die(print_r($bdd->errorInfo()));
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -64,7 +64,7 @@ function commune()
 function cartoutm($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT utm, COUNT(DISTINCT obs.cdref) AS nb, geo FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord
@@ -79,7 +79,7 @@ function cartoutm($nomvar)
 function mgrs()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT mgrs, geo FROM referentiel.mgrs10 ") or die(print_r($bdd->errorInfo()));
 	$utm = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -88,7 +88,7 @@ function mgrs()
 function cartol93($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (SELECT DISTINCT(obs.cdref), codel93 FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord
@@ -104,7 +104,7 @@ function cartol93($nomvar)
 function maillel93()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codel93 FROM referentiel.maillel93 ") or die(print_r($bdd->errorInfo()));
 	$l93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -113,7 +113,7 @@ function maillel93()
 function carto5l93($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (SELECT DISTINCT(obs.cdref), codel935 FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord

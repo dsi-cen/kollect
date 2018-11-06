@@ -2,7 +2,7 @@
 function recup($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, nomvern, observatoire FROM referentiel.liste WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->execute();

@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function liste($prem,$dern)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idobs, idfiche, cdnom, idligne, stade, idetatbio, nb FROM obs.obs t1
 						INNER JOIN obs.ligneobs USING(idobs)
 						WHERE EXISTS (
@@ -25,7 +25,7 @@ function liste($prem,$dern)
 function mod_ligneobs($idligne,$idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.ligneobs SET idobs = :idobs WHERE idligne = :idligne ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idligne', $idligne, PDO::PARAM_INT);
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
@@ -35,7 +35,7 @@ function mod_ligneobs($idligne,$idobs)
 function modif_obs($idobs,$nbmod)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nb FROM obs.obs WHERE idobs = :idobs ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->execute();
@@ -51,7 +51,7 @@ function modif_obs($idobs,$nbmod)
 function sup_obs($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.obs WHERE idobs = :idobs ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
 	$req->execute();
@@ -60,7 +60,7 @@ function sup_obs($idobs)
 function sup_ligneobs($idligne)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.ligneobs WHERE idligne = :idligne ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idligne', $idligne, PDO::PARAM_INT);
 	$req->execute();
@@ -69,7 +69,7 @@ function sup_ligneobs($idligne)
 function verif()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT * FROM obs.obs
 						WHERE NOT EXISTS (SELECT * FROM obs.ligneobs WHERE obs.idobs = ligneobs.idobs)") or die(print_r($bdd->errorInfo()));
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);

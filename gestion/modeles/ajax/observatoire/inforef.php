@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function liste($table)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($table == 'methode')
 	{
 		$req = $bdd->query("SELECT idmethode, methode, libelle FROM referentiel.methode");

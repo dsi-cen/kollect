@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function plusauteur($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, prenomab, idauteur FROM biblio.plusauteur
 						INNER JOIN biblio.auteurs USING(idauteur)
 						WHERE idbiblio = :idbiblio ");
@@ -18,7 +18,7 @@ function plusauteur($idbiblio)
 function sujet($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idbiblio, titre, nom, prenom, publi, annee, tome, fascicule, page, plusauteur FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						INNER JOIN biblio.bibliotaxon USING(idbiblio)
@@ -33,7 +33,7 @@ function sujet($cdnom)
 function taxon($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idbiblio, titre, nom, prenom, publi, annee, tome, fascicule, page, plusauteur FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						INNER JOIN biblio.bibliofiche USING(idbiblio)

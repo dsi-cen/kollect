@@ -10,7 +10,7 @@ GROUP BY date1
 function plusobs($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT t1.nb, to_char(date1, 'DD/MM/YYYY') AS datefr, observateur, idfiche, plusobser, idobs FROM obs.obs AS t1
@@ -45,7 +45,7 @@ function plusobs($nomvar,$rang,$cdnom)
 function altitudemin($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT t1.altitude, to_char(date1, 'DD/MM/YYYY') AS datefr, observateur, idfiche, plusobser, idobs FROM obs.coordonnee AS t1
@@ -87,7 +87,7 @@ function altitudemin($nomvar,$rang,$cdnom)
 function altitudemax($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT t1.altitude, to_char(date1, 'DD/MM/YYYY') AS datefr, observateur, idfiche, plusobser, idobs FROM obs.coordonnee AS t1
@@ -129,7 +129,7 @@ function altitudemax($nomvar,$rang,$cdnom)
 function moismin($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT MIN(iddecade) AS iddecade FROM obs.fiche
@@ -154,7 +154,7 @@ function moismin($nomvar,$rang,$cdnom)
 function moismax($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT MAX(iddecade) AS iddecade FROM obs.fiche
@@ -179,7 +179,7 @@ function moismax($nomvar,$rang,$cdnom)
 function joursmin($cdnom,$iddecade,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT MIN(EXTRACT(day FROM date1)) AS mois FROM obs.fiche
@@ -205,7 +205,7 @@ function joursmin($cdnom,$iddecade,$nomvar,$rang)
 function joursmax($cdnom,$iddecade,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT MAX(EXTRACT(day FROM date1)) AS mois FROM obs.fiche
@@ -231,7 +231,7 @@ function joursmax($cdnom,$iddecade,$nomvar,$rang)
 function derniere($cdnom,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT to_char(date1, 'DD/MM/YYYY') AS datefr, observateur, idfiche, plusobser, idobs FROM obs.fiche
@@ -260,7 +260,7 @@ function derniere($cdnom,$nomvar,$rang)
 function cherche_observateur($idfiche,$obser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur FROM obs.plusobser
 						INNER JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
 						WHERE idfiche = :idfiche
@@ -299,7 +299,7 @@ function recupmois($iddecade)
 function nbobs($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT EXTRACT(YEAR FROM date1) AS annee, COUNT(idobs) AS nb FROM obs.fiche
@@ -324,7 +324,7 @@ function nbobs($nomvar,$rang,$cdnom)
 function etatbio($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(idobs) AS nb, idetatbio FROM obs.ligneobs
@@ -349,7 +349,7 @@ function etatbio($nomvar,$rang,$cdnom)
 function prospection($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(idobs) AS nb, prospection FROM obs.ligneobs
@@ -376,7 +376,7 @@ function prospection($nomvar,$rang,$cdnom)
 function methode($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(idobs) AS nb, methode FROM obs.ligneobs

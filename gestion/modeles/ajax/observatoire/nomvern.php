@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function modif_listeobserva($nomvar,$id,$vern)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $nomvar.liste SET nomvern =:vern WHERE cdnom = :id ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':vern', $vern);
@@ -16,7 +16,7 @@ function modif_listeobserva($nomvar,$id,$vern)
 function modif_liste($id,$vern)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE referentiel.liste SET nomvern =:vern WHERE cdnom = :id ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':vern', $vern);

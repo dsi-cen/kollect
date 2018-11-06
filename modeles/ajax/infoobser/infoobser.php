@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function nbobs_observa($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT DISTINCT obs.idobs, observa FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)
@@ -23,7 +23,7 @@ function nbobs_observa($idobser)
 function nbtotal()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(obs.idobs) AS nb, COUNT(idphoto) AS nbphoto, observa FROM obs.obs
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 						LEFT JOIN site.photo ON photo.idobs = obs.idobs
@@ -35,7 +35,7 @@ function nbtotal()
 function nbtotal_sp()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (
 							SELECT DISTINCT cdref, observatoire FROM obs.obs 
 							INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -50,7 +50,7 @@ function nbtotal_sp()
 function nbphoto($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idphoto) AS nb, observatoire AS observa FROM site.photo										
 						WHERE idobser = :idobser 
 						GROUP BY observa ");
@@ -63,7 +63,7 @@ function nbphoto($idobser)
 function nb_taxons($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT DISTINCT cdref, observatoire FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)

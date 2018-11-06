@@ -65,7 +65,7 @@ function listeobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,
 	$strQuery .= " SELECT idobs, sel1.nom, sel1.nomfr, commune, site, date1, to_char(date1, 'DD/MM/YYYY') AS date, to_char(date2, 'DD/MM/YYYY') AS date2, sel1.observateur, observateur.observateur AS det, stade.stade, '' AS nb, ndiff, male, femelle, CASE WHEN denom = 'Co' THEN 'Compté' WHEN denom = 'Es' THEN 'Estimé' WHEN denom = 'NSP' THEN 'Non Rens.' END AS denom, typedenom, nbmin, nbmax, etatbio, methode, prospection, statutbio, idfiche, codecom, iddep, x, y, lng, lat, codel93,rqobs FROM sel1";
 	$strQuery .= " LEFT JOIN referentiel.observateur ON observateur.idobser = sel1.iddet INNER JOIN obs.ligneobs AS l USING(idobs) INNER JOIN referentiel.stade ON stade.idstade = l.stade INNER JOIN referentiel.methode USING(idmethode) INNER JOIN referentiel.prospection USING(idpros) INNER JOIN referentiel.occetatbio USING(idetatbio) INNER JOIN referentiel.occstatutbio USING(idstbio) INNER JOIN referentiel.occtype USING(tdenom) ";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser); }	
 	if(!empty($site)) { $req->bindValue(':site', '%'.$site.'%'); }

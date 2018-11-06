@@ -26,7 +26,7 @@ function cartocommune($cdnom,$nomvar,$nbgenresp,$genre,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage <= 1"; }
 	$strQuery .= " GROUP BY genre, com, fiche.codecom, commune, poly, geojson) AS t2 ON t2.codecom = t1.codecom AND t2.d = t1.date1";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':genre', $genre);
 	if($nbgenresp > 0) { $req->bindValue(':cdref', $cdnom); }
@@ -38,7 +38,7 @@ function cartocommune($cdnom,$nomvar,$nbgenresp,$genre,$droit)
 function cartodep($cdnom,$nomvar,$nbgenresp,$genre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($nbgenresp > 0)
 	{
 		$req = $bdd->prepare("SELECT DISTINCT date1, EXTRACT(YEAR FROM date1) AS annee, to_char(date1, 'TMmonth') AS mois, genre, t1.iddep AS id, departement AS emp, poly, geojson FROM obs.fiche AS t1
@@ -72,7 +72,7 @@ function cartodep($cdnom,$nomvar,$nbgenresp,$genre)
 function commune()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codecom AS id, commune AS emp, poly, geojson FROM referentiel.commune");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -81,7 +81,7 @@ function commune()
 function departement()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -90,7 +90,7 @@ function departement()
 function cartoutm($cdnom,$nomvar,$nbgenresp,$genre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($nbgenresp > 0)
 	{
 		$req = $bdd->prepare("SELECT DISTINCT date1, EXTRACT(YEAR FROM date1) AS annee, to_char(date1, 'TMmonth') AS mois, genre, utm AS id, geo FROM obs.fiche AS t1
@@ -126,7 +126,7 @@ function cartoutm($cdnom,$nomvar,$nbgenresp,$genre)
 function mgrs()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT mgrs AS id, geo FROM referentiel.mgrs10 ");
 	$utm = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -144,7 +144,7 @@ function cartol93($cdnom,$nomvar,$nbgenresp,$genre,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage <= 2"; }
 	$strQuery .= " GROUP BY genre, com, codel93) AS t2 ON t2.codel93 = codel93 AND t2.d = t1.date1";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':genre', $genre);
 	if($nbgenresp > 0) { $req->bindValue(':cdref', $cdnom); }
@@ -156,7 +156,7 @@ function cartol93($cdnom,$nomvar,$nbgenresp,$genre,$droit)
 function maillel93()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codel93 AS id FROM referentiel.maillel93 ");
 	$l93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -174,7 +174,7 @@ function carto5l93($cdnom,$nomvar,$nbgenresp,$genre,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage = 0"; }
 	$strQuery .= " GROUP BY genre, com, codel935) AS t2 ON t2.codel935 = codel935 AND t2.d = t1.date1";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':genre', $genre);
 	if($nbgenresp > 0) { $req->bindValue(':cdref', $cdnom); }

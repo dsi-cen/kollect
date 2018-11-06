@@ -4,7 +4,7 @@ include '../../../lib/pdo2.php';
 function recherchestade($idval,$nomvar,$genre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT stade.stade FROM obs.obs
 						INNER JOIN obs.ligneobs USING(idobs)
 						INNER JOIN referentiel.stade ON stade.idstade = ligneobs.stade
@@ -20,7 +20,7 @@ function recherchestade($idval,$nomvar,$genre)
 function phenologie($cdnom,$idval,$nomvar,$genre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(ligneobs.idobs) AS nb, iddecade, decade.decade FROM referentiel.decade
 						INNER JOIN obs.fiche ON fiche.decade = decade.decade
 						INNER JOIN obs.obs ON obs.idfiche = fiche.idfiche

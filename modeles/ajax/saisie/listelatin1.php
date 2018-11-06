@@ -10,7 +10,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT nom, liste.cdnom, cdref, auteur, nomvern FROM $sel.liste 
 							WHERE nom ILIKE :recherche AND locale = 'non' ORDER BY nom LIMIT 15") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':recherche', ''.$term.'%');

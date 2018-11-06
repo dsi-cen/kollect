@@ -13,7 +13,7 @@ function liste($choix,$observa)
 	elseif($choix == 3) { $strQuery .= ($where == 'non') ? " WHERE vali = 'nde'" : " AND (vali = 'nde') "; }
 	$strQuery .= " ORDER BY datesaisie DESC ";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if(!empty($observa))
 	{
 		$req = $bdd->prepare($strQuery);
@@ -38,7 +38,7 @@ function listeperso($choix,$idm,$observa)
 	elseif($choix == 3) { $strQuery .= " AND (vali = 'nde') "; }
 	$strQuery .= " ORDER BY datesaisie DESC ";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':idm', $idm);
 	if(!empty($observa)) { $req->bindValue(':observa', $observa); }

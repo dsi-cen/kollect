@@ -5,7 +5,7 @@ include '../../lib/pdo2.php';
 function liste_alpha($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idauteur, nom, prenom FROM biblio.auteurs
 						WHERE nom ILIKE :recherche 
 						ORDER BY nom ");

@@ -38,7 +38,7 @@ function inserdepartement($idreg)
 function creercommune()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.commune (
 						codecom character varying(5) NOT NULL,
 						commune character varying(145),
@@ -69,7 +69,7 @@ function creerdepartement()
 function contour()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT communegeo.codecom, communegeo.geojson FROM install.communegeo  
 						INNER JOIN install.communefr ON communefr.codecom = communegeo.codecom
 						INNER JOIN referentiel.departement USING(iddep) ");
@@ -80,7 +80,7 @@ function contour()
 function contour2()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT iddep, departementgeo.geojson FROM install.departementgeo 
 						INNER JOIN referentiel.departement USING(iddep) ");
 	$reg2 = $req->fetchAll(PDO::FETCH_ASSOC);

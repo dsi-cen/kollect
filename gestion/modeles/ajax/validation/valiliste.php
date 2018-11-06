@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function determinateur($iddet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur FROM referentiel.observateur WHERE idobser = :iddet ");
 	$req->bindValue(':iddet', $iddet);
 	$req->execute();
@@ -16,7 +16,7 @@ function determinateur($iddet)
 function liste($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT idobs, date1, stade.stade, nb, liste.nom, liste.nomvern, site, commune, liste.rang, liste.cdnom, iddet, fiche.idobser, liste.vali FROM obs.fiche
 							INNER JOIN referentiel.commune USING(codecom)
@@ -43,7 +43,7 @@ function liste($nomvar)
 function listenouv($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT idobs, date1, stade.stade, nb, liste.nom, nomvern, site, commune, rang, liste.cdnom, iddet, fiche.idobser, liste.vali FROM obs.fiche
 							INNER JOIN referentiel.commune USING(codecom)

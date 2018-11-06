@@ -9,7 +9,7 @@ INNER JOIN obs.site USING(idcoord)
 function recup($x,$y)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT codecom, commune, iddep FROM referentiel.comsaisie 
 						INNER JOIN referentiel.commune USING(codecom)
 						WHERE comsaisie.poly @> :recherche ");
@@ -22,7 +22,7 @@ function recup($x,$y)
 function cherchepoly($lat,$lng)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idcoord, geo, site FROM obs.coordgeo
 						INNER JOIN obs.site USING(idcoord)
 						WHERE poly @> :recherche ");

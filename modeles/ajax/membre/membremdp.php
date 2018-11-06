@@ -6,7 +6,7 @@ session_start();
 function verif($idm,$pass_hache)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idmembre FROM site.membre WHERE idmembre = :idm AND motpasse = :motpasse ") or die(print_r($bdd->errorInfo()));
 	$req->bindParam(':idm', $idm, PDO::PARAM_INT);
 	$req->bindParam(':motpasse', $pass_hache, PDO::PARAM_STR);
@@ -18,7 +18,7 @@ function verif($idm,$pass_hache)
 function modif_mdp($idm,$pass_hache)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.membre SET motpasse = :mdp WHERE idmembre = :idm ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':mdp', $pass_hache);

@@ -5,7 +5,7 @@ include '../../lib/pdo2.php';
 function liste_alpha($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idmc, mot FROM biblio.motcle
 						INNER JOIN biblio.bibliomc USING(idmc)
 						INNER JOIN biblio.biblio USING(idbiblio)

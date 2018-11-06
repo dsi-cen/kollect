@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function recherche($sel)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idarticle, article, titre, soustitre FROM site.article WHERE typear = :sel ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':sel', $sel);
 	$req->execute();

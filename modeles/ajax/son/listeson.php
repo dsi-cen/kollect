@@ -9,7 +9,7 @@ if(isset($_POST['cdnom']) && isset($_POST['nomvar']))
 	function liste_son($cdnom)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT COUNT(idson) AS nb FROM site.son WHERE cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':cdnom', $cdnom);
 		$req->execute();
@@ -20,7 +20,7 @@ if(isset($_POST['cdnom']) && isset($_POST['nomvar']))
 	function espece($cdnom,$nomvar)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT espece, genre FROM $nomvar.liste WHERE cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':cdnom', $cdnom);
 		$req->execute();

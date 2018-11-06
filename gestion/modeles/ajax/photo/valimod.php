@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function modphoto($idphoto,$stade,$idobser,$sexe,$observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.photo SET idobser = :idobser, stade = :stade, sexe = :sexe, observatoire = :observa WHERE idphoto = :idphoto ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idphoto', $idphoto);
 	$req->bindValue(':idobser', $idobser);

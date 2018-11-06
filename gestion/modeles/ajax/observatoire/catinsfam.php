@@ -4,7 +4,7 @@ include '../../../../lib/pdo2.php';
 function cherche_famille($nomvar,$id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cat FROM $nomvar.categorie WHERE famille = :id ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->execute();
@@ -15,7 +15,7 @@ function cherche_famille($nomvar,$id)
 function modifcategorie($nomvar,$id,$cat)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $nomvar.categorie SET cat =:cat WHERE famille = :id ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->bindValue(':cat', $cat);
@@ -26,7 +26,7 @@ function modifcategorie($nomvar,$id,$cat)
 function insercategorie($nomvar,$id,$cat)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO $nomvar.categorie (famille, cat) VALUES(:id, :cat) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->bindValue(':cat', $cat);

@@ -2,7 +2,7 @@
 function recherche_fichegenre($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, famille.famille, cdref, liste.auteur FROM $nomvar.liste 
 						INNER JOIN $nomvar.famille ON famille.cdnom = liste.famille
 						WHERE liste.cdnom = :cdnom ");
@@ -15,7 +15,7 @@ function recherche_fichegenre($id,$nomvar)
 function recherche_ranginfgenre($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, auteur, nomvern, liste.cdnom, sensible FROM $nomvar.liste 
 						INNER JOIN obs.obs ON obs.cdref = liste.cdnom
 						LEFT JOIN referentiel.sensible ON sensible.cdnom = liste.cdref
@@ -30,7 +30,7 @@ function recherche_ranginfgenre($id,$nomvar)
 function photo($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur, nomphoto, observatoire, to_char(datephoto, 'DD/MM/YYYY') AS datefr, cdnom FROM site.photo
 						INNER JOIN referentiel.observateur USING(idobser)
 						WHERE cdnom = :cdnom
@@ -45,7 +45,7 @@ function photo($id)
 function nombre_especegenre($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb, COUNT(DISTINCT codecom) AS nbcom, COUNT(DISTINCT codel93) AS nbmaille FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref
@@ -60,7 +60,7 @@ function nombre_especegenre($id,$nomvar)
 function nombre_genresp($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(*) AS nb FROM obs.obs WHERE cdref = :cdnom ");
 	$req->bindValue(':cdnom', $id);
 	$req->execute();
@@ -71,7 +71,7 @@ function nombre_genresp($id)
 function complexe($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT com, nom FROM referentiel.similaire
 						INNER JOIN $nomvar.liste ON liste.cdnom = similaire.com						
 						WHERE liste.cdtaxsup = :cdnom  ");
@@ -84,7 +84,7 @@ function complexe($id,$nomvar)
 function recup_genrecomplexe($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT cdtaxsup FROM $nomvar.liste
 						INNER JOIN referentiel.similaire ON similaire.cdnom = liste.cdnom						
 						WHERE com = :cdnom AND rang = 'ES' ");

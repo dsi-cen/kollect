@@ -11,7 +11,7 @@ function calc_m($choix,$nomvar,$valchoix,$maillage,$date)
 	$strQuery .= ' GROUP BY codel93 ) AS s';
 	$strQuery .= ' WHERE nb <= :mini';
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':sel', $nomvar);
 	if(!empty($date)) { $req->bindValue(':date', $date); }
@@ -53,7 +53,7 @@ function calc($ir,$cr1,$cr2,$cr3,$cr4,$cr5,$cr6,$cr7,$crp1,$crp2,$crp3,$crp4,$cr
 	$strQuery .= ' SELECT cdnom, nb, ir FROM referentiel.liste LEFT JOIN sel1 ON liste.cdnom = sel1.cdref INNER JOIN sel ON sel.cdref = liste.cdnom';
 	$strQuery .= " WHERE observatoire = :observa AND (rang = 'ES' OR rang = 'SSES')";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':observa', $nomvar);
 	if(!empty($date)) { $req->bindValue(':date', $date); }
@@ -65,7 +65,7 @@ function calc($ir,$cr1,$cr2,$cr3,$cr4,$cr5,$cr6,$cr7,$crp1,$crp2,$crp3,$crp4,$cr
 function calc_obs($nomvar,$obs,$maillage)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($maillage == 'l93')
 	{
 		$req = $bdd->prepare("SELECT COUNT(nb) FROM (
@@ -96,7 +96,7 @@ function calc_obs($nomvar,$obs,$maillage)
 function calc_es($nomvar,$es,$maillage)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($maillage == 'l93')
 	{
 		$req = $bdd->prepare("SELECT COUNT(nb) FROM (
@@ -149,7 +149,7 @@ function calc($ir,$cr1,$cr2,$cr3,$cr4,$cr5,$cr6,$cr7,$crp1,$crp2,$crp3,$crp4,$cr
 /*function listeindice($nomvar,$date)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT DISTINCT cdref FROM obs.obs
 							WHERE observa = :observa
@@ -175,7 +175,7 @@ function calc($ir,$cr1,$cr2,$cr3,$cr4,$cr5,$cr6,$cr7,$crp1,$crp2,$crp3,$crp4,$cr
 /*function listeindice($nomvar,$date)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT cdref, COUNT(DISTINCT codel93) AS nb FROM obs.fiche
 							INNER JOIN obs.obs USING(idfiche)
@@ -196,7 +196,7 @@ function calc($ir,$cr1,$cr2,$cr3,$cr4,$cr5,$cr6,$cr7,$crp1,$crp2,$crp3,$crp4,$cr
 function listeindice5($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT cdref, COUNT(DISTINCT codel935) AS nb FROM obs.fiche
 							INNER JOIN obs.obs USING(idfiche)
@@ -216,7 +216,7 @@ function listeindice5($nomvar)
 function mod_indice($cdref,$indice)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE referentiel.liste SET ir = :indice WHERE cdnom = :cdref ");
 	$req->bindValue(':cdref', $cdref);
 	$req->bindValue(':indice', $indice);

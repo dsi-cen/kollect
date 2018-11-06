@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function cherche_coordonnee($x, $y)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idcoord FROM obs.coordonnee WHERE x = :x AND y = :y ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':x', $x);
 	$req->bindValue(':y', $y);
@@ -17,7 +17,7 @@ function cherche_coordonnee($x, $y)
 function insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.coordonnee (x, y, altitude, lat, lng, codel93, utm, utm1, codel935) VALUES(:x, :y, :alt, :lat, :lng, :l93, :utm, :utm1, :l935) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':x', $x);
 	$req->bindValue(':y', $y);
@@ -38,7 +38,7 @@ function insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935)
 function inser_coordgeo($idcoord,$geo,$poly)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.coordgeo (idcoord, geo, poly) VALUES(:idcoord, :geo, :poly) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idcoord', $idcoord);
 	$req->bindValue(':geo', $geo);
@@ -49,7 +49,7 @@ function inser_coordgeo($idcoord,$geo,$poly)
 function insere_biogeo($x,$y,$idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idbiogeo FROM referentiel.refbiogeo WHERE poly @> :recherche ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':recherche', '('.$x.','.$y.')');
 	$req->execute();
@@ -64,7 +64,7 @@ function insere_biogeo($x,$y,$idcoord)
 function insere_site($codecom, $idcoord, $rqsite, $site)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite) VALUES(:idcoord, :codecom, :site, :rqsite) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':codecom', $codecom);
 	$req->bindValue(':idcoord', $idcoord);
@@ -80,7 +80,7 @@ function insere_site($codecom, $idcoord, $rqsite, $site)
 function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep1,$pr,$floutage,$plusobser,$typedon,$source)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.fiche (iddep, codecom, idsite, date1, date2, idobser, decade, localisation, idcoord, floutage, plusobser, typedon, source)
 						VALUES(:iddep, :codecom, :idsite, :date1, :date2, :obs, :decade, :pr, :idcoord, :floutage, :plusobser, :typedon, :source) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':iddep', $iddep1);
@@ -106,7 +106,7 @@ function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,
 function insere_fichesup($idfiche,$h1,$h2,$tempdeb,$tempfin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.fichesup (idfiche, hdebut, hfin, meteo, tempdebut, tempfin)
 						VALUES(:idfiche, :h1, :h2, :meteo, :tdeb, :tfin) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idfiche', $idfiche);
@@ -121,7 +121,7 @@ function insere_fichesup($idfiche,$h1,$h2,$tempdeb,$tempfin)
 function insere_plusobser($idfiche,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.plusobser (idfiche, idobser) 	VALUES(:idfiche, :idobser) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idfiche', $idfiche);
 	$req->bindValue(':idobser', $idobser);
@@ -131,7 +131,7 @@ function insere_plusobser($idfiche,$idobser)
 function verifobs($idfiche,$cdref)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobs FROM obs.obs WHERE idfiche = :idfiche AND cdref = :cdref ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idfiche', $idfiche);
 	$req->bindValue(':cdref', $cdref);
@@ -143,7 +143,7 @@ function verifobs($idfiche,$cdref)
 function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$statutobs,$idetude,$idproto)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obs (idfiche, cdnom, cdref, iddet, nb, rqobs, validation, datesaisie, observa, statutobs, idprotocole, idetude)
 						VALUES(:idfiche, :cdnom, :cdref, :iddet, :nb, :rq, :vali, :datesaisie, :var, :statut, :idproto, :idetude) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idfiche', $idfiche);
@@ -168,7 +168,7 @@ function insere_obs($idfiche,$cdnom,$cdref,$iddet,$dates,$nomvar,$rq,$vali,$nb,$
 function insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$idpros,$idstbio,$nbmin,$nbmax,$sexe,$tdenom,$idcomp)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.ligneobs (idobs, stade, ndiff, male, femelle, denom, idetatbio, idmethode, idpros, idstbio, nbmin, nbmax, sexe, tdenom, idcomp)
 						VALUES(:idobs, :stade, :ndiff, :m, :f, :denom, :etat, :meth, :pros, :bio, :nbmin, :nbmax, :sexe, :tdenom, :idcomp) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
@@ -196,7 +196,7 @@ function insere_ligneobs($idobs,$stade,$ndiff,$m,$f,$denom,$idetat,$idmethode,$i
 function insere_identif($idligneobs,$idobs,$idfiche,$dates)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.identif (idligne, idobs, idfiche, dates) VALUES(:idligne, :idobs, :idfiche, :dates) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':idligne', $idligneobs);
@@ -208,7 +208,7 @@ function insere_identif($idligneobs,$idobs,$idfiche,$dates)
 function modif_obs($idobs,$nbmod)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.obs SET nb = :nb WHERE idobs = :idobs ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':nb', $nbmod);
@@ -218,7 +218,7 @@ function modif_obs($idobs,$nbmod)
 function modif_listeob($cdref,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $nomvar.liste SET locale = :locale WHERE cdref = :cdref ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdref', $cdref);
 	$req->bindValue(':locale', 'oui');
@@ -228,7 +228,7 @@ function modif_listeob($cdref,$nomvar)
 function insere_lister($cdref,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.liste (cdnom,nom,auteur,nomvern,observatoire,rang,vali)
 						SELECT cdnom, nom, auteur, nomvern, '$nomvar' AS observatoire, rang, 2 AS vali FROM $nomvar.liste
 						WHERE cdref = :cdref AND cdref = cdnom AND rang = 'ES' ") or die(print_r($bdd->errorInfo()));
@@ -239,7 +239,7 @@ function insere_lister($cdref,$nomvar)
 function modif($idobs,$idmembre,$nom,$datem,$cdref)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typeid, numid, typemodif, modif, datemodif, idmembre)
 						VALUES(:typeid, :id, :type, :modif, :datem, :idm) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $cdref);
@@ -254,7 +254,7 @@ function modif($idobs,$idmembre,$nom,$datem,$cdref)
 function insere_aves($idobs,$stade,$code)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.aves (idobs, code, stade) VALUES(:idobs, :code, :stade) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':stade', $stade);
@@ -265,7 +265,7 @@ function insere_aves($idobs,$stade,$code)
 function insere_mort($idobs,$stade,$idmort)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obsmort (idobs, mort, stade) VALUES(:idobs, :idmort, :stade) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':stade', $stade);
@@ -276,7 +276,7 @@ function insere_mort($idobs,$stade,$idmort)
 function insere_obsplte($idobs,$stade,$nbplte,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obsplte (idobs,nb,cdnom,stade) VALUES(:idobs, :nb, :cdnom, :stade) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':stade', $stade);
@@ -288,7 +288,7 @@ function insere_obsplte($idobs,$stade,$nbplte,$cdnom)
 function insere_habitat($idobs,$cdhab,$cdref)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obshab (idobs, cdhab, cdnom) VALUES(:idobs, :cdhab, :cdnom) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':cdhab', $cdhab);
@@ -299,7 +299,7 @@ function insere_habitat($idobs,$cdhab,$cdref)
 function liste_photo($cdref)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idphoto) AS nb FROM site.photo WHERE cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdnom', $cdref);
 	$req->execute();
@@ -310,7 +310,7 @@ function liste_photo($cdref)
 /*function espece($cdref,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT espece, genre FROM $nomvar.liste WHERE cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdnom', $cdref);
 	$req->execute();
@@ -321,7 +321,7 @@ function liste_photo($cdref)
 function chp_fiche($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT codecom, date1, idobser FROM obs.fiche WHERE idfiche = :idfiche ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idfiche', $idfiche);
 	$req->execute();
@@ -332,7 +332,7 @@ function chp_fiche($idfiche)
 function insere_photo($cdref,$idobser,$datep,$codecom,$stade,$nomphoto,$dates,$sexe,$obser,$idobs,$ordre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.photo (cdnom, idobser, datephoto, codecom, stade, nomphoto, datesaisie, sexe, observatoire, idobs, ordre) VALUES(:cdnom, :idobser, :datep, :codecom, :stade, :nom, :dates, :sexe, :obser, :idobs, :ordre) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdnom', $cdref);
 	$req->bindValue(':idobser', $idobser);
@@ -351,7 +351,7 @@ function insere_photo($cdref,$idobser,$datep,$codecom,$stade,$nomphoto,$dates,$s
 function insere_obscoll($idobs,$detcol,$typegen,$pregen,$codegen,$sexe,$detgen,$stade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obscoll (idobs, iddetcol, iddetgen, codegen, sexe, idprep, typedet, stade) VALUES(:idobs, :detcol, :detgen, :codegen, :sexe, :pregen, :typedet, :stade) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':detcol', $detcol);
@@ -367,7 +367,7 @@ function insere_obscoll($idobs,$detcol,$typegen,$pregen,$codegen,$sexe,$detgen,$
 /*function result_vali_auto($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT vali.validation(:idobs) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs);
 	$req->execute();

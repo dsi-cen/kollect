@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function proche($lat,$lng,$dist)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT site, idsite, coordonnee.idcoord, lat, lng FROM obs.coordonnee
 						INNER JOIN obs.site USING(idcoord)
 						WHERE (6366*acos(cos(radians(:lat))*cos(radians(lat))*cos(radians(lng)-radians(:lng))+sin(radians(:lat))*sin(radians(lat)))) < :dist ") or die(print_r($bdd->errorInfo()));
@@ -20,7 +20,7 @@ function proche($lat,$lng,$dist)
 function procheobserva($lat,$lng,$dist,$sel)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT site, site.idsite, coordonnee.idcoord, lat, lng FROM obs.coordonnee
 						INNER JOIN obs.site USING(idcoord)
 						INNER JOIN obs.fiche USING(idcoord)
@@ -38,7 +38,7 @@ function procheobserva($lat,$lng,$dist,$sel)
 function listeobserva($lat,$lng,$dist,$sel)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom FROM obs.coordonnee
 						INNER JOIN obs.fiche USING(idcoord)
 						INNER JOIN obs.obs USING(idfiche)
@@ -56,7 +56,7 @@ function listeobserva($lat,$lng,$dist,$sel)
 function liste($lat,$lng,$dist)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, observa FROM obs.coordonnee
 						INNER JOIN obs.fiche USING(idcoord)
 						INNER JOIN obs.obs USING(idfiche)

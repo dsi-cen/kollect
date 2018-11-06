@@ -8,7 +8,7 @@ if(isset($_GET['term']))
 	function liste_auteur($term)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT idauteur, nom, prenom FROM biblio.auteurs WHERE nom ILIKE :recherche");
 		$req->bindValue(':recherche', ''.$term.'%');
 		$req->execute();

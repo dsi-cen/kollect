@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function rechercher_det($iddet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb FROM obs.obs WHERE iddet = :id	");
 	$req->bindValue(':id', $iddet);
 	$req->execute();
@@ -16,7 +16,7 @@ function rechercher_det($iddet)
 function rechercher_coobser($iddet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT idobs) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						LEFT JOIN obs.plusobser USING(idfiche)
@@ -30,7 +30,7 @@ function rechercher_coobser($iddet)
 function sup_observateur($iddet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM referentiel.observateur WHERE idobser = :id ");
 	$req->bindValue(':id', $iddet, PDO::PARAM_INT);
 	$req->execute();

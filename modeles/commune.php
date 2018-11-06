@@ -2,7 +2,7 @@
 function cherche_commune($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT commune FROM referentiel.commune WHERE codecom = :codecom ");
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();
@@ -13,7 +13,7 @@ function cherche_commune($codecom)
 function cherche_departement($iddep)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT departement FROM referentiel.departement WHERE iddep = :iddep ");
 	$req->bindValue(':iddep', $iddep);
 	$req->execute();
@@ -24,7 +24,7 @@ function cherche_departement($iddep)
 function liste_observateur($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, prenom, COUNT(idobs) AS nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						LEFT JOIN obs.plusobser USING(idfiche)
@@ -41,7 +41,7 @@ function liste_observateur($codecom)
 function liste_observateur_dep($iddep)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, prenom, COUNT(idobs) AS nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						LEFT JOIN obs.plusobser USING(idfiche)
@@ -58,7 +58,7 @@ function liste_observateur_dep($iddep)
 function compteobserva($codecom,$droit)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, observa FROM obs.fiche
@@ -85,7 +85,7 @@ function compteobserva($codecom,$droit)
 function compteobservadep($iddep)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, observa FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -100,7 +100,7 @@ function compteobservadep($iddep)
 function liste($codecom,$droit)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, liste.cdnom, observa FROM obs.fiche
@@ -128,7 +128,7 @@ function liste($codecom,$droit)
 function listedepart($iddep)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, liste.cdnom, observa FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -144,7 +144,7 @@ function listedepart($iddep)
 function nbespece()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(DISTINCT cdref) AS Nb FROM obs.obs
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 						WHERE rang = 'ES' ");

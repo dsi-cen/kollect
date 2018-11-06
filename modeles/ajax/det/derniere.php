@@ -6,7 +6,7 @@ include '../../../lib/pdo2.php';
 function liste()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idpdet, prenom, nom, to_char(datesaisie, 'DD/MM/YYYY') AS datefr, nomphoto, vali, typef, idobs, observa FROM site.photodet
 						INNER JOIN site.membre ON membre.idmembre = photodet.idm
 						ORDER BY datesaisie DESC
@@ -18,7 +18,7 @@ function liste()
 function listemembre($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idpdet, to_char(datesaisie, 'DD/MM/YYYY') AS datefr, nomini, vali, typef, idobs, observa FROM site.photodet
 						WHERE idm = :idm
 						ORDER BY datesaisie DESC
@@ -32,7 +32,7 @@ function listemembre($idm)
 function nbliste()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(*) AS nb FROM site.photodet ") or die(print_r($bdd->errorInfo()));
 	$resultat = $req->fetchColumn();
 	$req->closeCursor();
@@ -41,7 +41,7 @@ function nbliste()
 function nblistem($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(*) AS nb FROM site.photodet WHERE idm = :idm ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->execute();

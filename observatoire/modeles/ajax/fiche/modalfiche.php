@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recherche_compoly($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT poly, geojson FROM referentiel.commune WHERE codecom = :codecom ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();
@@ -16,7 +16,7 @@ function recherche_compoly($codecom)
 function recherche_comdep($iddep)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT poly, geojson FROM referentiel.departement WHERE iddep = :iddep ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':iddep', $iddep);
 	$req->execute();
@@ -27,7 +27,7 @@ function recherche_comdep($iddep)
 function recherche_mgrs($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT geo FROM referentiel.mgrs10 WHERE mgrs = :utm ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':utm', $id);
 	$req->execute();
@@ -38,7 +38,7 @@ function recherche_mgrs($id)
 function nbobsdep($nomvar,$rang,$cdnom,$id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT EXTRACT(YEAR FROM date1) AS annee, COUNT(idobs) AS nb FROM obs.fiche
@@ -64,7 +64,7 @@ function nbobsdep($nomvar,$rang,$cdnom,$id)
 function nbobscom($nomvar,$rang,$cdnom,$id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT EXTRACT(YEAR FROM date1) AS annee, COUNT(idobs) AS nb FROM obs.fiche
@@ -90,7 +90,7 @@ function nbobscom($nomvar,$rang,$cdnom,$id)
 function nbobsl93($nomvar,$rang,$cdnom,$id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT EXTRACT(YEAR FROM date1) AS annee, COUNT(idobs) AS nb FROM obs.fiche
@@ -118,7 +118,7 @@ function nbobsl93($nomvar,$rang,$cdnom,$id)
 function nbobsutm($nomvar,$rang,$cdnom,$id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT EXTRACT(YEAR FROM date1) AS annee, COUNT(idobs) AS nb FROM obs.fiche

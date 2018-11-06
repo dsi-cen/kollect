@@ -10,7 +10,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT nom, liste.cdnom, cdref, auteur, nomvern, stade, bino, photo, son, loupe FROM $sel.liste
 							LEFT JOIN vali.critere ON critere.cdnom = liste.cdref
 							WHERE nom ILIKE :recherche AND locale = 'oui' ORDER BY nom LIMIT 15") or die(print_r($bdd->errorInfo()));
@@ -29,7 +29,7 @@ if(isset($_GET['term']))
 		$combinaison = array_values(array_filter($combinaison, 'strlen'));
 		if (count($combinaison) == 1){
 			$bdd = PDO2::getInstance();
-			$bdd->query('SET NAMES "utf8"');
+			$bdd->query("SET NAMES 'UTF8'");
 			$req = $bdd->prepare("SELECT l.nom, l.cdnom, cdref, l.auteur,  l.nomvern, '{'|| l.rang || '}' as rang, stade, bino, photo, son, loupe, vali FROM $sel.liste AS l
 								LEFT JOIN vali.critere ON critere.cdnom = l.cdref
 								LEFT JOIN referentiel.liste ON liste.cdnom = l.cdref
@@ -43,7 +43,7 @@ if(isset($_GET['term']))
 		}
 		else {
 			$bdd = PDO2::getInstance();
-			$bdd->query('SET NAMES "utf8"');
+			$bdd->query("SET NAMES 'UTF8'");
 			$req = $bdd->prepare("SELECT l.nom, l.cdnom, cdref, l.auteur,  l.nomvern, '{'|| l.rang || '}' as rang, stade, bino, photo, son, loupe, vali FROM $sel.liste AS l
 								LEFT JOIN vali.critere ON critere.cdnom = l.cdref
 								LEFT JOIN referentiel.liste ON liste.cdnom = l.cdref

@@ -10,7 +10,7 @@ if(isset($_POST["idfiche"]))
 	function liste_obsa($idfiche,$ordre)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		if($ordre == 'A')
 		{
 			$req = $bdd->prepare("SELECT idobs, nom, nomvern, observatoire, nb FROM obs.obs 
@@ -34,7 +34,7 @@ if(isset($_POST["idfiche"]))
 	function liste_obss($idfiche)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT idobs, nom, nomvern, observatoire, nb FROM obs.obs 
 							INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 							WHERE idfiche = :idfiche

@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function info($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT repartition FROM referentiel.infosp WHERE cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));		
 	$req->bindValue(':cdnom', $cdnom);
 	$req->execute();

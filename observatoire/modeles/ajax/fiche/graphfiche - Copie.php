@@ -4,7 +4,7 @@ include '../../../lib/pdo2.php';
 function recherchestade($cdnom,$idval,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT stade.stade FROM obs.obs
@@ -46,7 +46,7 @@ function recherchestade($cdnom,$idval,$nomvar,$rang)
 function recherchestade1($idval,$idstade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT stade FROM referentiel.stade WHERE idval = :idval AND idstade IN ($idstade) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idval', $idval);
 	$req->execute();
@@ -92,7 +92,7 @@ WITH sel AS (
 function phenologie($cdnom,$idval,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(ligneobs.idobs) AS nb, iddecade, decade.decade FROM referentiel.decade

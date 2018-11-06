@@ -2,7 +2,7 @@
 function listeactu()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idactu, to_char(datecreation, 'DD/MM/YYYY') AS datefr, theme, titre, compte, photoactu.nom AS nomphoto, iddoc, visible, prenom, membre.nom FROM actu.actu
 						LEFT JOIN actu.photoactu USING(idactu)
 						LEFT JOIN actu.docactu USING(idactu)
@@ -17,7 +17,7 @@ function listeactu()
 function chercheactu($idactu)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idactu, titre, soustitre, actu, tag, theme, url, visible, idauteur, nomdoc, nom, auteur, info FROM actu.actu
 						LEFT JOIN actu.photoactu USING(idactu)
 						LEFT JOIN actu.docactu USING(idactu)
@@ -31,7 +31,7 @@ function chercheactu($idactu)
 function chercheauteuractu($idauteur)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom FROM site.membre WHERE idmembre = :id ");
 	$req->bindValue(':id', $idauteur);
 	$req->execute();

@@ -35,7 +35,7 @@ function listestatut($idobser,$observa,$codecom,$idsite,$site,$date1,$date2,$typ
 	$strQuery .= " AND (rang = 'ES' OR rang ='SSES')";
 	$strQuery .= " GROUP BY sel.cdref, liste.nom, nomvern, nbt, ir, observa";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser); }	
 	if(!empty($site)) { $req->bindValue(':site', '%'.$site.'%'); }
@@ -67,7 +67,7 @@ function recherchestatut($observa,$codecom,$idsite,$site,$poly,$dist,$lat,$lng)
 	if(!empty($site)) { $strQuery .= ($where == 'non') ? " WHERE site ILIKE :site" : " AND (site ILIKE :site)"; $where = 'oui'; }
 	$strQuery .= "	GROUP BY cdref, type, lr ";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	if(!empty($site)) { $req->bindValue(':site', '%'.$site.'%'); }
 	if(!empty($dist)) { $req->bindValue(':lat', $lat); $req->bindValue(':lng', $lng); $req->bindValue(':dist', $dist); }

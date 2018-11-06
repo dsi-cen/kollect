@@ -188,7 +188,7 @@ function recherche_table($tbl)
 function mod_auteur($tbl,$cdnom,$val)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $tbl SET auteur = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $val);
@@ -198,7 +198,7 @@ function mod_auteur($tbl,$cdnom,$val)
 function mod_nom($tbl,$cdnom,$val,$lbnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $tbl SET $lbnom = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $val);
@@ -209,7 +209,7 @@ function mod_cdref($tbl,$cdnom,$val)
 {
 	$value = (!empty($val)) ? $val : null;
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $tbl SET cdref = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $value);
@@ -220,7 +220,7 @@ function mod_cdsup($tbl,$cdnom,$val,$lbcd)
 {
 	$value = (!empty($val)) ? $val : null;
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $tbl SET $lbcd = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $value);
@@ -231,7 +231,7 @@ function mod_cdtaxsup($tbl,$cdnom,$val)
 {
 	$value = (!empty($val)) ? $val : null;
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $tbl SET cdtaxsup = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $value);
@@ -241,7 +241,7 @@ function mod_cdtaxsup($tbl,$cdnom,$val)
 function mod_nomvern($tbl,$cdnom,$val)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $tbl SET nomvern = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $val);
@@ -260,7 +260,7 @@ function recherche_modif_genre($observa)
 function mod_modif_genre($observa,$genre,$espece,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $observa.liste SET genre = :genre, espece = :espece WHERE cdnom = :cdnom ");
 	$req->bindValue(':genre', $genre);
 	$req->bindValue(':espece', $espece);
@@ -284,7 +284,7 @@ function recherche_liste($observa)
 function mod_liste_ref($cdnom,$val,$nom,$auteur,$nomvern)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE referentiel.liste SET cdnom = :val, nom = :nom, auteur = :auteur, nomvern = :nomvern WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->bindValue(':val', $val, PDO::PARAM_INT);
@@ -307,7 +307,7 @@ function recherche_obs()
 function mod_cdref_obs($cdnom,$val)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.obs SET cdref = :val WHERE cdref = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $val, PDO::PARAM_INT);
@@ -317,7 +317,7 @@ function mod_cdref_obs($cdnom,$val)
 function mod_cdnom_photo($cdnom,$val)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.photo SET cdnom = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $val, PDO::PARAM_INT);
@@ -327,7 +327,7 @@ function mod_cdnom_photo($cdnom,$val)
 function mod_cdnom_son($cdnom,$val)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.son SET cdnom = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':val', $val, PDO::PARAM_INT);
@@ -347,7 +347,7 @@ function recherche_sensible()
 function mod_sensible($cdnom,$val)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.sensible SET cdnom = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->bindValue(':val', $val, PDO::PARAM_INT);
@@ -367,7 +367,7 @@ function recherche_critere()
 function mod_critere($cdnom,$val)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE vali.critere SET cdnom = :val WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->bindValue(':val', $val, PDO::PARAM_INT);

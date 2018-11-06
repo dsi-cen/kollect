@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function chercheid($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobsdeb, idobsfin FROM import.histo WHERE id = :id ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->execute();
@@ -16,7 +16,7 @@ function chercheid($id)
 function supligne($iddeb,$idfin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.ligneobs WHERE idobs >= :iddeb AND idobs <= :idfin ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':iddeb', $iddeb);
 	$req->bindValue(':idfin', $idfin);
@@ -26,7 +26,7 @@ function supligne($iddeb,$idfin)
 function supidentif($iddeb,$idfin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.identif WHERE idobs >= :iddeb AND idobs <= :idfin ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':iddeb', $iddeb);
 	$req->bindValue(':idfin', $idfin);
@@ -36,7 +36,7 @@ function supidentif($iddeb,$idfin)
 function supobs($iddeb,$idfin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.obs WHERE idobs >= :iddeb AND idobs <= :idfin ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':iddeb', $iddeb);
 	$req->bindValue(':idfin', $idfin);
@@ -46,7 +46,7 @@ function supobs($iddeb,$idfin)
 function supfiche($iddeb,$idfin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT idfiche FROM obs.fiche 
 							INNER JOIN obs.obs USING(idfiche)
@@ -70,7 +70,7 @@ function supfiche($iddeb,$idfin)
 function supplusobser($iddeb,$idfin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT idfiche FROM obs.plusobser 
 							INNER JOIN obs.obs USING(idfiche)
@@ -94,7 +94,7 @@ function supplusobser($iddeb,$idfin)
 function suphisto($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM import.histo WHERE id = :id ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->execute();

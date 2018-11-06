@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function liste($nomvar,$choix)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT cdref, MAX(date1) AS max, to_char(MAX(date1), 'DD/MM/YYYY') AS maxfr FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)

@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function modiftype($nouv,$initial,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.fiche SET floutage = :nouv WHERE idobser = :idobser AND floutage = :initial ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':nouv', $nouv);
 	$req->bindValue(':initial', $initial);

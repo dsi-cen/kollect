@@ -8,7 +8,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstanceinstall();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT DISTINCT parc FROM install.pn 
 							WHERE parc ILIKE :recherche
 							ORDER BY parc") or die(print_r($bdd->errorInfo()));

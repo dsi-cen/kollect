@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recherche_statut($cdnom,$cdprotect,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdprotect, type, lr, article, intitule, arrete, annee, url FROM statut.statut
 						INNER JOIN statut.libelle USING(cdprotect)
 						INNER JOIN $nomvar.liste ON liste.cdnom = statut.cdnom

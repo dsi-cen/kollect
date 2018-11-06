@@ -6,7 +6,7 @@ session_start();
 function cherche($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT liste.nom, nomvern, commune.codecom, commune, to_char(date1, 'DD/MM/YYYY') AS datefr, idm, plusobser, idfiche, liste.cdnom, observa FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN referentiel.commune ON commune.codecom = fiche.codecom
@@ -22,7 +22,7 @@ function cherche($idobs)
 function stade($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idstade, stade.stade FROM obs.ligneobs 
 						INNER JOIN referentiel.stade ON stade.idstade = ligneobs.stade
 						WHERE idobs = :idobs ") or die(print_r($bdd->errorInfo()));
@@ -35,7 +35,7 @@ function stade($idobs)
 function chercheobservateur($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM referentiel.observateur WHERE idm = :idm ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->execute();
@@ -46,7 +46,7 @@ function chercheobservateur($idm)
 function cherche_observateur($idfiche,$idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, idm  FROM obs.plusobser
 						INNER JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
 						WHERE idfiche = :idfiche AND idm = :idm ") or die(print_r($bdd->errorInfo()));

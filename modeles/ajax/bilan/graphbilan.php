@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function nbespece()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(DISTINCT cdref) AS nb, COUNT(idobs) AS nbo, observa FROM obs.obs 
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 						WHERE (rang = 'ES' OR rang = 'SSES') AND statutobs != 'No' AND (validation = 1 OR validation = 2)
@@ -17,7 +17,7 @@ function nbespece()
 function nbespececom($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, COUNT(idobs) AS nbo, observa FROM obs.obs 
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -32,7 +32,7 @@ function nbespececom($id)
 function nbespecedep($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, COUNT(idobs) AS nbo, observa FROM obs.obs 
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -47,7 +47,7 @@ function nbespecedep($id)
 function nbespecel93($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, COUNT(idobs) AS nbo, observa FROM obs.obs 
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord
@@ -63,7 +63,7 @@ function nbespecel93($id)
 function nbespeceutm($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, COUNT(idobs) AS nbo, observa FROM obs.obs 
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord
@@ -79,7 +79,7 @@ function nbespeceutm($id)
 function recherche_mgrs($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT geo FROM referentiel.mgrs10 WHERE mgrs = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();
@@ -90,7 +90,7 @@ function recherche_mgrs($id)
 function recherche_compoly($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT poly, geojson FROM referentiel.commune WHERE codecom = :codecom ");
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();
@@ -101,7 +101,7 @@ function recherche_compoly($codecom)
 function nbespecel935($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, COUNT(idobs) AS nbo, observa FROM obs.obs 
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord

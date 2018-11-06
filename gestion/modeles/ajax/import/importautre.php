@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function recupid($condi)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if(!empty($condi))
 	{
 		$req = $bdd->query("SELECT DISTINCT idobs, idorigine FROM obs.identif WHERE $condi ") or die(print_r($bdd->errorInfo()));
@@ -21,7 +21,7 @@ function recupid($condi)
 function insere_plte($tab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obsplte (idobs,nb,cdnom,stade) VALUES(:idobs, :nb, :cdnom, :idstade) ") or die(print_r($bdd->errorInfo()));
 	foreach($tab as $n)
 	{
@@ -31,7 +31,7 @@ function insere_plte($tab)
 function insere_coll($tab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obscoll (idobs,iddetcol,iddetgen,codegen,sexe,idprep,typedet,stade) VALUES(:idobs, :iddetcol, :iddetgen, :code, :sexe, :idprep, :typedet, :idstade) ") or die(print_r($bdd->errorInfo()));
 	foreach($tab as $n)
 	{
@@ -41,7 +41,7 @@ function insere_coll($tab)
 function insere_hab($tab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obshab (idobs,cdhab,cdnom) VALUES(:idobs, :cdhab, :cdnom) ") or die(print_r($bdd->errorInfo()));
 	foreach($tab as $n)
 	{
@@ -51,7 +51,7 @@ function insere_hab($tab)
 function insere_mort($tab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obsmort (idobs,mort,stade) VALUES(:idobs, :idmort, :idstade) ") or die(print_r($bdd->errorInfo()));
 	foreach($tab as $n)
 	{
@@ -61,7 +61,7 @@ function insere_mort($tab)
 function insere_piaf($tab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.aves (idobs,code,stade) VALUES(:idobs, :code, :idstade) ") or die(print_r($bdd->errorInfo()));
 	foreach($tab as $n)
 	{

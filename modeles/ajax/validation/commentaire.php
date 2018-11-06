@@ -6,7 +6,7 @@ session_start();
 function insere_com($idobs,$idm,$rq,$datecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO vali.comvali (idobs,idm,commentaire,datecom) VALUES(:idobs, :idm, :com, :datecom) ");
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':idobs', $idobs);
@@ -19,7 +19,7 @@ function insere_com($idobs,$idm,$rq,$datecom)
 function chercheidm($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idm FROM vali.comvali WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
 	$req->execute();
@@ -30,7 +30,7 @@ function chercheidm($idobs)
 function insere_notif($idobs,$idmor)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.notif (idm,type,idtype) VALUES(:idm, :type, :idobs) ");
 	$req->bindValue(':idm', $idmor);
 	$req->bindValue(':idobs', $idobs);
@@ -41,7 +41,7 @@ function insere_notif($idobs,$idmor)
 function supnotif($idobs,$idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM site.notif WHERE idtype = :idobs AND idm = :idm ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':idm', $idm);

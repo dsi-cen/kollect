@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function insere_son($cdnom,$idobser,$dateson,$nomson,$dates,$idobs,$descri)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.son (cdnom, idobser, nomson, datesaisie, idobs, descri, dateson) VALUES(:cdnom, :idobser, :nom, :dates, :idobs, :descri, :dateson) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdnom', $cdnom);
 	$req->bindValue(':idobser', $idobser);

@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 /*function cherchesite($site,$codecom,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT site, COUNT(idfiche) AS nb, fiche.idcoord, site.idsite FROM obs.fiche 
 						INNER JOIN obs.site USING(idsite)
 						WHERE site ILIKE :site AND idobser = :idobser AND fiche.codecom = :codecom
@@ -21,7 +21,7 @@ include '../../../lib/pdo2.php';
 function cherchesite($site,$codecom,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT site, COUNT(idfiche) AS nb, fiche.idcoord, site.idsite FROM obs.fiche 
 						INNER JOIN obs.site USING(idsite)
 						WHERE site ILIKE :site AND fiche.codecom = :codecom

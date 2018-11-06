@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function liste_auteur()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idauteur, nom, prenom, prenomab FROM biblio.auteurs ORDER BY nom") or die(print_r($bdd->errorInfo()));
 	$req->execute();
 	$liste = $req->fetchAll(PDO::FETCH_ASSOC);

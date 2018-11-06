@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function liste($statut)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT lr FROM statut.statut WHERE cdprotect = :cd ");
 	$req->bindValue(':cd', $statut);
 	$req->execute();

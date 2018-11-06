@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function habitat($cdhab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT description FROM referentiel.eunis WHERE cdhab = :cdhab ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdhab', $cdhab);
 	$req->execute();

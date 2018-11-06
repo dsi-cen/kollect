@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function recupdecade($nomvar,$stade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdref, array_agg(DISTINCT iddecade) AS decade FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)
@@ -23,7 +23,7 @@ function recupdecade($nomvar,$stade)
 function recupobs($cdref,$iddecade,$stade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobs, nom, idfiche, cdref, to_char(date1, 'DD/MM/YYYY') AS datefr FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)

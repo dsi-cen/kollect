@@ -10,7 +10,7 @@ function vidertable()
 function inser($chemin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO import.verifcdnom (nom) VALUES(:nom) ") or die(print_r($bdd->errorInfo()));
 	$nb = 0;
 	$liste = fgetcsv($chemin, 1024, ';'); 
@@ -25,7 +25,7 @@ function inser($chemin)
 function listeok($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(cdnom) FROM $nomvar.liste
 						INNER JOIN import.verifcdnom ON verifcdnom.nom = liste.nom 
 						WHERE cdnom = cdref") or die(print_r($bdd->errorInfo()));
@@ -37,7 +37,7 @@ function listeok($nomvar)
 function listepr($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(cdnom) FROM $nomvar.liste
 						INNER JOIN import.verifcdnom ON verifcdnom.nom = liste.nom 
 						WHERE cdnom != cdref") or die(print_r($bdd->errorInfo()));
@@ -49,7 +49,7 @@ function listepr($nomvar)
 function listeno($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(nom) FROM import.verifcdnom
 						WHERE NOT EXISTS (SELECT cdnom FROM $nomvar.liste 
 						WHERE (liste.nom = verifcdnom.nom))") or die(print_r($bdd->errorInfo()));

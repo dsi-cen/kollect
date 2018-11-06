@@ -9,7 +9,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT idactu, titre, soustitre, actu, tag, theme, url FROM actu.actu WHERE idactu = :recherche ");
 		$req->bindValue(':recherche', $term);
 		$req->execute();

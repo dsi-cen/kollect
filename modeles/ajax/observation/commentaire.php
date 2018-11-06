@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function insere_com($idobs,$idm,$com,$datecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.comobs (idobs,idm,commentaire,datecom) VALUES(:idobs, :idm, :com, :datecom) ");
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':idobs', $idobs);
@@ -18,7 +18,7 @@ function insere_com($idobs,$idm,$com,$datecom)
 function cherchecom($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(*) FROM site.liencom WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
 	$req->execute();
@@ -29,7 +29,7 @@ function cherchecom($idobs)
 function chercheidm($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idm FROM site.comobs WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
 	$req->execute();
@@ -49,7 +49,7 @@ function modif_liencom($idobs)
 function inser_liencom($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.liencom (idobs,nbcom) VALUES(:idobs, 1) ");
 	$req->bindValue(':idobs', $idobs);
 	$ok = ($req->execute()) ? 'oui' : 'non';
@@ -59,7 +59,7 @@ function inser_liencom($idobs)
 function insere_notif($idobs,$idmor)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.notif (idm,type,idtype) VALUES(:idm, :type, :idobs) ");
 	$req->bindValue(':idm', $idmor);
 	$req->bindValue(':idobs', $idobs);

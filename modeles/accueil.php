@@ -12,7 +12,7 @@
 function listeactu($nbactu)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idactu, titre, soustitre, to_char(datecreation, 'DD/MM/YYYY') AS datefr, theme, datecreation FROM actu.actu						
 						WHERE visible = 1
 						ORDER BY datecreation DESC LIMIT $nbactu ");
@@ -23,7 +23,7 @@ function listeactu($nbactu)
 function article($type)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idarticle FROM site.article WHERE typear = :type ");
 	$req->bindValue(':type', $type);
 	$req->execute();
@@ -34,7 +34,7 @@ function article($type)
 function nbobservateur()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(*) AS Nb FROM referentiel.observateur WHERE (aff != 'non' OR aff IS NULL) ");
 	$nbobs = $req->fetchColumn();
 	$req->closeCursor();
@@ -43,7 +43,7 @@ function nbobservateur()
 function nbobs()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(*) AS Nb FROM obs.obs ");
 	$nbobs = $req->fetchColumn();
 	$req->closeCursor();
@@ -52,7 +52,7 @@ function nbobs()
 function nbespece()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(DISTINCT cdref) AS Nb FROM obs.obs
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 						WHERE rang = 'ES' ");
@@ -63,7 +63,7 @@ function nbespece()
 function nbphoto()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(*) AS nb FROM site.photo ");
 	$nbphoto = $req->fetchColumn();
 	$req->closeCursor();
@@ -72,8 +72,8 @@ function nbphoto()
 function photo()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
-	$bdd->query('SET lc_time_names = "fr_FR"');
+	$bdd->query("SET NAMES 'UTF8'");
+	$bdd->query("SET lc_time = 'fr_FR.UTF8'");
 	$req = $bdd->query("SELECT observateur.nom, prenom, nomphoto, photo.observatoire, to_char(datephoto, 'DD/MM/YYYY') as datefr, cdnom, idobs, liste.nom AS lat, nomvern FROM site.photo
 						INNER JOIN referentiel.observateur USING(idobser)
 						INNER JOIN referentiel.liste USING(cdnom)
@@ -87,7 +87,7 @@ function photo()
 /*function listeobs()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idobs, to_char(date1, 'DD/MM/YYYY') AS datefr, commune, liste.nom, nomvern, observa, idobs, fiche.iddep, floutage, sensible FROM obs.fiche
 						INNER JOIN obs.obs ON obs.idfiche = fiche.idfiche
 						LEFT JOIN referentiel.commune ON commune.codecom = fiche.codecom
@@ -102,7 +102,7 @@ function photo()
 function listeobs($dater)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (SELECT idobs, to_char(date1, 'DD/MM/YYYY') AS datefr, observa, cdref FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)
 							WHERE date1 >= :date
@@ -120,7 +120,7 @@ function listeobs($dater)
 function decade($decade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT * FROM  (
 							WITH sel AS (SELECT obs.cdref, liste.nom, nomvern, COUNT(obs.idobs) AS nb, observa, ROW_NUMBER() OVER(PARTITION BY observa ORDER BY COUNT(obs.idobs) DESC) AS r FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
@@ -144,7 +144,7 @@ function decade($decade)
 function nbetudes()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(*) AS nb FROM referentiel.etude ");
 	$nbetudes = $req->fetchColumn();
 	$req->closeCursor();
@@ -154,7 +154,7 @@ function nbetudes()
 function nbbiblio()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(*) AS nb FROM biblio.biblio");
 	$nbbib = $req->fetchColumn();
 	$req->closeCursor();
@@ -164,7 +164,7 @@ function nbbiblio()
 function nbdonneespub()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH select_typedon as (select obs.*, fiche.typedon from obs.obs join obs.fiche on obs.idfiche = fiche.idfiche) select count(*) as  nb from select_typedon where typedon = 'Ac'");
 	$nbpub = $req->fetchColumn();
 	$req->closeCursor();
@@ -174,7 +174,7 @@ function nbdonneespub()
 function nbdonneespriv()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH select_typedon as (select obs.*, fiche.typedon from obs.obs join obs.fiche on obs.idfiche = fiche.idfiche) select count(*) as  nb from select_typedon where typedon = 'Pr'");
 	$nbpriv = $req->fetchColumn();
 	$req->closeCursor();

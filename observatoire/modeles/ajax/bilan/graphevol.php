@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function graphespece($anneeune,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT EXTRACT(YEAR FROM date1) AS annee, COUNT(DISTINCT cdref) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						WHERE EXTRACT(YEAR FROM date1) >= :annee AND observa = :nomvar
@@ -20,7 +20,7 @@ function graphespece($anneeune,$nomvar)
 function newespece($anneeune,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT annee, COUNT(annee) AS nb FROM (
 						SELECT DISTINCT cdref, MIN(EXTRACT(YEAR FROM date1)) AS annee FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
@@ -37,7 +37,7 @@ function newespece($anneeune,$nomvar)
 function graphobserva($anneeune,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT EXTRACT(YEAR FROM date1) AS annee, COUNT(DISTINCT obs.cdref) AS nb, cat FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN $nomvar.liste ON liste.cdref = obs.cdref

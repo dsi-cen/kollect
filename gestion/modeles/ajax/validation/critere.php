@@ -17,7 +17,7 @@ function insere_critère($nomvar)
 function supcritere($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM vali.critere 
 						WHERE NOT EXISTS (SELECT * FROM referentiel.liste WHERE liste.cdnom = critere.cdnom AND vali = 2) AND observa = :observa ");
 	$req->bindValue(':observa', $nomvar);
@@ -28,7 +28,7 @@ function supcritere($nomvar)
 function liste($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdnom, nom, nomvern, stade, photo, son, loupe, bino FROM vali.critere
 						INNER JOIN referentiel.liste USING(cdnom) 
 						WHERE observa = :observa  

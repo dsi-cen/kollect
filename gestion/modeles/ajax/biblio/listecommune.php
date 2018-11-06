@@ -10,7 +10,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT codecom, commune FROM referentiel.commune WHERE commune ILIKE :recherche ORDER BY commune LIMIT 10");
 		$req->bindValue(':recherche', ''.$term.'%');
 		$req->execute();

@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function graphobs($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT EXTRACT(YEAR FROM date1) AS annee, COUNT(DISTINCT cdref) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -21,7 +21,7 @@ function graphobs($idobser)
 function graphnew($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (SELECT MIN(date1) AS prem, cdref FROM obs.fiche
 							INNER JOIN obs.obs USING(idfiche)
 							INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref

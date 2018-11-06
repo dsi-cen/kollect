@@ -10,7 +10,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT DISTINCT site, commune, site.codecom, site.idsite FROM obs.site 
 							INNER JOIN referentiel.commune ON commune.codecom = site.codecom 
 							INNER JOIN obs.fiche ON fiche.idsite = site.idsite

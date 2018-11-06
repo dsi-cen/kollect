@@ -74,7 +74,7 @@ function codel935($x,$y)
 function attribution($x,$y,$lat,$lng,$codel93,$alti,$utm,$codel935)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idcoord FROM obs.coordonnee WHERE x = :x AND y = :y ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':x', $x);
 	$req->bindValue(':y', $y);
@@ -100,7 +100,7 @@ function attribution($x,$y,$lat,$lng,$codel93,$alti,$utm,$codel935)
 function attributionsite($site,$idcoord,$codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idsite FROM obs.site WHERE idcoord = :idcoord AND codecom = :codecom AND site = :site ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idcoord', $idcoord, PDO::PARAM_INT);
 	$req->bindValue(':codecom', $codecom);
@@ -122,7 +122,7 @@ function attributionsite($site,$idcoord,$codecom)
 function idobser($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM import.impobser WHERE idobseror = :idobser ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobser', $idobser, PDO::PARAM_INT);
 	$req->execute();
@@ -133,7 +133,7 @@ function idobser($idobser)
 function coordcom($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT x, y FROM referentiel.commune WHERE codecom = :codecom ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();
@@ -144,7 +144,7 @@ function coordcom($codecom)
 function insere_fiche($idor,$iddep,$codecom,$idsite,$date1,$date2,$idobser,$decade,$pre,$idcoord,$plusobser,$typedon,$floutage,$source,$idorg)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idfiche FROM obs.fiche
 						WHERE iddep = :iddep AND codecom = :codecom AND idsite = :idsite AND date1 = :date1 AND date2 = :date2 AND idcoord = :idcoord AND idobser = :obs 
 						ORDER BY idfiche ") or die(print_r($bdd->errorInfo()));
@@ -204,7 +204,7 @@ function insere_fiche($idor,$iddep,$codecom,$idsite,$date1,$date2,$idobser,$deca
 function insere_plusobser($idfiche,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM import.impobser WHERE idobseror = :idobser ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobser', $idobser, PDO::PARAM_INT);
 	$req->execute();
@@ -219,7 +219,7 @@ function insere_plusobser($idfiche,$idobser)
 function insere_biogeo($x,$y,$idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idbiogeo FROM referentiel.refbiogeo WHERE poly @> :recherche ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':recherche', '('.$x.','.$y.')');
 	$req->execute();

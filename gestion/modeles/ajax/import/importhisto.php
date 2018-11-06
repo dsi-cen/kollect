@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function insere_histo($dates,$idm,$prem,$dern,$desc)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO import.histo (dateimport, idm, idobsdeb, idobsfin, descri) VALUES(:date, :idm, :prem, :dern, :desc) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':date', $dates);
 	$req->bindValue(':idm', $idm);

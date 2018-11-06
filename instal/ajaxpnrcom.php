@@ -5,7 +5,7 @@ include '../lib/pdo2.php';
 function pnr($pnr)
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT codecom, commune FROM install.pnrcom 
 						INNER JOIN install.communefr USING(codecom)
 						WHERE id = :pnr

@@ -36,7 +36,7 @@ function insercommunec($idcom)
 function creercommune()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.commune (
 						codecom character varying(5) NOT NULL,
 						commune character varying(145),
@@ -53,7 +53,7 @@ function creercommune()
 function dep($iddep)
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT communegeo.codecom, geojson FROM install.communegeo 
 						INNER JOIN install.communefr ON communefr.codecom = communegeo.codecom  
 						WHERE iddep IN($iddep) ");
@@ -64,7 +64,7 @@ function dep($iddep)
 function com($idcom)
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codecom, geojson FROM install.communegeo WHERE codecom IN($idcom) ");
 	$com = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

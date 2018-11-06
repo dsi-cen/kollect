@@ -5,7 +5,7 @@ include '../lib/pdo2.php';
 function massif($massif)
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT massif.codecom, commune FROM install.massif 
 						INNER JOIN install.communefr ON communefr.codecom = massif.codecom
 						WHERE massif = :massif

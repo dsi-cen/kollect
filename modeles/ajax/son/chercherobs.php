@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function info($idobs)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observa, date1, cdref FROM obs.obs 
 						INNER JOIN obs.fiche USING(idfiche)
 						WHERE idobs = :idobs ") or die(print_r($bdd->errorInfo()));
@@ -18,7 +18,7 @@ function info($idobs)
 function recupidobser($idm)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM referentiel.observateur WHERE idm = :idm ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->execute();

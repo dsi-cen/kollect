@@ -6,7 +6,7 @@ session_start();
 function determinateur($iddet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur FROM referentiel.observateur WHERE idobser = :iddet");
 	$req->bindValue(':iddet', $iddet);
 	$req->execute();
@@ -19,7 +19,7 @@ function listeobservateur($idfiche,$observateur)
 {
 	$obs2[] = $observateur;
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur FROM obs.plusobser						
 						INNER JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
 						WHERE idfiche = :idfiche ");
@@ -52,7 +52,7 @@ function cartocommune($cdnom,$rang,$nomvar,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage <= 1"; }
 	$strQuery .= " GROUP BY sel.annee, sel.mois, sel.codecom, sel.commune, sel.poly, sel.geojson, fiche.idobser, iddet, plusobser, fiche.idfiche, observateur";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -76,7 +76,7 @@ function cartodep($cdnom,$rang,$nomvar)
 	$strQuery .= ($rang == 'oui') ? " WHERE (obs.cdref = :cdref OR cdsup = :cdref) AND statutobs != 'No' AND (validation = 1 OR validation = 2)" : " WHERE obs.cdref = :cdref AND statutobs != 'No' AND (validation = 1 OR validation = 2)";
 	$strQuery .= " GROUP BY sel.annee, sel.mois, sel.iddep, sel.departement, sel.poly, sel.geojson, fiche.idobser, iddet, plusobser, fiche.idfiche, observateur";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -87,7 +87,7 @@ function cartodep($cdnom,$rang,$nomvar)
 function commune()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codecom AS id, commune AS emp, poly, geojson FROM referentiel.commune");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -96,7 +96,7 @@ function commune()
 function departement()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -122,7 +122,7 @@ function cartoutm($cdnom,$rang,$nomvar,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage <= 2"; }
 	$strQuery .= " GROUP BY sel.annee, sel.mois, sel.d, sel.utm, fiche.idobser, iddet, plusobser, fiche.idfiche, observateur, geo";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -133,7 +133,7 @@ function cartoutm($cdnom,$rang,$nomvar,$droit)
 function mgrs()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT mgrs AS id, geo FROM referentiel.mgrs10 ");
 	$utm = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -158,7 +158,7 @@ function cartol93($cdnom,$rang,$nomvar,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage <= 2"; }
 	$strQuery .= " GROUP BY sel.annee, sel.mois, sel.d, sel.codel93, fiche.idobser, iddet, plusobser, fiche.idfiche, observateur";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -169,7 +169,7 @@ function cartol93($cdnom,$rang,$nomvar,$droit)
 function maillel93()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codel93 AS id FROM referentiel.maillel93 ");
 	$l93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -194,7 +194,7 @@ function carto5l93($cdnom,$rang,$nomvar,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage = 0"; }
 	$strQuery .= " GROUP BY sel.annee, sel.mois, sel.d, sel.codel935, fiche.idobser, iddet, plusobser, fiche.idfiche, observateur";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -210,7 +210,7 @@ function cartocomnouv($cdnom,$rang,$nomvar,$anneeencours,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage <= 1"; }
 	$strQuery .= " GROUP BY codecom ) SELECT sel.codecom AS id FROM sel WHERE annee = :annee";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->bindValue(':annee', $anneeencours);
@@ -222,7 +222,7 @@ function cartocomnouv($cdnom,$rang,$nomvar,$anneeencours,$droit)
 function cartodepnouv($cdnom,$rang,$nomvar,$anneeencours)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("WITH sel AS (SELECT EXTRACT(YEAR FROM MIN(date1)) AS annee, fiche.iddep FROM obs.fiche
@@ -259,7 +259,7 @@ function cartol93nouv($cdnom,$rang,$nomvar,$anneeencours,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage <= 2"; }
 	$strQuery .= " GROUP BY codel93 ) SELECT sel.codel93 AS id FROM sel WHERE annee = :annee";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->bindValue(':annee', $anneeencours);
@@ -276,7 +276,7 @@ function cartol935nouv($cdnom,$rang,$nomvar,$anneeencours,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage = 0"; }
 	$strQuery .= " GROUP BY codel935 ) SELECT sel.codel935 AS id FROM sel WHERE annee = :annee";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->bindValue(':annee', $anneeencours);
@@ -293,7 +293,7 @@ function cartoutmnouv($cdnom,$rang,$nomvar,$anneeencours,$droit)
 	if($droit == 'non') { $strQuery .= " AND floutage <= 2"; }
 	$strQuery .= " GROUP BY utm ) SELECT sel.utm AS id FROM sel WHERE annee = :annee";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->bindValue(':annee', $anneeencours);

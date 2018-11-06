@@ -8,7 +8,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT departement, iddep, lat, lng FROM referentiel.departement 
 							WHERE departement ILIKE :recherche
 							ORDER BY departement") or die(print_r($bdd->errorInfo()));

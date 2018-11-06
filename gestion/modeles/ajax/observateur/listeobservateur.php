@@ -6,7 +6,7 @@ session_start();
 /*function liste_obser()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT observateur.idobser, nom, prenom, idm, COUNT(idobs) AS nb FROM referentiel.observateur
 						LEFT JOIN obs.fiche ON fiche.idobser = observateur.idobser
 						LEFT JOIN obs.obs ON obs.idfiche = fiche.idfiche
@@ -48,7 +48,7 @@ left JOIN referentiel.observateur using(idobser)
 /*function liste_obser()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (
 							SELECT COUNT(idobs) AS nb, idobser FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)
@@ -71,7 +71,7 @@ left JOIN referentiel.observateur using(idobser)
 function liste_obser()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (
 						SELECT idobser, SUM(nb) AS nb FROM (
 							SELECT COUNT(idobs) AS nb, idobser FROM obs.obs

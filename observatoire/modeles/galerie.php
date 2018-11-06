@@ -2,7 +2,7 @@
 function photo_famille($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT famille.cdnom, famille.famille, COUNT(photo.cdnom) AS nb, COUNT(DISTINCT photo.cdnom) AS nb1 FROM $nomvar.liste
 						INNER JOIN site.photo ON photo.cdnom = liste.cdnom
 						INNER JOIN $nomvar.famille ON liste.famille = famille.cdnom
@@ -15,7 +15,7 @@ function photo_famille($nomvar)
 function photo_famille_auteur($nomvar,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT famille.cdnom, famille.famille, COUNT(photo.cdnom) AS nb, COUNT(DISTINCT photo.cdnom) AS nb1 FROM $nomvar.liste
 						INNER JOIN site.photo ON photo.cdnom = liste.cdnom
 						INNER JOIN $nomvar.famille ON liste.famille = famille.cdnom
@@ -31,7 +31,7 @@ function photo_famille_auteur($nomvar,$idobser)
 function cherche_observateur($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, idm FROM referentiel.observateur WHERE idobser = :idobser ");
 	$req->bindValue(':idobser', $idobser, PDO::PARAM_INT);
 	$req->execute();
@@ -42,7 +42,7 @@ function cherche_observateur($idobser)
 function recherche_photo_lettre($nomvar,$tri)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($tri == 'nom')
 	{
 		$req = $bdd->query("SELECT DISTINCT SUBSTR(nom, 1, 1) AS l FROM $nomvar.liste 
@@ -64,7 +64,7 @@ function recherche_photo_lettre($nomvar,$tri)
 function recherche_photo_lettre_auteur($nomvar,$tri,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($tri == 'nom')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT SUBSTR(nom, 1, 1) AS l FROM $nomvar.liste 
@@ -88,7 +88,7 @@ function recherche_photo_lettre_auteur($nomvar,$tri,$idobser)
 function recherche_famille($fam,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT famille FROM $nomvar.famille WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $fam, PDO::PARAM_INT);
 	$req->execute();
@@ -99,7 +99,7 @@ function recherche_famille($fam,$nomvar)
 function recherche_sous_famille($sfam,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT sousfamille, famille, famille.cdnom FROM $nomvar.sousfamille 
 						INNER JOIN $nomvar.famille ON famille.cdnom = sousfamille.cdsup
 						WHERE sousfamille.cdnom = :cdnom ");
@@ -129,7 +129,7 @@ function liste_sousfamille($nomvar,$stribu,$tribu,$fam,$idobser)
 	$strQuery .= " WHERE liste.famille = :cdnom AND rang = 'ES'";
 	if(!empty($idobser)) { $strQuery .= " AND idobser = :idobser"; }
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $fam, PDO::PARAM_INT);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser, PDO::PARAM_INT); }
@@ -152,7 +152,7 @@ function photo_sousfamille_autre($nomvar,$stribu,$tribu,$fam,$idobser)
 	if(!empty($idobser)) { $strQuery .= " AND idobser = :idobser"; } else { $strQuery .= " AND photo.ordre = 1"; }
 	$strQuery .= ' ORDER BY liste.nom';
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $fam, PDO::PARAM_INT);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser, PDO::PARAM_INT); }
@@ -170,7 +170,7 @@ function photo_sans_sousfamille($nomvar,$fam,$idobser)
 	if(!empty($idobser)) { $strQuery .= " AND idobser = :idobser"; } else { $strQuery .= " AND photo.ordre = 1"; }
 	$strQuery .= ' ORDER BY liste.nom';
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $fam, PDO::PARAM_INT);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser, PDO::PARAM_INT); }
@@ -192,7 +192,7 @@ function photo_sousfamille($nomvar,$stribu,$tribu,$fam,$idobser)
 	$strQuery .= " WHERE liste.famille = :cdnom AND rang = 'ES' AND sousfamille.cdnom IS NOT NULL";
 	if(!empty($idobser)) { $strQuery .= " AND idobser = :idobser"; } else { $strQuery .= " AND photo.ordre = 1"; }
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $fam, PDO::PARAM_INT);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser, PDO::PARAM_INT); }
@@ -214,7 +214,7 @@ function photo_sousfamille_espece($nomvar,$stribu,$tribu,$sfam,$idobser)
 	$strQuery .= " WHERE sousfamille.cdnom = :cdnom AND (rang = 'ES' OR rang = 'SSES')";
 	if(!empty($idobser)) { $strQuery .= " AND idobser = :idobser"; } else { $strQuery .= " AND photo.ordre = 1"; }
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $sfam, PDO::PARAM_INT);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser, PDO::PARAM_INT); }

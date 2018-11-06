@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function insere($tab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO statut.statut (cdnom, cdprotect, lr) VALUES (:cdnom, :cdprotect, :lr) ");
 	$nb = 0;
 	foreach ($tab as $n)

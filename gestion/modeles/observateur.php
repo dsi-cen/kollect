@@ -2,7 +2,7 @@
 function liste_obser()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (
 						SELECT idobser, SUM(nb) AS nb FROM (
 							SELECT COUNT(idobs) AS nb, idobser FROM obs.obs

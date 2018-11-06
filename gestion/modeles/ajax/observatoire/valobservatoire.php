@@ -27,7 +27,7 @@ function tablebota()
 function creerlistebota()
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.listebota (
 						cdnom integer NOT NULL,
 						nom text,
@@ -66,7 +66,7 @@ function tableaves()
 function creeraves()
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE obs.aves (
 					  idaves serial NOT NULL,
 					  idobs integer,

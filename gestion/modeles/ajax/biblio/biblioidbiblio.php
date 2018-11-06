@@ -8,7 +8,7 @@ if(isset($_GET['term']))
 	function liste($term)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT titre, idbiblio FROM biblio.biblio WHERE idbiblio = :id ");
 		$req->bindValue(':id', $term);
 		$req->execute();

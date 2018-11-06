@@ -9,7 +9,7 @@ if(isset($_POST['idobser']))
 	function liste_observateur($idobser)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->query('SELECT observateur, idobser FROM referentiel.observateur WHERE idobser IN ('.$idobser.')') or die(print_r($bdd->errorInfo()));
 		$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 		$req->closeCursor();

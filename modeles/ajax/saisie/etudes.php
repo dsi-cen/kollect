@@ -4,7 +4,7 @@ include '../../../lib/pdo2.php';
 function etudebyorg($organisme)
 {
     $bdd = PDO2::getInstance();
-    $bdd->query('SET NAMES "utf8"');
+    $bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->prepare("SELECT idetude, etude FROM referentiel.etude
                                         left join referentiel.etude_organisme using (idetude)
                                         where etude_organisme.idorg = :idorg

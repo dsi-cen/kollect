@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function chercheobservateur($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM referentiel.observateur WHERE idm = :idm ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->execute();
@@ -16,7 +16,7 @@ function chercheobservateur($idm)
 function verif($cdnom,$codecom,$date)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idfiche, idobs, site, idobser, plusobser FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						LEFT JOIN obs.site USING(idsite)
@@ -33,7 +33,7 @@ function verif($cdnom,$codecom,$date)
 function cherche_observateur($idfiche,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM obs.plusobser WHERE idfiche = :idfiche AND idobser = :idobser ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idfiche', $idfiche, PDO::PARAM_INT);
 	$req->bindValue(':idobser', $idobser, PDO::PARAM_INT);

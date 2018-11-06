@@ -20,7 +20,7 @@ function tablecat($nomvar)
 function creecategorie($nomvar)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $nomvar.categorie (famille integer NOT NULL,cat character varying(3),CONSTRAINT categorie_pkey PRIMARY KEY (famille))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }	

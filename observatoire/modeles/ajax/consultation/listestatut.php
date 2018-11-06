@@ -57,7 +57,7 @@ function listestatut($idobser,$observa,$codecom,$idsite,$site,$date1,$date2,$typ
 	if($okstatut == 'oui') { $strQuery .= "), sel1 as ( SELECT DISTINCT cdref, nom, nomvern, nb, cdprotect, lr, type$ir FROM sel LEFT JOIN statut.statut ON statut.cdnom = sel.cdref LEFT JOIN statut.statutsite USING(cdprotect)"; }
 	if($okstatut == 'oui') { $strQuery .= ") SELECT cdref, nom, nomvern, nb$ir, array_to_json(array_agg(cdprotect)) AS cd, array_to_json(array_agg(lr)) AS lr FROM sel1 GROUP BY cdref, nom, nomvern, nb$ir"; }
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser); }	
 	if(!empty($site)) { $req->bindValue(':site', '%'.$site.'%'); }
@@ -87,7 +87,7 @@ function listestatut($idobser,$observa,$codecom,$idsite,$site,$date1,$date2,$typ
 function recherchestatut($observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT statutsite.type, cdprotect, intitule, article FROM statut.statutsite 
 						INNER JOIN statut.libelle USING(cdprotect)
 						WHERE observa = :observa ");

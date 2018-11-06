@@ -46,7 +46,7 @@ function inserdepartement()
 function creercommune()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.commune (
 						codecom character varying(5) NOT NULL,
 						commune character varying(145),
@@ -63,7 +63,7 @@ function creercommune()
 function creerdepartement()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.departement (
 						iddep character (2) NOT NULL,
 						departement character varying(30),
@@ -78,7 +78,7 @@ function creerdepartement()
 function creerbiogeo()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE obs.biogeo (
 						  idcoord integer NOT NULL,
 						  idbiogeo smallint,
@@ -88,7 +88,7 @@ function creerbiogeo()
 function creerrefbiogeo()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.refbiogeo (
 					  id smallint NOT NULL,
 					  idbiogeo smallint,
@@ -120,7 +120,7 @@ function inserrefbiogeo()
 function departement()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT iddep, geojson FROM install.departementgeo ");
 	$dep = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

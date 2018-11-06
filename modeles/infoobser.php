@@ -2,7 +2,7 @@
 function cherche_observateur($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, idm FROM referentiel.observateur WHERE idobser = :idobser ");
 	$req->bindValue(':idobser', $idobser, PDO::PARAM_INT);
 	$req->execute();
@@ -13,7 +13,7 @@ function cherche_observateur($idobser)
 function cherche_observateurmembre($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, idobser, idm FROM referentiel.observateur WHERE idm = :idm ");
 	$req->bindValue(':idm', $idm, PDO::PARAM_INT);
 	$req->execute();
@@ -24,7 +24,7 @@ function cherche_observateurmembre($idm)
 function graphobs($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT date1, idobs FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)

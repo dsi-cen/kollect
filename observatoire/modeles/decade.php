@@ -2,7 +2,7 @@
 function liste($nomvar,$decade,$latin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, famille, stade.stade, liste.cdref FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)
@@ -20,7 +20,7 @@ function liste($nomvar,$decade,$latin)
 function listefam($nomvar,$decade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT famille.cdnom, famille.famille, famille.nomvern FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)
@@ -37,7 +37,7 @@ function listefam($nomvar,$decade)
 function listeobs($nomvar,$decade,$latin)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, liste.cdref, COUNT(idobs) AS nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)
@@ -54,7 +54,7 @@ function listeobs($nomvar,$decade,$latin)
 function graph($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, iddecade, decade.decade FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)
@@ -70,7 +70,7 @@ function graph($nomvar)
 function graphcat($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT obs.cdref) AS nb, iddecade, decade.decade, cat FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)
@@ -88,7 +88,7 @@ function graphcat($nomvar)
 function photo($nomvar,$decade,$debut)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT obs.cdref, liste.nom, nomvern, COUNT(obs.idobs) AS nb, stade AS idstade FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
@@ -116,7 +116,7 @@ function photo($nomvar,$decade,$debut)
 function photocat($nomvar,$decade,$debut,$cat)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT obs.cdref, liste.nom, nomvern, COUNT(obs.idobs) AS nb, stade AS idstade FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
@@ -146,7 +146,7 @@ function photocat($nomvar,$decade,$debut,$cat)
 function nb_sp($nomvar,$decade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT obs.cdref) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)
@@ -161,7 +161,7 @@ function nb_sp($nomvar,$decade)
 function nb_spcat($nomvar,$decade,$cat)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT obs.cdref) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)

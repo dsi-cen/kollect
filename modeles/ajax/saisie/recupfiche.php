@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function fiche($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idfiche, coordonnee.lat, coordonnee.lng, localisation, idobser, plusobser, floutage, typedon, source, idorg, fiche.idetude as idetude, fiche.iddep, fiche.idcoord, fiche.codecom, idsite, commune, site, to_char(date1, 'DD/MM/YYYY') AS date1fr, to_char(date2, 'DD/MM/YYYY') AS date2fr, geo, hdebut, hfin, tempdebut, tempfin FROM obs.fiche
 						INNER JOIN referentiel.commune USING(codecom)
 						LEFT JOIN obs.coordonnee USING(idcoord)
@@ -22,7 +22,7 @@ function fiche($idfiche)
 function plusobser($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser, nom, prenom FROM obs.plusobser 
 						INNER JOIN referentiel.observateur USING(idobser)
 						WHERE idfiche = :idfiche ");
