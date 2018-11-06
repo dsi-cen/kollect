@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function inserearticle($article,$sel,$titre,$stitre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.article (typear, titre, soustitre, article) VALUES(:sel, :titre, :stitre, :article) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':sel', $sel);
 	$req->bindValue(':titre', $titre);
@@ -18,7 +18,7 @@ function inserearticle($article,$sel,$titre,$stitre)
 function modarticle($idarticle,$article,$titre,$stitre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.article SET titre =:titre, soustitre =:stitre, article =:article WHERE idarticle = :id ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $idarticle);
 	$req->bindValue(':titre', $titre);

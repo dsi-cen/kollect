@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function habitat($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb, lbcode, cdhab, lbhabitat FROM obs.obshab
 						INNER JOIN referentiel.eunis USING(cdhab)
 						WHERE cdnom = :cdnom

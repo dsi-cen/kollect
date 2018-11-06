@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function verif($cdnom,$codecom,$date)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idfiche, idobs FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						WHERE cdref = :cdnom AND fiche.codecom = :codecom AND date1 = :date ") or die(print_r($bdd->errorInfo()));

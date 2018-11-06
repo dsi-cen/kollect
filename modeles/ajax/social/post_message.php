@@ -7,7 +7,7 @@ function postmess($idm,$message)
     $datepost = date("Y-m-d H:i:s");
 
     $bdd = PDO2::getInstance();
-    $bdd->query('SET NAMES "utf8"');
+    $bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->prepare("INSERT INTO social.postmembre (idmembre, date, texte) VALUES(:idm, :datepost, :message) ") or die(print_r($bdd->errorInfo()));
     $req->bindValue(':message', $message);
     $req->bindValue(':idm', $idm);
@@ -22,7 +22,7 @@ function postmess($idm,$message)
 function inserenotif($idm,$idpost)
 {
 	$bdd = PDO2::getInstance();
-    $bdd->query('SET NAMES "utf8"');
+    $bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->prepare("SELECT id_membre FROM social.abonements_membre WHERE id_abonnement = :idm ") or die(print_r($bdd->errorInfo()));
     $req->bindValue(':idm', $idm);
     $req->execute();

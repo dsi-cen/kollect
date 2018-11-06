@@ -2,7 +2,7 @@
 function liste_observateur($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, prenom, COUNT(idobs) AS nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN obs.coordonnee USING(idcoord)
@@ -21,7 +21,7 @@ function liste_observateur($maille,$nomvar)
 function liste_observateur_utm($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, prenom, COUNT(idobs) AS nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN obs.coordonnee USING(idcoord)
@@ -40,7 +40,7 @@ function liste_observateur_utm($maille,$nomvar)
 function liste_observateur5($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, prenom, COUNT(idobs) AS nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN obs.coordonnee USING(idcoord)
@@ -59,7 +59,7 @@ function liste_observateur5($maille,$nomvar)
 function compte_famille($maille,$droit,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(DISTINCT obs.cdref) AS nb, famille.famille, famille.cdnom FROM obs.fiche
@@ -90,7 +90,7 @@ function compte_famille($maille,$droit,$nomvar)
 function compte_famille_utm($maille,$droit,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(DISTINCT obs.cdref) AS nb, famille.famille, famille.cdnom FROM obs.fiche
@@ -121,7 +121,7 @@ function compte_famille_utm($maille,$droit,$nomvar)
 function compte_famille_maille5($maille,$droit,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(DISTINCT obs.cdref) AS nb, famille.famille, famille.cdnom FROM obs.fiche
@@ -152,7 +152,7 @@ function compte_famille_maille5($maille,$droit,$nomvar)
 function liste($maille,$droit,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, liste.cdnom, famille FROM obs.fiche
@@ -182,7 +182,7 @@ function liste($maille,$droit,$nomvar)
 function listeutm($maille,$droit,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, liste.cdnom, famille FROM obs.fiche
@@ -212,7 +212,7 @@ function listeutm($maille,$droit,$nomvar)
 function liste5($maille,$droit,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, liste.cdnom, famille FROM obs.fiche
@@ -242,7 +242,7 @@ function liste5($maille,$droit,$nomvar)
 function nbespece($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(DISTINCT obs.cdref) AS Nb FROM obs.obs
 						INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref
 						WHERE rang = 'ES' ");
@@ -253,7 +253,7 @@ function nbespece($nomvar)
 function nouvelle_espece($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT obs.cdref AS cdnom, nom, nomvern, EXTRACT(YEAR FROM MIN(date1)) AS annee FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN $nomvar.liste ON obs.cdref = liste.cdnom
@@ -269,7 +269,7 @@ function nouvelle_espece($maille,$nomvar)
 function nouvelle_espece_utm($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT obs.cdref AS cdnom, nom, nomvern, EXTRACT(YEAR FROM MIN(date1)) AS annee FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN $nomvar.liste ON obs.cdref = liste.cdnom
@@ -285,7 +285,7 @@ function nouvelle_espece_utm($maille,$nomvar)
 function nouvelle_espece_maille5($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT obs.cdref AS cdnom, nom, nomvern, EXTRACT(YEAR FROM MIN(date1)) AS annee FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN $nomvar.liste ON obs.cdref = liste.cdnom

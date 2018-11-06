@@ -14,7 +14,7 @@ function calc_m($choix,$nomvar,$valchoix,$maillage,$date)
 	$strQuery .= ' GROUP BY codel93 ) AS s';
 	$strQuery .= ' WHERE nb <= :mini';
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':sel', $nomvar);
 	if(!empty($date)) { $req->bindValue(':date', $date); }
@@ -34,7 +34,7 @@ function listeindice($nomvar,$date,$maillage)
 	$strQuery .= ' SELECT cdnom, nb, ir FROM referentiel.liste LEFT JOIN sel1 ON liste.cdnom = sel1.cdref INNER JOIN sel ON sel.cdref = liste.cdnom';
 	$strQuery .= " WHERE observatoire = :observa AND (rang = 'ES' OR rang = 'SSES')";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':observa', $nomvar);
 	if(!empty($date)) { $req->bindValue(':date', $date); }
@@ -46,7 +46,7 @@ function listeindice($nomvar,$date,$maillage)
 function mod_indice($cdref,$indice)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE referentiel.liste SET ir = :indice WHERE cdnom = :cdref ");
 	$req->bindValue(':cdref', $cdref);
 	$req->bindValue(':indice', $indice);

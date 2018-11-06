@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function liste()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (
 							SELECT liste.cdnom, nom, observatoire FROM referentiel.liste
 							WHERE rang = 'COM'

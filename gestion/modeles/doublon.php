@@ -2,7 +2,7 @@
 function doublon_fiche()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT idfiche, t1.iddep, commune, site, date1, t1.idcoord, observateur FROM obs.fiche AS t1
 						LEFT JOIN referentiel.commune USING(codecom)
 						LEFT JOIN obs.site USING(idsite)

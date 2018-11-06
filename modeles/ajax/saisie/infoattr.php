@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function methode($listeid)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query('SELECT idmethode AS id, methode AS lib, libelle AS desc FROM referentiel.methode WHERE idmethode IN('.$listeid.') ORDER BY methode ') or die(print_r($bdd->errorInfo()));
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -14,7 +14,7 @@ function methode($listeid)
 function prospection($listeid)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query('SELECT idpros AS id, prospection AS lib, libelle AS desc FROM referentiel.prospection WHERE idpros IN('.$listeid.') ORDER BY prospection ') or die(print_r($bdd->errorInfo()));
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -23,7 +23,7 @@ function prospection($listeid)
 function occstatutbio($listeid)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query('SELECT idstbio AS id, statutbio AS lib, libelle AS desc FROM referentiel.occstatutbio WHERE idstbio IN('.$listeid.') ORDER BY statutbio ') or die(print_r($bdd->errorInfo()));
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -32,7 +32,7 @@ function occstatutbio($listeid)
 function comportement($listeid)
 {
     $bdd = PDO2::getInstance();
-    $bdd->query('SET NAMES "utf8"');
+    $bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->query('SELECT idcomp AS id, libcomp AS lib, mdcomp AS desc FROM referentiel.comportement WHERE idcomp IN('.$listeid.') ORDER BY libcomp ') or die(print_r($bdd->errorInfo()));
     $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
@@ -41,7 +41,7 @@ function comportement($listeid)
 function stade($listeid)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query('SELECT idstade AS id, stade AS lib, libelle AS desc FROM referentiel.stade WHERE idstade IN('.$listeid.') ORDER BY stade ') or die(print_r($bdd->errorInfo()));
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -50,7 +50,7 @@ function stade($listeid)
 function mort($listeid)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query('SELECT idmort AS id, cause AS lib, libelle AS desc FROM referentiel.occmort WHERE idmort IN('.$listeid.') ORDER BY cause ') or die(print_r($bdd->errorInfo()));
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

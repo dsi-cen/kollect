@@ -3,7 +3,7 @@
 function cherche_observateur($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, idm, observateur.idobser FROM obs.plusobser
 						INNER JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
 						WHERE idfiche = :idfiche
@@ -17,7 +17,7 @@ function cherche_observateur($idfiche)
 function recherche_obs($idobs,$biblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($biblio == 'oui')
 	{
 		$req = $bdd->prepare("SELECT to_char(date1, 'DD/MM/YYYY') AS datefr, to_char(date2, 'DD/MM/YYYY') AS datefr2, site, commune, fiche.codecom, fiche.iddep, liste.nom, nomvern, nb, fiche.floutage, sensible, localisation, observateur.prenom, observateur.nom AS nomobs, fiche.idobser, obs.cdnom, obs.cdref, observa, fiche.idcoord, plusobser, idm, iddet, fiche.idfiche, statutobs, rqobs, validation, to_char(datesaisie, 'DD/MM/YYYY') AS dates, rang, iddetcol, typedet, organisme, idmor, idbiblio, etude.etude, protocole.protocole FROM obs.fiche
@@ -57,7 +57,7 @@ function recherche_obs($idobs,$biblio)
 function recherche_obs_inv($idobs,$biblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($biblio == 'oui')
 	{
 		$req = $bdd->prepare("SELECT to_char(date1, 'DD/MM/YYYY') AS datefr, to_char(date2, 'DD/MM/YYYY') AS datefr2, site, commune, fiche.codecom, fiche.iddep, taxref.nom, nomvern, nb, fiche.floutage, sensible, localisation, observateur.prenom, observateur.nom AS nomobs, fiche.idobser, obs.cdnom, obs.cdref, observa, fiche.idcoord, plusobser, idm, iddet, fiche.idfiche, statutobs, rqobs, validation, to_char(datesaisie, 'DD/MM/YYYY') AS dates, rang, idbiblio FROM obs.fiche
@@ -90,7 +90,7 @@ function recherche_obs_inv($idobs,$biblio)
 function recherche_det($iddet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom FROM referentiel.observateur WHERE idobser = :iddet ");
 	$req->bindValue(':iddet', $iddet);
 	$req->execute();
@@ -101,7 +101,7 @@ function recherche_det($iddet)
 function recherche_sp($cdnom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom FROM $nomvar.liste WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->execute();
@@ -112,7 +112,7 @@ function recherche_sp($cdnom,$nomvar)
 function recherche_com($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idm, commentaire, prenom, nom, to_char(datecom, 'DD/MM/YYYY - HH24:MI') AS datefr FROM site.comobs 
 						INNER JOIN site.membre ON membre.idmembre = comobs.idm
 						WHERE idobs = :idobs 
@@ -126,7 +126,7 @@ function recherche_com($idobs)
 function recherche_ligne($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT stade.stade, ndiff, male, femelle, denom, nbmin, nbmax, tdenom, idetatbio, methode, prospection, statutbio, comportement.libcomp FROM obs.ligneobs
 						INNER JOIN referentiel.stade ON stade.idstade = ligneobs.stade
 						INNER JOIN referentiel.methode USING(idmethode)
@@ -143,7 +143,7 @@ function recherche_ligne($idobs)
 function cherche_photo($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur AS auteur, nomphoto, observatoire, stade.stade, idphoto FROM site.photo
 						INNER JOIN referentiel.observateur USING(idobser)
 						LEFT JOIN referentiel.stade ON stade.idstade = photo.stade
@@ -157,7 +157,7 @@ function cherche_photo($idobs)
 function cherche_son($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur AS auteur, nomson, descri FROM site.son
 						INNER JOIN referentiel.observateur USING(idobser)
 						WHERE idobs = :idobs ");
@@ -170,7 +170,7 @@ function cherche_son($idobs)
 function supnotif($idobs,$idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM site.notif WHERE idtype = :idobs AND idm = :idm ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':idm', $idm);
@@ -180,7 +180,7 @@ function supnotif($idobs,$idm)
 function recherche_obs_fiche($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT liste.nom, nomvern, rang, observa, auteur, obs.cdref, idobs, sensible, validation, nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -196,7 +196,7 @@ function recherche_obs_fiche($idfiche)
 function recherche_photo_fiche($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nomphoto, photo.observatoire, observateur AS auteur, liste.nom, nomvern FROM site.photo
 						INNER JOIN obs.obs USING(idobs)
 						INNER JOIN referentiel.liste ON liste.cdnom = photo.cdnom
@@ -212,7 +212,7 @@ function recherche_photo_fiche($idfiche)
 function recherche_observa($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, observa FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -227,7 +227,7 @@ function recherche_observa($idfiche)
 function info_fiche($idfiche,$biblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($biblio == 'oui')
 	{
 		$req = $bdd->prepare("SELECT to_char(date1, 'DD/MM/YYYY') AS datefr, to_char(date2, 'DD/MM/YYYY') AS datefr2, site, commune, fiche.codecom, fiche.iddep, fiche.floutage, localisation, observateur.prenom, observateur.nom, fiche.idobser, fiche.idcoord, plusobser, idm, idbiblio FROM obs.fiche
@@ -254,7 +254,7 @@ function info_fiche($idfiche,$biblio)
 function sensible($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT sensible, sensible.cdnom FROM obs.obs
 						LEFT JOIN referentiel.sensible ON sensible.cdnom = obs.cdref
 						WHERE idfiche = :idfiche ");
@@ -267,7 +267,7 @@ function sensible($idfiche)
 function cherche_vali($idm,$observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idmembre FROM site.validateur WHERE discipline ILIKE :observa AND idmembre = :id ");
 	$req->bindValue(':observa', '%'.$observa.'%');
 	$req->bindValue(':id', $idm);
@@ -279,7 +279,7 @@ function cherche_vali($idm,$observa)
 function plante($idobs,$tablebota)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($tablebota == 'listebota')
 	{
 		$req = $bdd->prepare("SELECT stade.stade, nb, nom, nomvern FROM obs.obsplte
@@ -305,7 +305,7 @@ function plante($idobs,$tablebota)
 function aves($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT code FROM obs.aves WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->execute();
@@ -316,7 +316,7 @@ function aves($idobs)
 function recherche_membre($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT prenom, nom FROM site.membre WHERE idmembre = :idm ");
 	$req->bindValue(':idm', $idm);
 	$req->execute();

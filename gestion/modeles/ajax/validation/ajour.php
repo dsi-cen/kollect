@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function ajour()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->exec("INSERT INTO vali.grille
 						SELECT cdref, COUNT(idobs) AS nb, array_agg(DISTINCT codel93) AS codel93, array_agg(DISTINCT decade) AS decade, array_agg(DISTINCT idobser) AS obser FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
@@ -19,7 +19,7 @@ function ajour()
 function vidergrille()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->exec("DELETE FROM vali.grille ");
 	return $req;
 }

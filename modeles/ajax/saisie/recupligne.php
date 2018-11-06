@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function ligne($idligne)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idfiche, idligne, obs.idobs, obs.cdnom, obs.cdref, nom_cite, iddet, nb, rqobs, observa, statutobs, idprotocole, ligneobs.stade, ndiff, male, femelle, denom, tdenom, idcomp, nbmin, nbmax, idetatbio,
 						idmethode, idpros, idstbio, liste.nom, nomvern, observateur AS det, cdhab, mort FROM obs.ligneobs
 						INNER JOIN obs.obs USING(idobs)
@@ -23,7 +23,7 @@ function ligne($idligne)
 function aves($idobs,$stade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT code FROM obs.aves WHERE idobs = :idobs AND stade = :stade ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
 	$req->bindValue(':stade', $stade);
@@ -35,7 +35,7 @@ function aves($idobs,$stade)
 function mort($idobs,$stade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT mort FROM obs.obsmort WHERE idobs = :idobs AND stade = :stade ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
 	$req->bindValue(':stade', $stade);
@@ -47,7 +47,7 @@ function mort($idobs,$stade)
 function col($idobs,$stade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idcol, iddetcol, iddetgen, codegen, sexe, idprep, typedet FROM obs.obscoll WHERE idobs = :idobs AND stade = :stade ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
 	$req->bindValue(':stade', $stade);
@@ -59,7 +59,7 @@ function col($idobs,$stade)
 function recup_obser($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur FROM referentiel.observateur WHERE idobser = :idobser ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobser', $idobser);
 	$req->execute();
@@ -70,7 +70,7 @@ function recup_obser($idobser)
 function habitat($cdhab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT lbcode, niveau FROM referentiel.eunis WHERE cdhab = :cdhab ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdhab', $cdhab);
 	$req->execute();
@@ -81,7 +81,7 @@ function habitat($cdhab)
 function cdhab1($lbcode)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdhab FROM referentiel.eunis WHERE lbcode = :lbcode ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':lbcode', $lbcode);
 	$req->execute();
@@ -92,7 +92,7 @@ function cdhab1($lbcode)
 function plante($idobs,$tablebota,$stade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($tablebota == 'listebota')
 	{
 		$req = $bdd->prepare("SELECT obsplte.stade, nb, nom, nomvern, obsplte.cdnom FROM obs.obsplte

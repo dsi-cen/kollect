@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recupid($idsite)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idsite, idcoord FROM obs.site WHERE idsite = :idsite ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idsite', $idsite);
 	$req->execute();
@@ -16,7 +16,7 @@ function recupid($idsite)
 function modif_fiche($n,$idsite,$idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.fiche SET idsite = :idsite, idcoord = :idcoord WHERE idsite = :idsiteg ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idsite', $idsite);
 	$req->bindValue(':idcoord', $idcoord);
@@ -27,7 +27,7 @@ function modif_fiche($n,$idsite,$idcoord)
 function verifsite($idsite)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT count(*) AS nb FROM obs.fiche WHERE idsite = :idsite ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idsite', $idsite);
 	$req->execute();
@@ -38,7 +38,7 @@ function verifsite($idsite)
 function sup_site($idsite)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.site WHERE idsite = :idsite ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idsite', $idsite);
 	$req->execute();
@@ -47,7 +47,7 @@ function sup_site($idsite)
 function verifcoord($idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT count(*) AS nb FROM obs.site WHERE idcoord = :idcoord ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idcoord', $idcoord);
 	$req->execute();
@@ -58,7 +58,7 @@ function verifcoord($idcoord)
 function sup_coord($idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.coordonnee WHERE idcoord = :idcoord ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idcoord', $idcoord);
 	$req->execute();

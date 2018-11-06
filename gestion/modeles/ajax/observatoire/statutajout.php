@@ -14,7 +14,7 @@ function verif($id)
 function insere_statut($id,$article,$lib,$ref,$url,$type,$annee)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO statut.libelle (cdprotect, article, intitule, arrete, url, type, annee) VALUES (:id, :article, :lib, :ref, :url, :type, :annee) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->bindValue(':article', $article);
@@ -30,7 +30,7 @@ function insere_statut($id,$article,$lib,$ref,$url,$type,$annee)
 function mod_statut($id,$article,$lib,$ref,$url,$annee)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE statut.libelle SET article =:article, intitule =:lib, arrete =:ref, url =:url, annee =:annee WHERE cdprotect = :id ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->bindValue(':article', $article);

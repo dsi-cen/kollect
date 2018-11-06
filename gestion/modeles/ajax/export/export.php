@@ -5,7 +5,7 @@ session_start();
 function obs($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT x, y, site FROM obs.coordonnee
 						INNER JOIN obs.fiche USING(idcoord)
 						INNER JOIN obs.obs USING(idfiche)

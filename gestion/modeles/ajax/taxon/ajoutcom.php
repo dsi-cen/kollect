@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function info($cdnom,$observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdsup, cdtaxsup, genre, famille FROM $observa.liste WHERE cdnom = :cdnom AND rang = 'ES' ");
 	$req->bindValue(':cdnom', $cdnom);
 	$req->execute();
@@ -16,7 +16,7 @@ function info($cdnom,$observa)
 function rmax_cdnom()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT max(cdnom) AS max FROM referentiel.liste WHERE cdnom >= 1000000 ");
 	$resultat = $req->fetch(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -25,7 +25,7 @@ function rmax_cdnom()
 function insere_liste($observa,$cdnom,$cdsup,$cdtaxsup,$nom,$genre,$famille)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO $observa.liste (cdnom, cdref, cdsup, cdtaxsup, nom, genre, rang, famille, locale)
 						VALUES(:cdnom, :cdref, :cdsup, :cdtaxsup, :nom, :genre, :rang, :famille, :locale) ");
 	$req->bindValue(':cdnom', $cdnom);
@@ -43,7 +43,7 @@ function insere_liste($observa,$cdnom,$cdsup,$cdtaxsup,$nom,$genre,$famille)
 function insere_lister($observa,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.liste (cdnom,nom,auteur,nomvern,observatoire,rang,vali)
 						SELECT cdnom, nom, auteur, nomvern, '$observa' AS observatoire, rang, 0 AS vali FROM $observa.liste
 						WHERE cdref = :cdref AND cdref = cdnom AND rang = 'COM' ");
@@ -54,7 +54,7 @@ function insere_lister($observa,$cdnom)
 function insere_similaire($cdnom,$simi,$com)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.similaire (cdnom,simi,com) VALUES(:cdnom, :simi, :com) ");
 	$req->bindValue(':cdnom', $cdnom);					
 	$req->bindValue(':simi', $simi);

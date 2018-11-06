@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function cartoutm($cdnom,$rang,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT utm, geo FROM obs.fiche
@@ -32,7 +32,7 @@ function cartoutm($cdnom,$rang,$nomvar)
 function cartol93($cdnom,$rang,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT codel93 FROM obs.fiche
@@ -57,7 +57,7 @@ function cartol93($cdnom,$rang,$nomvar)
 function nbobs($nomvar,$rang,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT idbiogeo, COUNT(idobs) AS nb FROM obs.obs

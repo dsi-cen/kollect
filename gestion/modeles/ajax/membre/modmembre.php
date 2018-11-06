@@ -7,7 +7,7 @@ if(isset($_POST['id']))
 	function mod_membre($id,$nom,$prenom,$mail,$droits,$gestion)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("UPDATE site.membre SET nom = :nom, prenom = :prenom, droits = :droits, mail = :mail, gestionobs = :gestion WHERE idmembre = :id ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':id', $id);
 		$req->bindValue(':nom', $nom);
@@ -21,7 +21,7 @@ if(isset($_POST['id']))
 	function cherche_validateur($id)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT discipline FROM site.validateur WHERE idmembre = :id ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':id', $id);
 		$req->execute();
@@ -33,7 +33,7 @@ if(isset($_POST['id']))
 	function modif_validateur($id,$disc)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("UPDATE site.validateur SET discipline = :disc WHERE idmembre = :id ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':id', $id);
 		$req->bindValue(':disc', $disc);
@@ -43,7 +43,7 @@ if(isset($_POST['id']))
 	function sup_validateur($id)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("DELETE FROM site.validateur WHERE idmembre = :id ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':id', $id);
 		$req->execute();
@@ -52,7 +52,7 @@ if(isset($_POST['id']))
 	function insere_validateur($id,$disc)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("INSERT INTO site.validateur (idmembre, discipline) VALUES(:id, :disc) ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':id', $id);
 		$req->bindValue(':disc', $disc);

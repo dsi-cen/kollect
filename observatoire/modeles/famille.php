@@ -10,7 +10,7 @@ function rechercher_rang($nomvar)
 function recherche_sfamille($cdnom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT sousfamille, famille, famille.cdnom FROM $nomvar.sousfamille
 						INNER JOIN $nomvar.famille ON famille.cdnom = sousfamille.cdsup
 						WHERE sousfamille.cdnom = :cdnom ");
@@ -23,7 +23,7 @@ function recherche_sfamille($cdnom,$nomvar)
 function recherche_famille($cdnom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT famille FROM $nomvar.famille WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->execute();
@@ -48,7 +48,7 @@ function recherche_sousfamille($nomvar,$cdnom,$afflatin,$sgenre,$stribu,$tribu)
 	$strQuery .= " GROUP BY liste.cdnom, liste.nom, liste.nomvern, liste.auteur, genre.genre, genre.cdnom, soustribu, tribu, sousgenre";
 	$strQuery .= ($afflatin == 'oui') ? " ORDER BY genre, nom" : " ORDER BY genre, nomvern";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->execute();
@@ -67,7 +67,7 @@ function recherche_sfstfam($nomvar,$stribu,$tribu,$cdnom)
 	if($tribu == 'oui') { $strQuery .= ' OR sousfamille.cdnom = tribu.cdsup'; }
 	$strQuery .= " WHERE liste.famille = :cdnom AND rang = 'ES'";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->execute();
@@ -87,7 +87,7 @@ function liste_sousfamille_autre($nomvar,$stribu,$tribu,$cdnom,$afflatin)
 	$strQuery .= " WHERE liste.famille = :cdnom AND rang = 'ES' AND sousfamille.cdnom IS NULL";
 	$strQuery .= ($afflatin == 'oui') ? ' ORDER BY liste.nom' : ' ORDER BY liste.nomvern';
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->execute();
@@ -107,7 +107,7 @@ function liste_sousfamille($nomvar,$stribu,$tribu,$cdnom,$afflatin)
 	$strQuery .= " WHERE liste.famille = :cdnom AND rang = 'ES' AND sousfamille.cdnom IS NOT NULL";
 	$strQuery .= ($afflatin == 'oui') ? ' ORDER BY sousfamille, liste.nom' : ' ORDER BY sousfamille, liste.nomvern';
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->execute();
@@ -120,7 +120,7 @@ function liste_sans_sousfamille($nomvar,$cdnom,$afflatin)
 	$strQuery = "SELECT DISTINCT liste.nom, liste.nomvern, liste.cdnom, liste.auteur FROM $nomvar.liste INNER JOIN obs.obs ON obs.cdref = liste.cdnom WHERE liste.famille = :cdnom AND rang = 'ES'";
 	$strQuery .= ($afflatin == 'oui') ? ' ORDER BY liste.nom' : ' ORDER BY liste.nomvern';
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $cdnom, PDO::PARAM_INT);
 	$req->execute();

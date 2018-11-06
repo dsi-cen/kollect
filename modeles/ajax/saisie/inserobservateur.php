@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function rechercher_observateur($observateur)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur FROM referentiel.observateur WHERE observateur = :observateur ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':observateur', $observateur);
 	$req->execute();
@@ -16,7 +16,7 @@ function rechercher_observateur($observateur)
 function insere_observateurs($nom,$prenoma,$observateur)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.observateur (observateur, nom, prenom) VALUES (:observateur, :nom, :prenom) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenoma);

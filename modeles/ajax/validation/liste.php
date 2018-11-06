@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function liste($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdnom, nom, nomvern, vali, stade, photo, son, loupe, bino FROM referentiel.liste
 						LEFT JOIN vali.critere USING(cdnom) 
 						WHERE observatoire = :observa AND (rang = 'ES' OR rang = 'SSES') 
@@ -19,7 +19,7 @@ function liste($nomvar)
 function listechoix($nomvar,$choix)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdnom, nom, nomvern, vali, stade, photo, son, loupe, bino FROM referentiel.liste
 						LEFT JOIN vali.critere USING(cdnom) 
 						WHERE observatoire = :observa AND (rang = 'ES' OR rang = 'SSES') AND vali = :vali

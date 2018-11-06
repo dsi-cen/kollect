@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function listeobs($cdnom,$rang,$nomvar,$genre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT observateur.nom, prenom FROM obs.fiche 

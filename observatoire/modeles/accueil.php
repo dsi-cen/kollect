@@ -2,7 +2,7 @@
 function listeactu($nbactu,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idactu, titre, to_char(datecreation, 'DD/MM/YYYY') AS datefr FROM actu.actu
 						WHERE theme = :theme
 						ORDER BY datecreation DESC LIMIT $nbactu ");
@@ -15,7 +15,7 @@ function listeactu($nbactu,$nomvar)
 function article($type)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idarticle FROM site.article WHERE typear = :type ");
 	$req->bindValue(':type', $type);
 	$req->execute();
@@ -26,7 +26,7 @@ function article($type)
 function nbobservateur($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT DISTINCT idobser FROM obs.fiche 
 							INNER JOIN obs.obs USING(idfiche)
@@ -46,7 +46,7 @@ function nbobservateur($nomvar)
 /*function nbobservateur($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT observateur.idobser) AS nb FROM obs.fiche 
 						INNER JOIN obs.obs USING(idfiche)
 						LEFT JOIN obs.plusobser USING(idfiche)
@@ -72,7 +72,7 @@ WITH sel AS (
 function nbobservateur($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idobser FROM obs.fiche
 						INNER JOIN obs.obs USING (idfiche) 
 						WHERE observa = :nomvar  ") or die(print_r($bdd->errorInfo()));
@@ -85,7 +85,7 @@ function nbobservateur($nomvar)
 function nbobservateur1($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT plusobser.idobser FROM obs.fiche
 						INNER JOIN obs.obs USING (idfiche) 
 						INNER JOIN obs.plusobser ON plusobser.idfiche = fiche.idfiche
@@ -99,7 +99,7 @@ function nbobservateur1($nomvar)
 function nbobs($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(*) AS Nb FROM obs.obs WHERE observa = :nomvar ");
 	$req->bindValue(':nomvar', $nomvar);
 	$req->execute();
@@ -110,7 +110,7 @@ function nbobs($nomvar)
 function nbespece($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT obs.cdref) AS Nb FROM obs.obs 
 						INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref 
 						WHERE observa = :nomvar AND (rang = 'ES' OR rang = 'SSES') ");
@@ -123,7 +123,7 @@ function nbespece($nomvar)
 function nbphoto($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(*) AS Nb FROM site.photo WHERE observatoire = :nomvar ");
 	$req->bindValue(':nomvar', $nomvar);
 	$req->execute();
@@ -134,7 +134,7 @@ function nbphoto($nomvar)
 function nbespecep($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdnom) as nb FROM site.photo WHERE observatoire = :nomvar ");
 	$req->bindValue(':nomvar', $nomvar);
 	$req->execute();
@@ -145,7 +145,7 @@ function nbespecep($nomvar)
 function photo($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, nomphoto, observatoire, to_char(datephoto, 'DD/MM/YYYY') as datefr, cdnom FROM site.photo
 						INNER JOIN referentiel.observateur USING(idobser)
 						WHERE datesaisie <= NOW() AND observatoire = :nomvar
@@ -160,7 +160,7 @@ function photo($nomvar)
 function decade($nomvar,$decade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$bdd->query('SET lc_time_names = "fr_FR"');
 	$req = $bdd->prepare("WITH sel AS (SELECT obs.cdref, liste.nom, nomvern, COUNT(obs.idobs) AS nb FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
@@ -186,7 +186,7 @@ function decade($nomvar,$decade)
 function listeobs($nomvar,$dater)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (SELECT idobs, to_char(date1, 'DD/MM/YYYY') AS datefr, date1, observa, cdref, codecom, floutage FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)
 							WHERE date1 >= :date AND observa = :nomvar

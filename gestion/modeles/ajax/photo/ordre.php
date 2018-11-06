@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function recherche($cdnom)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idphoto, ordre FROM site.photo WHERE cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdnom', $cdnom);
 	$req->execute();
@@ -17,7 +17,7 @@ function recherche($cdnom)
 function modordre($mordre,$id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.photo SET ordre = :ordre WHERE idphoto = :id ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->bindValue(':ordre', $mordre);

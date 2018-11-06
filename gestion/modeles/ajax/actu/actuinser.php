@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function insere_actu($titre,$stitre,$actu,$tag,$theme,$date,$lien,$visible,$idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO actu.actu (titre, soustitre, actu, tag, theme, datecreation, url, compte, visible, idauteur) VALUES(:titre, :stitre, :actu, :tag, :theme, :date, :lien, :compte, :visible, :idm) ");
 	$req->bindValue(':titre', $titre);
 	$req->bindValue(':stitre', $stitre);
@@ -27,7 +27,7 @@ function insere_actu($titre,$stitre,$actu,$tag,$theme,$date,$lien,$visible,$idm)
 function insere_photo($idactu,$nomphoto,$auteur,$info)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO actu.photoactu (idactu, nom, auteur, info) VALUES(:idactu, :nom, :auteur, :info) ");
 	$req->bindValue(':idactu', $idactu);
 	$req->bindValue(':nom', $nomphoto);
@@ -40,7 +40,7 @@ function insere_photo($idactu,$nomphoto,$auteur,$info)
 function insere_pdf($idactu,$nomdoc)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO actu.docactu (nomdoc, idactu) VALUES(:nom, :idactu) ");
 	$req->bindValue(':idactu', $idactu);
 	$req->bindValue(':nom', $nomdoc);
@@ -51,7 +51,7 @@ function insere_pdf($idactu,$nomdoc)
 function modif($idactu,$idm,$type,$modif,$datem)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typeid, numid, typemodif, modif, datemodif, idmembre)
 						VALUES(:typeid, :id, :type, :modif, :datem, :idm) ");
 	$req->bindValue(':id', $idactu);

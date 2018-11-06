@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function insere_mot($mot)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.motcle (mot) VALUES (:mot) ");
 	$req->bindValue(':mot', $mot);
 	$vali = ($req->execute()) ? $bdd->lastInsertId('biblio.motcle_idmc_seq') : 'non';

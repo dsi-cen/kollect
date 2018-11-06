@@ -35,7 +35,7 @@ function table($nomvar)
 function creersystematique($nomvar)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $nomvar.systematique (
 						cdnom integer NOT NULL,
 						ordre smallint,
@@ -48,7 +48,7 @@ function creersystematique($nomvar)
 function inser($nomvar,$chemin,$fr)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO $nomvar.systematique (cdnom,ordre,gen1,gen2,rang) VALUES(:cdnom, :ordre, :gen1, :gen2, :rang) ") or die(print_r($bdd->errorInfo()));
 	$nb = 0;
 	$liste = fgetcsv($chemin, 1024, ';'); 

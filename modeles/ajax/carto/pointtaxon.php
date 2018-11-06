@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function taxon($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, nomvern, sensible FROM referentiel.liste
 						LEFT JOIN referentiel.sensible ON sensible.cdnom = liste.cdnom
 						WHERE liste.cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));
@@ -18,7 +18,7 @@ function taxon($cdnom)
 function recherchepoint($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT lat, lng FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN obs.coordonnee USING(idcoord)

@@ -24,7 +24,7 @@ function creerschema($nomvar)
 function modif($idmembre,$type,$modif,$datem)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typemodif, modif, datemodif, idmembre)
 						VALUES(:type, :modif, :datem, :idm) ");
 	$req->bindValue(':type', $type);

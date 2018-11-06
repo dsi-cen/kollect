@@ -8,7 +8,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT commune, codecom FROM referentiel.commune 
 							WHERE commune ILIKE :recherche
 							ORDER BY commune
@@ -23,7 +23,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT commune, departement, codecom FROM referentiel.commune
 							INNER JOIN referentiel.departement ON departement.iddep = commune.iddep
 							WHERE commune ILIKE :recherche

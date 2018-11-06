@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function listesite($idcoord)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT commune, codecom, site, idsite, idcoord, coordonnee.x, coordonnee.y, coordonnee.lat, coordonnee.lng, coordonnee.altitude, codel93, utm, utm1 FROM obs.site
 						INNER JOIN obs.coordonnee USING(idcoord)
 						INNER JOIN referentiel.commune USING(codecom)

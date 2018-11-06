@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function liste()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idetude, etude, libelle, masquer FROM referentiel.etude ORDER BY idetude ");
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -14,7 +14,7 @@ function liste()
 function insere_etude($id,$etu,$lib,$voir)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.etude (idetude, etude, libelle, masquer) VALUES (:id, :etu, :lib, :voir) ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':etu', $etu);
@@ -27,7 +27,7 @@ function insere_etude($id,$etu,$lib,$voir)
 function mod_protocole($id,$etu,$lib,$voir)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE referentiel.etude SET etude =:etu, libelle =:lib, masquer =:voir WHERE idetude = :id ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':etu', $etu);

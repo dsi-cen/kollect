@@ -6,7 +6,7 @@ session_start();
 function cherche_actuel($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT validation, idm, cdref, mail FROM obs.obs 
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN referentiel.observateur USING(idobser)
@@ -21,7 +21,7 @@ function cherche_actuel($idobs)
 function mod_vali($idobs,$choix)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.obs SET validation = :vali WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':vali', $choix);
@@ -32,7 +32,7 @@ function mod_vali($idobs,$choix)
 function inser_histovali($idobs,$cdnom,$dates,$choix,$dec,$idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO vali.histovali (idobs, cdnom, dateval, vali, decision, idm, typevali) VALUES(:idobs, :cdnom, :dateval, :vali, :dec, :idm, 2) ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':cdnom', $cdnom);
@@ -47,7 +47,7 @@ function inser_histovali($idobs,$cdnom,$dates,$choix,$dec,$idm)
 function insere_com($idobs,$idm,$rq,$datecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO vali.comvali (idobs,idm,commentaire,datecom) VALUES(:idobs, :idm, :com, :datecom) ");
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':idobs', $idobs);
@@ -60,7 +60,7 @@ function insere_com($idobs,$idm,$rq,$datecom)
 function insere_notif($idobs,$idmor)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.notif (idm,type,idtype) VALUES(:idm, :type, :idobs) ");
 	$req->bindValue(':idm', $idmor);
 	$req->bindValue(':idobs', $idobs);
@@ -71,7 +71,7 @@ function insere_notif($idobs,$idmor)
 function verif_suptaxon($cdref)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT count(*) AS nb FROM obs.obs WHERE cdref = :cdref AND validation != 4 ");
 	$req->bindValue(':cdref', $cdref);
 	$resultat = $req->fetchColumn();
@@ -81,7 +81,7 @@ function verif_suptaxon($cdref)
 function modif_listeob($cdref,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $nomvar.liste SET locale = :locale WHERE cdref = :cdref ");
 	$req->bindValue(':cdref', $cdref);
 	$req->bindValue(':locale', 'non');
@@ -91,7 +91,7 @@ function modif_listeob($cdref,$nomvar)
 function sup_lister($cdref)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM referentiel.liste WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $cdref);
 	$req->execute();
@@ -100,7 +100,7 @@ function sup_lister($cdref)
 function modif($idobs,$idmembre,$datem,$cdref)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typeid, numid, typemodif, modif, datemodif, idmembre)
 						VALUES(:typeid, :id, :type, :modif, :datem, :idm) ");
 	$req->bindValue(':id', $cdref);

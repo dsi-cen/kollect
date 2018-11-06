@@ -5,7 +5,7 @@ include '../../lib/pdo2.php';
 function liste_alpha($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT liste.cdnom, nom, observatoire FROM biblio.biblio
 						LEFT JOIN biblio.bibliofiche USING(idbiblio)
 						LEFT JOIN obs.obs USING(idfiche)
@@ -22,7 +22,7 @@ function liste_alpha($id)
 function liste_alpha_fr($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT liste.cdnom, nomvern AS nom, observatoire FROM biblio.biblio
 						LEFT JOIN biblio.bibliofiche USING(idbiblio)
 						LEFT JOIN obs.obs USING(idfiche)

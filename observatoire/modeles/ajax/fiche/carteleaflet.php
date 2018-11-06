@@ -11,7 +11,7 @@ function datemin($cdnom,$rang,$nomvar,$droit)
 	$strQuery .= ($rang == 'oui') ? " WHERE (obs.cdref = :cdref OR cdsup = :cdref) AND (date1 = date2) AND (validation = 1 OR validation = 2)" : " WHERE cdref = :cdref AND (date1 = date2) AND (validation = 1 OR validation = 2)";
 	$strQuery .= ($droit == 'non') ? " AND floutage = 0 " : "";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery) or die(print_r($bdd->errorInfo()));	
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -29,7 +29,7 @@ function rechercheobs($cdnom,$rang,$nomvar,$droit)
 	$strQuery .= ($rang == 'oui') ? " WHERE (obs.cdref = :cdref OR cdsup = :cdref) AND (date1 = date2) AND (validation = 1 OR validation = 2) AND statutobs != 'No'" : " WHERE cdref = :cdref AND (date1 = date2) AND (validation = 1 OR validation = 2) AND statutobs != 'No'";
 	$strQuery .= ($droit == 'non') ? " AND floutage = 0 " : "";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery) or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -46,7 +46,7 @@ function sensible($cdnom,$rang,$nomvar)
 	$strQuery .= " )";
 	$strQuery .= " SELECT DISTINCT sel.idfiche FROM sel INNER JOIN obs.obs ON obs.idfiche = sel.idfiche LEFT JOIN referentiel.sensible ON sensible.cdnom = obs.cdref WHERE sensible >= 1";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery) or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();

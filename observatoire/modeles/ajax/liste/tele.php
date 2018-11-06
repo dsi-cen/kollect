@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function liste($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT liste.nom, liste.nomvern, famille.famille, to_char(MIN(date1), 'DD/MM/YYYY') AS min, to_char(MAX(date1), 'DD/MM/YYYY') AS max, COUNT(obs.cdref) AS nb, COUNT(DISTINCT idcoord) AS nbs, ir FROM $nomvar.liste
 						INNER JOIN obs.obs ON obs.cdref = liste.cdnom
 						INNER JOIN obs.fiche USING(idfiche)

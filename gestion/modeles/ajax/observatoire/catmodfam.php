@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function modiffamille($nomvar,$id,$vern)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE $nomvar.famille SET nomvern =:vern WHERE cdnom = :id ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':id', $id);
 	$req->bindValue(':vern', $vern);

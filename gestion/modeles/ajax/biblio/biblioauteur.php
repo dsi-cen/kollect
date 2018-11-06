@@ -8,7 +8,7 @@ if(isset($_GET['term']))
 	function liste($term)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT nom, prenom, annee, titre, idbiblio FROM biblio.biblio
 							LEFT JOIN biblio.plusauteur USING(idbiblio)
 							INNER JOIN biblio.auteurs ON auteurs.idauteur = biblio.idauteur OR auteurs.idauteur = plusauteur.idauteur

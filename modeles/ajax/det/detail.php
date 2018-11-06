@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function vali($observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(vali) AS nb, vali FROM site.photodet
 						WHERE observa = :observa
 						GROUP BY vali ") or die(print_r($bdd->errorInfo()));

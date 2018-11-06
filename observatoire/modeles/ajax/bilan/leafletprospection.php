@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function mgrs($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT geo FROM referentiel.mgrs10 WHERE mgrs = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();

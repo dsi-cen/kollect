@@ -2,7 +2,7 @@
 function cherche_commune($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT commune FROM referentiel.commune WHERE codecom = :codecom ");
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();
@@ -13,7 +13,7 @@ function cherche_commune($codecom)
 function cherche_departement($iddep)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT departement FROM referentiel.departement WHERE iddep = :iddep ");
 	$req->bindValue(':iddep', $iddep);
 	$req->execute();
@@ -24,7 +24,7 @@ function cherche_departement($iddep)
 function cherche_departement_dep($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT iddep, departement FROM referentiel.departement 
 						INNER JOIN referentiel.commune USING(iddep)
 						WHERE codecom = :codecom ");
@@ -51,7 +51,7 @@ function liste_statut_com($codecom,$droit,$nomvar)
 					INNER JOIN referentiel.liste ON liste.cdnom = sel.cdref
 					ORDER BY nom";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':codecom', $codecom);
 	$req->bindValue(':observa', $nomvar);
@@ -78,7 +78,7 @@ function liste_statut_l93($maille,$droit,$nomvar)
 					INNER JOIN referentiel.liste ON liste.cdnom = sel.cdref
 					ORDER BY nom";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':maille', $maille);
 	$req->bindValue(':observa', $nomvar);
@@ -105,7 +105,7 @@ function liste_statut_l935($maille,$droit,$nomvar)
 					INNER JOIN referentiel.liste ON liste.cdnom = sel.cdref
 					ORDER BY nom";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':maille', $maille);
 	$req->bindValue(':observa', $nomvar);
@@ -132,7 +132,7 @@ function liste_statut_utm($maille,$droit,$nomvar)
 					INNER JOIN referentiel.liste ON liste.cdnom = sel.cdref
 					ORDER BY nom";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':maille', $maille);
 	$req->bindValue(':observa', $nomvar);
@@ -144,7 +144,7 @@ function liste_statut_utm($maille,$droit,$nomvar)
 function liste_statut_dep($iddep,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT COUNT(idobs) AS nbt, obs.cdref FROM obs.obs
 							INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref
@@ -170,7 +170,7 @@ function liste_statut_dep($iddep,$nomvar)
 function statut_commune($codecom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdref, type, lr FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN statut.statut ON statut.cdnom = obs.cdref
@@ -187,7 +187,7 @@ function statut_commune($codecom,$nomvar)
 function statut_dep($iddep,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdref, type, lr FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN statut.statut ON statut.cdnom = obs.cdref
@@ -204,7 +204,7 @@ function statut_dep($iddep,$nomvar)
 function statut_l93($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdref, type, lr FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee USING(idcoord)
@@ -222,7 +222,7 @@ function statut_l93($maille,$nomvar)
 function statut_l935($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdref, type, lr FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee USING(idcoord)
@@ -240,7 +240,7 @@ function statut_l935($maille,$nomvar)
 function statut_utm($maille,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdref, type, lr FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee USING(idcoord)

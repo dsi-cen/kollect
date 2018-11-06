@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function histovali($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT dateval, vali, decision, CASE WHEN typevali = 1 THEN 'Automatique' ELSE 'Manuelle' END AS Typevali, nom FROM vali.histovali 
 						INNER JOIN referentiel.taxref ON taxref.cdnom = histovali.cdnom
 						WHERE idobs = :idobs ") or die(print_r($bdd->errorInfo()));
@@ -18,7 +18,7 @@ function histovali($idobs)
 function comvali($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT commentaire, to_char(datecom, 'DD/MM/YYYY à HH24:MI') AS datefr, idm, prenom, nom FROM vali.comvali 
 						INNER JOIN site.membre ON membre.idmembre = comvali.idm
 						WHERE idobs = :idobs ") or die(print_r($bdd->errorInfo()));

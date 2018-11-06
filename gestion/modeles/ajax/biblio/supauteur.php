@@ -7,7 +7,7 @@ if (isset($_POST["id"]))
 	function cherche_auteur($id)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT idbiblio FROM biblio.biblioauteur WHERE idauteur = :id ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':id', $id);
 		$req->execute();

@@ -6,7 +6,7 @@ session_start();
 function recupobs($idobs,$idm)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdref, idobser, date1, codecom, observa, stade FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.ligneobs USING(idobs)
@@ -22,7 +22,7 @@ function recupobs($idobs,$idm)
 function liste_photo($cdref)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idphoto) AS nb FROM site.photo WHERE cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdnom', $cdref);
 	$req->execute();
@@ -33,7 +33,7 @@ function liste_photo($cdref)
 function recupnom($idpdet)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nomphoto, observa FROM site.photodet 
 						INNER JOIN obs.obs USING(idobs)
 						WHERE idpdet = :idpdet ") or die(print_r($bdd->errorInfo()));
@@ -46,7 +46,7 @@ function recupnom($idpdet)
 function mod_photodet($idpdet,$idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.photodet SET idobs = :idobs WHERE idpdet = :idpdet ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idpdet', $idpdet);
 	$req->bindValue(':idobs', $idobs);
@@ -57,7 +57,7 @@ function mod_photodet($idpdet,$idobs)
 function insere_photo($cdref,$idobser,$datep,$codecom,$stade,$nomphoto,$dates,$sexe,$obser,$idobs,$ordre)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.photo (cdnom, idobser, datephoto, codecom, stade, nomphoto, datesaisie, sexe, observatoire, idobs, ordre) VALUES(:cdnom, :idobser, :datep, :codecom, :stade, :nom, :dates, :sexe, :obser, :idobs, :ordre) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':cdnom', $cdref);
 	$req->bindValue(':idobser', $idobser);
@@ -76,7 +76,7 @@ function insere_photo($cdref,$idobser,$datep,$codecom,$stade,$nomphoto,$dates,$s
 function insere_com($idpdet,$idm,$com,$datecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.comdet (idpdet,idm,commentaire,datecom) VALUES(:idpdet, :idm, :com, :datecom) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':idpdet', $idpdet);
@@ -89,7 +89,7 @@ function insere_com($idpdet,$idm,$com,$datecom)
 function chercheidm($idpdet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idm FROM site.comdet WHERE idpdet = :idpdet ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idpdet', $idpdet, PDO::PARAM_INT);
 	$req->execute();
@@ -100,7 +100,7 @@ function chercheidm($idpdet)
 function insere_notif($idpdet,$idmor)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.notif (idm,type,idtype)
 						VALUES(:idm, :type, :idpdet) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idmor);

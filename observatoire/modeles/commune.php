@@ -2,7 +2,7 @@
 function cherche_commune($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT commune FROM referentiel.commune WHERE codecom = :codecom ");
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();
@@ -13,7 +13,7 @@ function cherche_commune($codecom)
 function cherche_departement($iddep)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT departement FROM referentiel.departement WHERE iddep = :iddep ");
 	$req->bindValue(':iddep', $iddep);
 	$req->execute();
@@ -24,7 +24,7 @@ function cherche_departement($iddep)
 function liste_observateur($codecom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, prenom, COUNT(idobs) AS nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						LEFT JOIN obs.plusobser USING(idfiche)
@@ -42,7 +42,7 @@ function liste_observateur($codecom,$nomvar)
 function liste_observateur_dep($iddep,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, prenom, COUNT(idobs) AS nb FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						LEFT JOIN obs.plusobser USING(idfiche)
@@ -60,7 +60,7 @@ function liste_observateur_dep($iddep,$nomvar)
 function comptefamille($codecom,$droit,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(DISTINCT obs.cdref) AS nb, famille.famille, famille.cdnom FROM obs.fiche
@@ -89,7 +89,7 @@ function comptefamille($codecom,$droit,$nomvar)
 function comptefamilledep($iddep,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT COUNT(DISTINCT obs.cdref) AS nb, cdref FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)
@@ -111,7 +111,7 @@ function comptefamilledep($iddep,$nomvar)
 function liste($codecom,$droit,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($droit == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, liste.cdnom, famille FROM obs.fiche
@@ -139,7 +139,7 @@ function liste($codecom,$droit,$nomvar)
 function listedepart($iddep,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, nomvern, liste.cdnom, famille FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref
@@ -155,7 +155,7 @@ function listedepart($iddep,$nomvar)
 function nbespece($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT COUNT(DISTINCT obs.cdref) AS Nb FROM obs.obs
 						INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref
 						WHERE (rang = 'ES' OR rang ='SSES') AND statutobs != 'No' AND (validation = 1 OR validation = 2) ");
@@ -166,7 +166,7 @@ function nbespece($nomvar)
 function nouvelle_espece($codecom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT obs.cdref AS cdnom, nom, nomvern, EXTRACT(YEAR FROM MIN(date1)) AS annee FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN $nomvar.liste ON obs.cdref = liste.cdnom
@@ -182,7 +182,7 @@ function nouvelle_espece($codecom,$nomvar)
 function nouvelle_espece_dep($iddep,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT obs.cdref AS cdnom, nom, nomvern, EXTRACT(YEAR FROM MIN(date1)) AS annee FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN $nomvar.liste ON obs.cdref = liste.cdnom

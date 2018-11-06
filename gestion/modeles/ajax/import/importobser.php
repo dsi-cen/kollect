@@ -10,7 +10,7 @@ function vidertable()
 function insere_impobservateurs($idor,$nom,$prenom,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO import.impobser (idobseror, nom, prenom, idobser) VALUES (:idor, :nom, :prenom, :idobser) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idor', $idor);
 	$req->bindValue(':nom', $nom);
@@ -22,7 +22,7 @@ function insere_impobservateurs($idor,$nom,$prenom,$idobser)
 function listeobservateur()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idobseror, nom, prenom FROM import.impobser WHERE idobser = 0 ") or die(print_r($bdd->errorInfo()));
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -31,7 +31,7 @@ function listeobservateur()
 function insere_observateurs($nom,$prenoma,$observateur)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.observateur (observateur, nom, prenom, idm) VALUES (:observateur, :nom, :prenom, :idm) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenoma);
@@ -44,7 +44,7 @@ function insere_observateurs($nom,$prenoma,$observateur)
 function modimpobser($idobseror,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE import.impobser SET idobser = :id WHERE idobseror = :idor ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idor', $idobseror, PDO::PARAM_INT);
 	$req->bindValue(':id', $idobser, PDO::PARAM_INT);

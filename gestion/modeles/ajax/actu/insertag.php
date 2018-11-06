@@ -4,7 +4,7 @@ include '../../../../lib/pdo2.php';
 function rechercher_tag($tag)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT tag FROM actu.tag WHERE tag = :tag ");
 	$req->bindValue(':tag', $tag);
 	$req->execute();
@@ -15,7 +15,7 @@ function rechercher_tag($tag)
 function insere_tag($tag)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO actu.tag (tag) VALUES (:tag) ");
 	$req->bindValue(':tag', $tag);
 	if ($req->execute())

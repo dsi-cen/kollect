@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function liste()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idprotocole, protocole, libelle, url FROM referentiel.protocole ORDER BY idprotocole ");
 	$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -14,7 +14,7 @@ function liste()
 function insere_protocole($id,$proto,$lib,$url)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.protocole (idprotocole, protocole, libelle, url) VALUES (:id, :proto, :lib, :url) ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':proto', $proto);
@@ -27,7 +27,7 @@ function insere_protocole($id,$proto,$lib,$url)
 function mod_protocole($id,$proto,$lib,$url)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE referentiel.protocole SET protocole =:proto, libelle =:lib, url =:url WHERE idprotocole = :id ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':proto', $proto);

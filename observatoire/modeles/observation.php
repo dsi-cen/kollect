@@ -2,7 +2,7 @@
 function recherche_nom($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, nomvern, auteur, sensible, rang FROM $nomvar.liste 
 						LEFT JOIN referentiel.sensible ON sensible.cdnom = liste.cdref
 						WHERE liste.cdnom = :cdnom ");

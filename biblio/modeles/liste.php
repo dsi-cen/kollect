@@ -2,7 +2,7 @@
 function plusauteur($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, prenomab, idauteur FROM biblio.plusauteur
 						INNER JOIN biblio.auteurs USING(idauteur)
 						WHERE idbiblio = :idbiblio ");
@@ -15,7 +15,7 @@ function plusauteur($idbiblio)
 function recherche_observa($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idbiblio, nom, prenomab, plusauteur, titre, annee, tome, fascicule, publi FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						INNER JOIN biblio.biblioobserva USING(idbiblio)
@@ -30,7 +30,7 @@ function recherche_observa($id)
 function auteur($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom FROM biblio.auteurs WHERE idauteur = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();
@@ -41,7 +41,7 @@ function auteur($id)
 function recherche_auteur($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idbiblio, nom, prenomab, plusauteur, titre, annee, tome, fascicule, publi FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						LEFT JOIN biblio.plusauteur USING(idbiblio)
@@ -56,7 +56,7 @@ function recherche_auteur($id)
 function motcle($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT mot FROM biblio.motcle WHERE idmc = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();
@@ -67,7 +67,7 @@ function motcle($id)
 function recherche_motcle($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idbiblio, nom, prenomab, plusauteur, titre, annee, tome, fascicule, publi FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						INNER JOIN biblio.bibliomc USING(idbiblio)
@@ -81,7 +81,7 @@ function recherche_motcle($id)
 function commune($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT commune FROM referentiel.commune WHERE codecom = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();
@@ -92,7 +92,7 @@ function commune($id)
 function recherche_commune($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idbiblio, nom, prenomab, plusauteur, titre, annee, tome, fascicule, publi FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						INNER JOIN biblio.bibliocom USING(idbiblio)
@@ -106,7 +106,7 @@ function recherche_commune($id)
 function recherche_publi($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idbiblio, nom, prenomab, plusauteur, titre, annee, tome, fascicule, publi FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						WHERE publi ILIKE :id ");
@@ -119,7 +119,7 @@ function recherche_publi($id)
 function taxon($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, nomvern FROM referentiel.liste WHERE cdnom = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();
@@ -130,7 +130,7 @@ function taxon($id)
 function recherche_taxon($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idbiblio, auteurs.nom, prenomab, plusauteur, titre, annee, tome, fascicule, publi FROM biblio.biblio
 						INNER JOIN biblio.auteurs USING(idauteur)
 						LEFT JOIN biblio.bibliotaxon USING(idbiblio)

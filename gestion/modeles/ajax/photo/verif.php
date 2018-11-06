@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function verifun($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT p.cdnom, nom, nomvern FROM site.photo AS p
 						INNER JOIN $nomvar.liste ON liste.cdnom = p.cdnom
 						WHERE observatoire = :observa AND NOT EXISTS (SELECT cdnom FROM site.photo WHERE photo.cdnom = p.cdnom AND ordre = 1) ") or die(print_r($bdd->errorInfo()));
@@ -18,7 +18,7 @@ function verifun($nomvar)
 function verifdble($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT COUNT(ordre) AS doublon, cdnom, nom, nomvern FROM site.photo
 						INNER JOIN $nomvar.liste USING(cdnom)
 						GROUP BY ordre, cdnom, nom, nomvern

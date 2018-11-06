@@ -6,7 +6,7 @@ session_start();
 function recherche_obs($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT liste.nom, nomvern, rang, nb, observa, auteur, obs.cdref FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
@@ -21,7 +21,7 @@ function recherche_obs($idfiche)
 function recherche_membre($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idm FROM obs.fiche
 						INNER JOIN referentiel.observateur USING(idobser)
 						WHERE idfiche = :idfiche ") or die(print_r($bdd->errorInfo()));
@@ -34,7 +34,7 @@ function recherche_membre($idfiche)
 function recherche_observa($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT cdref) AS nb, observa FROM obs.fiche
 						INNER JOIN obs.obs USING(idfiche)
 						INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref

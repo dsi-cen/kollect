@@ -28,7 +28,7 @@ function rechercher_rang($nomvar)
 function recherche_es($nomvar,$ordreok)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if ($ordreok == 'non')
 	{
 		$req = $bdd->query("SELECT cdnom, nom, '' AS ordre, '' AS gen1, '' AS gen2, rang, locale FROM $nomvar.liste WHERE cdnom = cdref AND rang = 'ES' ") or die(print_r($bdd->errorInfo()));
@@ -46,7 +46,7 @@ function recherche_es($nomvar,$ordreok)
 function recherche_esfr($nomvar,$ordreok)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if ($ordreok == 'non')
 	{
 		$req = $bdd->query("SELECT cdnom, nom, nomvern, '' AS ordre, '' AS gen1, '' AS gen2, rang, locale FROM $nomvar.liste WHERE cdnom = cdref AND rang = 'ES' ") or die(print_r($bdd->errorInfo()));
@@ -64,7 +64,7 @@ function recherche_esfr($nomvar,$ordreok)
 function recherche_sbfm($nomvar,$ordreok)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if ($ordreok == 'non')
 	{
 		$req = $bdd->query("SELECT cdnom, sousfamille AS nom, '' AS ordre, '' AS gen1, '' AS gen2, 'SBFM' AS rang, locale FROM $nomvar.sousfamille ") or die(print_r($bdd->errorInfo()));
@@ -81,7 +81,7 @@ function recherche_sbfm($nomvar,$ordreok)
 function recherche_sbfmfr($nomvar,$ordreok)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if ($ordreok == 'non')
 	{
 		$req = $bdd->query("SELECT cdnom, sousfamille AS nom, nomvern, '' AS ordre, '' AS gen1, '' AS gen2, 'SBFM' AS rang, locale FROM $nomvar.sousfamille ") or die(print_r($bdd->errorInfo()));
@@ -98,7 +98,7 @@ function recherche_sbfmfr($nomvar,$ordreok)
 function recherche_fm($nomvar,$ordreok)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if ($ordreok == 'non')
 	{
 		$req = $bdd->query("SELECT cdnom, famille AS nom, '' AS ordre, '' AS gen1, '' AS gen2, 'FM' AS rang, locale FROM $nomvar.famille ") or die(print_r($bdd->errorInfo()));
@@ -115,7 +115,7 @@ function recherche_fm($nomvar,$ordreok)
 function recherche_fmfr($nomvar,$ordreok)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if ($ordreok == 'non')
 	{
 		$req = $bdd->query("SELECT cdnom, famille AS nom, nomvern, '' AS ordre, '' AS gen1, '' AS gen2, 'FM' AS rang, locale FROM $nomvar.famille ") or die(print_r($bdd->errorInfo()));

@@ -9,7 +9,7 @@ if (isset($_POST["cdref"]))
 	function cdref($cdref,$sel)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT nom FROM $sel.liste WHERE cdref = :cdref AND cdnom = :cdref ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':cdref', $cdref);
 		$req->execute();

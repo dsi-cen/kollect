@@ -6,7 +6,7 @@ session_start();
 function verif($idok,$idnon)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(*) FROM referentiel.observateur WHERE idobser = :idok OR idobser = :idnon	");
 	$req->bindValue(':idok', $idok);
 	$req->bindValue(':idnon', $idnon);
@@ -18,7 +18,7 @@ function verif($idok,$idnon)
 function mod_fiche($idok,$idnon)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.fiche SET idobser = :idok WHERE idobser = :idnon ");
 	$req->bindValue(':idok', $idok);
 	$req->bindValue(':idnon', $idnon);
@@ -28,7 +28,7 @@ function mod_fiche($idok,$idnon)
 function mod_obs($idok,$idnon)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.obs SET iddet = :idok WHERE iddet = :idnon ");
 	$req->bindValue(':idok', $idok);
 	$req->bindValue(':idnon', $idnon);
@@ -38,7 +38,7 @@ function mod_obs($idok,$idnon)
 function mod_plusobser($idok,$idnon)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.plusobser SET idobser = :idok WHERE idobser = :idnon ");
 	$req->bindValue(':idok', $idok);
 	$req->bindValue(':idnon', $idnon);
@@ -48,7 +48,7 @@ function mod_plusobser($idok,$idnon)
 function modif($idm,$type,$modif,$datem,$idok)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typeid, numid, typemodif, modif, datemodif, idmembre)
 						VALUES(:typeid, :id, :type, :modif, :datem, :idm) ");
 	$req->bindValue(':id', $idok);

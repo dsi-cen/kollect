@@ -2,7 +2,7 @@
 function cherche_membre($idm)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT contact, mail FROM site.membre 
 						LEFT JOIN site.prefmembre USING(idmembre)
 						WHERE idmembre = :idm ");
@@ -15,7 +15,7 @@ function cherche_membre($idm)
 function cherche_notif($idm)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idnotif) AS nb, type, idtype FROM site.notif 
 						WHERE idm = :idm 
 						GROUP BY idtype, type
@@ -29,7 +29,7 @@ function cherche_notif($idm)
 function typedon($idm)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT typedon, floutage, COUNT(idobs) AS nb, idobser FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN referentiel.observateur USING(idobser)
@@ -44,7 +44,7 @@ function typedon($idm)
 function organisme()
 {
     $bdd = PDO2::getInstance();
-    $bdd->query('SET NAMES "utf8"');
+    $bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->prepare("SELECT idorg, organisme
                                         FROM referentiel.organisme
                                         left join referentiel.observateur_organisme using (idorg)
@@ -60,7 +60,7 @@ function organisme()
 function rechercheobservateurid($idm)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM referentiel.observateur WHERE idm = :idm ");
 	$req->bindValue(':idm', $idm);
 	$req->execute();
@@ -71,7 +71,7 @@ function rechercheobservateurid($idm)
 function liste_espece($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (SELECT COUNT(idobs) AS nbt, cdref FROM obs.obs
 							INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 							WHERE rang = 'ES' OR rang = 'SSES'

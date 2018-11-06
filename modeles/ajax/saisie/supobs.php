@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recupinfo($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idfiche, cdhab, idcol, idphoto, idmort FROM obs.obs 
 						LEFT JOIN obs.obshab ON obshab.idobs = obs.idobs
 						LEFT JOIN obs.obscoll ON obscoll.idobs = obs.idobs
@@ -21,7 +21,7 @@ function recupinfo($idobs)
 function chercheligne($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idligne) AS nb FROM obs.ligneobs WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs, PDO::PARAM_INT);
 	$req->execute();
@@ -32,7 +32,7 @@ function chercheligne($idobs)
 function cherchenbor($idligne)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nbmin, nbmax, nb, ndiff, male, femelle FROM obs.ligneobs
 						INNER JOIN obs.obs USING(idobs)
 						WHERE idligne = :idligne ");
@@ -45,7 +45,7 @@ function cherchenbor($idligne)
 function chercheobs($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb FROM obs.obs WHERE idfiche = :idfiche ");
 	$req->bindValue(':idfiche', $idfiche, PDO::PARAM_INT);
 	$req->execute();
@@ -56,7 +56,7 @@ function chercheobs($idfiche)
 function modif_obs($idobs,$nbmod)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE obs.obs SET nb = :nb WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->bindValue(':nb', $nbmod);
@@ -66,7 +66,7 @@ function modif_obs($idobs,$nbmod)
 function supprime_ligne($idligne)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.ligneobs WHERE idligne = :idligne");
 	$req->bindValue(':idligne', $idligne);
 	$req->execute();
@@ -75,7 +75,7 @@ function supprime_ligne($idligne)
 function supprime_lignet($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.ligneobs WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->execute();
@@ -84,7 +84,7 @@ function supprime_lignet($idobs)
 function supprime_obs($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.obs WHERE idobs = :idobs");
 	$req->bindValue(':idobs', $idobs);
 	$req->execute();
@@ -93,7 +93,7 @@ function supprime_obs($idobs)
 function supprime_fiche($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.fiche WHERE idfiche = :idfiche");
 	$req->bindValue(':idfiche', $idfiche);
 	$req->execute();
@@ -102,7 +102,7 @@ function supprime_fiche($idfiche)
 function supprime_habitat($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.obshab WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->execute();
@@ -111,7 +111,7 @@ function supprime_habitat($idobs)
 function supprime_coll($idcol)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.obscoll WHERE idcol = :idcol ");
 	$req->bindValue(':idcol', $idcol);
 	$req->execute();
@@ -120,7 +120,7 @@ function supprime_coll($idcol)
 function supprime_photo($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM site.photo WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
 	$req->execute();
@@ -129,7 +129,7 @@ function supprime_photo($idobs)
 function supprime_mort($idmort)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM obs.obsmort WHERE idmort = :idmort ");
 	$req->bindValue(':idmort', $idmort);
 	$req->execute();

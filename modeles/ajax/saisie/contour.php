@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recherche_compoly($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT poly, geojson FROM referentiel.commune WHERE codecom = :codecom ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();

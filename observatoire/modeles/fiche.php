@@ -10,7 +10,7 @@ function rechercher_rang($nomvar)
 function recherche_fiche($id,$nomvar,$sytema)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($sytema == 'oui')
 	{
 		$req = $bdd->prepare("SELECT nom, genre, espece, famille.famille, cdref, liste.auteur, liste.nomvern, liste.rang, liste.cdtaxsup, systematique.ordre, sensible, famille.cdnom AS cdnomf, url, infosp.cdnom AS info FROM $nomvar.liste 
@@ -37,7 +37,7 @@ function recherche_fiche($id,$nomvar,$sytema)
 function recherche_sfamille_sfst($cdnomg,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT sousfamille, sousfamille.cdnom FROM $nomvar.genre
 						LEFT JOIN $nomvar.soustribu ON soustribu.cdnom = genre.cdsup
 						LEFT JOIN $nomvar.tribu ON tribu.cdnom = genre.cdsup OR tribu.cdnom = soustribu.cdsup
@@ -52,7 +52,7 @@ function recherche_sfamille_sfst($cdnomg,$nomvar)
 function recherche_sfamille_sft($cdnomg,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT sousfamille, sousfamille.cdnom FROM $nomvar.genre
 						LEFT JOIN $nomvar.tribu ON tribu.cdnom = genre.cdsup
 						LEFT JOIN $nomvar.sousfamille ON sousfamille.cdnom = genre.cdsup OR sousfamille.cdnom = tribu.cdsup
@@ -66,7 +66,7 @@ function recherche_sfamille_sft($cdnomg,$nomvar)
 function recherche_sfamille_sf($cdnomg,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT sousfamille, sousfamille.cdnom FROM $nomvar.genre
 						LEFT JOIN $nomvar.sousfamille ON sousfamille.cdnom = genre.cdsup
 						WHERE genre.cdnom = :cdnom ");
@@ -79,7 +79,7 @@ function recherche_sfamille_sf($cdnomg,$nomvar)
 function recherche_sup($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdtaxsup FROM $nomvar.liste WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $id);
 	$req->execute();
@@ -90,7 +90,7 @@ function recherche_sup($id,$nomvar)
 function recherche_syno($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, auteur FROM $nomvar.liste WHERE (cdref = :cdnom AND cdnom != :cdnom) AND rang = 'ES' ");
 	$req->bindValue(':cdnom', $id);
 	$req->execute();
@@ -101,7 +101,7 @@ function recherche_syno($id,$nomvar)
 function recherche_ranginf($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, auteur, nomvern, liste.cdnom FROM $nomvar.liste 
 						INNER JOIN obs.obs ON obs.cdref = liste.cdnom
 						WHERE cdsup = :cdnom
@@ -115,7 +115,7 @@ function recherche_ranginf($id,$nomvar)
 function recherche_gen($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT gen1, gen2 FROM $nomvar.systematique WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $id);
 	$req->execute();
@@ -126,7 +126,7 @@ function recherche_gen($id,$nomvar)
 function nombre_espece5($id,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'ES')
 	{
 		$req = $bdd->prepare("SELECT COUNT(idobs) AS nb, COUNT(DISTINCT codecom) AS nbcom, COUNT(DISTINCT codel93) AS nbmaille10, COUNT(DISTINCT codel935) AS nbmaille5 FROM obs.obs
@@ -152,7 +152,7 @@ function nombre_espece5($id,$nomvar,$rang)
 function nombre_espece($id,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'ES')
 	{
 		$req = $bdd->prepare("SELECT COUNT(idobs) AS nb, COUNT(DISTINCT codecom) AS nbcom, COUNT(DISTINCT codel93) AS nbmaille10 FROM obs.obs
@@ -178,7 +178,7 @@ function nombre_espece($id,$nomvar,$rang)
 function nombre_especefr($id,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'ES')
 	{
 		$req = $bdd->prepare("SELECT COUNT(idobs) AS nb, COUNT(DISTINCT iddep) AS nbcom, COUNT(DISTINCT codel93) AS nbmaille10 FROM obs.obs
@@ -213,7 +213,7 @@ SELECT observateur, nomphoto, observatoire, to_char(datephoto, 'DD/MM/YYYY') AS 
 function photo($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT observateur, nomphoto, observatoire, to_char(datephoto, 'DD/MM/YYYY') AS datefr FROM site.photo
 						INNER JOIN referentiel.observateur USING(idobser)
 						INNER JOIN obs.obs USING(idobs)
@@ -229,7 +229,7 @@ function photo($id)
 function suiv_prec($nom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("(SELECT liste.cdnom, nom, 'ap' AS sens FROM $nomvar.liste 
 							INNER JOIN obs.obs ON obs.cdref = liste.cdnom
 							WHERE nom > :nom AND liste.cdref = liste.cdnom AND (rang = 'ES' OR rang = 'SSES')
@@ -248,7 +248,7 @@ function suiv_prec($nom,$nomvar)
 function suiv_precV($nom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("(SELECT liste.cdnom, nomvern AS nom, 'ap' AS sens FROM $nomvar.liste 
 							INNER JOIN obs.obs ON obs.cdref = liste.cdnom
 							WHERE nomvern > :nom AND liste.cdref = liste.cdnom AND (rang = 'ES' OR rang = 'SSES')
@@ -267,7 +267,7 @@ function suiv_precV($nom,$nomvar)
 function precedent($ordre,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, liste.cdnom FROM $nomvar.liste
 						INNER JOIN $nomvar.systematique ON systematique.cdnom = liste.cdnom
 						INNER JOIN obs.obs ON obs.cdref = liste.cdnom
@@ -283,7 +283,7 @@ function precedent($ordre,$nomvar)
 function suivant($ordre,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, liste.cdnom FROM $nomvar.liste
 						INNER JOIN $nomvar.systematique ON systematique.cdnom = liste.cdnom
 						INNER JOIN obs.obs ON obs.cdref = liste.cdnom
@@ -299,7 +299,7 @@ function suivant($ordre,$nomvar)
 function habitat($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(*) AS nb FROM obs.obshab WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $id);
 	$req->execute();
@@ -310,7 +310,7 @@ function habitat($id)
 function recherche_statut($id,$cdprotect,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT type, lr, intitule FROM statut.statut
 						INNER JOIN statut.libelle USING(cdprotect)
 						INNER JOIN $nomvar.liste ON liste.cdnom = statut.cdnom
@@ -324,7 +324,7 @@ function recherche_statut($id,$cdprotect,$nomvar)
 function recherche_indice($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT ir FROM referentiel.liste WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $id);
 	$req->execute();
@@ -335,7 +335,7 @@ function recherche_indice($id)
 function lepinet($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT lepinet FROM lien.lepinet WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $id);
 	$req->execute();
@@ -346,7 +346,7 @@ function lepinet($id)
 function nbgenre($cdnomg,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(DISTINCT liste.cdnom) FROM $nomvar.liste 
 						INNER JOIN obs.obs ON obs.cdref = liste.cdnom
 						WHERE cdtaxsup = :cdnom OR obs.cdref = :cdnom ");
@@ -359,7 +359,7 @@ function nbgenre($cdnomg,$nomvar)
 function recherche_simi($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT simi, nom, nomvern FROM referentiel.similaire 
 						INNER JOIN $nomvar.liste ON liste.cdnom = similaire.simi
 						WHERE similaire.cdnom = :cdnom ");
@@ -372,7 +372,7 @@ function recherche_simi($id,$nomvar)
 function biblio($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT count(*) FROM biblio.biblio
 						LEFT JOIN biblio.bibliofiche USING(idbiblio)
 						LEFT JOIN obs.obs USING(idfiche)

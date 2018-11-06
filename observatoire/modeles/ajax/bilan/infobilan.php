@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function nbobs($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb FROM obs.obs
 						WHERE observa = :observa ");
 	$req->bindValue(':observa', $nomvar);
@@ -17,7 +17,7 @@ function nbobs($nomvar)
 function nbobscom($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						WHERE observa = :observa AND codecom = :id ");
@@ -31,7 +31,7 @@ function nbobscom($id,$nomvar)
 function nbobsdep($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						WHERE observa = :observa AND iddep = :id ");
@@ -45,7 +45,7 @@ function nbobsdep($id,$nomvar)
 function nbobsl93($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord
@@ -60,7 +60,7 @@ function nbobsl93($id,$nomvar)
 function nbobsl935($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord
@@ -75,7 +75,7 @@ function nbobsl935($id,$nomvar)
 function nbobsutm($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idobs) AS nb FROM obs.obs
 						INNER JOIN obs.fiche USING(idfiche)
 						INNER JOIN obs.coordonnee ON coordonnee.idcoord = fiche.idcoord
@@ -90,7 +90,7 @@ function nbobsutm($id,$nomvar)
 function recherche_compoly($codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT poly, geojson FROM referentiel.commune WHERE codecom = :codecom ");
 	$req->bindValue(':codecom', $codecom);
 	$req->execute();
@@ -101,7 +101,7 @@ function recherche_compoly($codecom)
 function recherche_mgrs($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT geo FROM referentiel.mgrs10 WHERE mgrs = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();

@@ -13,7 +13,7 @@ include '../../../../lib/pdo2.php';
 function insere_statut($id,$type,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO statut.statutsite (cdprotect, observa, type) VALUES (:id, :observa, :type) ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':observa', $nomvar);

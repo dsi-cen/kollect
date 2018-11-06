@@ -11,7 +11,7 @@ function rechercher_espece($recherche)
 {
 	$resultat= array();
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT liste.cdnom, nom, nomvern, observatoire, rang FROM referentiel.liste
 						INNER JOIN obs.obs ON obs.cdref = liste.cdnom
 						WHERE nom ILIKE :recherche OR nomvern ILIKE :recherche 

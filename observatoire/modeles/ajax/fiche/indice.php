@@ -18,7 +18,7 @@ function calc_m($nomvar,$choix,$valchoix,$maillage,$d1,$d2,$d)
 	$strQuery .= ($maillage == 'l93') ? " GROUP BY codel93 ) AS s" : " GROUP BY codel935 ) AS s";
 	$strQuery .= " WHERE nb <= :mini";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':mini', $valchoix);
 	$req->bindValue(':sel', $nomvar);
@@ -38,7 +38,7 @@ function nombre_maille($cdnom,$maillage,$d1,$d2,$d)
 	elseif($d == 'inf') { $strQuery .= " AND date1 <= :d1"; }
 	elseif($d == 'int') { $strQuery .= " AND (date1 >= :d1 AND date1 < :d2)"; }
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdnom', $cdnom);
 	if($d == 'sup') { $req->bindValue(':d1', $d1.'-01-01'); }

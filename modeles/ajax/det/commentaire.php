@@ -6,7 +6,7 @@ session_start();
 function insere_com($idpdet,$idm,$com,$datecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.comdet (idpdet,idm,commentaire,datecom) VALUES(:idpdet, :idm, :com, :datecom) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':idpdet', $idpdet);
@@ -19,7 +19,7 @@ function insere_com($idpdet,$idm,$com,$datecom)
 function chercheidm($idpdet)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT idm FROM site.comdet WHERE idpdet = :idpdet ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idpdet', $idpdet, PDO::PARAM_INT);
 	$req->execute();
@@ -30,7 +30,7 @@ function chercheidm($idpdet)
 function insere_notif($idpdet,$idmor)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.notif (idm,type,idtype)
 						VALUES(:idm, :type, :idpdet) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idmor);

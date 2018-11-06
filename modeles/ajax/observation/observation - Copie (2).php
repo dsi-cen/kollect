@@ -6,7 +6,7 @@ session_start();
 function calc_obs($sel,$obs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(nb) FROM (
 							SELECT codel93, COUNT(idobs) AS nb FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)
@@ -24,7 +24,7 @@ function calc_obs($sel,$obs)
 function calc_es($sel,$es)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(nb) FROM (
 							SELECT codel93, COUNT(distinct cdref) AS nb FROM obs.obs
 							INNER JOIN obs.fiche USING(idfiche)
@@ -42,7 +42,7 @@ function calc_es($sel,$es)
 function listeindice($sel,$tri,$debut)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$ordre = ($tri == 'dateobs') ? 'date1' : 'datesaisie';
 	$req = $bdd->prepare("WITH sel AS (SELECT obs.cdref FROM obs.fiche
 							INNER JOIN obs.obs USING(idfiche)
@@ -136,7 +136,7 @@ function pagination($nbpage,$pageaffiche)
 function nbobs($sel)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($sel != 'aucun')
 	{
 		$req = $bdd->prepare("SELECT COUNT(*) AS nb FROM obs.obs WHERE observa = :sel ") or die(print_r($bdd->errorInfo()));
@@ -154,7 +154,7 @@ function nbobs($sel)
 function nbobsperso($sel,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($sel != 'aucun')
 	{
 		$req = $bdd->prepare("SELECT COUNT(*) AS nb FROM obs.obs 
@@ -179,7 +179,7 @@ function nbobsperso($sel,$idobser)
 function recupidobser($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM referentiel.observateur WHERE idm = :idm ") or die(print_r($bdd->errorInfo()));		
 	$req->bindValue(':idm', $idm);
 	$req->execute();
@@ -190,7 +190,7 @@ function recupidobser($idm)
 function listeobs($sel,$tri,$debut)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$ordre = ($tri == 'dateobs') ? 'date1' : 'datesaisie';
 	if($sel != 'aucun')
 	{
@@ -228,7 +228,7 @@ function listeobs($sel,$tri,$debut)
 function listeobsperso($sel,$tri,$debut,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$ordre = ($tri == 'dateobs') ? 'date1' : 'datesaisie';
 	if($sel != 'aucun')
 	{
@@ -269,7 +269,7 @@ function listeobsperso($sel,$tri,$debut,$idobser)
 function listeobsdep($sel,$tri)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$ordre = ($tri == 'dateobs') ? 'date1' : 'datesaisie';
 	if($sel != 'aucun')
 	{
@@ -309,7 +309,7 @@ function listeobsdep($sel,$tri)
 function listephoto($listefiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT idobs FROM site.photo
 						INNER JOIN obs.obs USING(idobs)
 						INNER JOIN obs.fiche USING(idfiche)
@@ -321,7 +321,7 @@ function listephoto($listefiche)
 function cherche_observateur($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, idm, observateur.idobser FROM obs.plusobser
 						INNER JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
 						WHERE idfiche = :idfiche

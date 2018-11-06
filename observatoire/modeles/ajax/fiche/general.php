@@ -6,7 +6,7 @@ session_start();
 function phenologie($cdnom,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT COUNT(ligneobs.idobs) AS nb, mois FROM referentiel.decade
@@ -44,7 +44,7 @@ function cartocommune($cdnom,$rang,$nomvar,$droit)
 							INNER JOIN obs.fiche ON	sel.codecom = fiche.codecom AND obs.fiche.date1 = sel.d
 							GROUP BY sel.annee, sel.d, sel.codecom";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -62,7 +62,7 @@ function cartodep($cdnom,$rang,$nomvar)
 					INNER JOIN obs.fiche ON	sel.iddep = fiche.iddep AND obs.fiche.date1 = sel.d
 					GROUP BY sel.annee, sel.d, sel.iddep";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -86,7 +86,7 @@ function cartoutm($cdnom,$rang,$nomvar,$droit)
 					INNER JOIN referentiel.mgrs10 ON mgrs10.mgrs = sel.utm
 					GROUP BY sel.annee, sel.utm, geo ";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -109,7 +109,7 @@ function cartol93($cdnom,$rang,$nomvar,$droit)
 							INNER JOIN obs.coordonnee ON obs.coordonnee.codel93 = sel.codel93 AND fiche.idcoord = coordonnee.idcoord
 							GROUP BY sel.annee, sel.codel93";
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':cdref', $cdnom);
 	$req->execute();
@@ -120,7 +120,7 @@ function cartol93($cdnom,$rang,$nomvar,$droit)
 function commune()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codecom AS id, commune AS emp, poly, geojson FROM referentiel.commune");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -129,7 +129,7 @@ function commune()
 function departement()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -138,7 +138,7 @@ function departement()
 function mgrs()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT mgrs, geo FROM referentiel.mgrs10 ");
 	$utm = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -147,7 +147,7 @@ function mgrs()
 function maillel93()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codel93 FROM referentiel.maillel93 ");
 	$l93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

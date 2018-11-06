@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function rechercher_auteur($nom,$prenom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom FROM biblio.auteurs WHERE nom ILIKE :nom AND prenom ILIKE :prenom ");
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenom);
@@ -17,7 +17,7 @@ function rechercher_auteur($nom,$prenom)
 function insere_auteur($nom,$prenom,$prenomab)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.auteurs (nom, prenom, prenomab) VALUES (:nom, :prenom, :prenomab) ");
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenom);

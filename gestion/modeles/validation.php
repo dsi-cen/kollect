@@ -2,7 +2,7 @@
 function validateur($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT discipline FROM site.validateur WHERE idmembre = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();
@@ -13,7 +13,7 @@ function validateur($id)
 /*function liste_idobs_com()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (
 							SELECT idobs FROM vali.comvali
 							ORDER BY idcom LIMIT 100
@@ -26,7 +26,7 @@ function validateur($id)
 function liste_idobs_com()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (
 							SELECT idobs FROM vali.comvali
 							ORDER BY idcom
@@ -39,7 +39,7 @@ function liste_idobs_com()
 function liste_com()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("WITH sel AS (
 							SELECT idobs FROM vali.comvali
 							ORDER BY idcom desc LIMIT 100

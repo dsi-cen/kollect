@@ -4,7 +4,7 @@ include '../../../../lib/pdo2.php';
 function rechercher_membre($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT membre.idmembre, nom, prenom, droits, mail, discipline, gestionobs, latin, obser, floutage, string_agg(organisme.organisme, ', ') as organisme FROM site.membre 
 						LEFT JOIN site.validateur USING (idmembre)
 						LEFT JOIN site.prefmembre USING (idmembre)

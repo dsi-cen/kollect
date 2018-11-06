@@ -77,7 +77,7 @@ function pagination($nbpage,$pageaffiche)
 function cherche_observateur($idfiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom, idm, observateur.idobser FROM obs.plusobser
 						INNER JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
 						WHERE idfiche = :idfiche
@@ -91,7 +91,7 @@ function cherche_observateur($idfiche)
 function listephoto($listefiche)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT idobs FROM site.photo
 						INNER JOIN obs.obs USING(idobs)
 						INNER JOIN obs.fiche USING(idfiche)
@@ -126,7 +126,7 @@ function nbobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,$ty
 	if($orga != 'NR') { $strQuery .= ($where == 'non') ? " WHERE idorg = :orga" : " AND (idorg = :orga)"; $where = 'oui'; }
 	if((!empty($idsite) || !empty($codecom) || !empty($site)) && $droit == 'non') { $strQuery .= " AND (sensible <= 1 or sensible is null) AND floutage <= 1"; }
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser); }	
 	if(!empty($site)) { $req->bindValue(':site', '%'.$site.'%'); }
@@ -175,7 +175,7 @@ function listeobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,
 	$strQuery .= " LEFT JOIN referentiel.commune ON commune.codecom = sel.codecom INNER JOIN referentiel.liste ON liste.cdnom = sel.cdref INNER JOIN referentiel.observateur ON observateur.idobser = sel.idobser LEFT JOIN referentiel.sensible ON sensible.cdnom = sel.cdref LEFT JOIN site.liencom ON liencom.idobs = sel.idobs LEFT JOIN obs.site ON site.idsite = sel.idsite";
 	if(!empty($typedate)) { $strQuery .= ($typedate == 'obs') ? " ORDER BY date1 DESC" : " ORDER BY datesaisie DESC"; } else { $strQuery .= " ORDER BY date1 DESC"; }
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':deb', $debut);
 	if(!empty($idobser)) { $req->bindValue(':idobser', $idobser); }	

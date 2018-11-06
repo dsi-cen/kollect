@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function insere_photo($idm,$codecom,$datep,$dates,$nomphoto,$nomini,$rq,$observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.photodet (idm, codecom, datephoto, datesaisie, nomphoto, nomini, rq, vali, typef, observa) VALUES(:idm, :codecom, :datep, :dates, :nom, :ini, :rq, :vali, :typef, :observa) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':codecom', $codecom);

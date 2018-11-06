@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recherche_mail($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT mail, nom, prenom FROM site.membre WHERE idmembre = :idm") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->execute();
@@ -16,7 +16,7 @@ function recherche_mail($idm)
 function recherche_obs($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT to_char(date1, 'DD/MM/YYYY') AS datefr, commune, fiche.iddep, nom, nomvern, nb FROM obs.fiche
 						INNER JOIN obs.obs ON obs.idfiche = fiche.idfiche
 						LEFT JOIN referentiel.commune ON commune.codecom = fiche.codecom

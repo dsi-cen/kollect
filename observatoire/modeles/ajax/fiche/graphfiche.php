@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recherchedecade($decade)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT iddecade FROM referentiel.decade WHERE decade = :decade ");
 	$req->bindValue(':decade', $decade);
 	$req->execute();
@@ -16,7 +16,7 @@ function recherchedecade($decade)
 function recherchestade($cdnom,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("SELECT DISTINCT stade.stade, idval FROM obs.obs
@@ -41,7 +41,7 @@ function recherchestade($cdnom,$nomvar,$rang)
 function phenologie($cdnom,$nomvar,$rang)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($rang == 'oui')
 	{
 		$req = $bdd->prepare("WITH sel AS (

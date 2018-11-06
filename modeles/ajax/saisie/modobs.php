@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function nbligne($idobs)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idligne, observa, stade.stade, idetatbio FROM obs.ligneobs 
 						INNER JOIN obs.obs USING(idobs)
 						INNER JOIN referentiel.stade ON stade.idstade = ligneobs.stade

@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function cartol93($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT EXTRACT(YEAR FROM date1) as annee, MAX(code) AS code, codel93 FROM obs.aves
 						INNER JOIN obs.obs USING(idobs)
 						INNER JOIN obs.fiche USING(idfiche)
@@ -22,7 +22,7 @@ function cartol93($cdnom)
 /*function cartol93($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT MAX(code) AS code, codel93 FROM obs.aves
 						INNER JOIN obs.obs USING(idobs)
 						INNER JOIN obs.fiche USING(idfiche)
@@ -38,7 +38,7 @@ function cartol93($cdnom)
 function maillel93()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codel93 FROM referentiel.maillel93 ") or die(print_r($bdd->errorInfo()));
 	$l93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

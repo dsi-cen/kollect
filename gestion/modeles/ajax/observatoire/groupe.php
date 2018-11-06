@@ -12,7 +12,7 @@ function table($nomvar)
 /*function listegroupe()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT groupe, COUNT(DISTINCT cdref) AS nb FROM referentiel.taxref
 						WHERE rang = 'ES'
 						GROUP BY groupe ") or die(print_r($bdd->errorInfo()));
@@ -23,7 +23,7 @@ function table($nomvar)
 function listegroupe()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT groupe FROM referentiel.taxref ORDER BY groupe ") or die(print_r($bdd->errorInfo()));
 	$listegroupe = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -32,7 +32,7 @@ function listegroupe()
 function listeordre($selgrpe)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT ordre, COUNT(DISTINCT cdref) AS nb FROM referentiel.taxref 
 						WHERE groupe = :groupe AND rang = 'ES'
 						GROUP BY ordre ") or die(print_r($bdd->errorInfo()));
@@ -45,7 +45,7 @@ function listeordre($selgrpe)
 function listefamille($selfam)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT famille, COUNT(DISTINCT cdref) AS nb FROM referentiel.taxref 
 						WHERE ordre = :ordre AND rang = 'ES'
 						GROUP BY famille ") or die(print_r($bdd->errorInfo()));

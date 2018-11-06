@@ -2,7 +2,7 @@
 function liste_observateur($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("WITH sel AS (
 							SELECT DISTINCT idobser FROM obs.fiche 
 							INNER JOIN obs.obs USING(idfiche)
@@ -25,7 +25,7 @@ function liste_observateur($nomvar)
 function liste_photographe($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT nom, prenom, idobser, COUNT(idphoto) AS nb FROM site.photo
 						INNER JOIN referentiel.observateur USING(idobser)
 						WHERE observatoire = :observa

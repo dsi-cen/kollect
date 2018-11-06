@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function cherchesite($idsite)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT lat, lng, geo FROM obs.coordonnee 
 						LEFT JOIN obs.coordgeo ON coordgeo.idcoord = coordonnee.idcoord
 						INNER JOIN obs.site ON site.idcoord = coordonnee.idcoord

@@ -9,7 +9,7 @@ if(isset($_GET['term']))
 	function liste($term)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT idmc, mot FROM biblio.motcle WHERE mot ILIKE :recherche ORDER BY mot LIMIT 15");
 		$req->bindValue(':recherche', '%'.$term.'%');
 		$req->execute();

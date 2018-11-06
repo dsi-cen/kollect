@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function cdref($cdnom,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($nomvar != 'aucun')
 	{
 		$req = $bdd->prepare("SELECT cdref FROM $nomvar.liste WHERE cdnom = :cdnom ") or die(print_r($bdd->errorInfo()));
@@ -24,7 +24,7 @@ function cdref($cdnom,$nomvar)
 function determinateur($idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser FROM import.impobser WHERE idobseror = :idobser ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idobser', $idobser, PDO::PARAM_INT);
 	$req->execute();
@@ -36,7 +36,7 @@ function determinateur($idobser)
 function idfiche($idficheor)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idfiche FROM import.fiche WHERE idor = :idficheor ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idficheor', $idficheor);
 	$req->execute();
@@ -47,7 +47,7 @@ function idfiche($idficheor)
 function insere_obs($idor,$idfiche,$cdnom,$cdref,$iddet,$nbtotal,$dates,$nomvar,$rq,$statutobs,$idproto,$idetude,$idstade,$denom,$bio,$methode,$coll,$stbio,$vali,$ndiff,$m,$f,$nbmin,$nbmax,$sexe,$tdenom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO obs.obs (idfiche, cdnom, cdref, iddet, nb, rqobs, validation, datesaisie, observa, statutobs, idprotocole, idetude)
 						VALUES(:idfiche, :cdnom, :cdref, :iddet, :nb, :rq, :vali, :datesaisie, :var, :statut, :idproto, :idetude) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idfiche', $idfiche, PDO::PARAM_INT);

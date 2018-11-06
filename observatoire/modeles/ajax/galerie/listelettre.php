@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function liste_alpha_nom($id,$observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT photo.cdnom, nom FROM $observa.liste 
 						INNER JOIN site.photo ON photo.cdnom = liste.cdnom
 						WHERE nom ILIKE :recherche AND (rang = 'ES' OR rang = 'SSES')
@@ -19,7 +19,7 @@ function liste_alpha_nom($id,$observa)
 function liste_alpha_nomvern($id,$observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT photo.cdnom, nom, nomvern FROM $observa.liste 
 						INNER JOIN site.photo ON photo.cdnom = liste.cdnom
 						WHERE nomvern ILIKE :recherche AND (rang = 'ES' OR rang = 'SSES')
@@ -33,7 +33,7 @@ function liste_alpha_nomvern($id,$observa)
 function liste_alpha_nom_auteur($id,$observa,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT photo.cdnom, nom FROM $observa.liste 
 						INNER JOIN site.photo ON photo.cdnom = liste.cdnom
 						WHERE nom ILIKE :recherche AND idobser = :idobser AND (rang = 'ES' OR rang = 'SSES')
@@ -48,7 +48,7 @@ function liste_alpha_nom_auteur($id,$observa,$idobser)
 function liste_alpha_nomvern_auteur($id,$observa,$idobser)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT DISTINCT photo.cdnom, nom, nomvern FROM $observa.liste 
 						INNER JOIN site.photo ON photo.cdnom = liste.cdnom
 						WHERE nomvern ILIKE :recherche AND idobser = :idobser AND (rang = 'ES' OR rang = 'SSES')

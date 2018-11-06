@@ -4,7 +4,7 @@ include '../../../../lib/pdo2.php';
 function carto93()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codel93 FROM referentiel.maillel93 ") or die(print_r($bdd->errorInfo()));
 	$carto93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

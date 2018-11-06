@@ -6,7 +6,7 @@ session_start();
 function cherche_membre($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom FROM site.membre WHERE idmembre = :idm ");
 	$req->bindValue(':idm', $idm, PDO::PARAM_INT);
 	$req->execute();
@@ -17,7 +17,7 @@ function cherche_membre($idm)
 function insere_biblio($idauteur,$titre,$type,$publi,$annee,$tome,$fas,$page,$resume,$plusauteur,$dates,$isbn)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.biblio (titre, idauteur, typep, publi, annee, tome, fascicule, page, resume, plusauteur, datesaisie, isbn) VALUES(:titre, :idauteur, :type, :publi, :annee, :tome, :fas, :page, :resume, :plus, :date, :isbn) ");
 	$req->bindValue(':idauteur', $idauteur);
 	$req->bindValue(':titre', $titre);
@@ -41,7 +41,7 @@ function insere_biblio($idauteur,$titre,$type,$publi,$annee,$tome,$fas,$page,$re
 function insere_plusauteur($idbiblio,$idauteur)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.plusauteur (idbiblio, idauteur) VALUES(:idbiblio, :idauteur) ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->bindValue(':idauteur', $idauteur);
@@ -51,7 +51,7 @@ function insere_plusauteur($idbiblio,$idauteur)
 function insere_suivi($idbiblio,$idm,$nom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.suivisaisie (idbiblio, idm, nom) VALUES(:idbiblio, :idm, :nom) ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->bindValue(':idm', $idm);
@@ -62,7 +62,7 @@ function insere_suivi($idbiblio,$idm,$nom)
 function insere_lienexterne($idbiblio,$url)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.lienexterne (idbiblio, url) VALUES(:id, :url) ");
 	$req->bindValue(':id', $idbiblio);
 	$req->bindValue(':url', $url);
@@ -72,7 +72,7 @@ function insere_lienexterne($idbiblio,$url)
 function insere_observa($idbiblio,$observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.biblioobserva (idbiblio, observa) VALUES(:id, :observa) ");
 	$req->bindValue(':id', $idbiblio);
 	$req->bindValue(':observa', $observa);
@@ -82,7 +82,7 @@ function insere_observa($idbiblio,$observa)
 function insere_taxon($idbiblio,$cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.bibliotaxon (idbiblio, cdnom) VALUES(:idbiblio, :cdnom) ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->bindValue(':cdnom', $cdnom);
@@ -92,7 +92,7 @@ function insere_taxon($idbiblio,$cdnom)
 function insere_motcle($idbiblio,$mc)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.bibliomc (idbiblio, idmc) VALUES(:idbiblio, :mc) ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->bindValue(':mc', $mc);
@@ -102,7 +102,7 @@ function insere_motcle($idbiblio,$mc)
 function insere_codecom($idbiblio,$codecom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO biblio.bibliocom (idbiblio, codecom) VALUES(:idbiblio, :code) ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->bindValue(':code', $codecom);
@@ -112,7 +112,7 @@ function insere_codecom($idbiblio,$codecom)
 function info_biblio($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT CONCAT(biblio.idauteur, ', ', string_agg(DISTINCT plusauteur.idauteur::text, ', ')) AS idauteur, observa, plusauteur, CONCAT(string_agg(DISTINCT codecom::text, ',')) AS codecom, CONCAT(string_agg(DISTINCT cdnom::text, ',')) AS cdnom, CONCAT(string_agg(DISTINCT idmc::text, ',')) AS idmc, url FROM biblio.biblio
 						LEFT JOIN biblio.plusauteur USING(idbiblio)
 						LEFT JOIN biblio.biblioobserva USING(idbiblio)
@@ -131,7 +131,7 @@ function info_biblio($idbiblio)
 function modif_biblio($idauteur,$titre,$type,$publi,$annee,$tome,$fas,$page,$resume,$plusauteur,$idbiblio,$isbn)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE biblio.biblio SET titre = :titre, idauteur = :idauteur, typep = :type, publi = :publi, annee = :annee, tome = :tome, fascicule = :fas, page = :page, resume = :resume, plusauteur = :plus, isbn = :isbn WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':idauteur', $idauteur);
 	$req->bindValue(':titre', $titre);
@@ -152,7 +152,7 @@ function modif_biblio($idauteur,$titre,$type,$publi,$annee,$tome,$fas,$page,$res
 function modif_observa($idbiblio,$observa)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE biblio.biblioobserva SET observa = :observa WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':observa', $observa);
 	$req->bindValue(':idbiblio', $idbiblio);
@@ -161,7 +161,7 @@ function modif_observa($idbiblio,$observa)
 function modif_lien($idbiblio,$url)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE biblio.lienexterne SET url = :url WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':url', $url);
 	$req->bindValue(':idbiblio', $idbiblio);
@@ -170,7 +170,7 @@ function modif_lien($idbiblio,$url)
 function sup_plusauteur($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM biblio.plusauteur WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->execute();
@@ -179,7 +179,7 @@ function sup_plusauteur($idbiblio)
 function sup_mot($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM biblio.bibliomc WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->execute();
@@ -188,7 +188,7 @@ function sup_mot($idbiblio)
 function sup_taxon($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM biblio.bibliotaxon WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->execute();
@@ -197,7 +197,7 @@ function sup_taxon($idbiblio)
 function sup_commune($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM biblio.bibliocom WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->execute();
@@ -206,7 +206,7 @@ function sup_commune($idbiblio)
 function sup_observa($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM biblio.biblioobserva WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->execute();
@@ -215,7 +215,7 @@ function sup_observa($idbiblio)
 function sup_lien($idbiblio)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM biblio.lienexterne WHERE idbiblio = :idbiblio ");
 	$req->bindValue(':idbiblio', $idbiblio);
 	$req->execute();

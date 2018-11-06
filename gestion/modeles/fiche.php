@@ -2,7 +2,7 @@
 function recherche_fiche($id,$nomvar,$sytema)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($sytema == 'oui')
 	{
 		$req = $bdd->prepare("SELECT nom, famille.famille, cdref, liste.auteur, liste.nomvern, liste.rang, liste.cdsup, systematique.ordre, sensible, famille.cdnom AS cdnomf, liste.locale FROM $nomvar.liste 
@@ -26,7 +26,7 @@ function recherche_fiche($id,$nomvar,$sytema)
 function recherche_sup($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT cdtaxsup FROM $nomvar.liste WHERE cdnom = :cdnom ");
 	$req->bindValue(':cdnom', $id);
 	$req->execute();
@@ -45,7 +45,7 @@ function rechercher_rang($nomvar)
 function recherche_taxo1($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT sousgenre, genre.genre, soustribu, tribu, sousfamille from $nomvar.liste
 						LEFT JOIN $nomvar.sousgenre ON liste.cdsup = sousgenre.cdnom
 						INNER JOIN $nomvar.genre ON liste.cdtaxsup = genre.cdnom
@@ -62,7 +62,7 @@ function recherche_taxo1($id,$nomvar)
 function recherche_taxo2($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT sousgenre, genre.genre, tribu, sousfamille from $nomvar.liste
 						LEFT JOIN $nomvar.sousgenre ON liste.cdsup = sousgenre.cdnom
 						INNER JOIN $nomvar.genre ON liste.cdtaxsup = genre.cdnom
@@ -78,7 +78,7 @@ function recherche_taxo2($id,$nomvar)
 function recherche_taxo3($id,$nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT genre.genre, tribu, sousfamille from mam.liste
 						INNER JOIN mam.genre ON liste.cdtaxsup = genre.cdnom
 						LEFT JOIN mam.tribu ON tribu.cdnom = genre.cdsup

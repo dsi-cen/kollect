@@ -6,7 +6,7 @@ session_start();
 function modif($idm,$type,$modif,$datem)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typemodif, modif, datemodif, idmembre)
 						VALUES(:type, :modif, :datem, :idm) ");
 	$req->bindValue(':type', $type);
@@ -19,7 +19,7 @@ function modif($idm,$type,$modif,$datem)
 function calc_obs($nomvar,$obs,$maillage)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($maillage == 'l93')
 	{
 		$req = $bdd->prepare("SELECT COUNT(nb) FROM (
@@ -50,7 +50,7 @@ function calc_obs($nomvar,$obs,$maillage)
 function calc_es($nomvar,$es,$maillage)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	if($maillage == 'l93')
 	{
 		$req = $bdd->prepare("SELECT COUNT(nb) FROM (
@@ -90,7 +90,7 @@ function calc_m($choix,$nomvar,$obs,$es,$maillage,$date)
 	$strQuery .= ' GROUP BY '.$code.' ) AS s';
 	$strQuery .= ' WHERE nb <= :mini';
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare($strQuery);
 	$req->bindValue(':sel', $nomvar);
 	if(!empty($date)) { $req->bindValue(':date', $date.'-01-01'); }

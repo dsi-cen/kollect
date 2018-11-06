@@ -4,56 +4,56 @@ include '../../../../lib/pdo2.php';
 function creerrang($disc)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $disc.rang (idrang smallint NOT NULL,rang character varying(5),CONSTRAINT rang_pkey PRIMARY KEY (idrang))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }	
 function creersousgenre($disc)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $disc.sousgenre (cdnom integer NOT NULL,genre integer,sousgenre text,auteur text,locale character(3),CONSTRAINT sousgenre_pkey PRIMARY KEY (cdnom))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }	
 function creergenre($disc)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $disc.genre (cdnom integer NOT NULL,cdsup integer,cdtaxsup integer,genre text,auteur text,locale character(3),CONSTRAINT genre_pkey PRIMARY KEY (cdnom))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }
 function creersoustribu($disc)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $disc.soustribu (cdnom integer NOT NULL,cdsup integer,cdtaxsup integer,soustribu text,auteur text,locale character(3),CONSTRAINT soustribu_pkey PRIMARY KEY (cdnom))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }
 function creertribu($disc)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $disc.tribu (cdnom integer NOT NULL,cdsup integer,cdtaxsup integer,tribu text,auteur text,locale character(3),CONSTRAINT tribu_pkey PRIMARY KEY (cdnom))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }
 function creersousfamille($disc)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $disc.sousfamille (cdnom integer NOT NULL,cdsup integer,sousfamille text,auteur text,nomvern text,locale character(3),CONSTRAINT sousfamille_pkey PRIMARY KEY (cdnom))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }
 function creerfamille($disc)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $disc.famille (cdnom integer NOT NULL,cdsup integer,famille character varying(40),auteur text,ordre character varying(40),classe character varying(30),nomvern text,locale character(3),CONSTRAINT famille_pkey PRIMARY KEY (cdnom))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }
 function creerliste($disc)
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE $disc.liste (
 						cdnom integer NOT NULL,
 						cdref integer,
@@ -81,7 +81,7 @@ function table()
 function creerlisteref()
 {
 	$bdd = PDO2::getInstance();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.liste (
 						cdnom integer NOT NULL,
 						nom text,
@@ -179,7 +179,7 @@ function insere_famille($valchoix,$choix,$disc)
 function classe($disc)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT classe FROM $disc.famille") or die(print_r($bdd->errorInfo()));
 	$classe = $req->fetch(PDO::FETCH_ASSOC);
 	$req->closeCursor();

@@ -3,7 +3,7 @@
 function supligne($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM referentiel.liste 
 						WHERE NOT EXISTS (SELECT * FROM $nomvar.liste AS l WHERE l.cdnom = liste.cdnom AND locale = 'oui') AND observatoire = :sel ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':sel', $nomvar);

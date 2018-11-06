@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function inser_virtuel($idm,$idses,$prenom,$nom,$datevirt)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.virtuel (idmembre, typeid, idsession, nomvirtuel, datevirt)
 						VALUES(:idm, :type, :idses, :nom, :datem) ");
 	$req->bindValue(':type', 'Observateur');

@@ -8,7 +8,7 @@ if(isset($_POST['cdhab']))
 	function recupcode($cdhab)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT lbcode FROM referentiel.eunis WHERE cdhab = :cdhab ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':cdhab', $cdhab);
 		$req->execute();
@@ -19,7 +19,7 @@ if(isset($_POST['cdhab']))
 	function habitat($code,$niv)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT cdhab, lbcode, lbhabitat FROM referentiel.eunis WHERE locale = 'oui' AND lbcode LIKE :code AND niveau = :niv ORDER BY lbcode ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':code', ''.$code.'%');
 		$req->bindValue(':niv', $niv);
@@ -31,7 +31,7 @@ if(isset($_POST['cdhab']))
 	function habitat3($code)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT cdhab, lbcode, lbhabitat FROM referentiel.eunis WHERE locale = 'oui' AND lbcode LIKE :code AND niveau != 2 ORDER BY lbcode ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':code', ''.$code.'%');
 		$req->execute();

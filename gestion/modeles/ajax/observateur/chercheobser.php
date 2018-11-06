@@ -4,7 +4,7 @@ include '../../../../lib/pdo2.php';
 function rechercher_obser($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser, nom, prenom, idm, aff FROM referentiel.observateur WHERE idobser = :id ");
 	$req->bindValue(':id', $id);
 	$req->execute();

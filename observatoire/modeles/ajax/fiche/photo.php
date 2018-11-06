@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function photo($cdnom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idobser, datephoto, sexe, stade, nomphoto, prenom, nom, to_char(datephoto, 'DD/MM/YYYY') AS datefr FROM site.photo
 						INNER JOIN obs.obs USING(idobs)
 						INNER JOIN referentiel.observateur USING(idobser)

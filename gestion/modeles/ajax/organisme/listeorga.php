@@ -5,7 +5,7 @@ include '../../../../lib/pdo2.php';
 function liste()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT organisme.idorg, organisme, descri, COUNT(idfiche) AS nb FROM referentiel.organisme
 						LEFT JOIN obs.fiche USING(idorg)
 						GROUP BY organisme.idorg, organisme, descri ");

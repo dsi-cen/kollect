@@ -7,7 +7,7 @@ if(isset($_POST['id']) AND isset($_POST['nom']) AND isset($_POST['prenom']))
 	function modifie_auteurs($id, $nom, $prenom, $prenomab)
 	{
 		$bdd = PDO2::getInstance();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("UPDATE biblio.auteurs SET nom = :nom, prenom = :prenom, prenomab = :prenomab WHERE idauteur = :id ") or die(print_r($bdd->errorInfo()));
 		$req->bindValue(':id', $id);
 		$req->bindValue(':nom', $nom);

@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function recupinfo($idphoto)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nomphoto, observatoire FROM site.photo WHERE idphoto = :idphoto ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idphoto', $idphoto, PDO::PARAM_INT);
 	$req->execute();
@@ -16,7 +16,7 @@ function recupinfo($idphoto)
 function supprime_photo($idphoto)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("DELETE FROM site.photo WHERE idphoto = :idphoto ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idphoto', $idphoto);
 	$vali = ($req->execute()) ? 'oui' : 'non';

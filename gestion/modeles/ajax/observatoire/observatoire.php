@@ -2,7 +2,7 @@
 function classe($nomvar)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT classe FROM $nomvar.famille") or die(print_r($bdd->errorInfo()));
 	$classe = $req->fetch(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -11,7 +11,7 @@ function classe($nomvar)
 function liste_stade()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idstade, stade FROM referentiel.stade ORDER BY stade") or die(print_r($bdd->errorInfo()));
 	$stade = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -20,7 +20,7 @@ function liste_stade()
 function liste_methode()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idmethode, methode FROM referentiel.methode ORDER BY methode") or die(print_r($bdd->errorInfo()));
 	$methode = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();	
@@ -29,7 +29,7 @@ function liste_methode()
 function liste_collecte()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idpros, prospection FROM referentiel.prospection ORDER BY prospection") or die(print_r($bdd->errorInfo()));
 	$collecte = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();	
@@ -38,7 +38,7 @@ function liste_collecte()
 function liste_statutbio()
 {
     $bdd = PDO2::getInstance();
-    $bdd->query('SET NAMES "utf8"');
+    $bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->query("SELECT idstbio, statutbio, libelle FROM referentiel.occstatutbio ORDER BY statutbio") or die(print_r($bdd->errorInfo()));
     $statutbio = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
@@ -47,7 +47,7 @@ function liste_statutbio()
 function liste_comportement()
 {
     $bdd = PDO2::getInstance();
-    $bdd->query('SET NAMES "utf8"');
+    $bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->query("SELECT idcomp, libcomp, mdcomp FROM referentiel.comportement ORDER BY idcomp") or die(print_r($bdd->errorInfo()));
     $comportement = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
@@ -56,7 +56,7 @@ function liste_comportement()
 function liste_protocole()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idprotocole, protocole FROM referentiel.protocole ORDER BY protocole ") or die(print_r($bdd->errorInfo()));
 	$protocole = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();	
@@ -65,7 +65,7 @@ function liste_protocole()
 function liste_mort()
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT idmort, cause FROM referentiel.occmort ORDER BY cause ") or die(print_r($bdd->errorInfo()));
 	$protocole = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();	

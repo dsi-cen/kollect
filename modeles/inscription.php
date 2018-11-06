@@ -2,7 +2,7 @@
 function rechercher_membre($nom, $prenom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT nom, prenom FROM site.membre 
 						WHERE nom = :nom AND prenom = :prenom ");
 	$req->bindValue(':nom', $nom);
@@ -15,7 +15,7 @@ function rechercher_membre($nom, $prenom)
 function inscription($nom,$prenom,$pass_hache,$mail)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.membre (nom, prenom, droits, motpasse, mail, actif) VALUES (:nom, :prenom, :droit, :motpasse, :mail, :actif)  ");
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenom);
@@ -38,7 +38,7 @@ function inscription($nom,$prenom,$pass_hache,$mail)
 function connexion($prenom, $pass_hache)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT membre.idmembre, nom, droits, actif, latin, obser, floutage, couche, typedon, org FROM site.membre
 						LEFT JOIN site.prefmembre ON prefmembre.idmembre = membre.idmembre
 						WHERE prenom = :prenom AND motpasse = :motpasse ");
@@ -54,7 +54,7 @@ function connexion($prenom, $pass_hache)
 function validation($prenom,$id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idmembre, prenom, actif FROM site.membre
 						WHERE prenom = :prenom AND idmembre = :id ");
 	$req->bindValue(':prenom', $prenom);
@@ -67,7 +67,7 @@ function validation($prenom,$id)
 function modif_membre($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.membre SET actif = :actif WHERE idmembre = :id ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':actif', 1);
@@ -77,7 +77,7 @@ function modif_membre($id)
 function rechercher_mail($mail,$prenom)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT mail, idmembre FROM site.membre WHERE mail = :mail and prenom = :prenom ");
 	$req->bindValue(':mail', $mail);
 	$req->bindValue(':prenom', $prenom);
@@ -89,7 +89,7 @@ function rechercher_mail($mail,$prenom)
 function modif_ticket($id,$ticket)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.membre SET ticket = :ticket, mdpo = :mdpo WHERE idmembre = :id ");
 	$req->bindValue(':id', $id);
 	$req->bindValue(':ticket', $ticket);
@@ -100,7 +100,7 @@ function modif_ticket($id,$ticket)
 function verif_ticket($id)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idmembre, mdpo FROM site.membre WHERE ticket = :ticket");
 	$req->bindValue(':ticket', $id);
 	$req->execute();
@@ -111,7 +111,7 @@ function verif_ticket($id)
 function modif_mdp($idmembre,$pass_hache)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.membre SET motpasse = :motpasse, mdpo = :mdpo WHERE idmembre = :id ");
 	$req->bindValue(':id', $idmembre);
 	$req->bindValue(':motpasse', $pass_hache);
@@ -122,7 +122,7 @@ function modif_mdp($idmembre,$pass_hache)
 function modif($idmembre,$type,$modif,$datem)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typeid, numid, typemodif, modif, datemodif, idmembre)
 						VALUES(:typeid, :id, :type, :modif, :datem, :idm) ");
 	$req->bindValue(':id', $idmembre);

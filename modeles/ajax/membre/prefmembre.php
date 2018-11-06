@@ -5,7 +5,7 @@ session_start();
 function cherche_membre($idm)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(idmembre) FROM site.prefmembre WHERE idmembre = :idm ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->execute();
@@ -16,7 +16,7 @@ function cherche_membre($idm)
 function insere_prefmembre($idm,$latin,$sel,$flou,$contact,$couche,$typedon,$org)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.prefmembre (idmembre,obser,latin,floutage,contact,couche,typedon,org)
 						VALUES(:idm, :obser, :latin, :flou, :contact, :couche, :tdon, :org) ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
@@ -37,7 +37,7 @@ function insere_prefmembre($idm,$latin,$sel,$flou,$contact,$couche,$typedon,$org
 function modif_prefmembre($idm,$latin,$sel,$flou,$contact,$couche,$typedon,$org)
 {
 	$bdd = PDO2::getInstance();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("UPDATE site.prefmembre SET latin = :latin, obser = :obser, floutage = :flou, contact = :contact, couche = :couche, typedon = :tdon, org = :org WHERE idmembre = :idm ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idm', $idm);
 	$req->bindValue(':latin', $latin);
