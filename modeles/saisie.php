@@ -97,11 +97,12 @@ function organisme()
 {
 	$bdd = PDO2::getInstance();		
 	$bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->prepare("SELECT idorg, organisme
+    $req = $bdd->prepare("SELECT organisme.idorg, organisme
                                         FROM referentiel.organisme
-                                        left join referentiel.observateur_organisme using (idorg)
-                                        left join referentiel.observateur ON observateur.idm = observateur_organisme.idobser
-                                        where observateur_organisme.idobser = :idmembre
+                                        LEFT JOIN referentiel.observateur_organisme ON observateur_organisme.idorg = organisme.idorg
+                                        LEFT JOIN referentiel.observateur ON observateur.idobser = observateur_organisme.idobser
+                                        LEFT JOIN site.membre ON membre.idmembre = observateur.idm
+                                        WHERE observateur.idm = :idmembre
                                         ORDER BY organisme ");
     $req->bindValue(':idmembre', $_SESSION['idmembre']);
     $req->execute();
