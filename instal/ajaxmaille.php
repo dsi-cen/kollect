@@ -18,14 +18,14 @@ function vidertable($ntbl)
 function creermaillel93()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("CREATE TABLE referentiel.maillel93 (codel93 character varying(8) NOT NULL, CONSTRAINT maillel93_pkey PRIMARY KEY (codel93))");
 	$req->closeCursor();
 }
 function creermgrs10()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("CREATE TABLE referentiel.mgrs10 (mgrs character varying(8) NOT NULL, geo text, CONSTRAINT mgrs10_pkey PRIMARY KEY (mgrs))");
 	$req->closeCursor();
 }
@@ -53,7 +53,7 @@ function inserutm($listedep)
 	}
 	$liste = str_replace('"',"'",$liste);
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("INSERT INTO referentiel.mgrs10 (mgrs,geo) 
 						SELECT DISTINCT mgrs, geo FROM install.mgrs10 WHERE $liste ");	
 	$nbins = $req->rowCount();
@@ -84,7 +84,7 @@ function insermaillel93dep($listedep)
 	}
 	$liste = str_replace('"',"'",$liste);
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("INSERT INTO referentiel.maillel93 (codel93) 
 						SELECT DISTINCT codel93 FROM install.maillel93 WHERE $liste ");
 	$req->closeCursor();
@@ -92,7 +92,7 @@ function insermaillel93dep($listedep)
 function insermaillel93($xg,$xd,$yh,$yb)
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO referentiel.maillel93 (codel93) VALUES (:code) ");
 	for($i=$xg; $i<=$xd; $i++)
 	{
@@ -114,7 +114,7 @@ function insermaillel93($xg,$xd,$yh,$yb)
 function carto93()
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codel93 FROM referentiel.maillel93 ");
 	$carto93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -123,7 +123,7 @@ function carto93()
 function mgrs()
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT mgrs, geo FROM referentiel.mgrs10 ");
 	$cartomgrs = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -132,7 +132,7 @@ function mgrs()
 function listedep()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT iddep FROM referentiel.commune ");
 	$listedep = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -149,7 +149,7 @@ function tablebiogeo()
 function creerbiogeo()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE obs.biogeo (
 						  idcoord integer NOT NULL,
 						  idbiogeo smallint,
@@ -159,7 +159,7 @@ function creerbiogeo()
 function creerrefbiogeo()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.refbiogeo (
 					  id smallint NOT NULL,
 					  idbiogeo smallint,

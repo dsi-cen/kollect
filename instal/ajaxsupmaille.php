@@ -17,7 +17,7 @@ function supmgrs($maille)
 function carto93()
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codel93 FROM referentiel.maillel93 ");
 	$carto93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -26,7 +26,7 @@ function carto93()
 function mgrs()
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT mgrs, geo FROM referentiel.mgrs10 ");
 	$cartomgrs = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

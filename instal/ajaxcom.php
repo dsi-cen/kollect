@@ -5,7 +5,7 @@ include '../lib/pdo2.php';
 function liste($com,$iddep,$maxRows)
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT commune, codecom FROM install.communefr 
 						WHERE (commune ILIKE :com) AND (iddep = :iddep)
 						LIMIT :maxRows ") or die(print_r($bdd->errorInfo()));

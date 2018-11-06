@@ -31,7 +31,7 @@ function vidermodif()
 function creermembre()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE site.membre (
 						idmembre serial NOT NULL,
 						nom character varying(50),
@@ -50,7 +50,7 @@ function creermembre()
 function inscription($nom,$prenom,$pass_hache,$mail)
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.membre (nom, prenom, droits, motpasse, mail, actif) VALUES (:nom, :prenom, :droit, :motpasse, :mail, :actif) ");
 	$req->bindValue(':nom', $nom);
 	$req->bindValue(':prenom', $prenom);
@@ -66,7 +66,7 @@ function inscription($nom,$prenom,$pass_hache,$mail)
 function connexion($prenom, $pass_hache)
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT idmembre, nom, droits FROM site.membre
 						WHERE prenom = :prenom AND motpasse = :motpasse ");
 	$req->bindValue(':prenom', $prenom);
@@ -79,7 +79,7 @@ function connexion($prenom, $pass_hache)
 function modif($idmembre,$datem)
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("INSERT INTO site.modif (typeid, numid, typemodif, modif, datemodif, idmembre)
 						VALUES(:typeid, :id, :type, :modif, :datem, :idm) ");
 	$req->bindValue(':id', $idmembre);

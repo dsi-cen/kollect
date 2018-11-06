@@ -18,14 +18,14 @@ function vidertable()
 function creermgrs10()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("CREATE TABLE referentiel.mgrs10 (mgrs character varying(8) NOT NULL, geo text, CONSTRAINT mgrs10_pkey PRIMARY KEY (mgrs))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }
 function inserutm()
 {
 	$bdd = PDO2::getInstanceinstall();
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("INSERT INTO referentiel.mgrs10 (mgrs,geo) 
 						SELECT mgrs, geo FROM install.mgrs10 ") or die(print_r($bdd->errorInfo()));	
 	$nbins = $req->rowCount();

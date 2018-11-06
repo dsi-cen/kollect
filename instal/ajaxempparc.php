@@ -35,7 +35,7 @@ function insercommune($tabcom)
 function creercommune()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');	
+	$bdd->query("SET NAMES 'UTF8'");	
 	$req = $bdd->query("CREATE TABLE referentiel.commune (
 						codecom character varying(5) NOT NULL,
 						commune character varying(145),
@@ -66,7 +66,7 @@ function creerdepartement()
 function listedep()
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT DISTINCT iddep FROM referentiel.commune ") or die(print_r($bdd->errorInfo()));
 	$listedep = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -91,7 +91,7 @@ function inserdepartement($listedep)
 function com($idcom)
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("SELECT codecom, geojson FROM install.communegeo WHERE codecom IN($idcom) ") or die(print_r($bdd->errorInfo()));
 	$com = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
@@ -100,7 +100,7 @@ function com($idcom)
 /*function contour2($tabdep)
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT iddep, departementgeo.geojson FROM install.departementgeo WHERE iddep = :iddep ") or die(print_r($bdd->errorInfo()));
 	foreach ($tabdep as $n)
 	{					
@@ -114,7 +114,7 @@ function com($idcom)
 function contour2($idparc)
 {
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT id, poly, geojson FROM install.pnr WHERE id = :idparc ") or die(print_r($bdd->errorInfo()));
 	$req->bindValue(':idparc', $idparc);
 	$req->execute();
@@ -127,7 +127,7 @@ function contour2($idparc)
 	$oktabdep = 'non';
 	$tabdep = null;
 	$bdd = PDO2::getInstanceinstall();		
-	$bdd->query('SET NAMES "utf8"');
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->prepare("SELECT COUNT(codecom) FROM install.communefr 
 						WHERE NOT EXISTS (SELECT codecom FROM referentiel.commune
 						WHERE (commune.codecom = communefr.codecom)) AND iddep = :iddep ") or die(print_r($bdd->errorInfo()));

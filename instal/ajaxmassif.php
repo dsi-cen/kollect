@@ -8,7 +8,7 @@ if(isset($_GET['term']))
 	{
 		$resultat= array();
 		$bdd = PDO2::getInstanceinstall();
-		$bdd->query('SET NAMES "utf8"');
+		$bdd->query("SET NAMES 'UTF8'");
 		$req = $bdd->prepare("SELECT DISTINCT massif FROM install.massif 
 							WHERE massif ILIKE :recherche
 							ORDER BY massif") or die(print_r($bdd->errorInfo()));
