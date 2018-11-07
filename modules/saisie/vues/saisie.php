@@ -31,8 +31,10 @@
 			<form id="formulaire">
 				<div class="card card-body" id="blocfiche">
 					<div id="R"></div>
-					<fieldset class="min p-2">						
-						<div class="form-group row pt-2">	
+                    <div class="min p-2">
+                    <fieldset>
+                        <legend class="legendesaisie">Centrer la carte sur une localisation <i id="infolieu" class="fa fa-info-circle curseurlien text-info info" title="Aide à la saisie"></i></legend>
+                            <div class="form-group row pt-2">
 							<?php 
 							if ($dep == 'oui')
 							{
@@ -60,9 +62,11 @@
 								</select>
 							</div>
 						</div>						
-					</fieldset>					
+					</fieldset>
+                    </div>
+                    <div class="min p-2 mt-3">
 					<fieldset class="mt-2">
-						<legend class="legendesaisie">Localisation <i id="infolieu" class="fa fa-info-circle curseurlien text-info info" title="Aide à la saisie"></i></legend>
+						<legend class="legendesaisie">Informations sur la localisation</legend>
 						<?php 
 						if ($dep == 'oui')
 						{
@@ -98,6 +102,31 @@
 						}
 						?>	
 					</fieldset>
+                    <fieldset>
+                        <legend class="legendesaisie">Précision de la géométrie (à titre d'information, non-utilisée dans les traitements)</legend>
+                        <div class="form-group row">
+                            <label for="prec" class="col-sm-3 col-form-label">Echelle de précision</label>
+                            <div class="col-sm-4">
+                                <select id="precision" name="precision" class="form-control">
+                                    <?php
+                                    foreach($precision as $n)
+                                    {
+                                        if($n['idpreci'] == $idpreci)
+                                        {
+                                            ?><option value="<?php echo $n['idpreci'];?>" selected><?php echo $n['lbpreci'];?></option><?php
+                                        }
+                                        else
+                                        {
+                                            ?><option value="<?php echo $n['idpreci'];?>"><?php echo $n['lbpreci'];?></option><?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </div>
+                    <div class="min p-2 mt-3">
 					<fieldset>
 						<legend class="legendesaisie">Dates (heures, météo, etc..)</legend>
 						<div class="form-group row">
@@ -120,6 +149,8 @@
 							</div>
 						</div>
 					</fieldset>
+                    </div>
+                    <div class="min p-2 mt-3 mb-3">
 					<fieldset>
 						<legend class="legendesaisie">Diffusion, type et source de(ou des) données</legend>
                         <div class="form-group row">
@@ -181,8 +212,9 @@
 							</div>
 						</div>
 					</fieldset>
-					<div class="row">
-						<button type="button" class="afcarte btn color1_bg blanc curseurlien" data-toggle="tooltip" data-placement="bottom" data-title="Masque/affiche la carte">Saisir les espèces observées <i class="fa fa-eye fa-1x"></i></button>
+                    </div>
+					<div class="row ml-1">
+						<button type="button" class="afcarte btn btn-success curseurlien" data-toggle="tooltip" data-placement="bottom" data-title="Masque/affiche la carte">Saisir les espèces observées <i class="fa fa-eye fa-1x"></i></button>
 						<div class="" id="valf">
 							<button type="button" class="btn btn-success" id="BttF" data-toggle="tooltip" data-placement="top" data-title="Valide les modifications de la fiche">Valider les modifications</button>
 							<button type="button" class="btn btn-warning" id="vobsfiche" data-toggle="tooltip" data-placement="top" data-title="Liste des observations du relevé"><i class="fa fa-eye fa-lg"></i> Voir les espèces</button>
