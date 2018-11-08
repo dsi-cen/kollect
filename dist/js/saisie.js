@@ -354,16 +354,17 @@ function inserobservateur(e, a) {
 function verifinfo() {
     "use strict";
     $("#alert1").html("");
-    var e, a = $("#date").val(), t = $("#xlambert").val();
-    if ("" == a || "" == t) "" == a && $("#alert1").prepend('<div class="alert alert-danger"><b>Aucune date de saisie !</b> Renseignez une date ou un intervalle de dates</div>'), "" == t && $("#alert1").prepend('<div class="alert alert-danger"><b>Aucune coordonnée !</b> Sélectionnez un site déjà existant ou cliquez sur la carte pour en créer un.</div>'), e = "oui"; else {
+    var e, a = $("#date").val(), t = $("#xlambert").val(), et = $("#etude").val();
+    if ("" == a || "" == t || "" == et) "" == a && $("#alert1").prepend('<div class="alert alert-danger"><b>Aucune date de saisie !</b> Renseignez une date ou un intervalle de dates</div>'), "" == t && $("#alert1").prepend('<div class="alert alert-danger"><b>Aucune coordonnée !</b> Sélectionnez un site déjà existant ou cliquez sur la carte pour en créer un.</div>'), "" == et && $("#alert1").prepend('<div class="alert alert-danger"> <b>Aucune étude de renseignée !</b> Sélectionner une étude avec la liste déroulante. </div>'), e = "oui"; else {
         var l = $("#pr").val();
         $("#alert1").html(""), "Nouv" == $("#idfiche").val() && veriffiche(), 2 == l ? ($("#dia16").modal("show"), e = "oui") : e = "non"
     }
     return e
 }
 
-function postorg(o, s=0) {
+function postorg(o, s="") {
     // "use strict";
+    o < 3 ? s="0" : s=s;
     $.ajax({
         url: "modeles/ajax/saisie/etudes.php",
         type: "POST",
@@ -371,14 +372,14 @@ function postorg(o, s=0) {
         data: {'organisme': o},
         success: function(res) {
             $('#etude').empty();
-            $('#etude').append('<option value="0">Aucune étude</option>');
+            $('#etude').append('<option value="" selected>Sélectionner une étude</option>');
             var JSONObject = res;
             for (var key in JSONObject) {
                 if (JSONObject.hasOwnProperty(key)) {
                     $('#etude').append('<option value="' + JSONObject[key]["idetude"]+ '">' + JSONObject[key]["etude"]  + '</option>');
                 }
             }
-            $('#etude option[value="' + s + '"]').prop("selected","selected"); // Selection 0 par défaut
+            $('#etude option[value="' + s + '"]').prop("selected","selected");
         },
         error: function(res) {
             console.log("Erreur");
@@ -510,7 +511,7 @@ function enregistrer(e) {
 
 function efface(e) {
     "use strict";
-    $(e + " :input").not(":button, :submit, :reset, #det, #stade, #etude, #floutage, #typedon, #org, #source, #idfiche, #idobs, #sel, input[name=orien], input[name=clabon]").val(""), $("#observateur2").val(""), $("#habitat").val("NR"), $("#habitat2").hide(), $("#habitat3").hide(), $("#cdnombotam").val(""), $("#nbpltem").val(""), $("#statutobs").val("Pr"), $("#denom").val("Co"), $("#tdenom").val("IND"), $("#etatbio").val("2"), $("input[name=clabon]").prop("checked", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $(".nbexact").val(""), $(".nbexact").prop("disabled", !1), $("#nbtmp1").val(""), $("#iddet").val($("#iddetor").val()), $("#idobser").val($("#idobseror").val()), $(".afcarte").show(), $("#valf").hide(), $(".stadecache").find(":input").css("background-color", "#FFFFFF").css("cursor", "auto"), $("#observateur2").prop("disabled", !1), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#mrq").prop("checked", !1), $("#collect").is(":checked") && $("#collect").prop("checked", !1), $("#gen").is(":checked") && $("#gen").prop("checked", !1), $("#imgpluscol").hasClass("fa-minus") && ($("#imgpluscol").removeClass("fa-minus").addClass("fa-plus"), $("#pluscol").hide()), marker && (map.removeLayer(marker), marker = ""), drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), nonsite(), supmarker()
+    $(e + " :input").not(":button, :submit, :reset, #det, #stade, #etude, #floutage, #typedon, #org, #precision, #source, #idfiche, #idobs, #sel, input[name=orien], input[name=clabon]").val(""), $("#observateur2").val(""), $("#habitat").val("NR"), $("#habitat2").hide(), $("#habitat3").hide(), $("#cdnombotam").val(""), $("#nbpltem").val(""), $("#statutobs").val("Pr"), $("#denom").val("Co"), $("#tdenom").val("IND"), $("#etatbio").val("2"), $("input[name=clabon]").prop("checked", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $(".nbexact").val(""), $(".nbexact").prop("disabled", !1), $("#nbtmp1").val(""), $("#iddet").val($("#iddetor").val()), $("#idobser").val($("#idobseror").val()), $(".afcarte").show(), $("#valf").hide(), $(".stadecache").find(":input").css("background-color", "#FFFFFF").css("cursor", "auto"), $("#observateur2").prop("disabled", !1), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#mrq").prop("checked", !1), $("#collect").is(":checked") && $("#collect").prop("checked", !1), $("#gen").is(":checked") && $("#gen").prop("checked", !1), $("#imgpluscol").hasClass("fa-minus") && ($("#imgpluscol").removeClass("fa-minus").addClass("fa-plus"), $("#pluscol").hide()), marker && (map.removeLayer(marker), marker = ""), drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), nonsite(), supmarker()
 }
 
 function cache() {
@@ -565,6 +566,7 @@ function recupfiche(e) {
                     $("#typepoly").val(e.fiche.geo),
                     $("#typedon").val(e.fiche.typedon) && filter(e.fiche.idorg),
                     $("#source").val(e.fiche.source),
+                    $("#precision").val(e.fiche.idpreci),
                     $("#floutage").val(e.fiche.floutage),
                     $("#heure").val(e.fiche.hdebut),
                     $("#heure2").val(e.fiche.hfin),
@@ -668,8 +670,8 @@ function rhab2(e, a) {
 
 function valimodif(e) {
     "use strict";
-    var a = $("#protocol").val(), t = $("#etude").val(), l = $("#statutobs").val();
-    "No" == l && 0 == a && 0 == t ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : enregistrermod(e)
+    var a = $("#protocol").val(), l = $("#statutobs").val();
+    "No" == l && 0 == a ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : enregistrermod(e)
 }
 
 function enregistrermod(e) {
@@ -700,6 +702,7 @@ $(document).ready(function () {
     }), $("#valajaxs").hide(), $("#blocobs").hide(), $("#pluslatin1").hide(), $("#pluscoord").hide(), $("#pluscol").hide(), $("#plushab").hide(), $("#plusproto").show(), $("#valm").removeClass("d-flex").hide(), $("#liste10").hide(), $("#photo").hide(), $("#pltehote").hide(), $("#vsite").hide(), $("#plusfiche").hide(), $("#valf").hide(), $("#estim").hide(), $("#nbtmp").hide(), $("#habitat2").hide(), $("#habitat3").hide(), $("#observateur").prop("disabled", !0), $("#dep").prop("disabled", !0), $("#communeb").prop("disabled", !0), $("#altitude").prop("disabled", !0), $("#xlambert").prop("disabled", !0), $("#ylambert").prop("disabled", !0), $("#lat").prop("disabled", !0), $("#lng").prop("disabled", !0), $("#l93").prop("disabled", !0), $("#l935").prop("disabled", !0), $("#utm").prop("disabled", !0), $("#utm1").prop("disabled", !0), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#btnaide").on("click", aide);
 
     filter($("#org").val());
+    postorg($("#org").val());
 
     var l = $("#getidfiche").val();
     "" != l && recupfiche(l);
@@ -1096,8 +1099,9 @@ $(document).ready(function () {
         var t = $(this);
         valimodif(t)
     } else if ("Nouv" == $("#idfiche").val()) {
-        var l = $("#date").val(), o = $("#xlambert").val();
-        if ("" == l || "" == o) $("#valajaxs").hide(), "" == l && $("#R1").prepend('<div class="alert alert-danger">Aucune date de saisie ! Renseigner une date ou un intervalle de date</div>'), "" == o && $("#R1").prepend('<div class="alert alert-danger">Aucune coordonnée ! Sélectionner un site déjà existant ou cliquer sur la carte pour en créer un.</div>'); else {
+        var l = $("#date").val(), o = $("#xlambert").val(), et = $("#etude").val();
+        if ("" == l || "" == o || "" == et) $("#valajaxs").hide(), "" == l && $("#R1").prepend('<div class="alert alert-danger">Aucune date de saisie ! Renseigner une date ou un intervalle de date</div>'), "" == o && $("#R1").prepend('<div class="alert alert-danger">Aucune coordonnée ! Sélectionner un site déjà existant ou cliquer sur la carte pour en créer un.</div>'), "" == et && $("#R1").prepend('<div class="alert alert-danger">Aucune étude de renseignée ! Sélectionner une étude avec la liste déroulante. </div>');
+        else {
             var t = $(this);
             valider(t)
         }
@@ -1148,7 +1152,7 @@ $(document).ready(function () {
         c = $("#utm").val(), d = $("#utm1").val(), u = $("#typepoly").val(), p = $("#altitude").val(),
         m = $("#codecom").val(), v = $("#codedep").val(), h = $("#pr").val(), f = $("#lieub").val(),
         b = $("#date").val(), g = $("#date2").val(), x = $("#idobser").val(), w = $("#typedon").val(),
-        y = $("#floutage").val(), k = $("#source").val(), C = $("#org").val(), et = $("#etude").val(), N = $("#heure").val(),
+        y = $("#floutage").val(), k = $("#source").val(), pre = $("#precision").val(), C = $("#org").val(), et = $("#etude").val(), N = $("#heure").val(),
         S = $("#heure2").val(), T = $("#tempdeb").val(), L = $("#tempfin").val();
     $.ajax({
         url: "modeles/ajax/saisie/vmodfiche.php",
@@ -1178,6 +1182,7 @@ $(document).ready(function () {
             typedon: w,
             floutage: y,
             source: k,
+            idpreci: pre,
             org: C,
             etude: et,
             heure: N,

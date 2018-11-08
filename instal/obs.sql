@@ -52,7 +52,9 @@ CREATE TABLE obs.fiche
   source character varying(3),
   idorg smallint,
   idetude smallint,
-  CONSTRAINT fiche_pkey PRIMARY KEY (idfiche)
+  idpreci smallint,
+  CONSTRAINT fiche_pkey PRIMARY KEY (idfiche),
+  CONSTRAINT fiche_idpreci_fkey FOREIGN KEY (idpreci) REFERENCES referentiel.coordprecision (idpreci)
 );
 
 CREATE TABLE obs.fichesup

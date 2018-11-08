@@ -147,6 +147,23 @@ CREATE TABLE protocole
   CONSTRAINT protocole_pkey PRIMARY KEY (idprotocole)
 );
 
+CREATE TABLE referentiel.coordprecision
+(
+idpreci smallint NOT NULL,
+lbpreci character varying (50),
+mdpreci text
+);  
+
+INSERT INTO referentiel.coordprecision VALUES
+(1,'Non renseigné','La précision de la coordonnée n''a pas été précisée'),
+(2,'0 à 5m','La précision de la coordonnée se situe entre 0 et 5m'),
+(3,'5 à 10m','La précision de la coordonnée se situe entre 5 et 10m'),
+(4,'10 à 50m','La précision de la coordonnée se situe entre 10 et 50m'),
+(5,'50 à 100m','La précision de la coordonnée se situe entre 50 et 100m'),
+(6,'100 à 500m','La précision de la coordonnée se situe entre 100 et 500m'),
+(7,'lieu-dit','La coordonnée indique le lieu-dit le plus proche de l''observation'),
+(8,'site','La coordonnée indique le site intersecté (l''observation se situe quelque part dans le site intersecté)');
+
 CREATE TABLE observateur_organisme
 (   
     idobser_org serial NOT NULL,
