@@ -184,10 +184,6 @@ CREATE TABLE etude_organisme
     CONSTRAINT etude_organisme_idorg_fk FOREIGN KEY (idorg) REFERENCES referentiel.organisme (idorg)
 );
 
-INSERT INTO referentiel.etude_organisme
-(idetude, idorg)
-VALUES(0, 1),(0, 2);
-
 CREATE TABLE fonction
 (
     idfonc integer NOT NULL,
@@ -1916,6 +1912,10 @@ INSERT INTO stade VALUES (26, 'Post-Larve',NULL,'Post-larve : Stade qui suit imm
 INSERT INTO stade VALUES (27,	'Fruit', NULL,'Fruit : L''individu est sous forme de fruit.');
 
 INSERT INTO referentiel.etude (idetude, etude, libelle, masquer) VALUES(0, 'Aucune', 'Aucune', 'oui');
+
+INSERT INTO referentiel.etude_organisme
+(idetude, idorg)
+VALUES(0, 1),(0, 2);
 
 INSERT INTO fonction VALUES
   (1,'Salarié','La personne est salariée de l''organisme'),
