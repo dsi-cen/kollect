@@ -137,12 +137,12 @@ function insere_site($codecom, $idcoord, $rqsite, $site)
 	$req->closeCursor();
 	return $idsite;	
 }
-function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep1,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude)
+function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep1,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude,$idpreci)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->prepare("INSERT INTO obs.fiche (iddep, codecom, idsite, date1, date2, idobser, decade, localisation, idcoord, floutage, plusobser, typedon, source, idorg, idetude)
-						VALUES(:iddep, :codecom, :idsite, :date1, :date2, :obs, :decade, :pr, :idcoord, :floutage, :plusobser, :typedon, :source, :org, :etude) ");
+	$req = $bdd->prepare("INSERT INTO obs.fiche (iddep, codecom, idsite, date1, date2, idobser, decade, localisation, idcoord, floutage, plusobser, typedon, source, idorg, idetude, idpreci)
+						VALUES(:iddep, :codecom, :idsite, :date1, :date2, :obs, :decade, :pr, :idcoord, :floutage, :plusobser, :typedon, :source, :org, :etude, :idpreci) ");
 	$req->bindValue(':iddep', $iddep1);
 	$req->bindValue(':codecom', $codecom);
 	$req->bindValue(':idsite', $idsite);
@@ -158,6 +158,7 @@ function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,
 	$req->bindValue(':source', $source);
 	$req->bindValue(':org', $org);
     $req->bindValue(':etude', $etude);
+    $req->bindValue(':idpreci', $idpreci);
 
 	if ($req->execute())
 	{
@@ -577,6 +578,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 			$source = $_POST['source'];
 			$org = $_POST['org'];
             $etude = $_POST['etude']; // Passage de l'étude au niveau de la fiche
+            $idpreci = $_POST['precision']; // Passage de la précision au niveau de la fiche
 			$obs = explode(", ", $_POST['idobser']);
 			if($obs[0] == 0)
 			{
@@ -605,7 +607,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 				$idobser = $obs[0];
 			}
 			$plusobser = (count($obs) > 1) ? 'oui' : 'non';
-			$idfiche = insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$idobser,$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude);
+			$idfiche = insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$idobser,$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude,$idpreci);
 			//si plusieurs observateurs
 			if(count($obs) > 1)
 			{

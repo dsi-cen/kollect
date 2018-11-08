@@ -511,7 +511,7 @@ function enregistrer(e) {
 
 function efface(e) {
     "use strict";
-    $(e + " :input").not(":button, :submit, :reset, #det, #stade, #etude, #floutage, #typedon, #org, #source, #idfiche, #idobs, #sel, input[name=orien], input[name=clabon]").val(""), $("#observateur2").val(""), $("#habitat").val("NR"), $("#habitat2").hide(), $("#habitat3").hide(), $("#cdnombotam").val(""), $("#nbpltem").val(""), $("#statutobs").val("Pr"), $("#denom").val("Co"), $("#tdenom").val("IND"), $("#etatbio").val("2"), $("input[name=clabon]").prop("checked", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $(".nbexact").val(""), $(".nbexact").prop("disabled", !1), $("#nbtmp1").val(""), $("#iddet").val($("#iddetor").val()), $("#idobser").val($("#idobseror").val()), $(".afcarte").show(), $("#valf").hide(), $(".stadecache").find(":input").css("background-color", "#FFFFFF").css("cursor", "auto"), $("#observateur2").prop("disabled", !1), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#mrq").prop("checked", !1), $("#collect").is(":checked") && $("#collect").prop("checked", !1), $("#gen").is(":checked") && $("#gen").prop("checked", !1), $("#imgpluscol").hasClass("fa-minus") && ($("#imgpluscol").removeClass("fa-minus").addClass("fa-plus"), $("#pluscol").hide()), marker && (map.removeLayer(marker), marker = ""), drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), nonsite(), supmarker()
+    $(e + " :input").not(":button, :submit, :reset, #det, #stade, #etude, #floutage, #typedon, #org, #precision, #source, #idfiche, #idobs, #sel, input[name=orien], input[name=clabon]").val(""), $("#observateur2").val(""), $("#habitat").val("NR"), $("#habitat2").hide(), $("#habitat3").hide(), $("#cdnombotam").val(""), $("#nbpltem").val(""), $("#statutobs").val("Pr"), $("#denom").val("Co"), $("#tdenom").val("IND"), $("#etatbio").val("2"), $("input[name=clabon]").prop("checked", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $(".nbexact").val(""), $(".nbexact").prop("disabled", !1), $("#nbtmp1").val(""), $("#iddet").val($("#iddetor").val()), $("#idobser").val($("#idobseror").val()), $(".afcarte").show(), $("#valf").hide(), $(".stadecache").find(":input").css("background-color", "#FFFFFF").css("cursor", "auto"), $("#observateur2").prop("disabled", !1), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#mrq").prop("checked", !1), $("#collect").is(":checked") && $("#collect").prop("checked", !1), $("#gen").is(":checked") && $("#gen").prop("checked", !1), $("#imgpluscol").hasClass("fa-minus") && ($("#imgpluscol").removeClass("fa-minus").addClass("fa-plus"), $("#pluscol").hide()), marker && (map.removeLayer(marker), marker = ""), drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), nonsite(), supmarker()
 }
 
 function cache() {
@@ -566,6 +566,7 @@ function recupfiche(e) {
                     $("#typepoly").val(e.fiche.geo),
                     $("#typedon").val(e.fiche.typedon) && filter(e.fiche.idorg),
                     $("#source").val(e.fiche.source),
+                    $("#precision").val(e.fiche.idpreci),
                     $("#floutage").val(e.fiche.floutage),
                     $("#heure").val(e.fiche.hdebut),
                     $("#heure2").val(e.fiche.hfin),
@@ -1151,7 +1152,7 @@ $(document).ready(function () {
         c = $("#utm").val(), d = $("#utm1").val(), u = $("#typepoly").val(), p = $("#altitude").val(),
         m = $("#codecom").val(), v = $("#codedep").val(), h = $("#pr").val(), f = $("#lieub").val(),
         b = $("#date").val(), g = $("#date2").val(), x = $("#idobser").val(), w = $("#typedon").val(),
-        y = $("#floutage").val(), k = $("#source").val(), C = $("#org").val(), et = $("#etude").val(), N = $("#heure").val(),
+        y = $("#floutage").val(), k = $("#source").val(), pre = $("#precision").val(), C = $("#org").val(), et = $("#etude").val(), N = $("#heure").val(),
         S = $("#heure2").val(), T = $("#tempdeb").val(), L = $("#tempfin").val();
     $.ajax({
         url: "modeles/ajax/saisie/vmodfiche.php",
@@ -1181,6 +1182,7 @@ $(document).ready(function () {
             typedon: w,
             floutage: y,
             source: k,
+            idpreci: pre,
             org: C,
             etude: et,
             heure: N,
