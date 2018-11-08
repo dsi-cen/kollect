@@ -53,8 +53,7 @@ CREATE TABLE obs.fiche
   idorg smallint,
   idetude smallint,
   idpreci smallint,
-  CONSTRAINT fiche_pkey PRIMARY KEY (idfiche),
-  CONSTRAINT fiche_idpreci_fkey FOREIGN KEY (idpreci) REFERENCES referentiel.coordprecision (idpreci)
+  CONSTRAINT fiche_pkey PRIMARY KEY (idfiche)
 );
 
 CREATE TABLE obs.fichesup

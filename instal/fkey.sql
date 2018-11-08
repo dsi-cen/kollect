@@ -34,6 +34,10 @@ ALTER TABLE obs.fiche
 ADD CONSTRAINT fiche_iddep_fk
 FOREIGN KEY (iddep) REFERENCES referentiel.departement (iddep);
 
+ALTER TABLE obs.fiche 
+ADD CONSTRAINT fiche_idpreci_fkey 
+FOREIGN KEY (idpreci) REFERENCES referentiel.coordprecision (idpreci);
+
 ALTER TABLE obs.fichesup
 ADD CONSTRAINT fichesup_idfiche_fk
 FOREIGN KEY (idfiche) REFERENCES obs.fiche (idfiche);
