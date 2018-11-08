@@ -191,6 +191,7 @@ CREATE TABLE obs_historique.histo_fiche
   source character varying(3),
   idorg smallint,
   idetude smallint,
+  idpreci smallint,
   CONSTRAINT histo_fiche_pkey PRIMARY KEY (date_operation, utilisateur, idfiche)
 );
 
