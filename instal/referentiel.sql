@@ -1867,20 +1867,29 @@ INSERT INTO prospection VALUES (26, 'Lampe frontale', NULL, 'Recherche active de
 INSERT INTO prospection VALUES (27, 'HG125', 9, 'Lampe mercure 125 W.');
 INSERT INTO prospection VALUES (28, 'HG160', 9, 'Lampe mercure 160 W.');
 
-INSERT INTO protocole VALUES (0, 'Aucun', NULL, NULL);
-INSERT INTO protocole VALUES (1, 'STOC EPS', 'Suivi Temporel des Oiseaux Communs', NULL);
-INSERT INTO protocole VALUES (2, 'EPS', 'Échantillonnage  Ponctuel Simple', NULL);
-INSERT INTO protocole VALUES (4, 'IKA', NULL, NULL);
-INSERT INTO protocole VALUES (5, 'Chronoventaire', NULL, NULL);
-INSERT INTO protocole VALUES (6, 'BMS', 'Butterfly Monitoring Scheme', NULL);
-INSERT INTO protocole VALUES (7, 'STERF', 'Suivi Temporel des Rhopalocères de France ', NULL);
-INSERT INTO protocole VALUES (8, 'DCE', 'Invertébrés-Substrats meubles', NULL);
-INSERT INTO protocole VALUES (9, 'STELI', 'Suivi Temporel des Libellules', NULL);
-INSERT INTO protocole VALUES (10, 'Quadra', NULL, NULL);
-INSERT INTO protocole VALUES (11, 'SHOC', 'Suivi Hivernal des Oiseaux Communs', NULL);
-INSERT INTO protocole VALUES (12, 'SON', 'Suivi des Orthoptères Nocturnes', NULL);
-INSERT INTO protocole VALUES (13, 'Vigie-Chiro', NULL, NULL);
-INSERT INTO protocole VALUES (3, 'IPA', '', '');
+INSERT INTO protocole VALUES
+(1,'Donnée fortuite','Donnée collectée de manière opportuniste', NULL),
+(2,'Inventaire sur site','Donnée collectée de manière épisodique et non protocolée sur un site dans une démarche de plan de gestion', NULL),
+(3,'Inventaire pour répartition','Donnée collectée de manière épisodique et non protocolée avec un objectif de connaissance de la répartion d''un taxon ou d''un groupe de taxons (démarche d''atlas)', NULL),
+(4,'Inventaire participatif pour répartition','Donnée collectée de manière épisodique et non protocolée mobilisant des ressources externes bénévoles (camps de prospection, formations spécifiques, etc.) avec un objectif de connaissance de la répartion d''un taxon ou d''un groupe de taxons (démarche d''atlas)', NULL),
+(5,'Suivi sur site par simple dénombrement','Donnée collectée de manière récurrente et non protocolée sur un site avec un objectif de connaissance de la dynamique de population d''un taxon ou d''un groupe de taxons (espèces dites patrimoniales)', NULL),
+(6,'Suivi STERF','Donnée de lépidoptère collectée de manière récurrente selon le protocole STERF', NULL),
+(7,'Suivi STERF adapté','Donnée de lépidoptère collectée de manière récurrente en s''inspirant du protocole STERF (certains paramètres du STERF ont été adaptés)', NULL),
+(8,'Suivi STELI - imagos','Donnée d''odonate (imago) collectée de manière récurrente selon le protocole STELI', NULL),
+(9,'Suivi STELI - exuvies','Donnée d''odonate (exuvie) collectée de manière récurrente selon le protocole STELI', NULL),
+(10,'Suivi STELI adapté - imagos','Donnée d''odonate (imago) collectée de manière récurrente en s''inspirant du protocole STELI (certains paramètres du STELI ont été adaptés)', NULL),
+(11,'Suivi STELI adapté - exuvies','Donnée d''odonate (exuvie) collectée de manière récurrente en s''inspirant du protocole STELI (certains paramètres du STELI ont été adaptés)', NULL),
+(12,'Suivi sur site par point d''écoute','Donnée collectée de manière récurrente et protocolée via des points d''écoute', NULL),
+(13,'Suivi STOC EPS','Donnée d''oiseau collectée de manière récurrente selon le protocole Suivi Temporel des Oiseaux Communs - Echantillonnages Ponctuels Simples', NULL),
+(14,'Suivi sur site par piège photographique', 'Donnée collectée de manière récurrente via un piège photographique', NULL),
+(15,'Suivi Chronoventaire', 'Donnée collectée de manière récurrente selon le protocole Chronoventaire', NULL),
+(16,'Inventaire par piège lumineux', 'Donnée collectée de manière épisodique via un piège lumineux', NULL),
+(17,'Suivi par piège lumineux', 'Donnée collectée de manière récurrente via un piège lumineux', NULL),
+(18,'Suivi protocolé par plaques', 'Donnée collectée de manière récurrente selon un protocole plaques', NULL),
+(19,'Relevé phytosociologique pour cartographie d''habitats','Relevé phytosociologique réalisé pour décrire un habitat', NULL),
+(20,'Relevé phytosociologique pour suivi de végétation','Relevé phytosociologique réalisé pour suivre l''évolution de la végétation', NULL),
+(21,'Relevé de végétation pour cartographie d''habitats','Relevé de végétation réalisé pour décrire un habitat', NULL),
+(22,'Relevé de végétation pour suivi de végétation','Relevé de végétation réalisé pour suivre l''évolution de la végétation', NULL);
 
 INSERT INTO stade VALUES (0,	'Inconnu',1,	'Le stade de vie de l''individu n''est pas connu.');
 INSERT INTO stade VALUES (1, 'Indéterminé', 1, 'Le stade de vie de l''individu n''a pu être déterminé (observation insuffisante pour la détermination).');

@@ -418,7 +418,7 @@
 											</div>
 											<div class="col">
 												<select id="proto" name="proto" class="form-control form-control-sm">
-													<option value="0">Protocole - Choisir au besoin</option>
+													<option value="0">Type d'acquisition - Choisir au besoin</option>
 													<?php
 													foreach($protocole as $key => $n)
 													{

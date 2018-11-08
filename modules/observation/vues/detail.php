@@ -87,7 +87,7 @@
 									}
 								if(!empty($obs['protocole']))
 									{
-										echo '<h3 class="h5">Protocole : <small>' . $obs['protocole'] . '</small></h3>' ;
+										echo '<h3 class="h5">Type d\'acquisition : <small>' . $obs['protocole'] . '</small></h3>' ;
 									} ?>
 							</div>
 

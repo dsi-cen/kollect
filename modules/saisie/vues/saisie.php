@@ -252,9 +252,10 @@
 							<?php
 						}
 						?>
-						<div class="card card-body min" id="blocsaisie">
+						<div class="card card-body" id="blocsaisie">
 							<div id="R1"></div>
-							<fieldset class="stadecache ndecache alert alert-success">
+                            <div class="min p-2">
+							<fieldset class="stadecache ndecache">
 								<legend class="legendesaisie">Choix de l'espèce <i class="fa fa-plus text-success curseurlien ml-3" id="imgpluslocale" data-toggle="tooltip" data-placement="bottom" data-title="Chercher dans les espèces non inclusent (espèces nouvelles)"></i></legend>
 								<div class="form-group row" id="pluslatin1">
 									<div class="col-sm-5"><input type="text" class="form-control" id="latin1" placeholder="nom latin (liste entière)"></div>
@@ -270,16 +271,20 @@
                                 </div>
 								<p id="mesvali" class="font-weight-bold text-danger"></p>
 							</fieldset>
-                            <fieldset class="alert alert-primary">
-                                <legend class="legendesaisie">Protocoles</legend>
+                            </div>
+                            <div class="min p-2 mt-3">
+                            <fieldset>
+                                <legend class="legendesaisie">Type d'acquisition</legend>
                                 <div id="plusproto">
                                     <div class="form-inline">
-                                        <label for="protocol" class="ml-3 mr-4">Protocole</label>
+                                        <!-- <label for="protocol" class="ml-3 mr-4">Protocole</label> -->
                                         <select id="protocol" required="" name="protocol" class="form-control form-control-sm"></select>
                                     </div>
                                 </div>
                             </fieldset>
-							<fieldset class="alert alert-secondary">
+                            </div>
+                            <div class="min p-2 mt-3">
+							<fieldset>
 								<legend class="legendesaisie">Renseignements sur l'observation</legend>
 								<div class="form-inline">
 									<label for="stade" class="mr-1">Stade</label><i id="info4" class="fa fa-info-circle curseurlien text-info info"></i>
@@ -312,7 +317,7 @@
 									<select id="mort" name="mort" class="ml-2 form-control form-control-sm"></select>
 								</div>
 							</fieldset>
-							<div class="row mt-3 ">
+                            <div class="row mt-3 ">
 								<fieldset class="col-md-6">
 									<div class="form-group row mb-0">
 										<label for="ndiff" class="col-sm-2 col-form-label">Indéterminé</label>
@@ -353,9 +358,10 @@
 									</div>									
 								</div>								
 							</div>
-
-							<fieldset class="mb-2 alert alert-warning">
-								<legend class="legendesaisie">Contact, méthode de prospection, statut biologique</legend>
+                            </div>
+                            <div class="min p-2 mt-3">
+							<fieldset>
+								<legend class="legendesaisie">Contact, méthode de prospection, statut biologique, comportement</legend>
 								<div class="form-inline">
 									<label for="obsmethode" class="mr-1">Type de contact </label><i id="info1" class="fa fa-info-circle curseurlien text-info info"></i>
 									<select id="obsmethode" required="" name="obsmethode" class="ml-2 form-control form-control-sm"></select>
@@ -367,6 +373,8 @@
                                     <select id="comportement" required="" name="comportement" class="ml-2 form-control form-control-sm"></select>
                                 </div>
 							</fieldset>
+                            </div>
+                            <div class="min p-2 mt-3">
 							<fieldset class="stadecache ndecache">
 								<legend class="legendesaisie">Détermination</legend>
 								<div class="form-inline">
@@ -409,6 +417,7 @@
 									</select>
 								</div>								
 							</fieldset>
+                            </div>
 							<fieldset id="plteh" class="mt-2">
 								<legend class="legendesaisie">Plante hôte, support de ponte, butiné, consommé <i class="fa fa-plus text-success curseurlien ml-3" id="imgplusplte"></i></legend>
 								<div id="pltehote">
@@ -422,7 +431,8 @@
 									</div>
 									<ul id="ulplante"></ul>
 								</div>
-							</fieldset>	
+							</fieldset>
+                            <div class="min p-2 mt-3">
 							<fieldset>
 								<legend class="legendesaisie">Habitats (typologie eunis) <i class="fa fa-plus text-success curseurlien ml-3" id="imgplushab"></i></legend>
 								<div id="plushab">	
@@ -458,7 +468,9 @@
 									?>
 								</div>
 							</fieldset>
-							<fieldset id="aves">
+                            </div>
+                            <div class="min p-2 mt-3" id="aves">
+							<fieldset>
 								<legend class="legendesaisie">Indices de nidification pour les oiseaux <span id="nicheur" class="text-primary"></span></legend>
 								<div class="form-group row">
 									<div class="col-sm-12">
@@ -466,6 +478,8 @@
 									</div>
 								</div>										
 							</fieldset>
+                            </div>
+                            <div class="min p-2 mt-3">
 							<fieldset>
 								<legend class="legendesaisie">Remarques sur l'observation
 									<div class="form-check form-check-inline"><input class="form-check-input" type="checkbox" id="mrq"> <label class="form-check-label">(Cocher pour conserver les remarques)</label></div>
@@ -474,6 +488,8 @@
 									<div class="col-sm-12"><textarea class="form-control" rows="2" id="rq" name="rq" placeholder="Remarques sur l'observation"></textarea></div>
 								</div>
 							</fieldset>
+                            </div>
+                            <div class="min p-2 mt-3 mb-3">
 							<fieldset>
 								<legend class="legendesaisie">Ajouter une photo <i class="fa fa-camera text-success curseurlien ml-3" id="adphoto" data-toggle="tooltip" data-placement="bottom" data-title="Chercher dans les espèces non inclusent (espèces nouvelles)"></i></legend>
 								<div class="row mb-3" id="photo">
@@ -529,7 +545,8 @@
 									</div>
 								</div>
 							</fieldset>
-							<div class="" id="val">
+                            </div>
+                            <div class="" id="val">
 								<div class="form-inline">
 									<button type="submit" class="btn btn-info" id="BttS" data-toggle="tooltip" data-placement="top" data-title="Permet de rajouter un stade à cette espèce">Ajouter un stade/Etat bio</button>
 									<button type="submit" class="ml-3 btn btn-info" id="BttN" data-toggle="tooltip" data-placement="top" data-title="Rajoute une espèce à cette fiche (relevé)">Ajouter une espèce</button>
