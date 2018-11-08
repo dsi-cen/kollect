@@ -568,3 +568,20 @@ CREATE TRIGGER declenche_alimente_observateur
 	ON site.membre
 	FOR EACH ROW
 	EXECUTE PROCEDURE referentiel.alimente_observateur();
+	
+CREATE FUNCTION referentiel.alimente_etude_organisme() RETURNS trigger AS
+    $BODY$
+
+     BEGIN
+
+INSERT INTO referentiel.etude_organisme VALUES (0,NEW.idorg);
+RETURN NEW;
+        END;
+    $BODY$
+    LANGUAGE plpgsql VOLATILE COST 100;
+
+CREATE TRIGGER declenche_alimente_etude_organisme
+    AFTER INSERT
+    ON referentiel.organisme
+    FOR EACH ROW
+    EXECUTE PROCEDURE referentiel.alimente_etude_organisme();	
