@@ -176,3 +176,17 @@ CREATE TABLE site.virtuel
   datevirt timestamp without time zone,
   CONSTRAINT virtuel_pkey PRIMARY KEY (idvirt)
 );
+
+CREATE TABLE site.membre (
+						idmembre serial NOT NULL,
+						nom character varying(50),
+						prenom character varying(20),
+						droits smallint,
+						motpasse text,
+						mail character varying(50),
+						derniereconnection timestamp without time zone,
+						gestionobs text,
+						actif smallint,
+						mdpo boolean,
+						ticket text,
+						CONSTRAINT membre_pkey PRIMARY KEY (idmembre));

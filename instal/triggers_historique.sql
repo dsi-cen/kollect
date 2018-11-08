@@ -542,3 +542,29 @@ CREATE TRIGGER declenche_alimente_histo_site
     ON obs.site
     FOR EACH ROW
     EXECUTE PROCEDURE obs_historique.alimente_histo_site();
+	
+	CREATE FUNCTION referentiel.alimente_observateur() RETURNS trigger AS 
+	$BODY$
+
+    declare id_observateur integer;
+
+		BEGIN
+            
+            SELECT idobser FROM referentiel.observateur WHERE observateur.nom = NEW.nom AND observateur.prenom = NEW.prenom INTO id_observateur;
+
+            IF id_observateur IS NULL THEN
+		        INSERT INTO referentiel.observateur (observateur, nom, prenom, idm) VALUES (NEW.nom || ' ' || NEW.prenom::varchar(200),NEW.nom, NEW.prenom, NEW.idmembre); 
+                RETURN NEW; 
+            ELSE
+                UPDATE referentiel.observateur SET idm = NEW.idmembre WHERE idobser = id_observateur;
+                RETURN NEW;
+            END IF;
+		END;
+	$BODY$ 
+	LANGUAGE plpgsql VOLATILE COST 100;	
+
+CREATE TRIGGER declenche_alimente_observateur 
+	AFTER INSERT
+	ON site.membre
+	FOR EACH ROW
+	EXECUTE PROCEDURE referentiel.alimente_observateur();
