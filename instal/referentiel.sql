@@ -149,10 +149,11 @@ CREATE TABLE protocole
 
 CREATE TABLE referentiel.coordprecision
 (
-idpreci smallint NOT NULL,
-lbpreci character varying (50),
-mdpreci text
-);  
+idpreci smallint,
+lbpreci character varying (50) NOT NULL,
+mdpreci text,
+CONSTRAINT coordprecision_idpreci_pkey PRIMARY KEY (idpreci)
+);
 
 INSERT INTO referentiel.coordprecision VALUES
 (1,'Non renseigné','La précision de la coordonnée n''a pas été précisée'),

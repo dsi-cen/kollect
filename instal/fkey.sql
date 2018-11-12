@@ -7,10 +7,6 @@ ADD CONSTRAINT obs_idprotocole_fk
 FOREIGN KEY (idprotocole) REFERENCES referentiel.protocole (idprotocole);
 
 ALTER TABLE obs.obs
-ADD CONSTRAINT obs_idetude_fk
-FOREIGN KEY (idetude) REFERENCES referentiel.etude (idetude);
-
-ALTER TABLE obs.obs
 ADD CONSTRAINT obs_idmor_fk
 FOREIGN KEY (idmor) REFERENCES site.membre (idmembre);
 
@@ -33,6 +29,10 @@ FOREIGN KEY (codecom) REFERENCES referentiel.commune (codecom);
 ALTER TABLE obs.fiche
 ADD CONSTRAINT fiche_iddep_fk
 FOREIGN KEY (iddep) REFERENCES referentiel.departement (iddep);
+
+ALTER TABLE obs.fiche
+ADD CONSTRAINT fiche_idetude_fk
+FOREIGN KEY (idetude) REFERENCES referentiel.etude (idetude);
 
 ALTER TABLE obs.fiche 
 ADD CONSTRAINT fiche_idpreci_fkey 

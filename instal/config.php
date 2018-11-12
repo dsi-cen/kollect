@@ -99,11 +99,14 @@
 					$_SESSION['idmembre'] = 1;					
 				}
 				?>					
-				<p class="mt-2">	
-						
-									
-					En cliquant sur le lien vous allez être redirigé vers la partie administration du site.<br />
-					Le module d'installation sera supprimé automatiquement.<br /><br />
+				<p class="mt-2">
+
+				<script src="./ajaxfkey.php"> </script>
+
+				Installation des clés de la base de données réalisée.<br />
+				L'installation du site est maintenant terminée.<br />									
+				En cliquant sur le lien vous allez être redirigé vers la partie administration du site.<br />
+				Le module d'installation sera supprimé automatiquement.<br /><br />
 					<a class="btn btn-success" id="" href="../gestion/" rel="nofollow">-> Administration du site</a>						
 				</p>
 			</div>			

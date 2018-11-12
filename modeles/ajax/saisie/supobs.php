@@ -145,12 +145,12 @@ if(isset($_POST['idobs']) && isset($_POST['idligne']))
 		$info = recupinfo($idobs);
 		$nbobs = chercheobs($info['idfiche']);
 		supprime_lignet($idobs);		
-		if($nbobs == 1) { supprime_fiche($info['idfiche']); }
 		if(!empty($info['cdhab'])) { supprime_habitat($idobs); }
 		if(!empty($info['idcol'])) { supprime_coll($info['idcol']); }
 		if(!empty($info['idphoto'])) { supprime_photo($idobs); }
 		if(!empty($info['idmort'])) { supprime_mort($info['idmort']); }
 		supprime_obs($idobs); // RLE : en dernier car sinon problème avec clés
+		if($nbobs == 1) { supprime_fiche($info['idfiche']); }
 	}	
 	else
 	{
