@@ -448,7 +448,7 @@ function choixobser(e) {
                     t += "<option value=" + a + ">" + e + "</option>"
                 })) : t += "<option value=0>Inconnu</option>", $("#mort").html(t), t = "", $.each(a.protocole, function (e, a) {
                     t += "<option value=" + a + ">" + e + "</option>"
-                }), $("#protocol").html(t), t = "", $.each(a.obdenom, function (e, a) {
+                }), $("#protocol").html('<option value="0">Sélectionner un type d\'acquisition</option>'), $("#protocol").append(t), t = "", $.each(a.obdenom, function (e, a) {
                     t += "<option value=" + a + ">" + e + "</option>"
                 }), $("#tdenom").html(t), "mort" == a.stbio ? ($("#cmort").show(), $("#etatbio").html('<option value="3">Trouvé mort</option><option value="2">Observé vivant</option><option value="1">Non renseigné</option><option value="0">Inconu</option>')) : ($("#mort").val(0), $("#cmort").hide(), $("#etatbio").html('<option value="2">Observé vivant</option><option value="3">Trouvé mort</option><option value="1">Non renseigné</option><option value="0">Inconu</option>')), "oui" == a.locale ? $("#imgpluslocale").show() : ($("#imgpluslocale").hide(), $("#pluslatin1").hide()), "oui" == a.aves ? ($("#aves").show(), $("#indnid").html(a.avesindice), $("#nicheur").html("")) : ($("#aves").hide(), $("#indnid option").remove(), $("#nicheur").html("")), "oui" == a.bota ? ($("#obscoll").prop("disabled", !0), $("#bio").prop("disabled", !0)) : ($("#obscoll").prop("disabled", !1), $("#bio").prop("disabled", !1)), "oui" == a.col ? $("#imgpluscol").show() : ($("#imgpluscol").hide(), $("#pluscol").hide()), "oui" == a.plteh || "oui" == a.plteb ? $("#plteh").show() : $("#plteh").hide(), $("#sel").val(e), $("#nomb").val(""), $("#latin").val(""), $("#nomf").val(""), $("#cdnom").val(""), $("#cdref").val(""), $("#denom").val("Co"), $("#tdenom").val("IND"), $(".nbexact").prop("disabled", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $("#validateur").val(a.validateur), a.mf && ($("#male").prop("disabled", !0), $("#femelle").prop("disabled", !0)), $("#" + a.aff).focus()
             } else $("#blocsaisie").hide(), $("#sel").val(e), $("#valsel").val("non"), $("#mes").html(a.mes), $("#stade option").remove(), $("#obsmethode option").remove(), $("#obscoll option").remove()
@@ -480,7 +480,7 @@ function valider(e) {
     "use strict";
     var a = $("#pr").val(), t = $("#cdnom").val(), l = $("#protocol").val(),
         i = $("#statutobs").val();
-    "Nouv" == $("#idfiche").val() ? a && t ? "No" == i && 0 == l ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : verifeffectif(e, i) : ($("#BttV").show(), $("#BttN").show(), $("#valajaxs").hide(), $("#R1").html('<div class="alert alert-danger">Aucune localisation ou d\'espèce de saisie !</div>')) : t ? "No" == i && 0 == l ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : verifeffectif(e, i) : ($("#BttV").show(), $("#BttN").show(), $("#valajaxs").hide(), $("#R1").html('<div class="alert alert-danger">Aucune espèce de saisie !</div>'))
+    "Nouv" == $("#idfiche").val() ? a && t ? 0 == l ? ($("#valajaxs").hide(), $("#BttV").show(), $("#R1").html("<div class=\"alert alert-danger\">Merci de renseigner le type d'acquisition</div>")) : verifeffectif(e, i) : ($("#BttV").show(), $("#BttN").show(), $("#valajaxs").hide(), $("#R1").html('<div class="alert alert-danger">Aucune localisation ou d\'espèce de saisie !</div>')) : t ? 0 == l ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Merci de renseigner le type d'acquisition</div>")) : verifeffectif(e, i) : ($("#BttV").show(), $("#BttN").show(), $("#valajaxs").hide(), $("#R1").html('<div class="alert alert-danger">Aucune espèce de saisie !</div>'))
 }
 
 function verifeffectif(e, a) {
@@ -671,7 +671,7 @@ function rhab2(e, a) {
 function valimodif(e) {
     "use strict";
     var a = $("#protocol").val(), l = $("#statutobs").val();
-    "No" == l && 0 == a ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Il n'est pas possible d'enregistrer ce type d'observation. Une donnée d'absence doit-être liée à un protocole ou à une étude</div>")) : enregistrermod(e)
+    0 == a ? ($("#valajaxs").hide(), $("#R1").html("<div class=\"alert alert-danger\">Merci de renseigner le type d'acquisition.</div>")) : enregistrermod(e)
 }
 
 function enregistrermod(e) {
