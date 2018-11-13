@@ -137,4 +137,13 @@ $req = file_get_contents('triggers_historique.sql');
 $bdd->exec($req);
 unset($req);
 
+creerschema('md_obs');
+creerschema('md_obs_historique');
+
+$bdd = PDO2::getInstanceinstall();
+$req = null;
+$req = file_get_contents('gestion_obs.sql');
+$bdd->exec($req);
+unset($req);
+
 echo json_encode($retour);
