@@ -374,6 +374,15 @@
 												{
 													?><span class="px-2 border-right-claire"><img src="../dist/img/znieff.png" alt="Znieff" width="38" height="20" title="Espèce déterminantes Znieff" /></span><?php
 												}
+                                            if(isset($lrm))
+                                            {
+                                                ?>
+                                                <span class="fa-stack">
+														<i class="fa fa-circle fa-stack-2x <?php echo $lrep;?>"></i>
+														<i class="fa fa-stack-1x font13 <?php echo $lrep;?>t"><?php echo $lrm;?></i>
+													</span>(M)
+                                                <?php
+                                            }
 												if(isset($lre))
 												{
 													?>

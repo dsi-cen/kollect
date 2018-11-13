@@ -56,7 +56,11 @@
 								}
 								else
 								{
-									if(isset($lre))
+                                    if(isset($lrm))
+                                    {
+                                        ?><th>LR Mondiale</th><?php
+                                    }
+								    if(isset($lre))
 									{
 										?><th>LR Europe</th><?php
 									}
@@ -103,6 +107,10 @@
 									{
 										?><th><?php echo $n['lre'];?></th><?php
 									}
+                                    if(isset($lrm))
+                                    {
+                                        ?><th><?php echo $n['lrm'];?></th><?php
+                                    }
 									if(isset($lrf))
 									{
 										?><th><?php echo $n['lrf'];?></th><?php

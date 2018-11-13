@@ -330,6 +330,7 @@ if(isset($_GET['id']))
 					if($n['type'] == 'PR') { $pr = 'oui'; }
 					if($n['type'] == 'PD') { $pd = 'oui'; }
 					if($n['type'] == 'Z') { $znieff = 'oui'; }
+					if($n['type'] == 'LRM') { $lrm = $n['lr']; $lrep = ($lrm == 'CR*') ? 'CR' : $lrm; }
 					if($n['type'] == 'LRE') { $lre = $n['lr']; $lrep = ($lre == 'CR*') ? 'CR' : $lre; }
 					if($n['type'] == 'LRF') { $nlrf++;
 						$lrf = $n['lr']; $lrfp = ($lrf == 'CR*') ? 'CR' : $lrf;

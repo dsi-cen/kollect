@@ -52,12 +52,13 @@ if(isset($_POST['cdnom']))
 				elseif($n == 'PR') { $tabordre[] = 3; }
 				elseif($n == 'PD') { $tabordre[] = 4; }
 				elseif($n == 'Z') { $tabordre[] = 5; }
-				elseif($n == 'LRE') { $tabordre[] = 6; }
-				elseif($n == 'LRF') { $tabordre[] = 7; }
-				elseif($n == 'LRR') { $tabordre[] = 8; }
-				elseif($n == 'LRD') { $tabordre[] = 9; }
-				elseif($n == 'A') { $tabordre[] = 10; }
-				elseif($n == 'I') { $tabordre[] = 11; }
+                elseif($n == 'LRM') { $tabordre[] = 10; }
+				elseif($n == 'LRE') { $tabordre[] = 9; }
+				elseif($n == 'LRF') { $tabordre[] = 8; }
+				elseif($n == 'LRR') { $tabordre[] = 7; }
+				elseif($n == 'LRD') { $tabordre[] = 6; }
+				elseif($n == 'A') { $tabordre[] = 11; }
+				elseif($n == 'I') { $tabordre[] = 12; }
 			}	
 			$type = array_combine($tabordre, $tabtype);
 			ksort($type);
@@ -128,10 +129,34 @@ if(isset($_POST['cdnom']))
 					}
 					$liste .= '</ul>';	
 				}
+                elseif($t == 'LRM')
+                {
+                    if(!isset($listerouge)) {
+                        $listerouge = '<br /><h3 class="h5">Liste Rouge <i class="fa fa-info-circle text-info curseurlien" title="Information liste rouge" data-toggle="modal" data-target="#infolr"></i></h3>';
+                        $liste .= $listerouge;
+                    }
+                    $liste .= '<h4 class="h6">Mondiale</h4>';
+                    foreach($statut as $n)
+                    {
+                        if($n['type'] == $t)
+                        {
+                            $lr = $n['lr'];
+                            $lrp = ($lr == 'CR*') ? 'CR' : $lr;
+                            $liste .= '<dl class="row mt-1">';
+                            $liste .= '<dd class="col-sm-1 text-center"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i></dd>';
+                            $liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
+                            $liste .= '</dl>';
+                            //$liste .= '<p><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i>';
+                            //$liste .= '<b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link"></i></a></p>';
+                        }
+                    }
+                }
 				elseif($t == 'LRE')
 				{
-					$listerouge = '<br /><h3 class="h5">Liste Rouge <i class="fa fa-info-circle text-info curseurlien" title="Information liste rouge" data-toggle="modal" data-target="#infolr"></i></h3>';
-					$liste .= $listerouge;
+                    if(!isset($listerouge)) {
+                        $listerouge = '<br /><h3 class="h5">Liste Rouge <i class="fa fa-info-circle text-info curseurlien" title="Information liste rouge" data-toggle="modal" data-target="#infolr"></i></h3>';
+                        $liste .= $listerouge;
+                    }
 					$liste .= '<h4 class="h6">Européenne</h4>';
 					foreach($statut as $n)
 					{

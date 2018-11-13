@@ -243,7 +243,7 @@ if(isset($_POST['choixloca']))
 			$statut = recherchestatut($observa);
 			$nbstatut = count($statut) - 1;
 			$nbcol = ($okindice == 'oui') ? $nbstatut + 5 : $nbstatut + 4;
-			$pn = 1; $pr = 1; $lre = 1; $lrf = 1; $lrr = 1; $a = 1;
+			$pn = 1; $pr = 1; $lrm = 1; $lre = 1; $lrf = 1; $lrr = 1; $a = 1;
 			foreach($statut as $n)
 			{
 				if($n['type'] == 'DH')
@@ -254,6 +254,7 @@ if(isset($_POST['choixloca']))
 				}
 				elseif($n['type'] == 'PN') { $type = 2; $pos = $pn; $pn++; $nom = $n['cdprotect']; }
 				elseif($n['type'] == 'PR') { $type = 3; $pos = $pr; $pr++; $nom = $n['cdprotect']; }
+                elseif($n['type'] == 'LRM') { $type = 10; $pos = $lrm; $lrm++; $nom = $n['cdprotect']; }
 				elseif($n['type'] == 'LRE') { $type = 4; $pos = $lre; $lre++; $nom = $n['cdprotect']; }
 				elseif($n['type'] == 'LRF') { $type = 5; $pos = $lrf; $lrf++; $nom = $n['cdprotect']; }
 				elseif($n['type'] == 'LRR') { $type = 6; $pos = $lrr; $lrr++; $nom = $n['cdprotect']; }

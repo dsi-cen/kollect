@@ -97,6 +97,7 @@ if(isset($_GET['codecom']) || isset($_GET['iddep']) || isset($_GET['l93']) || is
 			}
 			else
 			{
+                if($n['type'] == 'LRM') { $lrm[$n['cdref']] = $n['lr']; }
 				if($n['type'] == 'LRE') { $lre[$n['cdref']] = $n['lr']; }
 				if($n['type'] == 'LRF') { $lrf[$n['cdref']] = $n['lr']; }
 			}	
@@ -117,7 +118,8 @@ if(isset($_GET['codecom']) || isset($_GET['iddep']) || isset($_GET['l93']) || is
 			}
 			else
 			{
-				$llre = (isset($lre[$n['cdref']])) ? $lre[$n['cdref']] : '';
+                $llrm = (isset($lrm[$n['cdref']])) ? $lrm[$n['cdref']] : '';
+			    $llre = (isset($lre[$n['cdref']])) ? $lre[$n['cdref']] : '';
 				$llrf = (isset($lrf[$n['cdref']])) ? $lrf[$n['cdref']] : '';
 			}
 			$ico = (isset($nomobser[$n['observa']])) ? $nomobser[$n['observa']] : '';
@@ -127,7 +129,7 @@ if(isset($_GET['codecom']) || isset($_GET['iddep']) || isset($_GET['l93']) || is
 			}
 			else
 			{
-				$tab[] = ['icon'=>$ico, 'cdref'=>$n['cdref'], 'nom'=>$n['nom'], 'observa'=>$n['observa'], 'nomvern'=>$n['nomvern'], 'ir'=>$n['ir'], 'nb'=>$n['nb'], 'pourcent'=>$pourcent, 'dh'=>$ldh, 'pn'=>$lpn, 'lre'=>$llre, 'lrf'=>$llrf];
+				$tab[] = ['icon'=>$ico, 'cdref'=>$n['cdref'], 'nom'=>$n['nom'], 'observa'=>$n['observa'], 'nomvern'=>$n['nomvern'], 'ir'=>$n['ir'], 'nb'=>$n['nb'], 'pourcent'=>$pourcent, 'dh'=>$ldh, 'pn'=>$lpn, 'lrm'=>$llrm, 'lre'=>$llre, 'lrf'=>$llrf];
 			}
 		}
 	}
