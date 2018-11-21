@@ -19,7 +19,7 @@ function creermaillel93()
 {
 	$bdd = PDO2::getInstanceinstall();		
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("CREATE TABLE referentiel.maillel93 (codel93 character varying(8) NOT NULL, CONSTRAINT maillel93_pkey PRIMARY KEY (codel93))");
+	$req = $bdd->query("CREATE TABLE referentiel.maillel93 (codel93 character varying(8) NOT NULL, iddep character varying(20), CONSTRAINT maillel93_pkey PRIMARY KEY (codel93))");
 	$req->closeCursor();
 }
 function creermgrs10()
@@ -85,8 +85,8 @@ function insermaillel93dep($listedep)
 	$liste = str_replace('"',"'",$liste);
 	$bdd = PDO2::getInstanceinstall();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("INSERT INTO referentiel.maillel93 (codel93) 
-						SELECT DISTINCT codel93 FROM install.maillel93 WHERE $liste ");
+	$req = $bdd->query("INSERT INTO referentiel.maillel93 (codel93, iddep) 
+						SELECT DISTINCT codel93, iddep FROM install.maillel93 WHERE $liste ");
 	$req->closeCursor();
 }
 function insermaillel93($xg,$xd,$yh,$yb)
