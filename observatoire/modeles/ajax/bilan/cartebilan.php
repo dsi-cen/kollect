@@ -51,12 +51,13 @@ function cartocommune($nomvar)
 	$carto = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $carto;
-}	
-function commune()
+}
+function commune($iddep='%') // Liste des commune de l'emprise avec filtre par département
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT codecom AS id, commune AS emp, poly, geojson FROM referentiel.commune") or die(print_r($bdd->errorInfo()));
+    $req = $bdd->prepare("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune where iddep like :iddep");
+    $req->execute([':iddep' => $iddep]);
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $commune;
@@ -131,12 +132,13 @@ if(isset($_POST['choixcarte']))
 {
 	$choix = $_POST['choixcarte'];
 	$nomvar = $_POST['nomvar'];
+	$iddep = $_POST['iddep'];
 	
 	$nbsp = nbespece($nomvar);
 	if($choix == 'commune' || $choix == 'dep')
 	{
 		$tabobs = ($choix == 'commune') ? cartocommune($nomvar) : cartodep($nomvar);
-		$tabref = ($choix == 'commune') ? commune() : departement();
+		$tabref = ($choix == 'commune') ? commune($iddep) : departement();
 		
 		foreach ($tabobs as $n)
 		{
