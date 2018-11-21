@@ -89,28 +89,30 @@ function mgrs()
 	$req->closeCursor();
 	return $utm;
 }
-function cartol93()
+function cartol93($iddep)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("WITH sel AS (SELECT DISTINCT cdref, idcoord FROM obs.obs
+	$req = $bdd->prepare("WITH sel AS (SELECT DISTINCT cdref, idcoord, iddep FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 									WHERE (rang = 'ES' OR rang = 'SSES') AND statutobs != 'No' AND (validation = 1 OR validation = 2)
 						)
-                        SELECT DISTINCT codel93, COUNT(DISTINCT cdref) AS nb FROM sel
+                        SELECT DISTINCT codel93, iddep, COUNT(DISTINCT cdref) AS nb FROM sel
                         INNER JOIN obs.coordonnee ON coordonnee.idcoord = sel.idcoord
-                        WHERE codel93 != ''
-                        GROUP BY codel93 ");
+                        WHERE codel93 != '' and iddep like :iddep
+                        GROUP BY codel93, iddep");
+	$req->execute([':iddep' => $iddep]);
 	$carto = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $carto;
 }
-function maillel93()
+function maillel93($iddep)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT codel93 FROM referentiel.maillel93 ");
+	$req = $bdd->prepare("SELECT codel93 FROM referentiel.maillel93 where iddep like :iddep");
+	$req->execute([':iddep' => ("%" . $iddep . "%")]);
 	$l93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $l93;
@@ -251,7 +253,7 @@ if(isset($_POST['choixcarte']))
 		}
 		else
 		{
-			$cartol93 = cartol93();
+			$cartol93 = cartol93($iddep);
 			foreach($cartol93 as $n)
 			{
 				$tmpmax[] = $n['nb'];
@@ -271,7 +273,7 @@ if(isset($_POST['choixcarte']))
 			$code = array_flip($codel93);
 			if($emp != 'fr')
 			{
-				$l93 = maillel93();
+				$l93 = maillel93($iddep);
 				foreach ($l93 as $n)
 				{
 					$info = 'Aucune espèce';
@@ -316,7 +318,7 @@ if(isset($_POST['choixcarte']))
 			$carte[] = array('nom'=>$n['codel935'], 'id'=>$n['codel935'], 'value'=>$n['nb'], 'info'=>$info);	
 		}
 		unset($cartol93);
-		$l93 = maillel93();
+		$l93 = maillel93($iddep);
 		foreach($l93 as $n)
 		{
 			$xg = substr($n['codel93'], 1, -4)*10000;

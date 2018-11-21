@@ -9,6 +9,10 @@
 						<li class="breadcrumb-item"><a href="index.php?module=bilan&amp;action=evolution">Evolution des données</a></li>
 					</ol>					
 				</div>
+                <div id="selectiondepartement" class="h6">Sélectionner un département :
+                    <select id="iddep">
+                    </select>
+                </div>
 			</div>
 		</div>		
 	</header>
@@ -16,10 +20,6 @@
 		<div class="col-md-6 col-lg-6">
 			<div class="card card-body">					
 				<h2 class="h5"><span id="titrecarte"><?php echo $titrecarte;?> </span></h2>
-                <div id="selectiondepartement" class="h6">Sélectionner un département :
-                    <select id="iddep">
-                    </select>
-                </div>
 				<figure>
 					<div id="container" class="cartebilan">
 						<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>

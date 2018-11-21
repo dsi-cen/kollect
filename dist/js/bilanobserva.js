@@ -432,12 +432,14 @@ $(document).ready(function () {
 }), $("input[name=choixcarte]").change(function () {
     "use strict";
     var e = $("input[name=choixcarte]:checked").val();
-    if ("commune" == e && ($("#selectiondepartement").show(), $("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "maille" == e) {
+    var i = $("#iddep").val();
+    if ("commune" == e && ($("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "maille" == e) {
         $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
         var t = $("#utm").val();
-        "oui" == t ? ($("#titrecarte").html("Nombre d'espèces par maille UTM"), $("#selectiondepartement").hide()) : $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), $("#selectiondepartement").hide(), carte(e)
+        var i = $("#iddep").val();
+        "oui" == t ? ($("#titrecarte").html("Nombre d'espèces par maille UTM")) : $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), carte(e, i)
     }
-    "maille5" == e && ($("#selectiondepartement").hide(), $("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), carte(e, i)), "oui" == reinfo && ($("#infonbobs").html($("#nbobstotal").val()), $("#lienid").html(""), reinfo = "non")
+    "maille5" == e && ($("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), carte(e, i)), "oui" == reinfo && ($("#infonbobs").html($("#nbobstotal").val()), $("#lienid").html(""), reinfo = "non")
 }), Highcharts.setOptions({
     lang: {
         contextButtonTitle: "Menu exportation",

@@ -115,9 +115,8 @@ function cartecommune(e, t, a, o) {
 
 function cartemaille(e, t, a) {
     "use strict";
-    $.getJSON("emprise/contour2.geojson", function (o) {
-            var r = Highcharts.geojson(o, "mapline");
-            var i = Highcharts.geojson(t, "map");
+    var i = Highcharts.geojson(t, "map");
+
         $("#container").highcharts("Map", {
             chart: {
                 events: {
@@ -199,16 +198,8 @@ function cartemaille(e, t, a) {
                 borderWidth: .5,
                 cursor: "pointer",
                 states: {hover: {borderWidth: 1.5}}
-            }, {
-                data: r,
-                type: "mapline",
-                name: "Départements",
-                lineWidth: .4,
-                color: "black",
-                enableMouseTracking: !1
-            }, {data: dep, type: "mapline", lineWidth: 2, color: "black", enableMouseTracking: !1}]
+            },  {data: dep, type: "mapline", lineWidth: 2, color: "black", enableMouseTracking: !1}]
         })
-    })
 }
 
 function cartemaille5(e, t, a) {
@@ -421,12 +412,14 @@ $(document).ready(function () {
 }), $("input[name=choixcarte]").change(function () {
     "use strict";
     var e = $("input[name=choixcarte]:checked").val();
-    if ("commune" == e && ($("#selectiondepartement").show(), $("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "maille" == e) {
+    var i = $("#iddep").val();
+    if ("commune" == e && ($("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "maille" == e) {
         $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
         var t = $("#utm").val();
-        "oui" == t ? $("#titrecarte").html("Nombre d'espèces par maille UTM") : $("#selectiondepartement").hide(), $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), carte(e, i)
+        var i = $("#iddep").val();
+        "oui" == t ? $("#titrecarte").html("Nombre d'espèces par maille UTM") : $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), carte(e, i)
     }
-    "maille5" == e && ($("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), $("#selectiondepartement").hide(), $("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), carte(e, i)), "oui" == regraph && (nbespece("aucun", "aucun", "aucun"), $("#titregraph").html("Nombre d'espèces et d'observations par observatoire"), $("#lienid").html(""), regraph = "non")
+    "maille5" == e && ($("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), $("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), carte(e, i)), "oui" == regraph && (nbespece("aucun", "aucun", "aucun"), $("#titregraph").html("Nombre d'espèces et d'observations par observatoire"), $("#lienid").html(""), regraph = "non")
 }), Highcharts.setOptions({
     exporting: {
         chartOptions: {
@@ -453,5 +446,6 @@ var map, nbmap = "oui", cartoleaflet;
 $("#iddep").change(function () { // Chargement de la carte départementale au choix de l'utilisateur
     $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
     i = $("#iddep").val();
-    carte("commune", i);
+    var e = $("input[name=choixcarte]:checked").val();
+    carte(e, i);
 });
