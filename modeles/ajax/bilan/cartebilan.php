@@ -2,7 +2,7 @@
 include '../../../global/configbase.php';
 include '../../../lib/pdo2.php';
 
-function nbespece()
+function nbespece() // Nombre d'espèces total
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -13,7 +13,7 @@ function nbespece()
 	$req->closeCursor();
 	return $nbobs;
 }
-function cartodep()
+function cartodep() // Nombre par département
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -28,16 +28,16 @@ function cartodep()
 	$req->closeCursor();
 	return $carto;
 }
-function departement()
+function departement() // Liste des département de l'emprise
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement");
+	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement ");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $commune;
 }	
-function cartocommune()
+function cartocommune() // Nombre par commune
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -52,11 +52,12 @@ function cartocommune()
 	$req->closeCursor();
 	return $carto;
 }	
-function commune()
+function commune($iddep='%') // Liste des commune de l'emprise avec filtre par département
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune");
+	$req = $bdd->prepare("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune where iddep like :iddep");
+	$req->execute([':iddep' => $iddep]);
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $commune;
@@ -132,15 +133,18 @@ function carto5l93()
 	return $carto;
 }
 
+
+
 if(isset($_POST['choixcarte'])) 
 {
 	$choix = $_POST['choixcarte'];
+    $iddep = $_POST['iddep']; // Possibilité de filtrer par département
 	
 	$nbsp = nbespece();
 	if($choix == 'commune' || $choix == 'dep')
 	{
 		$tabobs = ($choix == 'commune') ? cartocommune() : cartodep();
-		$tabref = ($choix == 'commune') ? commune() : departement();
+		$tabref = ($choix == 'commune') ? commune($iddep) : departement();
 		
 		foreach($tabobs as $n)
 		{

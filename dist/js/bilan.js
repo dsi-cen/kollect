@@ -1,11 +1,33 @@
-function carte(e) {
+function liste_dep() { // Afficher les départements de l'emprise
     "use strict";
+    $.ajax({
+        url: "modeles/ajax/bilan/listedep.php",
+        type: "POST",
+        dataType: "json",
+        success: function(res) {
+            $('#iddep').empty();
+            $('#iddep').append('<option value="%" selected>Tous les départements</option>');
+            var JSONObject = res;
+            for (var key in JSONObject) {
+                if (JSONObject.hasOwnProperty(key)) {
+                    $('#iddep').append('<option value="' + JSONObject[key]["id"]+ '">' + JSONObject[key]["emp"]  + '</option>');
+                }
+            }
+        },
+        error: function(res) {
+            console.log("Erreur");
+        }
+    });
+}
+
+function carte(e, i='%' ) {
+    // "use strict";
     var t = $("#utm").val(), a = $("#emp").val(), o = $("#contour2").val();
     $.ajax({
         url: "modeles/ajax/bilan/cartebilan.php",
         type: "POST",
         dataType: "json",
-        data: {choixcarte: e, utm: t, emp: a, cont: o},
+        data: {choixcarte: e, utm: t, emp: a, cont: o, iddep: i},
         success: function (e) {
             "Oui" == e.statut && ("non" == e.maille && cartecommune(e.data, e.carto, e.maxnb, e.dep), "oui" == e.maille && (e.maille5 ? cartemaille5(e.data, e.carto, e.maxnb) : cartemaille(e.data, e.carto, e.maxnb)))
         }
@@ -93,8 +115,9 @@ function cartecommune(e, t, a, o) {
 
 function cartemaille(e, t, a) {
     "use strict";
-    $.getJSON("emprise/contour.geojson", function (o) {
-        var r = Highcharts.geojson(o, "mapline"), i = Highcharts.geojson(t, "map");
+    $.getJSON("emprise/contour2.geojson", function (o) {
+            var r = Highcharts.geojson(o, "mapline");
+            var i = Highcharts.geojson(t, "map");
         $("#container").highcharts("Map", {
             chart: {
                 events: {
@@ -179,8 +202,8 @@ function cartemaille(e, t, a) {
             }, {
                 data: r,
                 type: "mapline",
-                name: "Commune",
-                lineWidth: .3,
+                name: "Départements",
+                lineWidth: .4,
                 color: "black",
                 enableMouseTracking: !1
             }, {data: dep, type: "mapline", lineWidth: 2, color: "black", enableMouseTracking: !1}]
@@ -189,7 +212,7 @@ function cartemaille(e, t, a) {
 }
 
 function cartemaille5(e, t, a) {
-    $.getJSON("emprise/contour.geojson", function (o) {
+    $.getJSON("emprise/contour2.geojson", function (o) {
         var r = Highcharts.geojson(o, "mapline"), i = Highcharts.geojson(t, "mapline"),
             l = Highcharts.geojson(t, "map");
         $("#container").highcharts("Map", {
@@ -389,6 +412,7 @@ function carteleaflet(e) {
 var dep, regraph, couleur1, couleur2;
 $(document).ready(function () {
     "use strict";
+    liste_dep();
     couleur1 = $("#couleur1").css("backgroundColor"), couleur2 = $("#menu").css("backgroundColor");
     var e = $("#choixcarte").val();
     "dep" == e && $("#cachemap").hide(), "maille" == e && $("#maille").attr("checked", "checked"), carte(e), dep = "oui" == $("#contour2").val() ? $.getJSON("emprise/contour2.geojson", function (e) {
@@ -397,12 +421,12 @@ $(document).ready(function () {
 }), $("input[name=choixcarte]").change(function () {
     "use strict";
     var e = $("input[name=choixcarte]:checked").val();
-    if ("commune" == e && ($("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e)), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e)), "maille" == e) {
+    if ("commune" == e && ($("#selectiondepartement").show(), $("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "maille" == e) {
         $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
         var t = $("#utm").val();
-        "oui" == t ? $("#titrecarte").html("Nombre d'espèces par maille UTM") : $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), carte(e)
+        "oui" == t ? $("#titrecarte").html("Nombre d'espèces par maille UTM") : $("#selectiondepartement").hide(), $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), carte(e, i)
     }
-    "maille5" == e && ($("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), $("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), carte(e)), "oui" == regraph && (nbespece("aucun", "aucun", "aucun"), $("#titregraph").html("Nombre d'espèces et d'observations par observatoire"), $("#lienid").html(""), regraph = "non")
+    "maille5" == e && ($("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), $("#selectiondepartement").hide(), $("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), carte(e, i)), "oui" == regraph && (nbespece("aucun", "aucun", "aucun"), $("#titregraph").html("Nombre d'espèces et d'observations par observatoire"), $("#lienid").html(""), regraph = "non")
 }), Highcharts.setOptions({
     exporting: {
         chartOptions: {
@@ -425,3 +449,9 @@ $(document).ready(function () {
     }, title: {text: ""}, credits: {enabled: !1}
 });
 var map, nbmap = "oui", cartoleaflet;
+
+$("#iddep").change(function () { // Chargement de la carte départementale au choix de l'utilisateur
+    $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
+    i = $("#iddep").val();
+    carte("commune", i);
+});
