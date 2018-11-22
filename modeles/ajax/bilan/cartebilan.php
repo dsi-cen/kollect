@@ -117,19 +117,20 @@ function maillel93($iddep)
 	$req->closeCursor();
 	return $l93;
 }	
-function carto5l93()
+function carto5l93($iddep)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("WITH sel AS (SELECT DISTINCT cdref, idcoord FROM obs.obs
+	$req = $bdd->prepare("WITH sel AS (SELECT DISTINCT cdref, idcoord, iddep FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 									WHERE (rang = 'ES' OR rang = 'SSES') AND statutobs != 'No' AND (validation = 1 OR validation = 2)
 						)
                         SELECT DISTINCT codel935, COUNT(DISTINCT cdref) AS nb FROM sel
                         INNER JOIN obs.coordonnee ON coordonnee.idcoord = sel.idcoord
-                        WHERE codel935 != ''
-                        GROUP BY codel935 ");
+                        WHERE codel935 != '' AND iddep LIKE :iddep
+                        GROUP BY codel935, iddep ");
+	$req->execute([':iddep'=>$iddep]);
 	$carto = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $carto;
@@ -302,7 +303,7 @@ if(isset($_POST['choixcarte']))
 	}
 	elseif($choix == 'maille5')
 	{
-		$cartol93 = carto5l93();
+		$cartol93 = carto5l93($iddep);
 		foreach ($cartol93 as $n)
 		{
 			$tmpmax[] = $n['nb'];

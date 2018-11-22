@@ -90,6 +90,7 @@ function cartecommune(e, t, a, o) {
                     events: {
                         click: function () {
                             nbespece(r, this.id, this.nom)
+                            $("#cachemap").show();
                         }
                     }
                 }
@@ -116,7 +117,6 @@ function cartecommune(e, t, a, o) {
 function cartemaille(e, t, a) {
     "use strict";
     var i = Highcharts.geojson(t, "map");
-
         $("#container").highcharts("Map", {
             chart: {
                 events: {
@@ -178,6 +178,7 @@ function cartemaille(e, t, a) {
                         events: {
                             click: function () {
                                 nbespece("maille", this.id, this.nom)
+                                $("#cachemap").show();
                             }
                         }
                     }
@@ -203,8 +204,7 @@ function cartemaille(e, t, a) {
 }
 
 function cartemaille5(e, t, a) {
-    $.getJSON("emprise/contour2.geojson", function (o) {
-        var r = Highcharts.geojson(o, "mapline"), i = Highcharts.geojson(t, "mapline"),
+            i = Highcharts.geojson(t, "mapline"),
             l = Highcharts.geojson(t, "map");
         $("#container").highcharts("Map", {
             chart: {
@@ -267,6 +267,7 @@ function cartemaille5(e, t, a) {
                         events: {
                             click: function () {
                                 nbespece("maille5", this.id, this.nom)
+                                $("#cachemap").show();
                             }
                         }
                     }
@@ -295,16 +296,8 @@ function cartemaille5(e, t, a) {
                 color: "black",
                 dashStyle: "LongDash",
                 enableMouseTracking: !1
-            }, {
-                data: r,
-                type: "mapline",
-                name: "Commune",
-                lineWidth: .3,
-                color: "black",
-                enableMouseTracking: !1
             }, {data: dep, type: "mapline", lineWidth: 2, color: "black", enableMouseTracking: !1}]
         })
-    })
 }
 
 function nbespece(e, t, a) {
@@ -314,11 +307,11 @@ function nbespece(e, t, a) {
             var o = t.toString(), r = o.substring(0, 2);
             $("#lienid").html('<a href="index.php?module=commune&amp;action=commune&amp;codecom=' + t + '">Liste des espèces de ' + a + '</a> - <a href="index.php?module=depart&amp;action=depart&amp;iddep=' + r + '">Liste des espèces du ' + r + "</a>")
         } else $("#lienid").html('<a href="index.php?module=commune&amp;action=commune&amp;codecom=' + t + '">Liste des espèces de ' + a + "</a>");
-        if ("dep" == e && ($("#titregraph").html("Département de " + a), $("#lienid").html('<a href="index.php?module=depart&amp;action=depart&amp;iddep=' + t + '">Liste des espèces de ' + a + "</a>"), $("#cachemap").hide()), "maille" == e) {
+        if ("dep" == e && ($("#titregraph").html("Département : " + a), $("#lienid").html('<a href="index.php?module=depart&amp;action=depart&amp;iddep=' + t + '">Liste des espèces de ' + a + "</a>"), $("#cachemap").hide()), "maille" == e) {
             var i = $("#utm").val();
             e = "non" == i ? "l93" : "utm", $("#cachemap").show(), $("#titregraph").html("Maille 10 " + a), $("#lienid").html('<a href="index.php?module=maille&amp;action=maille&amp;maille=' + t + '">Liste des espèces de la la maille ' + a + "</a>")
         }
-        "maille5" == e && ($("#titregraph").html("Maille 5 " + a), $("#lienid").html('<a href="index.php?module=maille&amp;action=maille5&amp;maille=' + t + '">Liste des espèces de la la maille ' + a + "</a>")), regraph = "oui"
+        "maille5" == e && ($("#titregraph").html("Maille 5 " + a), $("#lienid").html('<a href="index.php?module=maille&amp;action=maille5&amp;maille=' + t + '">Liste des espèces de la la maille ' + a + "</a>")), regraph = "non"
     }
     $.ajax({
         url: "modeles/ajax/bilan/graphbilan.php",
@@ -413,13 +406,13 @@ $(document).ready(function () {
     "use strict";
     var e = $("input[name=choixcarte]:checked").val();
     var i = $("#iddep").val();
-    if ("commune" == e && ($("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "maille" == e) {
+    $("#cachemap").hide();
+    if ("commune" == e && ($("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), recount()), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), recount()), "maille" == e) {
         $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
         var t = $("#utm").val();
-        var i = $("#iddep").val();
-        "oui" == t ? $("#titrecarte").html("Nombre d'espèces par maille UTM") : $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), carte(e, i)
+        "oui" == t ? $("#titrecarte").html("Nombre d'espèces par maille UTM") : $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), recount()
     }
-    "maille5" == e && ($("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), $("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), carte(e, i)), "oui" == regraph && (nbespece("aucun", "aucun", "aucun"), $("#titregraph").html("Nombre d'espèces et d'observations par observatoire"), $("#lienid").html(""), regraph = "non")
+    "maille5" == e && ($("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), $("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), recount()), "oui" == regraph && (nbespece("dep", i, "aucun"), $("#titregraph").html("Nombre d'espèces et d'observations par observatoire"), $("#lienid").html(""), regraph = "non")
 }), Highcharts.setOptions({
     exporting: {
         chartOptions: {
@@ -445,7 +438,20 @@ var map, nbmap = "oui", cartoleaflet;
 
 $("#iddep").change(function () { // Chargement de la carte départementale au choix de l'utilisateur
     $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
+    recount();
+});
+
+function recount(){
     i = $("#iddep").val();
     var e = $("input[name=choixcarte]:checked").val();
+    var n = $('#iddep option:selected').text();
+    if (i == '%'){ // Si pas de filtre par département
+        $('#titregraph').empty() && $('#lienid').empty();
+        $('#titregraph').html('<b>Tous les départements</b>');
+        nbespece("aucun", "aucun", "aucun");
+    }
+    else{
+        nbespece("dep", i, n);
+    }
     carte(e, i);
-});
+}
