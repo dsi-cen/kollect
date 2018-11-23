@@ -23,7 +23,7 @@
 			?>
 			<div class="col-md-12">
 				<div class="card card-body">
-					<p>Non définit pour l'instant</p>
+					<p>Non définies pour l'instant</p>
 				</div>
 			</div>
 			<?php

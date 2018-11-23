@@ -31,7 +31,7 @@
 					</li>
 					<li><i class="fa fa-check-circle val5"></i><span class="font-weight-bold"> 5 - Non réalisable</span><br />
 						La donnée a été soumise à l’ensemble du processus de validation mais l’opérateur (humain ou machine) n’a pas pu statuer sur le niveau de fiabilité. Notamment:<br />
-						-Etat des connaissances du taxon insuffisantes<br />
+						-Etat des connaissances du taxon insuffisante<br />
 						-Informations insuffisantes sur l’observation<br />
 					</li>
 					<li><i class="fa fa-check-circle"></i><span class="font-weight-bold"> 6 - Non évalué</span><br />
@@ -41,10 +41,10 @@
 				<h2 class="h4">Validation manuelle/automatique</h2>
 				<p>
 					Chaque taxon est atribué d'un code :<br />
-					- 0 : Espèce validée dès la saisie (non soumises à validation)<br />
-					- 1 : Validation automatique par des filtres informatique<br /> 
+					- 0 : Espèce validée dès la saisie (non soumise à validation)<br />
+					- 1 : Validation automatique par des algorithmes informatiques<br /> 
 					- 2 : Validation manuelle.<br />
-					Pour les espèces à validation manuelle, une liste d'exigence peut-être définit (photo, genitalia, etc...).<br >
+					Pour les espèces à validation manuelle, une liste d'exigence peut-être définie (photo, genitalia, etc.).<br >
 					<a href="index.php?module=validation&amp;action=liste">Voir les listes</a>
 				</p>
 			</div>
@@ -54,15 +54,15 @@
 				<h2 class="h4">Processus de validation sur le site</h2>
 				<p>
 					Pour les espèces à validation manuelle ou automatique par filtre : <br /> 
-					Chaque donnée saisie (ou modifiée) passe par un "filtre" qui la compare à l'ensemble des données validées contenues dans la base pour l'espèce (dates d'observation, maille, experience observateur, ..).<br />
-					A l'issue de ce filtre soit la donnée est validée, soit elle passe en validation manuelle avec le code 6 <i class="fa fa-check-circle"></i>.<br />
-					Note : Les espèces pour lesquelles une validation manuelle est exigée, passe également par le filtre. Ceci permettant par la suite aux validateurs de mieux appréhender la donnée.<br />
+					Chaque donnée saisie (ou modifiée) passe par un "filtre" qui la compare à l'ensemble des données validées contenues dans la base pour l'espèce (dates d'observation, maille, experience observateur, etc.).<br />
+					A l'issue de ce filtre, soit la donnée est validée, soit elle passe en validation manuelle avec le code 6 <i class="fa fa-check-circle"></i>.<br />
+					Note : Les espèces pour lesquelles une validation manuelle est exigée passent également par le filtre, ceci permettant aux validateurs de mieux appréhender la donnée par la suite.<br />
 					Un validateur peut à tout moment revenir sur une validation.								
 				</p>
 				<h2 class="h4">Visibilité des espèces sur le site</h2>
 				<p>
 					- Sur les fiches : uniquement les espèces validées probable à certain<br />
-					- Sur la page listant les observations : Toutes les données avec distinction de couleur sur le picto.
+					- Sur la page listant les observations : toutes les données avec distinction de couleur sur le picto.
 				</p>
 				<h2 class="h4">Validateurs</h2>
 				<?php

@@ -8,7 +8,7 @@ include CHEMIN_MODELE.'article.php';
 $type = 'ml';
 $article = rarticle($type);
 
-$titre = (!empty($article['titre'])) ? $article['titre'] : 'Mention légale';
+$titre = (!empty($article['titre'])) ? $article['titre'] : 'Mentions légales';
 $description = (!empty($article['soustitre'])) ? $article['soustitre'] : $titre.' - sur '.$rjson_site['titre'];
 //prevoir largeur dans champ article en admin
 $testl = 2; //en disant 1 = container-fluid, 2 = container

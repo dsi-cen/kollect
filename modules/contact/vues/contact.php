@@ -19,7 +19,7 @@
 							<input type="email" class="ml-2 form-control" id="mail" name="mail" size="30" required="" placeholder="Votre mail">
 						</div>
 						<div class="form-inline mt-3">
-							<label for="observa">Si votre demande porte sur une espèce particulières, un observatoire : </label>
+							<label for="observa">Si votre demande porte sur une espèce particulière ou un observatoire : </label>
 							<select id="observa" name="observa" class="ml-2 form-control">
 								<option value="NR">Général</option>
 								<?php
@@ -50,11 +50,11 @@
 					{
 						if($ok == 'oui')
 						{
-							?><div class="alert alert-success" role="alert">Votre demande a bien été envoyé.</div><?php
+							?><div class="alert alert-success" role="alert">Votre demande a bien été envoyée!</div><?php
 						}
 						else
 						{
-							?><div class="alert alert-warning" role="alert">Votre demande n'a pu être envoyé.</div><?php
+							?><div class="alert alert-warning" role="alert">Votre demande n'a pas pu être envoyée...</div><?php
 						}
 					}
 				}
