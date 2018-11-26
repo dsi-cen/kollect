@@ -115,8 +115,7 @@ function cartecommune(e, t, o, a) {
 
 function cartemaille(e, t, o) {
     "use strict";
-    $.getJSON("../emprise/contour2.geojson", function (a) {
-        var r = Highcharts.geojson(a, "mapline"), i = Highcharts.geojson(t, "map");
+        var i = Highcharts.geojson(t, "map");
         $("#container").highcharts("Map", {
             chart: {
                 events: {
@@ -201,21 +200,12 @@ function cartemaille(e, t, o) {
                 borderWidth: .5,
                 cursor: "pointer",
                 states: {hover: {borderWidth: 1.5}}
-            }, {
-                data: r,
-                type: "mapline",
-                name: "Commune",
-                lineWidth: .3,
-                color: "black",
-                enableMouseTracking: !1
             }, {data: dep, type: "mapline", lineWidth: 2, color: "black", enableMouseTracking: !1}]
         })
-    })
 }
 
 function cartemaille5(e, t, o) {
-    $.getJSON("../emprise/contour2.geojson", function (a) {
-        var r = Highcharts.geojson(a, "mapline"), i = Highcharts.geojson(t, "mapline"),
+        var i = Highcharts.geojson(t, "mapline"),
             n = Highcharts.geojson(t, "map");
         $("#container").highcharts("Map", {
             chart: {
@@ -285,16 +275,8 @@ function cartemaille5(e, t, o) {
                 color: "black",
                 dashStyle: "LongDash",
                 enableMouseTracking: !1
-            }, {
-                data: r,
-                type: "mapline",
-                name: "Commune",
-                lineWidth: .3,
-                color: "black",
-                enableMouseTracking: !1
             }, {data: dep, type: "mapline", lineWidth: 2, color: "black", enableMouseTracking: !1}]
         })
-    })
 }
 
 function cartenicheur() {
@@ -433,14 +415,21 @@ $(document).ready(function () {
     "use strict";
     var e = $("input[name=choixcarte]:checked").val();
     var i = $("#iddep").val();
-    if ("commune" == e && ($("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), carte(e, i)), "maille" == e) {
+    if ("commune" == e && ($("#titrecarte").html("Nombre d'espèces par commune"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), recount()), "dep" == e && ($("#titrecarte").html("Nombre d'espèces par département"), $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>'), recount()), "maille" == e) {
         $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
         var t = $("#utm").val();
         var i = $("#iddep").val();
-        "oui" == t ? ($("#titrecarte").html("Nombre d'espèces par maille UTM")) : $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), carte(e, i)
+        "oui" == t ? ($("#titrecarte").html("Nombre d'espèces par maille UTM")) : $("#titrecarte").html("Nombre d'espèces par maille 10 x 10"), recount()
     }
-    "maille5" == e && ($("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), carte(e, i)), "oui" == reinfo && ($("#infonbobs").html($("#nbobstotal").val()), $("#lienid").html(""), reinfo = "non")
+    "maille5" == e && ($("#titrecarte").html("Nombre d'espèces par maille 5 x 5"), recount()), "oui" == reinfo && ($("#infonbobs").html($("#nbobstotal").val()), $("#lienid").html(""), reinfo = "non")
 }), Highcharts.setOptions({
+    exporting: {
+        chartOptions: {
+            chart: {
+                backgroundColor: '#FFFFFF' // Fond blanc pour le JPG
+            }
+        }
+    },
     lang: {
         contextButtonTitle: "Menu exportation",
         downloadPNG: "Télécharger au format PNG",
@@ -458,6 +447,21 @@ var map, nbmap = "oui", cartoleaflet;
 
 $("#iddep").change(function () { // Chargement de la carte départementale au choix de l'utilisateur
     $("#container").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement de la carte...</p></div>');
-    i = $("#iddep").val();
-    carte("commune", i);
+    recount();
 });
+
+function recount(){
+    i = $("#iddep").val();
+    var e = $("input[name=choixcarte]:checked").val();
+    var n = $('#iddep option:selected').text();
+    if (i == '%'){ // Si pas de filtre par département
+        $('#lienid').empty();
+        $('#mapdetail').hide();
+        nbobs("aucun", "aucun", "aucun");
+    }
+    else{
+        $('#mapdetail').hide();
+        nbobs("dep", i, n);
+    }
+    carte(e, i);
+}
