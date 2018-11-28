@@ -67,6 +67,7 @@ function creerliste($disc)
 						famille integer,
 						nomvern text,
 						locale character (3),
+						commentaire text,
 						CONSTRAINT liste_pkey PRIMARY KEY (cdnom))") or die(print_r($bdd->errorInfo()));
 	$req->closeCursor();
 }

@@ -421,6 +421,52 @@ function info() {
     })
 }
 
+function commentairefiche() { // Afficher les commentaires sur l'espèce, seuls les validateurs de l'observatoire peuvent écrire
+    "use strict";
+    var e = $("#cdnom").val(), a = $("#nomvar").val();
+    $.ajax({
+        url: "modeles/ajax/fiche/commentaires.php",
+        type: "POST",
+        dataType: "json",
+        data: {cdnom: e, observatoire: a},
+        success: function (e) {
+            'ok' == e.stat && $("#affichercommentaires").html(e.res);
+        }
+    })
+}
+
+function edit_comment() {
+    $('#affichercommentaires').attr('disabled', false);
+    $('#vali_comment').show();
+    $('#vali_comment').click( function() {
+        var e = $("#cdnom").val(), a = $("#nomvar").val(), new_com = $('#affichercommentaires').val();
+        $('#affichercommentaires').attr('disabled', true);
+        $.ajax({
+            url: "modeles/ajax/fiche/commentaires.php",
+            type: "POST",
+            dataType: "json",
+            data: {cdnom: e, observatoire: a, new_com: new_com},
+            success: function (e) {
+                $('#vali_comment').hide();
+            }
+        });
+    });
+}
+
+function supp_comment() {
+    var e = $("#cdnom").val(), a = $("#nomvar").val();
+    $.ajax({
+        url: "modeles/ajax/fiche/commentaires.php",
+        type: "POST",
+        dataType: "json",
+        data: {cdnom: e, observatoire: a, del: "oui"},
+        success: function () {
+            alert("Commentaire supprimé");
+            commentairefiche();
+        }
+    });
+}
+
 function graphenbobs(e, t) {
     "use strict";
     $("#graphenbobs").highcharts({
@@ -1037,6 +1083,7 @@ var dep, ongletcarto, pheno, obser, couleur1, couleur2, varbiogeo, varinfo, varl
     site = $("#nomsite").val(), adresse = $("#adresse").val();
 $(document).ready(function () {
     "use strict";
+    commentairefiche();
     $('[data-toggle="tooltip"]').tooltip(), couleur1 = $("#couleur1").css("backgroundColor"), couleur2 = $("#menu").css("backgroundColor"), $(".image-popup-no-margins").magnificPopup({
         type: "image",
         closeOnContentClick: !0,
