@@ -45,31 +45,37 @@ INSERT INTO md_obs.ref_source_origine VALUES
 (7,'Faune France','Base de données Faune France de la LPO France'),
 (8,'ObsOcc','Base de données du Parc National des Pyrénées : ObsOcc');
 
-CREATE TABLE md_obs.ligne_source_ext
+CREATE TABLE md_obs.obs_source_ext
 (
-    idligne integer NOT NULL,
+    id_obs_source_ext serial,
+    idobs integer NOT NULL,
+    idligne integer,
     id_source_origine integer NOT NULL,
     est_thematique boolean NOT NULL,
     nom_source character varying(80),
     type_source character varying(80),
     path_source character varying(250),
     remarques text,
-    CONSTRAINT ligne_source_ext_pkey PRIMARY KEY (idligne),
-    CONSTRAINT ligne_source_ext_idligne_fkey FOREIGN KEY (idligne) REFERENCES obs.ligneobs (idligne),
-    CONSTRAINT ligne_source_ext_id_source_origine_fkey FOREIGN KEY (id_source_origine) REFERENCES md_obs.ref_source_origine (id_source_origine)
+    CONSTRAINT obs_source_ext_pkey PRIMARY KEY (id_obs_source_ext),
+    CONSTRAINT obs_source_ext_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs),
+    CONSTRAINT obs_source_ext_idligne_fkey FOREIGN KEY (idligne) REFERENCES obs.ligneobs (idligne),
+    CONSTRAINT obs_source_ext_id_source_origine_fkey FOREIGN KEY (id_source_origine) REFERENCES md_obs.ref_source_origine (id_source_origine)
 );
 
-COMMENT ON TABLE md_obs.ligne_source_ext IS 'Table stockant les informations de la source';
+COMMENT ON TABLE md_obs.obs_source_ext IS 'Table stockant les informations de la source';
 
-CREATE TABLE md_obs.ligne_obs_origine_ext
+CREATE TABLE md_obs.obs_origine_ext
 (
-    idligne integer NOT NULL,
+    id_obs_origine_ext serial,
+    idobs integer NOT NULL,
+    idligne integer,
     idobs_origine character varying(250) NOT NULL,
-    CONSTRAINT ligne_obs_origine_ext_pkey PRIMARY KEY (idligne,idobs_origine),
-    CONSTRAINT ligne_obs_origine_ext_fkey FOREIGN KEY (idligne) REFERENCES md_obs.ligne_source_ext (idligne)
+    CONSTRAINT obs_origine_ext_pkey PRIMARY KEY (id_obs_origine_ext),
+    CONSTRAINT obs_origine_ext_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs),
+    CONSTRAINT obs_origine_ext_idligne_fkey FOREIGN KEY (idligne) REFERENCES obs.ligneobs (idligne)
 );
 
-COMMENT ON TABLE md_obs.ligne_obs_origine_ext IS 'Table stockant les informations de l''identifiant de l''observation de la source. Il peut y avoir plusieurs identifiants par ligne';
+COMMENT ON TABLE md_obs.obs_origine_ext IS 'Table stockant les informations de l''identifiant de l''observation de la source. Il peut y avoir plusieurs identifiants par ligne';
 
 CREATE TABLE md_obs.ref_type_cible
 (
@@ -106,8 +112,8 @@ CREATE FUNCTION md_obs.suppr_ligne_md_obs()
     RETURNS trigger AS
     $BODY$
         BEGIN
-            DELETE FROM md_obs.ligne_obs_origine_ext WHERE idligne = OLD.idligne;
-           	DELETE FROM md_obs.ligne_source_ext WHERE idligne = OLD.idligne;
+            DELETE FROM md_obs.obs_origine_ext WHERE idligne = OLD.idligne;
+           	DELETE FROM md_obs.obs_source_ext WHERE idligne = OLD.idligne;
 			RETURN OLD;
         END;
 	$BODY$
@@ -126,6 +132,8 @@ CREATE FUNCTION md_obs.suppr_obs_md_obs()
         BEGIN
             DELETE FROM md_obs.obs_origine_odk WHERE idobs = OLD.idobs;
             DELETE FROM md_obs.obs_export WHERE idobs = OLD.idobs;
+            DELETE FROM md_obs.obs_origine_ext WHERE idobs = OLD.idobs;
+           	DELETE FROM md_obs.obs_source_ext WHERE idobs = OLD.idobs;
 			RETURN OLD;
         END;
 	$BODY$
@@ -192,11 +200,13 @@ CREATE TRIGGER declenche_alimente_histo_obs_origine_odk
     FOR EACH ROW
     EXECUTE PROCEDURE md_obs_historique.alimente_histo_obs_origine_odk();
 
-CREATE TABLE md_obs_historique.histo_ligne_source_ext
+CREATE TABLE md_obs_historique.histo_obs_source_ext
 (
     type_operation text,
     date_operation timestamp without time zone NOT NULL,
     utilisateur text,
+    id_obs_source_ext integer,
+    idobs integer,
     idligne integer,
     id_source_origine integer,
     est_thematique boolean,
@@ -204,10 +214,10 @@ CREATE TABLE md_obs_historique.histo_ligne_source_ext
     type_source character varying(80),
     path_source character varying(250),
     remarques text,
-    CONSTRAINT histo_ligne_source_ext_pkey PRIMARY KEY (date_operation, utilisateur, idligne)
+    CONSTRAINT histo_obs_source_ext_pkey PRIMARY KEY (date_operation, utilisateur, id_obs_source_ext)
 );
 
-CREATE FUNCTION md_obs_historique.alimente_histo_ligne_source_ext()
+CREATE FUNCTION md_obs_historique.alimente_histo_obs_source_ext()
     RETURNS trigger AS $BODY$
 
     declare user_login integer;
@@ -216,32 +226,34 @@ CREATE FUNCTION md_obs_historique.alimente_histo_ligne_source_ext()
 
         user_login = outils.get_user();
 
-		IF (TG_OP = 'DELETE') THEN INSERT INTO md_obs_historique.histo_ligne_source_ext SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-		ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO md_obs_historique.histo_ligne_source_ext SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-		ELSIF (TG_OP = 'INSERT') THEN INSERT INTO md_obs_historique.histo_ligne_source_ext SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+		IF (TG_OP = 'DELETE') THEN INSERT INTO md_obs_historique.histo_obs_source_ext SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
+		ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO md_obs_historique.histo_obs_source_ext SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
+		ELSIF (TG_OP = 'INSERT') THEN INSERT INTO md_obs_historique.histo_obs_source_ext SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
 		END IF; 
 		RETURN NULL; 
 	END;
 	$BODY$ 
 	LANGUAGE plpgsql VOLATILE COST 100;	
 
-CREATE TRIGGER declenche_histo_ligne_source_ext
+CREATE TRIGGER declenche_histo_obs_source_ext
     AFTER INSERT OR DELETE OR UPDATE 
-    ON md_obs.ligne_source_ext
+    ON md_obs.obs_source_ext
     FOR EACH ROW
-    EXECUTE PROCEDURE md_obs_historique.alimente_histo_ligne_source_ext();
+    EXECUTE PROCEDURE md_obs_historique.alimente_histo_obs_source_ext();
 
-CREATE TABLE md_obs_historique.histo_ligne_obs_origine_ext
+CREATE TABLE md_obs_historique.histo_obs_origine_ext
 (
     type_operation text,
     date_operation timestamp without time zone NOT NULL,
     utilisateur text,
+    id_obs_origine_ext integer,
+    idobs integer,
     idligne integer,
     idobs_origine character varying(250),
-    CONSTRAINT histo_ligne_ligne_source_extpkey PRIMARY KEY (date_operation, utilisateur, idligne, idobs_origine)
+    CONSTRAINT histo_ligne_obs_source_extpkey PRIMARY KEY (date_operation, utilisateur, id_obs_origine_ext)
 );
 
-CREATE FUNCTION md_obs_historique.alimente_histo_ligne_obs_origine_ext()
+CREATE FUNCTION md_obs_historique.alimente_histo_obs_origine_ext()
     RETURNS trigger AS $BODY$
 
     declare user_login integer;
@@ -250,20 +262,20 @@ CREATE FUNCTION md_obs_historique.alimente_histo_ligne_obs_origine_ext()
 
         user_login = outils.get_user();
 
-		IF (TG_OP = 'DELETE') THEN INSERT INTO md_obs_historique.histo_ligne_obs_origine_ext SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-		ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO md_obs_historique.histo_ligne_obs_origine_ext SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-		ELSIF (TG_OP = 'INSERT') THEN INSERT INTO md_obs_historique.histo_ligne_obs_origine_ext SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+		IF (TG_OP = 'DELETE') THEN INSERT INTO md_obs_historique.histo_obs_origine_ext SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
+		ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO md_obs_historique.histo_obs_origine_ext SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
+		ELSIF (TG_OP = 'INSERT') THEN INSERT INTO md_obs_historique.histo_obs_origine_ext SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
 		END IF; 
 		RETURN NULL; 
 	END;
 	$BODY$ 
 	LANGUAGE plpgsql VOLATILE COST 100;	
 
-CREATE TRIGGER declenche_alimente_histo_ligne_obs_origine_ext
+CREATE TRIGGER declenche_alimente_histo_obs_origine_ext
     AFTER INSERT OR DELETE OR UPDATE 
-    ON md_obs.ligne_obs_origine_ext
+    ON md_obs.obs_origine_ext
     FOR EACH ROW
-    EXECUTE PROCEDURE md_obs_historique.alimente_histo_ligne_obs_origine_ext();
+    EXECUTE PROCEDURE md_obs_historique.alimente_histo_obs_origine_ext();
 
 CREATE TABLE md_obs_historique.histo_obs_export
 (
