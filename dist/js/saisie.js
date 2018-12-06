@@ -79,12 +79,12 @@ function carte(e) {
     }), map.on("draw:created", function (e) {
         var a = (e.layerType, e.layer);
         drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), drawnItems.addLayer(a);
-        var t = Math.round(1e4 * a.getCenter().lat) / 1e4, o = Math.round(1e4 * a.getCenter().lng) / 1e4;
+        var t = 1e4 * a.getCenter().lat / 1e4, o = 1e4 * a.getCenter().lng / 1e4;
         "oui" == mod && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
     }), map.on("draw:edited", function (e) {
         var a = e.layers;
         a.eachLayer(function (e) {
-            var a = Math.round(1e4 * e.getCenter().lat) / 1e4, t = Math.round(1e4 * e.getCenter().lng) / 1e4;
+            var a = 1e4 * e.getCenter().lat / 1e4, t = 1e4 * e.getCenter().lng / 1e4;
             marker.setLatLng([a, t]), recupcoord(a, t, l), recupgeojson(e)
         })
     }), map.on("draw:drawstop", function (e) {
@@ -98,7 +98,7 @@ function carte(e) {
     }), map.on("click", function (e) {
         if ("oui" != k) {
             drawnItems.getLayers().length > 0 && (drawnItems.clearLayers(), $("#typepoly").val("")), marker ? (marker.setLatLng(e.latlng), map.setView(marker.getLatLng(), map.getZoom())) : marker = L.marker(e.latlng, {icon: C}).addTo(map);
-            var a = Math.round(1e4 * e.latlng.lat) / 1e4, t = Math.round(1e4 * e.latlng.lng) / 1e4;
+            var a = 1e4 * e.latlng.lat / 1e4, t = 1e4 * e.latlng.lng / 1e4;
             mod = "non", recupcoord(a, t, l);
             var o = $("#proche").val();
             "non" != o && proche(a, t, o)
@@ -145,9 +145,9 @@ function altitude(e, a, t) {
 function transform93(e, a) {
     "use strict";
     var t = "+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
-        l = proj4(proj4.WGS84, t, [a, e]), o = Math.round(1 * l[0]) / 1, i = Math.round(1 * l[1]) / 1;
+        l = proj4(proj4.WGS84, t, [a, e]), o = 1 * l[0] / 1, i = 1 * l[1] / 1;
     $("#xlambert").val(o), $("#ylambert").val(i);
-    var s = o.toString(), n = i.toString(), r = s.length;
+    var s = Math.round(o).toString(), n = Math.round(i).toString(), r = s.length;
     if (5 == r) var c = "E00" + s.substring(0, 1), d = s.substring(1, 2) >= 5 ? "5" : "0",
         u = "E00" + s.substring(0, 1) + d;
     if (6 == r) var c = "E0" + s.substring(0, 2), d = s.substring(2, 3) >= 5 ? "5" : "0",
