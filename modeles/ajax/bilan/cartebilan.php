@@ -2,7 +2,7 @@
 include '../../../global/configbase.php';
 include '../../../lib/pdo2.php';
 
-function nbespece()
+function nbespece() // Nombre d'espèces total
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -13,7 +13,7 @@ function nbespece()
 	$req->closeCursor();
 	return $nbobs;
 }
-function cartodep()
+function cartodep() // Nombre par département
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -28,16 +28,16 @@ function cartodep()
 	$req->closeCursor();
 	return $carto;
 }
-function departement()
+function departement() // Liste des département de l'emprise
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement");
+	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement ");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $commune;
 }	
-function cartocommune()
+function cartocommune() // Nombre par commune
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -52,11 +52,12 @@ function cartocommune()
 	$req->closeCursor();
 	return $carto;
 }	
-function commune()
+function commune($iddep='%') // Liste des commune de l'emprise avec filtre par département
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune");
+	$req = $bdd->prepare("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune where iddep like :iddep");
+	$req->execute([':iddep' => $iddep]);
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $commune;
@@ -88,59 +89,65 @@ function mgrs()
 	$req->closeCursor();
 	return $utm;
 }
-function cartol93()
+function cartol93($iddep)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("WITH sel AS (SELECT DISTINCT cdref, idcoord FROM obs.obs
+	$req = $bdd->prepare("WITH sel AS (SELECT DISTINCT cdref, idcoord, iddep FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 									WHERE (rang = 'ES' OR rang = 'SSES') AND statutobs != 'No' AND (validation = 1 OR validation = 2)
 						)
-                        SELECT DISTINCT codel93, COUNT(DISTINCT cdref) AS nb FROM sel
+                        SELECT DISTINCT codel93, iddep, COUNT(DISTINCT cdref) AS nb FROM sel
                         INNER JOIN obs.coordonnee ON coordonnee.idcoord = sel.idcoord
-                        WHERE codel93 != ''
-                        GROUP BY codel93 ");
+                        WHERE codel93 != '' and iddep like :iddep
+                        GROUP BY codel93, iddep");
+	$req->execute([':iddep' => $iddep]);
 	$carto = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $carto;
 }
-function maillel93()
+function maillel93($iddep)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT codel93 FROM referentiel.maillel93 ");
+	$req = $bdd->prepare("SELECT codel93 FROM referentiel.maillel93 where iddep like :iddep");
+	$req->execute([':iddep' => ("%" . $iddep . "%")]);
 	$l93 = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $l93;
 }	
-function carto5l93()
+function carto5l93($iddep)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("WITH sel AS (SELECT DISTINCT cdref, idcoord FROM obs.obs
+	$req = $bdd->prepare("WITH sel AS (SELECT DISTINCT cdref, idcoord, iddep FROM obs.obs
 									INNER JOIN obs.fiche USING(idfiche)
 									INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref
 									WHERE (rang = 'ES' OR rang = 'SSES') AND statutobs != 'No' AND (validation = 1 OR validation = 2)
 						)
                         SELECT DISTINCT codel935, COUNT(DISTINCT cdref) AS nb FROM sel
                         INNER JOIN obs.coordonnee ON coordonnee.idcoord = sel.idcoord
-                        WHERE codel935 != ''
-                        GROUP BY codel935 ");
+                        WHERE codel935 != '' AND iddep LIKE :iddep
+                        GROUP BY codel935, iddep ");
+	$req->execute([':iddep'=>$iddep]);
 	$carto = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $carto;
 }
 
+
+
 if(isset($_POST['choixcarte'])) 
 {
 	$choix = $_POST['choixcarte'];
+    $iddep = $_POST['iddep']; // Possibilité de filtrer par département
 	
 	$nbsp = nbespece();
 	if($choix == 'commune' || $choix == 'dep')
 	{
 		$tabobs = ($choix == 'commune') ? cartocommune() : cartodep();
-		$tabref = ($choix == 'commune') ? commune() : departement();
+		$tabref = ($choix == 'commune') ? commune($iddep) : departement();
 		
 		foreach($tabobs as $n)
 		{
@@ -247,7 +254,7 @@ if(isset($_POST['choixcarte']))
 		}
 		else
 		{
-			$cartol93 = cartol93();
+			$cartol93 = cartol93($iddep);
 			foreach($cartol93 as $n)
 			{
 				$tmpmax[] = $n['nb'];
@@ -267,7 +274,7 @@ if(isset($_POST['choixcarte']))
 			$code = array_flip($codel93);
 			if($emp != 'fr')
 			{
-				$l93 = maillel93();
+				$l93 = maillel93($iddep);
 				foreach ($l93 as $n)
 				{
 					$info = 'Aucune espèce';
@@ -296,7 +303,7 @@ if(isset($_POST['choixcarte']))
 	}
 	elseif($choix == 'maille5')
 	{
-		$cartol93 = carto5l93();
+		$cartol93 = carto5l93($iddep);
 		foreach ($cartol93 as $n)
 		{
 			$tmpmax[] = $n['nb'];
@@ -312,7 +319,7 @@ if(isset($_POST['choixcarte']))
 			$carte[] = array('nom'=>$n['codel935'], 'id'=>$n['codel935'], 'value'=>$n['nb'], 'info'=>$info);	
 		}
 		unset($cartol93);
-		$l93 = maillel93();
+		$l93 = maillel93($iddep);
 		foreach($l93 as $n)
 		{
 			$xg = substr($n['codel93'], 1, -4)*10000;

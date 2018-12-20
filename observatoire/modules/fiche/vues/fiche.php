@@ -313,11 +313,13 @@
 						{
 							?><li class="nav-item"><a class="nav-link" href="#biblio" data-toggle="tab" data-id="biblio" title="Bibliographie"><i class="fa fa-book fa-lg"></i></a></li><?php
 						}
+
 						/*if($indice != 'NC')
 						{
 							?><li class="nav-item"><a class="nav-link" href="#indice" data-toggle="tab" data-id="indice">Ind</a></li><?php
 						}*/
 						?>
+                        <li class="nav-item"><a class="nav-link" href="#commentaires" data-toggle="tab" data-id="commentaires" title="Commentaires"><i class="fa fa-pencil-square-o fa-lg"></i></a></li>
 					</ul>
 				</div>
 				<div class="col-sm-11 pl-0">
@@ -740,6 +742,21 @@
 							<?php
 						}
 						?>
+                            <div class="tab-pane fade" id="commentaires">
+                                <h2 class="h5">Commentaire général sur l'espèce (spécificité géographique...)
+                                <?php
+                                    if ($_SESSION['droits'] > 1) {
+                                        ?>
+                                        <i class="ml-2 fa fa-pencil curseurlien text-warning" title="Modifier/corriger le commentaire" onclick="edit_comment()"></i>
+                                        <i class="ml-2 text-danger fa fa-trash fa-lg curseurlien" onclick="supp_comment()" title="Supprimer le commentaire"></i>
+                                        <i id="vali_comment" class="fa fa-check fa-lg curseurlien ml-2 text-success" title="Valider le commentaire" style="display:none"></i>
+                                    <?php
+                                    }
+                                ?>
+                                </h2>
+                                <hr />
+                                <textarea disabled="true" class="form-control" rows="10" id="affichercommentaires" name="rq" placeholder="Pas de commentaire pour le moment"></textarea>
+                            </div>
 					</div>
 				</div>
 			</div>

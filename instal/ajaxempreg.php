@@ -140,8 +140,8 @@ if (isset($_POST['idreg']))
 				$retour['statut'] = 'Oui';
 				$retour['mes'] = '<div class="alert alert-success" role="alert"><p>L\'emprise a été crée</p></div>';
 			}				
-			if($nbins2 <= 6)
-			{
+			// if($nbins2 <= 6)
+			// {
 				$reg = contour();
 				$geo = array('type'=> 'FeatureCollection','crs'=>array('type'=>'name','properties'=>array('name'=>'urn:ogc:def:crs:EPSG::2154')), 'features' => array());
 				foreach ($reg as $n)
@@ -170,11 +170,11 @@ if (isset($_POST['idreg']))
 					$retour['statut'] = 'Oui';
 					$retour['mes'] = '<div class="alert alert-success" role="alert">L\'emprise a été crée</div>';
 				}							
-			}
-			else
-			{
-				copy('../emprise/contour2.geojson', '../emprise/contour.geojson');
-			}
+			// }
+			// else
+			// {
+			// 	copy('../emprise/contour2.geojson', '../emprise/contour.geojson');
+			// }
 		}
 		else
 		{

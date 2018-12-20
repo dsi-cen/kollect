@@ -9,6 +9,10 @@
 						<li class="breadcrumb-item"><a href="index.php?module=bilan&amp;action=evolution">Evolution des données</a></li>
 					</ol>					
 				</div>
+                <div id="selectiondepartement" class="h6">Sélectionner un département :
+                    <select id="iddep">
+                    </select>
+                </div>
 			</div>
 		</div>		
 	</header>
