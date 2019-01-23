@@ -138,7 +138,7 @@
 											<?php
 											if($n['nomphoto'] != '')
 											{
-												?><img class="img-fluid" alt="<?php echo $n['nom'];?>" title="<?php echo $n['nom'];?> - <?php echo $n['nb'];?> observations (photo de <?php echo $n['prenom'];?> <?php echo $n['obsern'];?>)" src="photo/P200/<?php echo $n['nomvar'];?>/<?php echo $n['nomphoto'];?>.jpg"><?php
+												?><img class="img-fluid" alt="<?php echo $n['nom'];?>" title="<?php echo $n['nom'];?> - <?php echo $n['nb'];?> observations (photo de <?php echo $n['prenom'];?> <?php echo $n['obsern'];?>)" src="photo/P800/<?php echo $n['nomvar'];?>/<?php echo $n['nomphoto'];?>.jpg"><?php
 											}
 											else
 											{
