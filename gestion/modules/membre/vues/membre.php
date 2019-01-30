@@ -80,8 +80,10 @@
 								<div class="col-sm-3"><input type="number" min="0" max="4" class="form-control" id="droits"></div>
 							</div>
                             <div class="form-group row ui-front">
-                                <label for="organisme" class="col-sm-2 col-form-label">Organismes</label>
-                                <div class="col-sm-8"><input type="text" class="form-control" id="organisme" readonly></div>
+                                <link href="../dist/css/multi-select.css" media="screen" rel="stylesheet" type="text/css">
+                                <label for="orgalist" class="col-sm-2 col-form-label">Organismes</label>
+                                <div class="col-sm-8" id="orgadiv"></div>
+                                <script src="../dist/js/jquery.multi-select.js" type="text/javascript"></script>
                             </div>
 							<div class="form-group row ui-front">
 								<label for="theme" class="col-sm-2 col-form-label">Validateur</label>
@@ -149,6 +151,8 @@ function modifier(id) {
 			if (reponse.statut == 'Ok') {
 				var info = reponse.info;
 				$("#nom").val(info.nom); $("#prenom").val(info.prenom); $("#mail").val(info.mail); $("#droits").val(info.droits); $("#organisme").val(info.organisme); $("#theme").val(info.discipline); $("#gestion").val(info.gestionobs); $("#idmembredia1").val(info.idmembre);
+                $("#orgadiv").html(reponse.orgalist);
+                $("#orgalist").multiSelect();
 				if (info.droits < 2) {
 					$("#theme").hide(); $("#gestion").hide();
 				} else {
@@ -170,12 +174,12 @@ function modifier(id) {
 }
 $('#bttdia1').click(function () { 
 	'use strict'; $('#dia1').modal('hide');
-	var id = $("#idmembredia1").val(), nom = $("#nom").val(), prenom = $("#prenom").val(), mail = $("#mail").val(), droits = $("#droits").val(), disc = $("#theme").val(), gestion = $("#gestion").val();
+	var id = $("#idmembredia1").val(), nom = $("#nom").val(), prenom = $("#prenom").val(), mail = $("#mail").val(), droits = $("#droits").val(), disc = $("#theme").val(), gestion = $("#gestion").val(), orga = JSON.stringify($("#orgalist").val());
 	$.ajax({
 		url: "modeles/ajax/membre/modmembre.php", 
 		type: 'POST', 
 		dataType: "json",
-		data: {id:id,nom:nom,prenom:prenom,mail:mail,droits:droits,disc:disc,gestion:gestion},
+		data: {id:id,nom:nom,prenom:prenom,mail:mail,droits:droits,disc:disc,gestion:gestion,orga:orga},
 		success: function(reponse) {
 			if (reponse.statut == 'Ok') {
 				membre();

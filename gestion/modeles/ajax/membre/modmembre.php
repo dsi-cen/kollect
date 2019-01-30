@@ -18,6 +18,27 @@ if(isset($_POST['id']))
 		$req->execute();
 		$req->closeCursor();
 	}
+    function mod_affectation_organisme($id, $orga) // RLE : Update organismes
+    {
+        $bdd = PDO2::getInstance();
+        $bdd->query("SET NAMES 'UTF8'");
+        $req = $bdd->prepare("DELETE FROM referentiel.observateur_organisme WHERE idobser = :id") or die(print_r($bdd->errorInfo()));
+        $req->bindValue(':id', $id);
+        $req->execute();
+        $req->closeCursor();
+
+        $orgaupdate = json_decode($orga, true);
+
+        $bdd = PDO2::getInstance();
+        $bdd->query("SET NAMES 'UTF8'");
+        foreach ($orgaupdate as $org => $value) {
+            $req = $bdd->prepare("INSERT INTO referentiel.observateur_organisme (idobser, idorg) VALUES(:id, :orga);") or die(print_r($bdd->errorInfo()));
+            $req->bindValue(':id', $id);
+            $req->bindValue(':orga', $value);
+            $req->execute();
+        }
+        $req->closeCursor();
+    }
 	function cherche_validateur($id)
 	{
 		$bdd = PDO2::getInstance();
@@ -68,7 +89,9 @@ if(isset($_POST['id']))
 	//$disc = substr($_POST['disc'], 0, -2);
 	$disc = $_POST['disc'];
 	$gestion = $_POST['gestion'];
+    $orga = $_POST['orga'];
 	mod_membre($id,$nom,$prenom,$mail,$droits,$gestion);
+    mod_affectation_organisme($id, $orga);
 	$vali = cherche_validateur($id);
 	if($vali[0] != 0)
 	{

@@ -59,8 +59,10 @@
 						<input type="text" class="form-control" id="lib"  placeholder="Description de l'étude si besoin">							
 					</div>
                     <div class="form-group">
+                        <link href="../dist/css/multi-select.css" media="screen" rel="stylesheet" type="text/css">
                         <label for="org" class="">Organismes</label>
-                        <input type="text" class="form-control" id="org"  placeholder="Organismes affiliés à cette étude" readonly>
+                        <div class="col-sm-8" id="orgadiv"></div>
+                        <script src="../dist/js/jquery.multi-select.js" type="text/javascript"></script>
                     </div>
 					<div class="form-group row">
 						<label for="voir" class="col-sm-4 col-form-label">Masqué à la saisie</label>
