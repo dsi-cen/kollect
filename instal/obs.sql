@@ -22,11 +22,11 @@ CREATE TABLE obs.coordgeo
 CREATE TABLE obs.coordonnee
 (
   idcoord serial NOT NULL,
-  x integer,
-  y integer,
+  x numeric,
+  y numeric,
   altitude smallint,
-  lat real,
-  lng real,
+  lat numeric,
+  lng numeric,
   codel93 character varying(10),
   utm character varying(10),
   utm1 character varying(10),
