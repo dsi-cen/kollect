@@ -15,13 +15,36 @@ if(isset($_POST['id']))
 		$ok = ($req->execute()) ? 'oui' : 'non';
 		$req->closeCursor();
 		return $ok;
-	}	
+	}
+    function mod_affectation_etude($id, $etude) // RLE : Update etudes
+    {
+        $bdd = PDO2::getInstance();
+        $bdd->query("SET NAMES 'UTF8'");
+        $req = $bdd->prepare("DELETE FROM referentiel.etude_organisme WHERE idorg = :id") or die(print_r($bdd->errorInfo()));
+        $req->bindValue(':id', $id);
+        $req->execute();
+        $req->closeCursor();
+
+        $orgaupdate = json_decode($etude, true);
+
+        $bdd = PDO2::getInstance();
+        $bdd->query("SET NAMES 'UTF8'");
+        foreach ($orgaupdate as $org => $value) {
+            $req = $bdd->prepare("INSERT INTO referentiel.etude_organisme (idetude, idorg) VALUES(:etude, :id);") or die(print_r($bdd->errorInfo()));
+            $req->bindValue(':id', $id);
+            $req->bindValue(':etude', $value);
+            $req->execute();
+        }
+        $req->closeCursor();
+    }
 	
 	$id = $_POST['id'];
 	$orga = $_POST['orga'];
 	$descri = $_POST['descri'];
+    $etude = $_POST['etude'];
 	
 	$vali = mod($id,$orga,$descri);
+    mod_affectation_etude($id, $etude);
 	$retour['statut'] = ($vali == 'oui') ? 'Ok' : 'Erreur ! Problème lors de la modification';
 	
 }
