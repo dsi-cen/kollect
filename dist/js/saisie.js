@@ -804,10 +804,16 @@ $(document).ready(function () {
         var l = t.lat + "," + t.lng, o = 13;
         return centrer(l, o, t.codecom), l93com(t.x, t.y), "oui" == utm && chercheutm(t.lat, t.lng), $("#vsite").show(), !1
     }
-}), $("#proj").change(function () {
+}), $("#proj, #ycoord, #xcoord").change(function () { // Modif RLE pour rendre fonctionnel la prise du point
     "use strict";
     var e = $("#xcoord").val(), a = $("#ycoord").val();
-    "" != e && "" != a && "nr" != $(this).val() && "w84" == $(this).val() && (marker ? marker.setLatLng([a, e]) : marker = L.marker([a, e]).addTo(map))
+    if ("" != e && "" != a && "nr" != $("#proj").val() && "w84" == $("#proj").val() && (marker ? marker.setLatLng([a, e]) : marker = L.marker([a, e]).addTo(map)) && map.setView([a, e], 12)){
+        transform93(a, e);
+        $("#lat").val(a) && $("#lng").val(e);
+        $("#idcoord").val("Nouv"); // A vérifier
+        $("#codesite").val("Nouv"); // A vérifier
+        $("#pr").val(1); // rev-engi : 1 = site pointé, 2 = à la commune
+    }
 }), $("#btfiche10").click(function () {
     "use strict";
     $(this).hasClass("text-primary") ? ($(this).removeClass("text-primary").addClass("text-success"), $("#liste10").show(), fiche(), $("html, body").animate({scrollTop: $("#listefiche").offset().top}, "slow")) : ($(this).removeClass("text-success").addClass("text-primary"), $("#liste10").hide())
