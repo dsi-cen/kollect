@@ -193,7 +193,7 @@ function listeobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,
 	if($pr != 'NR') { $strQuery .= ($where == 'non') ? " WHERE localisation = :pr" : " AND (localisation = :pr)"; $where = 'oui'; }
 	if((!empty($idsite) || !empty($codecom) || !empty($site) || !empty($poly) || !empty($dist)) && $droit == 'non') { $strQuery .= " AND (sensible <= 1 OR sensible IS NULL) AND floutage <= 1"; }
 	if(!empty($typedate)) { $strQuery .= ($typedate == 'obs') ? " ORDER BY date1 DESC" : " ORDER BY datesaisie DESC"; } else { $strQuery .= " ORDER BY date1 DESC"; }	
-	$strQuery .= " LIMIT 100 OFFSET :deb )";
+	$strQuery .= " LIMIT 10000 OFFSET :deb )";
 	$strQuery .= " SELECT sel.idfiche, sel.idobs, sel.datefr, commune, site, sel.iddep, sel.idobser, liste.nom, nomvern, rang, auteur, sel.validation, sensible, sel.observa, sel.cdref, nb, localisation, floutage, observateur.nom AS nomobser, prenom, idm, plusobser, nbcom FROM sel";
 	$strQuery .= " LEFT JOIN referentiel.commune ON commune.codecom = sel.codecom INNER JOIN referentiel.liste ON liste.cdnom = sel.cdref INNER JOIN referentiel.observateur ON observateur.idobser = sel.idobser LEFT JOIN referentiel.sensible ON sensible.cdnom = sel.cdref LEFT JOIN site.liencom ON liencom.idobs = sel.idobs LEFT JOIN obs.site ON site.idsite = sel.idsite";
 	if(!empty($typedate)) { $strQuery .= ($typedate == 'obs') ? " ORDER BY date1 DESC" : " ORDER BY datesaisie DESC"; } else { $strQuery .= " ORDER BY date1 DESC"; }
@@ -463,7 +463,9 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
 			}
 		}
 		$liste = null;
-		$liste .= '<table class="table table-hover table-sm tblobs"><tbody>';
+		$liste .= '<table id="querytable" class="table table-hover table-sm tblobs">';
+		$liste .= '<thead><tr><th></th><th>Date</th><th>Nom latin</th><th>Commune</th><th>Observateur</th><th></th></tr></thead><tbody>';
+
 		foreach($tabobs as $n)
 		{
 			$liste .= '<tr>';
