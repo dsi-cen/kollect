@@ -1,4 +1,6 @@
 global/configbase.php
-json/site.json
+json/
 emprise/
-son/det/*.mp3
+son/
+photo/
+instal/
