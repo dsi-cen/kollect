@@ -237,7 +237,7 @@ $(document).ready(function () {
     "use strict";
     $("#listeobs").hide(), $("#rchoix").hide(), $("#afpage").hide(), $("#infoaide").hide(), $("#dlink").hide(), $("#collr").hide(), $("#BttS").hide();
     $("#perso").prop("checked", !0);
-    $("#perso").is(":checked") ? $("#idobser").val($("#idobseror").val()) : "oui" == $("#cperso").val() && ($("#obser").val($("#observateur").val()), $("#perso").prop("checked", !0));
+    $("#perso").is(":checked") ? ($("#idobser").val($("#idobseror").val()) && $("#obser").val($("#observateur").val())) : "oui" == $("#cperso").val() && ($("#obser").val($("#observateur").val()), $("#perso").prop("checked", !0));
     var e = $("#droit").val();
     "oui" != $("#cperso").val() || e ? ($("#BttE").hide(), $("#BttG").hide()) : ($("#BttE").show(), $("#BttG").show()), "oui" == e && ($("#BttE").show(), $("#BttG").show());
     var t = {};
