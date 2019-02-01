@@ -17,7 +17,23 @@ function format(a) {
 
 function remplirtable(a) {
     "use strict";
+    // Cellules de recherche
+    $('#tblliste thead tr').clone(true).appendTo( '#tblliste thead' );
+    $('#tblliste thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Rechercher" />' );
+        $( 'input', this ).on( 'keyup change', function () {
+            if ( t.column(i).search() !== this.value ) {
+                t
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+        });
+    });
     var t = $("#tblliste").DataTable({
+        orderCellsTop: true,
+        fixedHeader: true,
         language: {url: "../dist/js/datatables/france.json"},
         data: a,
         deferRender: !0,
@@ -32,6 +48,7 @@ function remplirtable(a) {
         }, {data: 2}, {data: 3}, {data: 4}, {data: 5}, {data: 6}, {data: 7}, {data: 8}, {data: 9}, {data: 10}],
         columnDefs: [{orderable: !1, targets: 0}]
     });
+
     $("#tblliste").on("click", ".detail", function () {
         var a = $(this).closest("tr"), e = t.row(a), i = a.attr("id");
         e.child.isShown() ? (e.child.hide(), $(this).removeClass("fa-minus").addClass("fa-plus")) : (e.child(format(e.data())).show(), $(this).removeClass("fa-plus").addClass("fa-minus"), e.child().attr("id", "e" + i))
