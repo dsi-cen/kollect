@@ -54,6 +54,9 @@ function observation(e) {
                 // Cellules de recherche
                 $('#querytable thead tr').clone(true).appendTo( '#querytable thead' );
                 $('#querytable thead tr:eq(1) th').each( function (i) {
+                    if(i === $('#querytable thead tr:eq(1) th').length-1) {
+                        return;
+                    }
                     var title = $(this).text();
                     $(this).html( '<input type="text" placeholder="Rechercher" />' );
                     $( 'input', this ).on( 'keyup change', function () {

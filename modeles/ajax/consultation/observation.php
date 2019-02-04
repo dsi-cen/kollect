@@ -464,7 +464,7 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
 		}
 		$liste = null;
 		$liste .= '<table id="querytable" class="table table-hover table-sm tblobs">';
-		$liste .= '<thead><tr><th></th><th>Date</th><th>Nom latin</th><th>Commune</th><th>Observateur</th><th></th></tr></thead><tbody>';
+		$liste .= '<thead><tr><th>Nombre</th><th>Date</th><th>Nom latin</th><th>Commune</th><th>Observateur</th><th></th></tr></thead><tbody>';
 
 		foreach($tabobs as $n)
 		{
