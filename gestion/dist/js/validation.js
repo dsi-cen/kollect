@@ -20,6 +20,9 @@ function remplirtable(a) {
     // Cellules de recherche
     $('#tblliste thead tr').clone(true).appendTo( '#tblliste thead' );
     $('#tblliste thead tr:eq(1) th').each( function (i) {
+        if(i === $('#tblliste thead tr:eq(1) th').length-1) {
+            return;
+        }
         var title = $(this).text();
         $(this).html( '<input type="text" placeholder="Rechercher" />' );
         $( 'input', this ).on( 'keyup change', function () {
@@ -100,6 +103,24 @@ $(document).ready(function () {
         type: "POST",
         dataType: "json",
         data: {observa: a},
+        success: function (a) {
+            "Oui" == a.statut ? ($("#liste").html("Aucune observation à valider"), $("#btchoix").hide(), $("#mes").html('<div class="alert alert-success" role="alert">' + a.nb + " observations ont été validées</div>"), $("#dia2").modal("show")) : ($("#mes").html(a.mes), $("#dia2").modal("show")), $("#valajax").hide()
+        }
+    })
+}), $("#Btvalitscheck").click(function () {
+    "use strict";
+    // $("#valajax").show();
+    var observa = $("#observa").val();
+    var checkboxValues = [];
+    $('input[type="checkbox"]:checked').each(function(index, elem) {
+        checkboxValues.push($(elem).val());
+    });
+    var checked = checkboxValues.join(',');
+    $.ajax({
+        url: "modeles/ajax/validation/validationcheckbox.php",
+        type: "POST",
+        dataType: "json",
+        data: {checked: checked, observa: observa},
         success: function (a) {
             "Oui" == a.statut ? ($("#liste").html("Aucune observation à valider"), $("#btchoix").hide(), $("#mes").html('<div class="alert alert-success" role="alert">' + a.nb + " observations ont été validées</div>"), $("#dia2").modal("show")) : ($("#mes").html(a.mes), $("#dia2").modal("show")), $("#valajax").hide()
         }

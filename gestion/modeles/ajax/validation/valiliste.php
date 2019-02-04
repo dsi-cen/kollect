@@ -82,7 +82,9 @@ if(isset($_POST['sel']))
 		$l .= '</table>';
 		foreach($liste as $n)
 		{
-			$lien = ($n['rang'] == 'GN') ? '<a href="../observatoire/index.php?module=fiche&amp;action=ficheg&amp;d='.$nomvar.'&amp;id='.$n['cdnom'].'"><i class="fa fa-file-text-o text-primary"></i></a>' : '<a href="../observatoire/index.php?module=fiche&amp;action=fiche&amp;d='.$nomvar.'&amp;id='.$n['cdnom'].'"><i class="fa fa-file-text-o text-primary"></i></a>';
+			$checkbox = '<input type="checkbox" name="check_list[]" value="'. $n['idobs'] . '">';
+
+		    $lien = ($n['rang'] == 'GN') ? '<a href="../observatoire/index.php?module=fiche&amp;action=ficheg&amp;d='.$nomvar.'&amp;id='.$n['cdnom'].'"><i class="fa fa-file-text-o text-primary"></i></a>' : '<a href="../observatoire/index.php?module=fiche&amp;action=fiche&amp;d='.$nomvar.'&amp;id='.$n['cdnom'].'"><i class="fa fa-file-text-o text-primary"></i></a>';
 			$obs = '<a href="../index.php?module=observation&amp;action=detail&amp;idobs='.$n['idobs'].'" title="Voir observation"><i class="fa fa-eye text-primary"></i></a>';
 			
 			if($n['idobser'] != $n['iddet'])
@@ -99,7 +101,7 @@ if(isset($_POST['sel']))
 			$plus = '<i class="fa fa-plus curseurlien text-success detail" title="Détail filtre"></i>';
 			$tridate = ['tri'=>$n['date1'],'date'=>$n['datefr']];
 			$dec = ($nouv == 'non') ? $n['decision'] : 'Nouvelle espèce. Pas de passage par le filtre informatique';
-			$data[] = [$vali.' '.$obs.' '.$lien.' '.$plus,$tridate,$n['nom'],$n['nomvern'],$n['famille'],$n['site'],$n['commune'],$obsdet,$n['stade'],$n['nb'],$photo,'dec'=>$dec,'DT_RowId'=>$n['idobs']];
+			$data[] = [$checkbox . ' ' . $vali.' '.$obs.' '.$lien.' '.$plus,$tridate,$n['nom'],$n['nomvern'],$n['famille'],$n['site'],$n['commune'],$obsdet,$n['stade'],$n['nb'],$photo,'dec'=>$dec,'DT_RowId'=>$n['idobs']];
 		}
 		$retour['data'] = $data;		
 	}	

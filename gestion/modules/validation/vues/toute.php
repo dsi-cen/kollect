@@ -23,9 +23,12 @@
 						?>
 					</select>
 					<button type="button" class="btn btn-info ml-2" id="aide"><span id="btn-aide-txt">Aide</span></button>
-					<div id="btchoix">						
-						<button type="button" id="Btvalits" class="ml-2 btn btn-warning">Valider tout</button>
-					</div>
+					<div id="btchoixcheck">
+                        <button type="button" id="Btvalitscheck" class="ml-2 btn btn-warning">Valider la sélection</button>
+                    </div>
+                    <div id="btchoix">
+                        <button type="button" id="Btvalits" class="ml-2 btn btn-danger">Valider tout</button>
+                    </div>
 					<div id="valajax" class="ml-3"><progress></progress></div>
 				</div>
 			</form>
