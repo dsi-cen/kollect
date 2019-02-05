@@ -7,7 +7,7 @@
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item"><a class="nav-link" href="../">Retour Site</a></li>
 		</ul>		
-		<ul class="navbar-nav ml-auto">
+		<ul class="navbar-nav ml-auto mr-auto">
 			<?php
 			if($_SESSION['droits'] >= 2)
 			{
