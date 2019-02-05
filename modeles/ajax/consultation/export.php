@@ -5,7 +5,7 @@ include '../../../lib/pdo2.php';
 function listeobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,$typedate,$vali,$photo,$son,$decade,$poly,$dist,$lat,$lng,$etude,$orga,$indice,$statut,$typedon,$flou,$pr,$habitat)
 {
 	$where = 'non'; $where1 = 'non';
-	$strQuery = "WITH sel AS (SELECT DISTINCT fiche.idfiche, fiche.codecom, commune, site, fiche.iddep, date1, date2, observateur, c.x, c.y, c.lng, c.lat, c.codel93 FROM obs.fiche INNER JOIN obs.obs USING(idfiche) INNER JOIN referentiel.commune USING(codecom) LEFT JOIN obs.site USING(idsite) INNER JOIN obs.coordonnee AS c ON c.idcoord = fiche.idcoord INNER JOIN referentiel.observateur USING(idobser)";
+	$strQuery = "WITH sel AS (SELECT DISTINCT fiche.idfiche, fiche.idorg, fiche.idetude, fiche.codecom, commune, site, fiche.iddep, date1, date2, observateur, c.x, c.y, c.lng, c.lat, c.codel93 FROM obs.fiche INNER JOIN obs.obs USING(idfiche) INNER JOIN referentiel.commune USING(codecom) LEFT JOIN obs.site USING(idsite) INNER JOIN obs.coordonnee AS c ON c.idcoord = fiche.idcoord INNER JOIN referentiel.observateur USING(idobser)";
 	if(!empty($idobser)) { $strQuery .= " LEFT JOIN obs.plusobser ON plusobser.idfiche = fiche.idfiche"; }
 	if(!empty($statut)) { $strQuery .= ' INNER JOIN statut.statut ON statut.cdnom = obs.cdref INNER JOIN statut.statutsite USING(cdprotect)'; }
 	if($habitat != 'NR') { $strQuery .= ' INNER JOIN obs.obshab USING(idobs) INNER JOIN referentiel.eunis USING(cdhab)'; }
@@ -31,8 +31,10 @@ function listeobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,
 	if($flou != 'NR') { $strQuery .= ($where == 'non') ? " WHERE floutage = :flou" : " AND (floutage = :flou)"; $where = 'oui'; }
 	if($pr != 'NR') { $strQuery .= ($where == 'non') ? " WHERE localisation = :pr" : " AND (localisation = :pr)"; $where = 'oui'; }
 	$strQuery .= " ), sel1 AS";
-	$strQuery .= " (SELECT sel.idfiche, idobs, liste.nom, nomvern AS nomfr, sel.codecom, commune, site, iddep, date1, date2, CONCAT(sel.observateur, ', ', string_agg(DISTINCT observateur.observateur, ', ')) AS observateur, x, y, lng, lat, codel93, iddet,rqobs FROM sel";
+	$strQuery .= " (SELECT sel.idfiche, organisme.organisme, etude.etude, idobs, liste.nom, nomvern AS nomfr, sel.codecom, commune, site, iddep, date1, date2, CONCAT(sel.observateur, ', ', string_agg(DISTINCT observateur.observateur, ', ')) AS observateur, x, y, lng, lat, codel93, iddet,rqobs FROM sel";
 	$strQuery .= " INNER JOIN obs.obs USING(idfiche) INNER JOIN referentiel.liste ON liste.cdnom = obs.cdref LEFT JOIN obs.plusobser ON plusobser.idfiche = sel.idfiche LEFT JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser";
+	$strQuery .= " LEFT JOIN referentiel.organisme ON organisme.idorg = sel.idorg ";
+	$strQuery .= " LEFT JOIN referentiel.etude ON etude.idetude = sel.idetude ";
 	if(!empty($statut)) { $strQuery .= ' INNER JOIN statut.statut ON statut.cdnom = obs.cdref INNER JOIN statut.statutsite USING(cdprotect)'; }
 	if($photo == 'oui') { $strQuery .= " INNER JOIN site.photo USING(idobs)"; }
 	if($son == 'oui') { $strQuery .= " INNER JOIN site.son USING(idobs)"; }
@@ -41,8 +43,8 @@ function listeobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,
 	if(!empty($vali)) { $strQuery .= ($where1 == 'non') ? " WHERE validation = :vali" : " AND (validation = :vali)"; $where1 = 'oui'; }
 	if(!empty($indice)) { $strQuery .= ($where == 'non') ? ' WHERE ir IN('.$indice.')' : ' AND (ir IN('.$indice.'))'; $where = 'oui'; }
 	if(!empty($statut)) { $strQuery .= ($where == 'non') ? ' WHERE '.$statut.'' : ' AND ('.$statut.')'; $where = 'oui'; }
-	$strQuery .= " GROUP BY sel.idfiche, idobs, sel.codecom, commune, site, iddep, date1, date2, liste.cdnom, liste.nom, nomvern, sel.observateur, x, y, lng, lat, codel93)";
-	$strQuery .= " SELECT idobs, sel1.nom, sel1.nomfr, commune, site, date1, to_char(date1, 'DD/MM/YYYY') AS date, to_char(date2, 'DD/MM/YYYY') AS date2, sel1.observateur, observateur.observateur AS det, stade.stade, '' AS nb, ndiff, male, femelle, CASE WHEN denom = 'Co' THEN 'Compté' WHEN denom = 'Es' THEN 'Estimé' WHEN denom = 'NSP' THEN 'Non Rens.' END AS denom, typedenom, nbmin, nbmax, etatbio, methode, prospection, statutbio, idfiche, codecom, iddep, x, y, lng, lat, codel93,rqobs FROM sel1";
+	$strQuery .= " GROUP BY sel.idfiche, organisme.organisme, etude.etude, idobs, sel.codecom, commune, site, iddep, date1, date2, liste.cdnom, liste.nom, nomvern, sel.observateur, x, y, lng, lat, codel93)";
+	$strQuery .= " SELECT idobs, sel1.nom, sel1.nomfr, commune, site, date1, to_char(date1, 'DD/MM/YYYY') AS date, to_char(date2, 'DD/MM/YYYY') AS date2, sel1.observateur, observateur.observateur AS det, stade.stade, '' AS nb, ndiff, male, femelle, CASE WHEN denom = 'Co' THEN 'Compté' WHEN denom = 'Es' THEN 'Estimé' WHEN denom = 'NSP' THEN 'Non Rens.' END AS denom, typedenom, nbmin, nbmax, etatbio, methode, prospection, statutbio, idfiche, codecom, iddep, x, y, lng, lat, codel93,rqobs, sel1.organisme, sel1.etude FROM sel1";
 	$strQuery .= " LEFT JOIN referentiel.observateur ON observateur.idobser = sel1.iddet INNER JOIN obs.ligneobs AS l USING(idobs) INNER JOIN referentiel.stade ON stade.idstade = l.stade INNER JOIN referentiel.methode USING(idmethode) INNER JOIN referentiel.prospection USING(idpros) INNER JOIN referentiel.occetatbio USING(idetatbio) INNER JOIN referentiel.occstatutbio USING(idstbio) INNER JOIN referentiel.occtype USING(tdenom) ";
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -167,7 +169,7 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
 	{
 		$l = '<table id="tblexport" class="table table-sm table-striped" cellspacing="0" width="100%">';
 		$l .= '<thead>';
-		$l .= '<tr><th>Idobs</th><th>Nom</th><th>Nomfr</th><th>Commune</th><th>Site</th><th>Date</th><th>Date2</th><th>Observateur</th><th>Déterminateur</th><th>Stade</th><th>Nb</th><th>Ndiff</th><th>M</th><th>F</th><th>Rq</th><th>Denom</th><th>Type</th><th>Nbmin</th><th>Nbmax</th><th>EtatBio</th><th>Methode</th><th>Prospection</th><th>StatutBio</th><th>Idfiche</th><th>Insee</th><th>Dep</th><th>xL93</th><th>yL93</th><th>Lng</th><th>Lat</th><th>CodeL93</th></tr>';
+		$l .= '<tr><th>Id. obs</th><th>Nom latin</th><th>Nom vernaculaire</th><th>Commune</th><th>Station</th><th>Date début</th><th>Date fin</th><th>Organisme</th><th>Etude</th><th>Observateur(s)</th><th>Déterminateur</th><th>Stade</th><th>Nombre total</th><th>Nb. indéterminé</th><th>Mâle</th><th>Femelle</th><th>Note</th><th>Dénombrement</th><th>Type</th><th>Nb. minimum</th><th>Nb. maximum</th><th>Etat Biologique</th><th>Methode</th><th>Prospection</th><th>Statut Biologique</th><th>Id. fiche</th><th>Code INSEE</th><th>Département</th><th>L93 - X</th><th>L93 - Y</th><th>Longitude</th><th>Latitude</th><th>Code L93</th></tr>';
 		$l .= '</thead>';
 		$l .= '</table>';
 				
@@ -175,8 +177,7 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
 		{
 			$cnb = $n[12] + $n[13] + $n[14];
 			$tridate = ['tri'=>$n[5],'date'=>$n[6]];
-			$data[] = [$n[0],$n[1],$n[2],$n[3],$n[4],$tridate,$n[7],$n[8],$n[9],$n[10],$cnb,$n[12],$n[13],$n[14],$n[31],$n[15],$n[16],$n[17],$n[18],$n[19],$n[20],$n[21],$n[22],$n[23],$n[24],$n[25],$n[26],$n[27],$n[28],$n[29],$n[30]];			
-		}
+            $data[] = [$n[0],$n[1],$n[2],$n[3],$n[4],$tridate,$n[7],$n[32],$n[33],$n[8],$n[9],$n[10],$cnb,$n[12],$n[13],$n[14],$n[31],$n[15],$n[16],$n[17],$n[18],$n[19],$n[20],$n[21],$n[22],$n[23],$n[24],$n[25],$n[26],$n[27],$n[28],$n[29],$n[30]];			}
 		$retour['data'] = $data;
 		$retour['tblok'] = 'oui';
 	}

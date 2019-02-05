@@ -140,7 +140,7 @@ function remplirtableexport(e) {
             data: 5,
             render: {_: "date", sort: "tri"}
         }, {
-            targets: [6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], // Indiquer les champs à ne pas afficher
+            targets: [6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 32], // Indiquer les champs à ne pas afficher
             visible: !1
         }],
         dom: "Bfrtip",
