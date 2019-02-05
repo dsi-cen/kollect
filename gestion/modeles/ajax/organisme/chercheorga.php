@@ -20,7 +20,7 @@ function etudeslist($id)
     $req = $bdd->prepare("SELECT referentiel.etude.idetude, referentiel.etude_organisme.idorg, referentiel.etude.etude 
                                     FROM referentiel.etude
                                     LEFT OUTER JOIN referentiel.etude_organisme on referentiel.etude_organisme.idetude = referentiel.etude.idetude
-                                    AND referentiel.etude_organisme.idorg = :id") or die(print_r($bdd->errorInfo()));
+                                    AND referentiel.etude_organisme.idorg = :id WHERE referentiel.etude.idetude !=0 ") or die(print_r($bdd->errorInfo()));
     $req->bindParam(":id",$id);
     $req->execute();
     $rows = $req->fetchAll(PDO::FETCH_ASSOC);

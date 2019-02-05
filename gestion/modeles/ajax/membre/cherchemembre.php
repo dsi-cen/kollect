@@ -28,7 +28,7 @@ function orgalist($id)
     $req = $bdd->prepare("SELECT referentiel.organisme.idorg, organisme, referentiel.observateur_organisme.idobser
                                       FROM referentiel.organisme LEFT OUTER JOIN referentiel.observateur_organisme
                                         ON referentiel.organisme.idorg = referentiel.observateur_organisme.idorg
-                                        AND referentiel.observateur_organisme.idobser = :id") or die(print_r($bdd->errorInfo()));
+                                        AND referentiel.observateur_organisme.idobser = :id WHERE referentiel.organisme.idorg != 1 AND referentiel.organisme.idorg != 2") or die(print_r($bdd->errorInfo()));
     $req->bindParam(":id",$id);
     $req->execute();
     $rows = $req->fetchAll(PDO::FETCH_ASSOC);

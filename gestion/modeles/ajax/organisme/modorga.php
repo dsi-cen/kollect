@@ -20,7 +20,7 @@ if(isset($_POST['id']))
     {
         $bdd = PDO2::getInstance();
         $bdd->query("SET NAMES 'UTF8'");
-        $req = $bdd->prepare("DELETE FROM referentiel.etude_organisme WHERE idorg = :id") or die(print_r($bdd->errorInfo()));
+        $req = $bdd->prepare("DELETE FROM referentiel.etude_organisme WHERE idorg = :id AND idetude != 0") or die(print_r($bdd->errorInfo()));
         $req->bindValue(':id', $id);
         $req->execute();
         $req->closeCursor();

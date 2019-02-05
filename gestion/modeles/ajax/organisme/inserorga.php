@@ -17,6 +17,7 @@ function insere_orga($orga,$descri,$etude)
             $req = $bdd->prepare("INSERT INTO referentiel.etude_organisme (idetude, idorg) VALUES(:idetude, :idorg) ");
             $req->bindValue(':idorg', $last_id);
             $req->bindValue(':idetude', $value);
+            $req->execute();
         }
     }
 	$req->closeCursor();
