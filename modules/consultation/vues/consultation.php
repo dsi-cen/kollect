@@ -446,8 +446,8 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-md-12">
-						<p id="rdia1"></p>
-						<p>Vous pouvez soit sélectionner les champs ci-dessous que vous souhaitez dans votre fichier, ou bien si votre demande comporte moins de 10 000 lignes, choisir le bouton "Export standard"</p>
+                        <p id="rdia1"></p>
+                        <!--<p>Vous pouvez soit sélectionner les champs ci-dessous que vous souhaitez dans votre fichier, ou bien si votre demande comporte moins de 10 000 lignes, choisir le bouton "Export standard"</p>
 						<form id="formdia1">
 							<div class="row">
 								<div class="col-md-4">
@@ -514,33 +514,33 @@
 										<ul class="list-unstyled"  id="ultousautre">
 											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="phabitat"> Habitat</label></li>
 											<?php
-											if(isset($rjson_site['indice'])) 
+/*											if(isset($rjson_site['indice']))
 											{
-												?><li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="pindice"> Indice</label></li><?php
-											}
+												*/?><li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="pindice"> Indice</label></li><?php
+/*											}
 											if(isset($tabstat)) 
 											{
 												foreach($tabstat as $n)
 												{
-													?><li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="p<?php echo $n['id'];?>"> <?php echo $n['lib'];?></label></li><?php
-												}
+													*/?><li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="p<?php /*echo $n['id'];*/?>"> <?php /*echo $n['lib'];*/?></label></li><?php
+/*												}
 											}
-											?>											
+											*/?>
 										</ul>
 									</fieldset>
 								</div>
 							</div>
-							<hr />
+							<hr /> -->
 							<div class="form-inline mt-2">
-								<label class="" for="nomfichier">Nommé votre fichier d'export</label>
+								<label class="" for="nomfichier">Nommer votre fichier d'export, la date sera ajoutée automatiquement : </label>
 								<input type="text" class="form-control form-control-sm ml-2" id="nomfichier">
 							</div>
-						</form>
+						<!-- </form> -->
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" data-dismiss="modal" id="bttdia1perso">Export suivant votre sélection</button>
+				<!-- <button type="button" class="btn btn-success" data-dismiss="modal" id="bttdia1perso">Export suivant votre sélection</button> -->
 				<button type="button" class="btn btn-success" data-dismiss="modal" id="bttdia1">Export standard</button>
 				<button type="button" class="btn btn-warning" data-dismiss="modal">Annuler</button>
 			</div>

@@ -121,9 +121,10 @@ function exportobs(e) {
 
 function remplirtableexport(e) {
     var t = $("#nomfichier").val();
-    if ("" != t) var a = t; else var i = new Date,
-        o = i.getMonth().length + 1 === 1 ? i.getMonth() + 1 : "0" + (i.getMonth() + 1),
-        a = "Export-" + i.getDate() + "-" + o + "-" + i.getFullYear();
+    if ("" != t) var a = t + '-'; else var a = "Export-du-";
+        var i = new Date;
+        o = i.getMonth().length + 1 === 1 ? i.getMonth() + 1 : "0" + (i.getMonth() + 1);
+        a = a + i.getDate() + "-" + o + "-" + i.getFullYear();
     var r = $("#tblexport").DataTable({
         language: {
             url: "dist/js/datatables/france.json",
