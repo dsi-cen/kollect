@@ -20,6 +20,31 @@ function rechercher_membre($id)
 	$req->closeCursor();
 	return array($nbresultats, $membre);
 }
+
+function orgalist($id)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("SELECT referentiel.organisme.idorg, organisme, referentiel.observateur_organisme.idobser
+                                      FROM referentiel.organisme LEFT OUTER JOIN referentiel.observateur_organisme
+                                        ON referentiel.organisme.idorg = referentiel.observateur_organisme.idorg
+                                        AND referentiel.observateur_organisme.idobser = :id WHERE referentiel.organisme.idorg != 1 AND referentiel.organisme.idorg != 2") or die(print_r($bdd->errorInfo()));
+    $req->bindParam(":id",$id);
+    $req->execute();
+    $rows = $req->fetchAll(PDO::FETCH_ASSOC);
+    $list = "<select id='orgalist' multiple='multiple'>";
+    foreach ($rows as $row => $ligne) {
+        $list .= '<option value="'. $ligne['idorg'] . '" ';
+        if ($ligne['idobser']){
+            $list .= 'selected >';
+        } else {$list .= '>';}
+        $list .= $ligne['organisme']. '</option>';
+    }
+    $list .= '</select>';
+    $req->closeCursor();
+    return ($list);
+}
+
 if(isset($_POST['id']))
 {
 	$id = $_POST['id'];
@@ -28,6 +53,7 @@ if(isset($_POST['id']))
 	{	
 		$retour['statut'] = 'Ok';
 		$retour['info'] = $membre[1];
+		$retour['orgalist'] = orgalist($id);
 	}
 	else
 	{

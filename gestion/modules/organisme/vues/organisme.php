@@ -41,6 +41,12 @@
 								<label for="descri" class="col-sm-2 col-form-label">Description</label>
 								<div class="col-sm-10"><input type="text" class="form-control" id="descri"></div>
 							</div>
+                            <div class="form-group row">
+                                <link href="../dist/css/multi-select.css" media="screen" rel="stylesheet" type="text/css">
+                                <label for="etudediv" class="col-sm-2 col-form-label">Liste des études</label>
+                                <div class="col-sm-10" id="etudediv"></div>
+                                <script src="../dist/js/jquery.multi-select.js" type="text/javascript"></script>
+                            </div>
 							<input id="idobsdia1" type="hidden">
 						</form>
 					</div>
@@ -71,6 +77,10 @@
 								<label for="descris" class="col-sm-2 col-form-label">Description</label>
 								<div class="col-sm-10"><input type="text" class="form-control" id="descris"></div>
 							</div>
+                            <div class="form-group row">
+                                <label for="etudedivadd" class="col-sm-2 col-form-label">Liste des études</label>
+                                <div class="col-sm-10" id="etudedivadd"></div>
+                            </div>
 						</form>
 					</div>
 				</div>
@@ -123,6 +133,8 @@ function modifier(id) {
 		success: function(reponse) {
 			if (reponse.statut == 'Ok') {
 				$('#orga').val(reponse.info.organisme); $('#descri').val(reponse.info.descri); $('#idobsdia1').val(reponse.info.idorg); $('#dia1').modal('show');
+                $("#etudediv").html(reponse.etudelist);
+                $("#etudelist").multiSelect();
 			} else {
 				alert (reponse.statut);
 			}
@@ -136,8 +148,9 @@ $('#bttdia1').click(function () {
 	'use strict';
 	$('#dia1').modal('hide');
 	var orga = $('#orga').val(), descri = $('#descri').val(), id = $('#idobsdia1').val();
+	var etude = JSON.stringify($("#etudelist").val());
 	$.ajax({
-		url: "modeles/ajax/organisme/modorga.php", type: 'POST', dataType: "json", data: {id:id,orga:orga,descri:descri},
+		url: "modeles/ajax/organisme/modorga.php", type: 'POST', dataType: "json", data: {id:id,orga:orga,descri:descri,etude:etude},
 		success: function(reponse) {
 			if (reponse.statut == 'Ok') {
 				organisme();
@@ -154,6 +167,13 @@ $('#bttdia1').click(function () {
 $('#BttP').click(function(){
 	'use strict';
 	$("#orgas").val(''); $("#descris").val(''); $('#dia4').modal('show');
+    $.ajax({
+        url: 'modeles/ajax/organisme/addorgetudes.php', type: 'POST', dataType: "json", data: {list:'listok'},
+        success: function(reponse) {
+            $("#etudedivadd").html(reponse.list);
+            $("#etudelistadd").multiSelect();
+        }
+    });
 });
 $('#bttdia4').click(function () { 
 	'use strict';
@@ -163,8 +183,9 @@ $('#bttdia4').click(function () {
 });
 function inserorga(orga,descri) {
 	'use strict';
+    var etude = JSON.stringify($("#etudelistadd").val());
 	$.ajax({
-		url: 'modeles/ajax/organisme/inserorga.php', type: 'POST', dataType: "json", data: {orga:orga,descri:descri},
+		url: 'modeles/ajax/organisme/inserorga.php', type: 'POST', dataType: "json", data: {orga:orga,descri:descri,etude:etude},
 		success: function(reponse) {
 			if (reponse.statut == 'Ok') {
 				organisme();
