@@ -41,6 +41,6 @@
 		else
 		{
 			include 'global/menu.php'; 
-			?><div id="wrapper" class="bg"><?php
+			?><div id="wrapper" class="bg observatoire"><?php
 		}
 		?>	

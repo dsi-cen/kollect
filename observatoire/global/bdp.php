@@ -8,7 +8,8 @@
 				?>
 				<footer class="footer color4_bg">
 					<p class="text-center mb-0 blanc">
-                        Copyright <a href="http://cen-aquitaine.org/" class="blanc">Cen Aquitaine</a> &copy; 2018 - <?php echo date('Y');?>
+                        Propulsé par <a href="https://obsnat.fr/" class="blanc"><b>obsNat</b></a> -
+                        <a href="http://cen-aquitaine.org/" class="blanc">Cen Aquitaine</a> &copy; 2018 - <?php echo date('Y');?>
                         <span class="ml-5">
                             <img class="mr-2" src="../dist/img/git.png" height="25px" width="25px">
                             Branch : <span class="badge color1_bg blanc"> <?php echo implode('/', array_slice(explode('/', file_get_contents('../.git/HEAD')), 2)); ?> </span>

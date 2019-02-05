@@ -8283,6 +8283,11 @@ html {
     padding-bottom: 50px
 }
 
+#wrapper.observatoire {
+    margin: 56px 0px 0px 110px;
+    padding-bottom: 50px
+}
+
 .accueil, .footer, .menu {
     position: absolute
 }
