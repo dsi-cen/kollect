@@ -46,11 +46,39 @@ function observation(e) {
         success: function (e) {
             if ("Oui" == e.statut) {
                 var t = e.nbobs;
-                if ($("#listeobs").html(e.listeobs), e.pagination && ($("#afpage").show(), $("#pagination").html(e.pagination)), t > 0 && 1 == $("#page").val()) {
+                if ($("#listeobs").html(e.listeobs) /* , e.pagination && ($("#afpage").show(), $("#pagination").html(e.pagination)), t > 0 && 1 == $("#page").val() */ ) {
                     var a = "",
-                        i = '<i class="fa fa-info-circle text-info"></i> : Aperçu de l\'observation <br>- <i class="fa fa-eye text-info"></i> : Ouvre un nouvel onglet avec détail de l\'observation';
+                        i = '<i class="fa fa-info-circle text-info"></i> : Aperçu de l\'observation <br>- <i class="fa fa-eye text-info"></i> : Ouvre un nouvel onglet avec détail de l\'observation <br><br><p style="color: darkred;">ATTENTION, au maximum 10 000 lignes sont affichées</p>';
                     a = "" != $("#idobser").val() ? $("#perso").is(":checked") ? 1 == t ? "Votre observation " : "Vos observations (" + t + ")" : 1 == t ? "Observation de <b>" + $("#obser").val() + "</b>" : "Observations (" + t + ") de <b>" + $("#obser").val() + "</b>" : 1 == t ? "Une observation " : t + " observations", $("#nb").html(' : ' + a) , $("#lchoix").html("<br>- " + i)
                 }
+                // Cellules de recherche
+                $('#querytable thead tr').clone(true).appendTo( '#querytable thead' );
+                $('#querytable thead tr:eq(1) th').each( function (i) {
+                    if(i === $('#querytable thead tr:eq(1) th').length-1) {
+                        return;
+                    }
+                    var title = $(this).text();
+                    $(this).html( '<input type="text" placeholder="Rechercher" />' );
+                    $( 'input', this ).on( 'keyup change', function () {
+                        if ( t.column(i).search() !== this.value ) {
+                            t
+                                .column(i)
+                                .search( this.value )
+                                .draw();
+                        }
+                    });
+                });
+                var t = $("#querytable").DataTable({
+                    language: {
+                        url: "dist/js/datatables/france.json"
+                    },
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    pageLength: 25
+                });
+
+
+
             } else alert("Erreur ! ")
         }
     })
@@ -210,7 +238,9 @@ function adphoto(e) {
 var dep = "non", map, marker, nbmap = "oui", drawnItems;
 $(document).ready(function () {
     "use strict";
-    $("#listeobs").hide(), $("#rchoix").hide(), $("#afpage").hide(), $("#infoaide").hide(), $("#dlink").hide(), $("#collr").hide(), $("#BttS").hide(), $("#perso").is(":checked") ? $("#idobser").val($("#idobseror").val()) : "oui" == $("#cperso").val() && ($("#obser").val($("#observateur").val()), $("#perso").prop("checked", !0));
+    $("#listeobs").hide(), $("#rchoix").hide(), $("#afpage").hide(), $("#infoaide").hide(), $("#dlink").hide(), $("#collr").hide(), $("#BttS").hide();
+    $("#perso").prop("checked", !0);
+    $("#perso").is(":checked") ? ($("#idobser").val($("#idobseror").val()) && $("#obser").val($("#observateur").val())) : "oui" == $("#cperso").val() && ($("#obser").val($("#observateur").val()), $("#perso").prop("checked", !0));
     var e = $("#droit").val();
     "oui" != $("#cperso").val() || e ? ($("#BttE").hide(), $("#BttG").hide()) : ($("#BttE").show(), $("#BttG").show()), "oui" == e && ($("#BttE").show(), $("#BttG").show());
     var t = {};

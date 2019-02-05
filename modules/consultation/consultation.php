@@ -48,12 +48,15 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 				$nbnonflou = $n['nb'];
 			}
 		}
-		if($nbtotal >= 100)
+		if($nbtotal >= 1) // Désactivation du controle par compteur d'obs
 		{
 			if(isset($nbnonflou))
 			{
-				$caldroit = round(($nbnonflou / $nbtotal) * 100);
-				$voir = ($caldroit >= 85) ? 'oui' : 'non';
+				// $caldroit = round(($nbnonflou / $nbtotal) * 100);
+				// $voir = ($caldroit >= 85) ? 'oui' : 'non'; // Désactivation du controle par compteur d'obs
+
+                $voir = (isset($_SESSION['droits']) && $_SESSION['droits'] == 0) ? 'non' : 'oui';
+
 				$perso = (isset($_GET['perso']) && $_GET['perso'] == 'oui') ? 'oui' : 'non';
 				if(isset($_GET['perso']) && $_GET['perso'] == 'oui') { $perso = 'oui'; }
 				else
@@ -70,7 +73,7 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 				$voiradmin = 'non';
 			}
 		}
-		elseif($nbtotal >= 1 and $nbtotal < 100)
+		elseif($nbtotal >= 1 and $nbtotal < 1) // Désactivation du controle par compteur d'obs
 		{
 			$voir = 'non';
 			$perso = 'oui';
@@ -82,7 +85,7 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 			$perso = 'oui';
 			$voiradmin = 'non';
 		}
-		$droit = (isset($_SESSION['droits']) && ($_SESSION['droits'] == 1 || $_SESSION['droits'] >= 3) && $voir == 'oui' && !isset($_SESSION['virtobs'])) ? 'oui' : 'non';
+		$droit = (isset($_SESSION['droits']) && $_SESSION['droits'] >= 1 && $voir == 'oui' && !isset($_SESSION['virtobs'])) ? 'oui' : 'non';
 		$voir = ($voir == 'oui' || $voiradmin == 'oui') ? 'oui' : 'non';		
 	}
 	else
