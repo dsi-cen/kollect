@@ -441,108 +441,42 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Export de données - Pour l'instant utilisez "Export standard"</h4>
+				<h4 class="modal-title">Export de données</h4>
 			</div>
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-md-12">
                         <p id="rdia1"></p>
-                        <!--<p>Vous pouvez soit sélectionner les champs ci-dessous que vous souhaitez dans votre fichier, ou bien si votre demande comporte moins de 10 000 lignes, choisir le bouton "Export standard"</p>
-						<form id="formdia1">
-							<div class="row">
-								<div class="col-md-4">
-									<fieldset class="">
-										<legend class="legendesaisie mb-0">Liés aux relevés <input id="tousfiche" class="" type="checkbox"></legend>
-										<ul class="list-unstyled" id="ultousfiche">
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="idfiche"> Idfiche</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="insee"> Code insee</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="commune"> Commune</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="idsite"> Idsite</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="site"> Site</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="idcoord"> Idcoord</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="x"> XLambert93</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="y"> YLambert93</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="plat"> Lat</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="plng"> Lng</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="pcodel93"> Maille 10</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="pcodel935"> Maille 5</label></li>
-											<li>- - - - - - -</li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="obser"> Observateur</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="pdate"> Date</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="floutage"> Floutage</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="Pre"> Précision</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="source"> Source</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="org"> Organisme</label></li>
-										</ul>
-										
-									</fieldset>
-								</div>
-								<div class="col-md-4">
-									<fieldset class="">
-										<legend class="legendesaisie">Liés aux taxons <input id="tousobs" class="" type="checkbox"></legend>
-										<ul class="list-unstyled" id="ultousobs">
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="idobs"> Idobs</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="latin" name="latin"> Nom latin</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="nom" name="fr"> Nom français</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="det"> Déterminateur</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="cdnom"> Cdnom</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="cdref"> Cdref</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="vali"> Validation</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="observa"> Observatoire</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="etude"> Etude</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="proto"> Protocole</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="rq"> Remarques</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="stade"> Stade</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="etatbio"> Etat biologique</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="denom"> Dénombrement</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="tdenom"> Type dénom.</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="ndiff"> Indéterminé</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="m"> Mâle</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="f"> Femelle</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="nbmin"> Nb. mini</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="nbmax"> Nb. max</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="methode"> Type contact</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="pros"> Prospection</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="stbio"> Statut biologique</label></li>
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="pdates"> Date de saisie</label></li>
-										</ul>
-									</fieldset>
-								</div>
-								<div class="col-md-4">
-									<fieldset class="">
-										<legend class="legendesaisie">Autres <input id="tousautre" class="" type="checkbox"></legend>
-										<ul class="list-unstyled"  id="ultousautre">
-											<li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="phabitat"> Habitat</label></li>
-											<?php
-/*											if(isset($rjson_site['indice']))
-											{
-												*/?><li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="pindice"> Indice</label></li><?php
-/*											}
-											if(isset($tabstat)) 
-											{
-												foreach($tabstat as $n)
-												{
-													*/?><li><label class="form-check-label"><input class="form-check-input" type="checkbox" value="oui" name="p<?php /*echo $n['id'];*/?>"> <?php /*echo $n['lib'];*/?></label></li><?php
-/*												}
-											}
-											*/?>
-										</ul>
-									</fieldset>
-								</div>
-							</div>
-							<hr /> -->
-							<div class="form-inline mt-2">
-								<label class="" for="nomfichier">Nommer votre fichier d'export, la date sera ajoutée automatiquement : </label>
-								<input type="text" class="form-control form-control-sm ml-2" id="nomfichier">
-							</div>
-						<!-- </form> -->
+                            <form id="formdia1">
+                                <div id="avance">
+                                    <p>Sélectionner les champs à faire apparaitre dans votre export</p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>1</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>1</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>1</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="form-inline mt-2">
+                                    <label class="" for="nomfichier">Nommer votre fichier d'export, la date sera ajoutée automatiquement : </label>
+                                    <input type="text" class="form-control form-control-sm ml-2" id="nomfichier">
+                                </div>
+                            </form>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<!-- <button type="button" class="btn btn-success" data-dismiss="modal" id="bttdia1perso">Export suivant votre sélection</button> -->
 				<button type="button" class="btn btn-success" data-dismiss="modal" id="bttdia1">Export standard</button>
-				<button type="button" class="btn btn-warning" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success" id="bttdia1perso">Lancer l'export avancé</button>
+                <button type="button" class="btn btn-danger" id="dl" >Télécharger</button>
+                <button type="button" class="btn btn-info" id="Butavance">Export avancé</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="cancel">Annuler</button>
 			</div>
 		</div>
 	</div>
