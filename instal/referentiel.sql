@@ -1939,81 +1939,17 @@ INSERT INTO fonction VALUES
   (4,'Bénévole','La personne agit pour l''organisme en tant que bénévole')
 ;
 
-
-CREATE FUNCTION referentiel.alimente_etude_organisme() RETURNS trigger AS
-    $BODY$
-    BEGIN
-      INSERT INTO referentiel.etude_organisme VALUES (0,NEW.idorg);
-        RETURN NEW;
-    END;
-    $BODY$
-    LANGUAGE plpgsql VOLATILE COST 100;
-
-CREATE TRIGGER declenche_alimente_etude_organisme
-    AFTER INSERT
-    ON referentiel.organisme
-    FOR EACH ROW
-    EXECUTE PROCEDURE referentiel.alimente_etude_organisme();	
-
 CREATE FUNCTION alimente_observateur_organisme() RETURNS trigger AS 
 	$BODY$
 		BEGIN
 			INSERT INTO referentiel.observateur_organisme (idobser, idorg) VALUES (NEW.idobser,2); 
-        RETURN NEW; 
+            RETURN NEW; 
 		END;
 	$BODY$ 
-LANGUAGE plpgsql VOLATILE COST 100;
+	LANGUAGE plpgsql VOLATILE COST 100;
 
-CREATE TRIGGER declenche_alimente_observateur_organisme 
-AFTER INSERT
-ON referentiel.observateur
-FOR EACH ROW
-EXECUTE PROCEDURE referentiel.alimente_observateur_organisme();
-
-CREATE FUNCTION obs.recup_infos_etude() RETURNS trigger AS 
-	$BODY$
-    DECLARE 
-    w_typedon VARCHAR;
-    w_floutage SMALLINT;
-    BEGIN
-      IF NEW.idorg != 2 THEN 
-        SELECT typedon FROM referentiel.etude WHERE etude.idetude = NEW.idetude INTO w_typedon;
-        SELECT floutage FROM referentiel.etude WHERE etude.idetude = NEW.idetude INTO w_floutage;
-
-        IF w_typedon IS NULL THEN
-          NEW.typedon = 'Pu';
-        ELSE
-          NEW.typedon = w_typedon;
-        END IF;
-        IF w_floutage IS NULL THEN
-          NEW.floutage = 0;
-        ELSE
-          NEW.floutage = w_floutage;
-        END IF;
-      END IF;
-      RETURN NEW; 
-		END;
-	$BODY$ 
-LANGUAGE plpgsql VOLATILE COST 100;	
-
-CREATE TRIGGER declenche_recup_infos_etude
-BEFORE INSERT OR UPDATE ON obs.fiche
-FOR EACH ROW 
-EXECUTE PROCEDURE obs.recup_infos_etude();
-
-CREATE FUNCTION referentiel.maj_fiche_infos_etude() RETURNS trigger AS 
-	$BODY$
-  DECLARE 
-  w_typedon VARCHAR(2);
-  w_floutage SMALLINT;
-  BEGIN
-    UPDATE obs.fiche SET typedon = NEW.typedon, floutage = NEW.floutage WHERE fiche.idetude = NEW.idetude;
-    RETURN NEW; 
-	END;
-	$BODY$ 
-	LANGUAGE plpgsql VOLATILE COST 100;	
-
-CREATE TRIGGER declenche_maj_fiche_infos_etude
-AFTER UPDATE ON referentiel.etude
-FOR EACH ROW 
-EXECUTE PROCEDURE  referentiel.maj_fiche_infos_etude();
+  CREATE TRIGGER declenche_alimente_observateur_organisme 
+	AFTER INSERT
+	ON referentiel.observateur
+	FOR EACH ROW
+	EXECUTE PROCEDURE referentiel.alimente_observateur_organisme();
