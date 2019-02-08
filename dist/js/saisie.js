@@ -103,7 +103,8 @@ function carte(e) {
             var o = $("#proche").val();
             "non" != o && proche(a, t, o)
         }
-    }), dep = "oui" == e.contour2 || "fr" == e.emprise ? "oui" : "non"
+    }), dep = "oui" == e.contour2 || "fr" == e.emprise ? "oui" : "non";
+    $('.leaflet-draw-draw-circlemarker').hide(); // Cacher l'outil 'cercle' car non utilisable
 }
 
 function recupcoord(e, a, t) {
