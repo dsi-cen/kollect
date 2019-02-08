@@ -154,6 +154,8 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
     $flou = $_POST['flou'];
     $pr = $_POST['pr'];
     $habitat = $_POST['habitat'];
+    $fields = json_decode($_POST['fields'], true);
+
 
     if(!empty($choixtax))
     {
@@ -274,7 +276,7 @@ $reqvue .= " ORDER BY i.idobs, l.idligne";
         return $array;
     }
 
-    $res = convertToISOCharset($res);
+    // $res = convertToISOCharset($res);
 
     $bytes = random_bytes(45);
     $name = bin2hex($bytes);
@@ -282,14 +284,16 @@ $reqvue .= " ORDER BY i.idobs, l.idligne";
     $fp = fopen('../../../exports/' . $name . ".csv", 'w');
 
     $first = true;
+
     foreach ($res as $val) {
         if ($first) {
-            fputcsv($fp, array_keys($val),chr(9));
+            fputcsv($fp, $fields,chr(9));
             $first = false;
         }
         fputcsv($fp, $val, chr(9));
-    }
 
+        // fputcsv($fp, $val, chr(9));
+    }
     fclose($fp);
 
     echo json_encode($name);

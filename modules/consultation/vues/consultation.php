@@ -451,15 +451,95 @@
                                 <div id="avance">
                                     <p>Sélectionner les champs à faire apparaitre dans votre export</p>
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <p>1</p>
+                                        <div class="col-md-12">
+                                            <select id='fields' multiple='multiple'>
+                                                <option value="idfiche">idfiche</option>
+                                                <option value="idobs">idobs</option>
+                                                <option value="idligne">idligne</option>
+                                                <option value="code_validation">code_validation</option>
+                                                <option value="statut_validation">statut_validation</option>
+                                                <option value="date_debut_obs">date_debut_obs</option>
+                                                <option value="date_fin_obs">date_fin_obs</option>
+                                                <option value="decade">decade</option>
+                                                <option value="cdnom">cdnom</option>
+                                                <option value="cdref">cdref</option>
+                                                <option value="referentiel">referentiel</option>
+                                                <option value="taxon_sensible">taxon_sensible</option>
+                                                <option value="floutage_sensible">floutage_sensible</option>
+                                                <option value="nom_cite">nom_cite</option>
+                                                <option value="rang">rang</option>
+                                                <option value="regne">regne</option>
+                                                <option value="classe">classe</option>
+                                                <option value="ordre">ordre</option>
+                                                <option value="famille">famille</option>
+                                                <option value="observatoire">observatoire</option>
+                                                <option value="nomlatin">nomlatin</option>
+                                                <option value="nomlatincomplet">nomlatincomplet</option>
+                                                <option value="nomvern">nomvern</option>
+                                                <option value="nomverncomplet">nomverncomplet</option>
+                                                <option value="idmainobser">idmainobser</option>
+                                                <option value="observateur">observateur</option>
+                                                <option value="idobservateur">idobservateur</option>
+                                                <option value="determinateur">determinateur</option>
+                                                <option value="type_determination">type_determination</option>
+                                                <option value="en_collection">en_collection</option>
+                                                <option value="idorg">idorg</option>
+                                                <option value="organisme">organisme</option>
+                                                <option value="idetude">idetude</option>
+                                                <option value="etude">etude</option>
+                                                <option value="typedon">typedon</option>
+                                                <option value="type_donnee">type_donnee</option>
+                                                <option value="codecom">codecom</option>
+                                                <option value="commune">commune</option>
+                                                <option value="iddep">iddep</option>
+                                                <option value="floutage">floutage</option>
+                                                <option value="floutage_kollect">floutage_kollect</option>
+                                                <option value="type_geometrie">type_geometrie</option>
+                                                <option value="id_station">id_station</option>
+                                                <option value="nom_station">nom_station</option>
+                                                <option value="localisation">localisation</option>
+                                                <option value="type_localisation">type_localisation</option>
+                                                <option value="lng">lng</option>
+                                                <option value="lat">lat</option>
+                                                <option value="x">x</option>
+                                                <option value="y">y</option>
+                                                <option value="precision_coord">precision_coord</option>
+                                                <option value="codel93">codel93</option>
+                                                <option value="codel935">codel935</option>
+                                                <option value="type_acquisition">type_acquisition</option>
+                                                <option value="statutobs">statutobs</option>
+                                                <option value="statut_observation">statut_observation</option>
+                                                <option value="etatbio">etatbio</option>
+                                                <option value="cause_mort">cause_mort</option>
+                                                <option value="stade">stade</option>
+                                                <option value="nb_tot">nb_tot</option>
+                                                <option value="ndiff">ndiff</option>
+                                                <option value="male">male</option>
+                                                <option value="femelle">femelle</option>
+                                                <option value="nbmin">nbmin</option>
+                                                <option value="nbmax">nbmax</option>
+                                                <option value="denom">denom</option>
+                                                <option value="typedenom">typedenom</option>
+                                                <option value="methode">methode</option>
+                                                <option value="prospection">prospection</option>
+                                                <option value="comportement">comportement</option>
+                                                <option value="cdnom_plante_associee">cdnom_plante_associee</option>
+                                                <option value="nomlatin_plante_associee">nomlatin_plante_associee</option>
+                                                <option value="statutbio">statutbio</option>
+                                                <option value="code_reproduction">code_reproduction</option>
+                                                <option value="rqobs">rqobs</option>
+                                                <option value="code_habitat">code_habitat</option>
+                                                <option value="nom_habitat">nom_habitat</option>
+                                                <option value="photo">photo</option>
+                                                <option value="son">son</option>
+                                                <option value="date_insertion">date_insertion</option>
+                                                <option value="date_derniere_modif">date_derniere_modif</option>
+                                                <option value="date_validation">date_validation</option>
+                                                <option value="type_validation">type_validation</option>
+                                                <option value="validateur">validateur</option>
+                                            </select>
                                         </div>
-                                        <div class="col-md-4">
-                                            <p>1</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p>1</p>
-                                        </div>
+
                                     </div>
                                 </div>
                                 <hr />

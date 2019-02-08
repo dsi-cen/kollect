@@ -430,6 +430,7 @@ $("#form").on("submit", function (e) {
     $("#bttdia1").hide();
     $("#Butavance").hide();
     $('#bttdia1perso').show();
+    $("#fields").multiSelect();
 });
 
     $("#cancel").click(function () { // Bouton 'Annuler'
@@ -442,7 +443,10 @@ $("#form").on("submit", function (e) {
     $("#bttdia1perso").click(function () {
     // $("#formdia1").submit();
         console.log('ok');
-        exportavance($("#form").serialize());
+        var e = $("#form").serializeArray();
+        var f = JSON.stringify($("#fields").val());
+        e.push({ name: "fields", value: f});
+        exportavance(e);
 });
 
 function exportavance(e) {
@@ -454,7 +458,6 @@ function exportavance(e) {
         dataType: "json",
         data: e,
         success: function (e) {
-            console.log('succes');
             console.log(e);
             $("#dl").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '"');
             $("#dl").show();
