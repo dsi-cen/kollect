@@ -1959,10 +1959,37 @@ CREATE FUNCTION alimente_observateur_organisme() RETURNS trigger AS
 	$BODY$
 		BEGIN
 			INSERT INTO referentiel.observateur_organisme (idobser, idorg) VALUES (NEW.idobser,2); 
-            RETURN NEW; 
+        RETURN NEW; 
 		END;
 	$BODY$ 
-	LANGUAGE plpgsql VOLATILE COST 100;
+LANGUAGE plpgsql VOLATILE COST 100;
+
+CREATE TRIGGER declenche_alimente_observateur_organisme 
+AFTER INSERT
+ON referentiel.observateur
+FOR EACH ROW
+EXECUTE PROCEDURE referentiel.alimente_observateur_organisme();
+
+CREATE FUNCTION obs.recup_infos_etude() RETURNS trigger AS 
+	$BODY$
+    DECLARE 
+    w_typedon VARCHAR;
+    w_floutage SMALLINT;
+    BEGIN
+      IF NEW.idorg != 2 THEN 
+        SELECT typedon FROM referentiel.etude WHERE etude.idetude = NEW.idetude INTO w_typedon;
+        SELECT floutage FROM referentiel.etude WHERE etude.idetude = NEW.idetude INTO w_floutage;
+
+        IF w_typedon IS NULL THEN
+          NEW.typedon = 'Pu';
+        ELSE
+          NEW.typedon = w_typedon;
+        END IF;
+        IF w_floutage IS NULL THEN
+          NEW.floutage = 0;
+        ELSE
+          NEW.floutage = w_floutage;
+        END IF;
       END IF;
       RETURN NEW; 
 		END;
