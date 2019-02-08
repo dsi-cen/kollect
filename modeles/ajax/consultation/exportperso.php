@@ -264,6 +264,7 @@ $reqvue .= " ORDER BY i.idobs, l.idligne";
     $query = $bdd->query($reqvue);
     $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
+
     function convertToISOCharset($array) {
         foreach($array as $key => $value) {
             if(is_array($value)) {
@@ -276,7 +277,7 @@ $reqvue .= " ORDER BY i.idobs, l.idligne";
         return $array;
     }
 
-    // $res = convertToISOCharset($res);
+    $res = convertToISOCharset($res);
 
     $bytes = random_bytes(45);
     $name = bin2hex($bytes);
@@ -285,15 +286,16 @@ $reqvue .= " ORDER BY i.idobs, l.idligne";
 
     $first = true;
 
-    foreach ($res as $val) {
+    foreach ($res as $value) {
         if ($first) {
             fputcsv($fp, $fields,chr(9));
             $first = false;
         }
-        fputcsv($fp, $val, chr(9));
-
-        // fputcsv($fp, $val, chr(9));
+        $ar = [];
+        foreach ($fields as $field) {
+            array_push($ar, $value[$field]) ;
+        }
+        fputcsv($fp, $ar, chr(9));
     }
     fclose($fp);
-
     echo json_encode($name);
