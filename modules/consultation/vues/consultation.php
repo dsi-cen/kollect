@@ -147,9 +147,9 @@
 										<ul id="lloca" class="list-unstyled font12 mt-1"></ul>	
 										<p class="mt-2 mb-0">En dessinant sur la carte (cliquez sur l'icone polygone <img src="dist/img/poly.png" width="20" height="19"> se trouvant sur la carte)</p>
 										<div class="form-inline mt-2">
-											<label for="rayon">En indiquant une distance (en km)</label>
-											<input type="number" class="form-control form-control-sm ml-2 mr-2" id="rayon" name="rayon" min="0" max="20" value="" pattern="^\d*">
-											et cliquez sur la carte.
+                                            <label for="rayon">En indiquant une distance (en km, exemple 0.1 ou 5)</label>
+											<input type="float" class="form-control form-control-sm ml-2 mr-2" id="rayon" name="rayon" min="0" max="20" value="" >
+                                            <u>et ensuite, cliquez sur la carte</u>.
 										</div>								
 									</fieldset>
 									<fieldset class="mt-2">

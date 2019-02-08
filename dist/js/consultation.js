@@ -34,6 +34,7 @@ function carte1(e) {
             $("#choixloca").val("cercle"), $("#latc").val(i), $("#lngc").val(o), $("#lloca").html(""), $("#BttS").show()
         }
     })
+    $(".leaflet-draw-draw-circlemarker").hide(); // Cacher l'outil 'cercle' non utilisable
 }
 
 function observation(e) {
