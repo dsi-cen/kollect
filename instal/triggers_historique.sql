@@ -332,9 +332,17 @@ CREATE FUNCTION obs_historique.alimente_histo_coordgeo() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'DELETE', now(), user_login, OLD.*;RETURN OLD;
+    
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'UPDATE', now(), user_login, NEW.*; 
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.coordgeo' 
+                                     WHERE idobs IN (SELECT idobs FROM obs.obs JOIN obs.fiche ON fiche.idfiche = obs.idfiche JOIN obs.coordgeo ON coordgeo.idcoord = fiche.idcoord WHERE fiche.idcoord = NEW.idcoord);
+                                     RETURN NEW;
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'INSERT', now(), user_login, NEW.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.coordgeo' 
+                                     WHERE idobs IN (SELECT idobs FROM obs.obs JOIN obs.fiche ON fiche.idfiche = obs.idfiche JOIN obs.coordgeo ON coordgeo.idcoord = fiche.idcoord WHERE fiche.idcoord = NEW.idcoord)
+                                     AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                     RETURN NEW;
 			END IF; 
 			RETURN NULL; 
 		END;
@@ -568,20 +576,3 @@ CREATE TRIGGER declenche_alimente_observateur
 	ON site.membre
 	FOR EACH ROW
 	EXECUTE PROCEDURE referentiel.alimente_observateur();
-	
-CREATE FUNCTION referentiel.alimente_etude_organisme() RETURNS trigger AS
-    $BODY$
-
-     BEGIN
-
-INSERT INTO referentiel.etude_organisme VALUES (0,NEW.idorg);
-RETURN NEW;
-        END;
-    $BODY$
-    LANGUAGE plpgsql VOLATILE COST 100;
-
-CREATE TRIGGER declenche_alimente_etude_organisme
-    AFTER INSERT
-    ON referentiel.organisme
-    FOR EACH ROW
-    EXECUTE PROCEDURE referentiel.alimente_etude_organisme();	

@@ -160,17 +160,17 @@ function nbbiblio()
 	$req->closeCursor();
 	return $nbbib;
 }
-// RLE ajout comptage données "Ac" : acquisent sur dossier de structure
+// RLE ajout comptage données "Pu" : données acquises sur dossier de structure avec un financement entièrement ou pour partie public  
 function nbdonneespub()
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("WITH select_typedon as (select obs.*, fiche.typedon from obs.obs join obs.fiche on obs.idfiche = fiche.idfiche) select count(*) as  nb from select_typedon where typedon = 'Ac'");
+	$req = $bdd->query("WITH select_typedon as (select obs.*, fiche.typedon from obs.obs join obs.fiche on obs.idfiche = fiche.idfiche) select count(*) as  nb from select_typedon where typedon = 'Pu'");
 	$nbpub = $req->fetchColumn();
 	$req->closeCursor();
 	return $nbpub;
 }
-// RLE ajout comptage données d'origine privée (indépendant - sans structure)
+// RLE ajout comptage données d'origine privée : données d'indépendants (sans structure)  ou acquises sur dossier de structure avec un financement entièrement privé
 function nbdonneespriv()
 {
 	$bdd = PDO2::getInstance();
