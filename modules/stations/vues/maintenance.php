@@ -1,0 +1,1 @@
+<section class="container-fluid mb-3">	<header class="row">		<div class="col-md-6 offset-md-3 mt-3">			<div class="card card-body">				<p class="h2">					Le site est actuellement en maintenance.<br />									</p>			</div>		</div>	</header></section>

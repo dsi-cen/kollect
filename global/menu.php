@@ -135,5 +135,6 @@ if(!isset($sansheader))
 		}		
 		?>
 		<li class="nav-item" title="Information"><a class="nav-link bb-light" href="index.php?module=info&amp;action=info"><i class="fa fa-info fa-2x blanc"></i><br /><span class="blanc font-weight-normal">Aide</span></a></li>
+		<li class="nav-item" title="Sites-Stations"><a class="nav-link bb-light" href="index.php?module=stations&amp;action=saisie"><i class="fas fa-draw-polygon"></i><br /><span class="blanc font-weight-normal">Stations</span></a></li>
 	</ul>
 </aside>
