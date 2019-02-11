@@ -6,15 +6,15 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 	
 	if($maintenance['etat'] == 'Production')
 	{
-		$titre = 'Fiche de saisie';
-		$description = 'Fiche de saisie d\'observations naturalistes.'; 
+		$titre = 'Gestion des stations';
+		$description = 'Gestion des stations.';
 		$script = '<script src="dist/js/jquery.js" defer></script>
 		<script src="dist/js/bootstrap.min.js" defer></script>
 		<script src="dist/js/jquery-saisie.js" defer></script>
 		<script src="dist/js/leafletpj4.js"></script>
 		<script src="dist/js/leaflet.draw.js" defer></script>
 		<script src="dist/js/jquery.cropit.js" defer></script>
-		<script src="dist/js/saisie.js?'.filemtime('dist/js/saisie.js').'" defer></script>';
+		<script src="dist/js/stations.js?'.filemtime('dist/js/stations.js').'" defer></script>';
 		//<script src="dist/js/saisie.js?'.filemtime('dist/js/saisie.js').'" defer></script><script src="src/js/saisie.js" defer></script>
 		$css = '<link rel="stylesheet" href="dist/css/leaflet.css" />
 		<link rel="stylesheet" href="dist/css/leaflet.draw.css" />
