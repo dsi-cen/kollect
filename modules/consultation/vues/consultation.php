@@ -450,6 +450,8 @@
                             <form id="formdia1">
                                 <div id="avance">
                                     <p>Sélectionner les champs à faire apparaitre dans votre export</p>
+                                    <input type="checkbox" id="all" name="Tout cocher">
+                                        <label for="all">Tout cocher, tout décocher</label>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <select id='fields' multiple='multiple'>
@@ -554,7 +556,8 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success" data-dismiss="modal" id="bttdia1">Export standard</button>
                 <button type="button" class="btn btn-success" id="bttdia1perso">Lancer l'export avancé</button>
-                <button type="button" class="btn btn-danger" id="dl" >Télécharger</button>
+                <button type="button" class="btn btn-danger" id="dl" >Télécharger en .tsv</button>
+                <button type="button" class="btn btn-danger" id="dlxls" >Télécharger en .xls</button>
                 <button type="button" class="btn btn-info" id="Butavance">Export avancé</button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal" id="cancel">Annuler</button>
 			</div>

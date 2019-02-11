@@ -282,7 +282,7 @@ $reqvue .= " ORDER BY i.idobs, l.idligne";
     $bytes = random_bytes(45);
     $name = bin2hex($bytes);
 
-    $fp = fopen('../../../exports/' . $name . ".csv", 'w');
+    $fp = fopen('../../../exports/' . $name . ".tsv", 'w');
 
     $first = true;
 

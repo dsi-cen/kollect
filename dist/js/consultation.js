@@ -246,6 +246,7 @@ $(document).ready(function () {
     "use strict";
     $("#avance").hide();
     $("#dl").hide();
+    $("#dlxls").hide();
     $('#bttdia1perso').hide();
     $("#listeobs").hide(), $("#rchoix").hide(), $("#afpage").hide(), $("#infoaide").hide(), $("#dlink").hide(), $("#collr").hide(), $("#BttS").hide();
     $("#perso").prop("checked", !0);
@@ -438,6 +439,17 @@ $("#form").on("submit", function (e) {
     $("#bttdia1").show();
     $('#bttdia1perso').hide();
     $("#Butavance").show();
+    $("#dlxls").hide();
+    $("#nomfichier").val("");
+
+});
+
+$("#all").change(function() {
+    if(this.checked) {
+        $('#fields').multiSelect('select_all');
+    } else {
+        $('#fields').multiSelect('deselect_all');
+    }
 });
 
     $("#bttdia1perso").click(function () {
@@ -458,9 +470,9 @@ function exportavance(e) {
         dataType: "json",
         data: e,
         success: function (e) {
-            console.log(e);
-            $("#dl").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '"');
-            $("#dl").show();
+            $("#dl").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=tsv&n=' + $("#nomfichier").val() + '"');
+            $("#dlxls").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=xls&n=' + $("#nomfichier").val() + '"');
+            $("#dl").show(), $("#dlxls").show();
         }
     })
 };
