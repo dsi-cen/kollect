@@ -22,6 +22,8 @@ CREATE TABLE etude
   etude character varying(200),
   libelle text,
   masquer character(3),
+  typedon varchar(2),
+  floutage smallint ,
   CONSTRAINT etude_pkey PRIMARY KEY (idetude)
 );
 

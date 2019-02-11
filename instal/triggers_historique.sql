@@ -332,9 +332,17 @@ CREATE FUNCTION obs_historique.alimente_histo_coordgeo() RETURNS trigger AS
 		BEGIN
             user_login = outils.get_user();
 
-			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'DELETE', now(), user_login, OLD.*; RETURN OLD; 
-			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'UPDATE', now(), user_login, NEW.*; RETURN NEW; 
-			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'INSERT', now(), user_login, NEW.*; RETURN NEW; 
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'DELETE', now(), user_login, OLD.*;RETURN OLD;
+    
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'UPDATE', now(), user_login, NEW.*; 
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.coordgeo' 
+                                     WHERE idobs IN (SELECT idobs FROM obs.obs JOIN obs.fiche ON fiche.idfiche = obs.idfiche JOIN obs.coordgeo ON coordgeo.idcoord = fiche.idcoord WHERE fiche.idcoord = NEW.idcoord);
+                                     RETURN NEW;
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_coordgeo SELECT 'INSERT', now(), user_login, NEW.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(), table_update = 'obs.coordgeo' 
+                                     WHERE idobs IN (SELECT idobs FROM obs.obs JOIN obs.fiche ON fiche.idfiche = obs.idfiche JOIN obs.coordgeo ON coordgeo.idcoord = fiche.idcoord WHERE fiche.idcoord = NEW.idcoord)
+                                     AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                     RETURN NEW;
 			END IF; 
 			RETURN NULL; 
 		END;
@@ -585,3 +593,51 @@ CREATE TRIGGER declenche_alimente_etude_organisme
     ON referentiel.organisme
     FOR EACH ROW
     EXECUTE PROCEDURE referentiel.alimente_etude_organisme();	
+
+CREATE FUNCTION obs.recup_infos_etude() RETURNS trigger AS 
+	$BODY$
+    DECLARE 
+    w_typedon VARCHAR;
+    w_floutage SMALLINT;
+    BEGIN
+      IF NEW.idorg != 2 THEN 
+        SELECT typedon FROM referentiel.etude WHERE etude.idetude = NEW.idetude INTO w_typedon;
+        SELECT floutage FROM referentiel.etude WHERE etude.idetude = NEW.idetude INTO w_floutage;
+
+        IF w_typedon IS NULL THEN
+          NEW.typedon = 'Pu';
+        ELSE
+          NEW.typedon = w_typedon;
+        END IF;
+        IF w_floutage IS NULL THEN
+          NEW.floutage = 0;
+        ELSE
+          NEW.floutage = w_floutage;
+        END IF;
+      END IF;
+      RETURN NEW; 
+		END;
+	$BODY$ 
+LANGUAGE plpgsql VOLATILE COST 100;	
+
+CREATE TRIGGER declenche_recup_infos_etude
+BEFORE INSERT OR UPDATE ON obs.fiche
+FOR EACH ROW 
+EXECUTE PROCEDURE obs.recup_infos_etude();
+
+CREATE FUNCTION referentiel.maj_fiche_infos_etude() RETURNS trigger AS 
+	$BODY$
+  DECLARE 
+  w_typedon VARCHAR(2);
+  w_floutage SMALLINT;
+  BEGIN
+    UPDATE obs.fiche SET typedon = NEW.typedon, floutage = NEW.floutage WHERE fiche.idetude = NEW.idetude;
+    RETURN NEW; 
+	END;
+	$BODY$ 
+	LANGUAGE plpgsql VOLATILE COST 100;	
+
+CREATE TRIGGER declenche_maj_fiche_infos_etude
+AFTER UPDATE ON referentiel.etude
+FOR EACH ROW 
+EXECUTE PROCEDURE  referentiel.maj_fiche_infos_etude();
