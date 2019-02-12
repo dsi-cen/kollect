@@ -14,11 +14,13 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 		<script src="dist/js/leafletpj4.js"></script>
 		<script src="dist/js/leaflet.draw.js" defer></script>
 		<script src="dist/js/jquery.cropit.js" defer></script>
-		<script src="dist/js/stations.js?'.filemtime('dist/js/stations.js').'" defer></script>';
+		<script src="dist/js/stations.js?'.filemtime('dist/js/stations.js').'" defer></script>
+		<script src="dist/js/bootstrap-toggle.min.js" defer></script>';
 		//<script src="dist/js/saisie.js?'.filemtime('dist/js/saisie.js').'" defer></script><script src="src/js/saisie.js" defer></script>
 		$css = '<link rel="stylesheet" href="dist/css/leaflet.css" />
 		<link rel="stylesheet" href="dist/css/leaflet.draw.css" />
-		<link rel="stylesheet" href="dist/css/jquery-ui.css" />';
+		<link rel="stylesheet" href="dist/css/jquery-ui.css" />
+		<link rel="stylesheet" href="dist/css/bootstrap-toggle.min.css" />';
 		$sansheader = 'oui';
 		$pasdebdp = 'oui';
 

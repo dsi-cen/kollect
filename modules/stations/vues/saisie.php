@@ -47,7 +47,8 @@
                                 if ($dep == 'oui') {
                                     ?>
                                     <div class="col-sm-5"><input type="text" class="form-control" id="choixdep"
-                                                                 placeholder="Chercher un département"></div><?php
+                                                                 placeholder="Chercher un département"></div>
+                                    <?php
                                 }
                                 ?>
                                 <div class="col-sm-6"><input type="text" class="form-control" id="choixcom"
@@ -87,7 +88,13 @@
                     </div>
                     <div class="min p-2 mt-3">
                         <fieldset class="mt-2">
-                            <legend class="legendesaisie">Informations sur la station</legend>
+                            <legend class="legendesaisie">
+                                Informations sur la station
+                                <span class="" id="nom_station"></span>
+                            </legend>
+
+
+
                             <div class="form-group row">
                                 <?php
                                 if ($dep == 'oui') {
@@ -98,34 +105,6 @@
                                 ?>
                                 <div class="col-sm-6"><input type="text" class="form-control" id="communeb"
                                                              placeholder="Commune"></div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-4"><input type="text" class="form-control" id="lieub" name="lieub"
-                                                             placeholder="Créer une nouvelle station"></div>
-
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <label for="typestation" class="col-sm-5 col-form-label">Type de station</label>
-                                        <div class="col-sm-6">
-                                            <select id="typestation" name="typestation" class="form-control">
-                                                <option value="0" selected>Sélectionner un type</option>
-                                                <?php
-                                                foreach ($typestation as $n) {
-                                                    if ($n['idstation'] == $idstation) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idstation']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option value="<?php echo $n['idstation']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-2"><input type="text" class="form-control" id="xlambert"
@@ -158,11 +137,40 @@
                             }
                             ?>
                         </fieldset>
-                        <fieldset>
-                            <legend class="legendesaisie">Précision de la géométrie (à titre d'information, non-utilisée
-                                dans les traitements)
-                            </legend>
+                    </div>
+                    <div class="min p-2 mt-3">
+                        <input id="btn_create_station" type="checkbox" data-toggle="toggle" data-on="Cliquer pour rentrer en mode : éditer une station existante" data-off="Cliquer pour rentrer en mode : créer une nouvelle station">
+                        <fieldset id="create_station">
                             <div class="form-group row">
+                                <div class="col-4">
+                                    <input type="text" class="form-control" id="lieub" name="lieub"
+                                           placeholder="Créer une nouvelle station"></div>
+                                <div class="form-group row">
+                                    <label for="typestation" class="col-sm-5 col-form-label">Type de station</label>
+                                    <div class="col-sm-6">
+                                        <select id="typestation" name="typestation" class="form-control">
+                                            <option value="0" selected>Sélectionner un type</option>
+                                            <?php
+                                            foreach ($typestation as $n) {
+                                                if ($n['idstation'] == $idstation) {
+                                                    ?>
+                                                    <option value="<?php echo $n['idstation']; ?>"
+                                                            selected><?php echo $n['libelle']; ?></option><?php
+                                                } else {
+                                                    ?>
+                                                    <option
+                                                    value="<?php echo $n['idstation']; ?>"><?php echo $n['libelle']; ?></option><?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <legend class="legendesaisie">Précision de la géométrie (à titre d'information,
+                                    non-utilisée dans les traitements)
+                                </legend>
                                 <label for="prec" class="col-sm-3 col-form-label">Echelle de précision</label>
                                 <div class="col-sm-4">
                                     <select id="precision" name="precision" class="form-control">
@@ -315,7 +323,9 @@
                                 <label for="eaulibre" class="col-sm-3 col-form-label">Recouvrement eau libre (%)</label>
                                 <fieldset>
                                     <div class="form-group row">
-                                        <div class="col-sm-6"><input type="number" min="0" max="100" class="form-control" id="eaulibre" name="eaulibre" placeholder=""></div>
+                                        <div class="col-sm-6"><input type="number" min="0" max="100"
+                                                                     class="form-control"
+                                                                     id="eaulibre" name="eaulibre" placeholder=""></div>
                                     </div>
                                 </fieldset>
 
@@ -616,21 +626,44 @@
                         </fieldset>
                     </div>
 
-                        <div class="min p-2 mt-3 mb-3">
-                            <fieldset>
-                                <legend class="legendesaisie">Commentaire sur la station</legend>
-                                <input type="text" class="form-control" id="commentaire" name="commentaire" placeholder="Commentaire">
-                            </fieldset>
-                        </div>
+                    <div class="min p-2 mt-3 mb-3">
+                        <fieldset>
+                            <legend class="legendesaisie">Commentaire sur la station</legend>
+                            <input type="text" class="form-control" id="commentaire" name="commentaire"
+                                   placeholder="Commentaire">
+                        </fieldset>
+                    </div>
                     <div class="row ml-1">
 
-                    <button type="button" class="btn btn-danger" data-placement="bottom" data-title="">Enregistrer la station</button>
+                        <button id="save_station" type="button" class="btn btn-danger" data-placement="bottom" data-title="">Enregistrer
+                            la
+                            station
+                        </button>
 
                     </div>
                     <div id="alert1" class="mt-2"></div>
                 </div>
-
-
+                <!--input hidden -->
+                <!--localisation, fiche, obs -->
+                <input id="codecom" name="codecom" type="hidden"/><input id="codedep" type="hidden"
+                                                                         name="codedep"/><input
+                        id="codesite" name="codesite" type="hidden"/><input id="idcoord" type="hidden" name="idcoord"/>
+                <input id="idobser" name="idobser" type="hidden" value="<?php echo $idobser; ?>"/><input id="iddet"
+                                                                                                         name="iddet"
+                                                                                                         type="hidden"
+                                                                                                         value="<?php echo $idobser; ?>"/><input
+                        id="cdnom" name="cdnom" type="hidden"/><input id="cdref" name="cdref" type="hidden"/>
+                <input id="idfiche" name="idfiche" type="hidden" value="Nouv"/><input id="idobs" name="idobs"
+                                                                                      type="hidden"
+                                                                                      value="Nouv"/><input id="cdhab"
+                                                                                                           name="cdhab"
+                                                                                                           type="hidden"/>
+                <input id="pr" name="pr" type="hidden"/><input id="nb" name="nb" type="hidden"/><input id="newsp"
+                                                                                                       name="newsp"
+                                                                                                       type="hidden"/><input
+                        id="biogeo" name="biogeo" type="hidden" value="<?php echo $biogeo; ?>"/>
+                <input id="typepoly" name="typepoly" type="hidden" size="200"/><input id="idm" type="hidden"
+                                                                                      value="<?php echo $_SESSION['idmembre']; ?>"/>
             </form>
         </div>
     </div>
@@ -769,9 +802,9 @@
             </div>
             <div class="modal-body">
                 <p>
-                    Il existe un ou plusieurs sites d'observations à moins de <?php echo $dist; ?> km<br>
+                    Il existe une ou plusieurs stations à moins de <?php echo $dist; ?> km<br>
                     Cliquez sur un des <img class="" src="dist/css/images/marker-vert.png" alt="" height="20"
-                                            width="12"/> si vous voulez enregistrer votre observation dessus.
+                                            width="12"/> pour modifier si besoin l'emprise d'une station déjà présente.
                 </p>
             </div>
             <div class="modal-footer">
@@ -780,7 +813,7 @@
         </div>
     </div>
 </div>
-<div id="dia9" class="modal" tabindex="-1" role="dialog">
+<!--<div id="dia9" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -795,7 +828,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <div id="dia10" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
