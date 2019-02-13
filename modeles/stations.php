@@ -295,3 +295,13 @@ function liste_departements()
     $req->closeCursor();
     return $resultats;
 }
+
+function liste_type_stations()
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->query("SELECT idtypestation, libtypestation FROM referentiel_station.typestation ");
+    $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    return $resultats;
+}

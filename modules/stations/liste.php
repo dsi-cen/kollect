@@ -24,6 +24,7 @@ if (isset($_SESSION['prenom']) && isset($_SESSION['nom'])) {
 
         include CHEMIN_MODELE . 'stations.php';
         $departements = liste_departements();
+        $types = liste_type_stations();
         include CHEMIN_VUE . 'liste.php';
 
 

@@ -166,11 +166,10 @@ function make_table() {
     });
 }
 
-function affiche_stations(geo, point) {
+function affiche_stations(geo) {
     "use strict";
     var contourstations = new L.FeatureGroup;
     var pointstations = new L.FeatureGroup;
-
     var a = new L.Icon({
         iconUrl: "dist/css/images/marker-vert.png",
         shadowUrl: "dist/css/images/marker-shadow.png",
@@ -180,14 +179,38 @@ function affiche_stations(geo, point) {
         shadowSize: [41, 41]
     });
 
-    for (var o = 0; o < geo.length; o++) {
-        var l = JSON.parse(geo[o]),
+    for (var o = 0; o < geo.geo.length; o++) {
+        var l = JSON.parse(geo.geo[o]),
             s = L.geoJson(l, {style: {color: "#b300b3", fillOpacity: .1, weight: 3}});
         contourstations.addLayer(s)
     }
+    for (var o = 0; o < geo.lat.length; o++) {
 
-    for (var o = 0; o < point.lat.length; o++) {
-        var m = new L.marker([point.lat[o], point.lng[o]], {icon: a});
+        var m = new L.marker([geo.lat[o], geo.lng[o]], {icon: a});
+
+        m.id = geo.idsite[o];
+
+        m.bindPopup(geo.nom[o]);
+        m.on('mouseover', function (e) {
+            this.openPopup();
+            $("#liste_stations").find("tr").removeClass("table-primary");
+            $("#" + e.target.id).addClass("table-primary");
+        });
+        m.on('mouseout', function () {
+            this.closePopup();
+        });
+
+        // Focus
+        $("#liste").on("click", ".focus", function () {
+            "use strict";
+            console.log(m);
+            var e = $(this).parent().parent().attr("id");
+            var latLngs = [ m.getLatLng() ];
+            var markerBounds = L.latLngBounds(latLngs);
+            map.fitBounds(markerBounds);
+
+        });
+
         pointstations.addLayer(m)
     }
 
@@ -196,14 +219,6 @@ function affiche_stations(geo, point) {
     map.fitBounds(contourstations.getBounds())
 }
 
-// Focus
-function display_station(id){
-    console.log('focus');
-    var e = $(this).parent().parent().attr("id"), t = $("#" + e).data("nom");
-    contourstations.customGetLayer(e, t)
-}
-
-
 
 $(document).ready(function () {
 
@@ -211,24 +226,23 @@ $(document).ready(function () {
     var e = {};
     $.ajax({
         url: "emprise/emprise.json", dataType: "json", success: function (a) {
-            e = a, carte(e); // console.log(e)
+            e = a, carte(e);
         }
     });
 
     // Centrer sur un département
-    $("#departement").on('change', function () {
-        var lat = $("#departement").find(':selected').data('lat');
-        var lng = $("#departement").find(':selected').data('lng');
+    $("#departement, #typestation").on('change', function () {
         var iddep = $("#departement").val();
+        var type = $("#typestation").val();
         $.ajax({
             url: "modeles/ajax/stations/recupliste.php",
             type: "POST",
             dataType: "json",
-            data: {iddep: iddep},
+            data: {iddep: iddep, type: type},
             success: function (e) {
                 $("#liste").html(e.liste);
                 make_table(); // Apply Datatable
-                affiche_stations(e.geo, e.point);
+                affiche_stations(e.geo);
             },
             error: function () {
                 console.log('error')

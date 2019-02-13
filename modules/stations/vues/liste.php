@@ -17,8 +17,19 @@
                         <select id="departement" name="departement" class="form-control">
                             <option value="0" selected>Sélectionner un département</option>
                             <?php foreach ($departements as $n) { ?>
-                                <option value="<?php echo $n['iddep']; ?>" data-lat="<?php echo $n['lat']; ?>"
-                                        data-lng="<?php echo $n['lng']; ?>"><?php echo $n['departement']; ?></option><?php
+                                <option value="<?php echo $n['iddep']; ?>"><?php echo $n['departement']; ?></option><?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="typestation" class="col-sm-5 col-form-label">Type de station</label>
+                    <div class="col-sm-6">
+                        <select id="typestation" name="typestation" class="form-control">
+                            <option value="0" selected>Sélectionner un type de station</option>
+                            <?php foreach ($types as $n) { ?>
+                                <option value="<?php echo $n['idtypestation']; ?>"><?php echo $n['libtypestation']; ?></option><?php
                             }
                             ?>
                         </select>
