@@ -285,3 +285,13 @@ function liste_alimeau()
     $req->closeCursor();
     return $resultats;
 }
+
+function liste_departements()
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->query("SELECT iddep, departement, lat, lng FROM referentiel.departement; ");
+    $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    return $resultats;
+}

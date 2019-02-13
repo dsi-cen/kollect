@@ -9,9 +9,25 @@
 <section class="container-fluid mt-3">
     <div class="row">
         <div class="col-sm-6">
+            <div class="card card-body mb-3">
+                <h3>Critères de recherche</h3>
+                <div class="form-group row">
+                    <label for="departement" class="col-sm-5 col-form-label">Département</label>
+                    <div class="col-sm-6">
+                        <select id="departement" name="departement" class="form-control">
+                            <option value="0" selected>Sélectionner un département</option>
+                            <?php foreach ($departements as $n) { ?>
+                                <option value="<?php echo $n['iddep']; ?>" data-lat="<?php echo $n['lat']; ?>"
+                                        data-lng="<?php echo $n['lng']; ?>"><?php echo $n['departement']; ?></option><?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="card card-body mb-0">
-                <p>Liste des stations</p>
-
+                <h3>Liste des stations</h3>
+                <div id="liste" class="mt-2"></div>
             </div>
         </div>
         <div class="col-sm-6">
@@ -23,5 +39,5 @@
 </section>
 
 <!-- Récupération de la couche préférentielle -->
-<input type="hidden" id="couchem" value="<?php echo $_SESSION['couche'];?>">
+<input type="hidden" id="couchem" value="<?php echo $_SESSION['couche']; ?>">
 
