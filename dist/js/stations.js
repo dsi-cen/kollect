@@ -595,6 +595,10 @@ $(document).ready(function () {
     $("#mare").hide(); // Cacher les mares au chargement
     $("#create_station").hide(); // Cacher la création au chargement
     $("#save_station").hide(); // Cacher l'enregistrement d'une nouvelle station
+    $("#showdate").hide(); //
+    $("#showcom").hide(); //
+    $("#showphoto").hide(); //
+
 
     var e = {};
     $.ajax({
@@ -1129,42 +1133,47 @@ $("#btn_create_station").change(function(){
         $("#nom_station").html("");
         $("#save_station").show();
         $("#lieub").val("");
-        $(".leaflet-draw").show()
+        $(".leaflet-draw").show();
+        $("#showdate").show(); //
+        $("#showcom").show(); //
+        $("#showphoto").show(); //
     } else { // Mode 'édition' de station existante
         $("#create_station").hide();
         $("#save_station").hide();
-        $(".leaflet-draw").hide()
+        $(".leaflet-draw").hide();
+        $("#mare").hide();
+        $("#showdate").hide(); //
+        $("#showcom").hide(); //
+        $("#showphoto").hide(); //
     }
 });
 
 $("#save_station").on("click", function(){
         "use strict";
-        var codecom = $("#codecom").val(),
-            nomstation = $("#lieub").val(),
-            codesite = $("#codesite").val(),
-            typepoly = $("#typepoly").val(),
-            l = $("#xlambert").val(),
+        var l = $("#xlambert").val(),
             o = $("#ylambert").val(),
             i = $("#altitude").val(),
             s = $("#l93").val(),
             n = $("#l935").val(),
             r = $("#lat").val(),
             c = $("#lng").val(),
-            d = $("#idm").val(),
             photo = $("#aphoto").val(),
             u = "oui" == utm ? $("#utm").val() : "",
             p = "oui" == utm ? $("#utm1").val() : "",
-            orien = $("input[name=orien]:checked").val();
+            copyright = $("input[name=opph]:checked").val();
             var imagedata;
             photo == 'oui' ? imagedata = encodeURIComponent($("#crop").cropit("export", {type: "image/jpeg", quality: .9, originalSize: !1})) : imagedata = "";
-
+            console.log($("form").serialize());
+            var element = $("form").serialize();
         $.ajax({
             url: "modeles/ajax/stations/stations.php",
             type: "POST",
             dataType: "json",
-            data: "&codesite=" + codesite + "&codecom=" + codecom + "&nomstation=" + nomstation + "&typepoly=" + typepoly + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p + "&idm=" + d + "&aphoto=" + photo + "&image-data=" + imagedata + "&orien=" + orien,
+            data: element + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
             success: function (e) {
-                console.log(e)
+            },
+            error: function() {
+                console.log('Erreur!')
             }
         })
 });

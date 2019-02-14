@@ -122,12 +122,14 @@ function liste_precision()
     return $resultats;
 }
 
+// Stations
+
 function liste_typestation()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idstation, libelle
-                                    FROM referentiel.stations ");
+    $req = $bdd->query("SELECT idtypestation, libtypestation, mdtypestation
+                                  FROM referentiel_station.typestation; ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -137,8 +139,8 @@ function liste_typemare()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idtypemare, libelle
-                                    FROM referentiel.typemare ");
+    $req = $bdd->query("SELECT idtypemare, libtypemare, mdtypemare
+                                  FROM referentiel_station.typemare ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -149,8 +151,8 @@ function liste_environnement()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idenvironnement, libelle
-                                    FROM referentiel.environnement ");
+    $req = $bdd->query("SELECT idenvironnement, libenvironnement, mdenvironnement
+                                  FROM referentiel_station.environnement ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -159,22 +161,13 @@ function liste_menaces()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idmenaces, libelle
-                                    FROM referentiel.menaces ");
+    $req = $bdd->query("SELECT idmenaces, libmenaces, mdmenaces
+                                  FROM referentiel_station.menaces ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
 }
-function liste_atterissement()
-{
-    $bdd = PDO2::getInstance();
-    $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idatterissement, libelle
-                                    FROM referentiel.atterissement ");
-    $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
-    $req->closeCursor();
-    return $resultats;
-}
+
 function eaulibre()
 {
     $bdd = PDO2::getInstance();
@@ -189,8 +182,8 @@ function liste_vegaquatique()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idvegaquatique, libelle
-                                    FROM referentiel.vegaquatique ");
+    $req = $bdd->query("SELECT idvegaquatique, libvegaquatique, mdvegaquatique
+                                  FROM referentiel_station.vegaquatique ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -199,8 +192,8 @@ function liste_vegsemiaquatique()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idvegsemiaquatique, libelle
-                                    FROM referentiel.vegsemiaquatique ");
+    $req = $bdd->query("SELECT idvegsemiaquatique, libvegsemiaquatique, mdvegsemiaquatique
+                                  FROM referentiel_station.vegsemiaquatique ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -209,8 +202,8 @@ function liste_vegrivulaire()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idvegrivulaire, libelle
-                                    FROM referentiel.vegrivulaire ");
+    $req = $bdd->query("SELECT idvegrivulaire, libvegrivulaire, mdvegrivulaire
+                                  FROM referentiel_station.vegrivulaire ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -219,8 +212,8 @@ function liste_typeexutoire()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idtypeexutoire, libelle
-                                    FROM referentiel.typeexutoire ");
+    $req = $bdd->query("SELECT idtypeexutoire, libtypeexutoire, mdtypeexutoire
+                                  FROM referentiel_station.typeexutoire ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -229,8 +222,8 @@ function liste_taillemare()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idtaillemare, libelle
-                                    FROM referentiel.taillemare ");
+    $req = $bdd->query("SELECT idtaillemare, libtaillemare, mdtaillemare
+                                  FROM referentiel_station.taillemare ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -239,8 +232,8 @@ function liste_couleureau()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idcouleureau, libelle
-                                    FROM referentiel.couleureau ");
+    $req = $bdd->query("SELECT idcouleureau, libcouleureau, mdcouleureau
+                                  FROM referentiel_station.couleureau ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -249,8 +242,8 @@ function liste_naturefond()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idnaturefond, libelle
-                                    FROM referentiel.naturefond ");
+    $req = $bdd->query("SELECT idnaturefond, libnaturefond, mdnaturefond
+                                  FROM referentiel_station.naturefond ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -259,8 +252,8 @@ function liste_recouvrberge()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idrecouvrberge, libelle
-                                    FROM referentiel.recouvrberge ");
+    $req = $bdd->query("SELECT idrecberge, librecberge, mdrecberge
+                                  FROM referentiel_station.recberge ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -269,8 +262,8 @@ function liste_profondeureau()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idprofondeureau, libelle
-                                    FROM referentiel.profondeureau ");
+    $req = $bdd->query("SELECT idprofondeureau, libprofondeureau, mdprofondeureau
+                                  FROM referentiel_station.profondeureau ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;
@@ -279,8 +272,8 @@ function liste_alimeau()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT idalimeau, libelle
-                                    FROM referentiel.alimeau ");
+    $req = $bdd->query("SELECT idalimeau, libalimeau, mdalimeau
+                                  FROM referentiel_station.alimeau ");
     $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
     $req->closeCursor();
     return $resultats;

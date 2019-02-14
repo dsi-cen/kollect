@@ -65,7 +65,6 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
         $environnement = liste_environnement();
    
         $menaces = liste_menaces();
-        $atterissement = liste_atterissement();
        
         $eaulibre = eaulibre();
        

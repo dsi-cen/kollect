@@ -94,7 +94,6 @@
                             </legend>
 
 
-
                             <div class="form-group row">
                                 <?php
                                 if ($dep == 'oui') {
@@ -139,36 +138,39 @@
                         </fieldset>
                     </div>
                     <div class="min p-2 mt-3">
-                        <input id="btn_create_station" type="checkbox" data-toggle="toggle" data-on="Cliquer pour rentrer en mode : éditer une station existante" data-off="Cliquer pour rentrer en mode : créer une nouvelle station">
-                        <fieldset id="create_station">
+                        <input id="btn_create_station" data-onstyle="info" data-offstyle="success" type="checkbox"
+                               data-toggle="toggle"
+                               data-on="Cliquer pour rentrer en mode : éditer une station existante"
+                               data-off="Cliquer pour rentrer en mode : créer une nouvelle station">
+                        <fieldset id="create_station" class="mt-2">
                             <div class="form-group row">
                                 <div class="col-4">
+                                    <label for="lieub" class="">Nom de la station</label>
                                     <input type="text" class="form-control" id="lieub" name="lieub"
-                                           placeholder="Créer une nouvelle station"></div>
-                                <div class="form-group row">
-                                    <label for="typestation" class="col-sm-5 col-form-label">Type de station</label>
-                                    <div class="col-sm-6">
-                                        <select id="typestation" name="typestation" class="form-control">
-                                            <option value="0" selected>Sélectionner un type</option>
-                                            <?php
-                                            foreach ($typestation as $n) {
-                                                if ($n['idstation'] == $idstation) {
-                                                    ?>
-                                                    <option value="<?php echo $n['idstation']; ?>"
-                                                            selected><?php echo $n['libelle']; ?></option><?php
-                                                } else {
-                                                    ?>
-                                                    <option
-                                                    value="<?php echo $n['idstation']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                }
+                                           placeholder="Nom de la nouvelle station"></div>
+                                <div class="col-sm-6">
+                                    <label for="typestation" class="">Type de station</label>
+                                    <select id="typestation" name="typestation" class="form-control">
+                                        <option value="0" selected>Sélectionner un type</option>
+                                        <?php
+                                        foreach ($typestation as $n) {
+                                            if ($n['idtypestation'] == $idstation) {
+                                                ?>
+                                                <option value="<?php echo $n['idtypestation']; ?>"
+                                                        selected><?php echo $n['idtypestation']; ?></option><?php
+                                            } else {
+                                                ?>
+                                                <option
+                                                value="<?php echo $n['idtypestation']; ?>"><?php echo $n['libtypestation']; ?></option><?php
                                             }
-                                            ?>
-                                        </select>
-                                    </div>
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
+
                             </div>
                             <div class="form-group row">
-                                <legend class="legendesaisie">Précision de la géométrie (à titre d'information,
+                                <legend class="ml-3 legendesaisie">Précision de la géométrie (à titre d'information,
                                     non-utilisée dans les traitements)
                                 </legend>
                                 <label for="prec" class="col-sm-3 col-form-label">Echelle de précision</label>
@@ -192,382 +194,285 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div class="min p-2 mt-3">
+                    <div id="showdate" class="min p-2 mt-3">
                         <fieldset>
-                            <legend class="legendesaisie">Dates</legend>
                             <div class="form-group row">
-                                <label for="date" class="col-sm-1 col-form-label">Du</label>
-                                <div class="col-sm-3"><input type="text" class="form-control" id="date" name="date"
+                                <legend class="col-sm-6 legendesaisie">Date d'observation de la station</legend>
+                                <div class="col-sm-4"><input type="text" class="form-control" id="date" name="date"
                                                              pattern="\d{1,2}/\d{1,2}/\d{4}"></div>
-                                <label for="date2" class="col-sm-1 col-form-label">au</label>
-                                <div class="col-sm-3"><input type="text" class="form-control" id="date2" name="date2"
-                                                             pattern="\d{1,2}/\d{1,2}/\d{4}"></div>
-                                <div class="col-sm-1"><i class="fa fa-plus text-success curseurlien"
-                                                         id="imgplusfiche"></i></div>
-                            </div>
-                            <div id="plusfiche">
-                                <div class="form-group row">
-                                    <label for="heure" class="col-sm-1 col-form-label">De</label>
-                                    <div class="col-sm-2"><input type="text" class="form-control" id="heure"
-                                                                 name="heure"></div>
-                                    <label for="heure2" class="col-form-label">a</label>
-                                    <div class="col-sm-2"><input type="text" class="form-control" id="heure2"
-                                                                 name="heure2"></div>
-                                    <label for="tempdeb" class="ml-2 col-form-label">°C debut</label>
-                                    <div class="col-sm-2"><input type="number" min="-50" max="50" class="form-control"
-                                                                 id="tempdeb" name="tempdeb"></div>
-                                    <label for="tempfin" class="col-form-label">°C fin</label>
-                                    <div class="col-sm-2"><input type="number" min="-50" max="50" class="form-control"
-                                                                 id="tempfin" name="tempfin"></div>
-                                </div>
                             </div>
                         </fieldset>
                     </div>
                     <div id="mare" class="min p-2 mt-3">
+
+                        <legend class="legendesaisie">Mares</legend>
                         <fieldset>
-                            <legend class="legendesaisie">Mares</legend>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="typemare" class="">Type de mare</label>
+                                    <select id="typemare" name="typemare" class="form-control">
+                                        <?php
+                                        foreach ($typemare as $n) {
+                                            if ($n['idtypemare'] == $idtypemare) {
+                                                ?>
+                                                <option value="<?php echo $n['idtypemare']; ?>"
+                                                        selected><?php echo $n['libtypemare']; ?></option><?php
+                                            } else {
+                                                ?>
+                                                <option
+                                                value="<?php echo $n['idtypemare']; ?>"><?php echo $n['libtypemare']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="environnement" class="">Environnement</label>
+                                    <select id="environnement" name="environnement" class="form-control">
+                                        <?php
+                                        foreach ($environnement as $n) {
+                                            if ($n['idenvironnement'] == $idenvironnement) {
+                                                ?>
+                                                <option value="<?php echo $n['idenvironnement']; ?>"
+                                                        selected><?php echo $n['libenvironnement']; ?></option><?php
+                                            } else {
+                                                ?>
+                                                <option
+                                                value="<?php echo $n['idenvironnement']; ?>"><?php echo $n['libenvironnement']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="menaces" class="">Menaces</label>
+                                    <select id="menaces" name="menaces" class="form-control">
+                                        <?php
+                                        foreach ($menaces as $n) {
+                                            if ($n['idmenaces'] == $idmenaces) {
+                                                ?>
+                                                <option value="<?php echo $n['idmenaces']; ?>"
+                                                        selected><?php echo $n['libmenaces']; ?></option><?php
+                                            } else {
+                                                ?>
+                                                <option
+                                                value="<?php echo $n['idmenaces']; ?>"><?php echo $n['libmenaces']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <label for="eaulibre" class="">Recouvrement eau libre (%)</label>
+                                    <div class="col-sm-6"><input type="number" min="0" max="100"
+                                                                 class="form-control"
+                                                                 id="eaulibre" name="eaulibre" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="vegaquatique" class="">Végétation aquatique</label>
+                                    <select id="vegaquatique" name="vegaquatique" class="form-control">
+                                        <?php
+                                        foreach ($vegaquatique as $n) {
+                                            if ($n['idvegaquatique'] == $idvegaquatique) {
+                                                ?>
+                                                <option value="<?php echo $n['idvegaquatique']; ?>"
+                                                        selected><?php echo $n['libvegaquatique']; ?></option><?php
+                                            } else {
+                                                ?>
+                                                <option
+                                                value="<?php echo $n['idvegaquatique']; ?>"><?php echo $n['libvegaquatique']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group row">
-                                <label for="typemare" class="col-sm-3 col-form-label">Type de mare</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="typemare" name="typemare" class="form-control">
-                                                <?php
-                                                foreach ($typemare as $n) {
-                                                    if ($n['idtypemare'] == $idtypemare) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idtypemare']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idtypemare']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                <div class="col-sm-6">
+                                    <label for="vegsemiaquatique" class="">Végétation semi-aquatique</label>
+                                    <select id="vegsemiaquatique" name="vegsemiaquatique" class="form-control">
+                                        <?php
+                                        foreach ($vegsemiaquatique as $n) {
+                                            if ($n['idvegsemiaquatique'] == $idvegsemiaquatique) {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="environnement" class="col-sm-3 col-form-label">Environnement</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="environnement" name="environnement" class="form-control">
-                                                <?php
-                                                foreach ($environnement as $n) {
-                                                    if ($n['idenvironnement'] == $idenvironnement) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idenvironnement']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idenvironnement']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option value="<?php echo $n['idvegsemiaquatique']; ?>"
+                                                        selected><?php echo $n['libvegsemiaquatique']; ?></option><?php
+                                            } else {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="menaces" class="col-sm-3 col-form-label">Menaces</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="menaces" name="menaces" class="form-control">
-                                                <?php
-                                                foreach ($menaces as $n) {
-                                                    if ($n['idmenaces'] == $idmenaces) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idmenaces']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idmenaces']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option
+                                                value="<?php echo $n['idvegsemiaquatique']; ?>"><?php echo $n['libvegsemiaquatique']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="vegrivulaire" class="">Végétation rivulaire</label>
+                                    <select id="vegrivulaire" name="vegrivulaire" class="form-control">
+                                        <?php
+                                        foreach ($vegrivulaire as $n) {
+                                            if ($n['idvegrivulaire'] == $idvegrivulaire) {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="atterissement" class="col-sm-3 col-form-label">Atterissement</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="atterissement" name="atterissement" class="form-control">
-                                                <?php
-                                                foreach ($atterissement as $n) {
-                                                    if ($n['idatterissement'] == $idatterissement) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idatterissement']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idatterissement']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option value="<?php echo $n['idvegrivulaire']; ?>"
+                                                        selected><?php echo $n['libvegrivulaire']; ?></option><?php
+                                            } else {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-
-                                <label for="eaulibre" class="col-sm-3 col-form-label">Recouvrement eau libre (%)</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6"><input type="number" min="0" max="100"
-                                                                     class="form-control"
-                                                                     id="eaulibre" name="eaulibre" placeholder=""></div>
-                                    </div>
-                                </fieldset>
-
-
-                                <label for="vegaquatique" class="col-sm-3 col-form-label">Végétation aquatique</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="vegaquatique" name="vegaquatique" class="form-control">
-                                                <?php
-                                                foreach ($vegaquatique as $n) {
-                                                    if ($n['idvegaquatique'] == $idvegaquatique) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idvegaquatique']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idvegaquatique']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option
+                                                value="<?php echo $n['idvegrivulaire']; ?>"><?php echo $n['libvegrivulaire']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="typeexutoire" class="">Type d'exutoire</label>
+                                    <select id="typeexutoire" name="typeexutoire" class="form-control">
+                                        <?php
+                                        foreach ($typeexutoire as $n) {
+                                            if ($n['idtypeexutoire'] == $idtypeexutoire) {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="vegsemiaquatique" class="col-sm-3 col-form-label">Végétation
-                                    semi-aquatique</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="vegsemiaquatique" name="vegsemiaquatique" class="form-control">
-                                                <?php
-                                                foreach ($vegsemiaquatique as $n) {
-                                                    if ($n['idvegsemiaquatique'] == $idvegsemiaquatique) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idvegsemiaquatique']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idvegsemiaquatique']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option value="<?php echo $n['idtypeexutoire']; ?>"
+                                                        selected><?php echo $n['libtypeexutoire']; ?></option><?php
+                                            } else {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-
-                                <label for="vegrivulaire" class="col-sm-3 col-form-label">Végétation rivulaire</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="vegrivulaire" name="vegrivulaire" class="form-control">
-                                                <?php
-                                                foreach ($vegrivulaire as $n) {
-                                                    if ($n['idvegrivulaire'] == $idvegrivulaire) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idvegrivulaire']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idvegrivulaire']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option
+                                                value="<?php echo $n['idtypeexutoire']; ?>"><?php echo $n['libtypeexutoire']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="taillemare" class="l">Taille de la mare</label>
+                                    <select id="taillemare" name="taillemare" class="form-control">
+                                        <?php
+                                        foreach ($taillemare as $n) {
+                                            if ($n['idtaillemare'] == $idtaillemare) {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="typeexutoire" class="col-sm-3 col-form-label">Type d'exutoire</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="typeexutoire" name="typeexutoire" class="form-control">
-                                                <?php
-                                                foreach ($typeexutoire as $n) {
-                                                    if ($n['idtypeexutoire'] == $idtypeexutoire) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idtypeexutoire']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idtypeexutoire']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option value="<?php echo $n['idtaillemare']; ?>"
+                                                        selected><?php echo $n['libtaillemare']; ?></option><?php
+                                            } else {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
+                                                <option
+                                                value="<?php echo $n['idtaillemare']; ?>"><?php echo $n['libtaillemare']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
 
-                                <label for="taillemare" class="col-sm-3 col-form-label">Taille de la mare</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="taillemare" name="taillemare" class="form-control">
-                                                <?php
-                                                foreach ($taillemare as $n) {
-                                                    if ($n['idtaillemare'] == $idtaillemare) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idtaillemare']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idtaillemare']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="couleureau" class="">Couleur de l'eau</label>
+                                    <select id="couleureau" name="couleureau" class="form-control">
+                                        <?php
+                                        foreach ($couleureau as $n) {
+                                            if ($n['idcouleureau'] == $idcouleureau) {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="couleureau" class="col-sm-3 col-form-label">Couleur de l'eau</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="couleureau" name="couleureau" class="form-control">
-                                                <?php
-                                                foreach ($couleureau as $n) {
-                                                    if ($n['idcouleureau'] == $idcouleureau) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idcouleureau']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idcouleureau']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option value="<?php echo $n['idcouleureau']; ?>"
+                                                        selected><?php echo $n['libcouleureau']; ?></option><?php
+                                            } else {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
+                                                <option
+                                                value="<?php echo $n['idcouleureau']; ?>"><?php echo $n['libcouleureau']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
 
-                                <label for="naturefond" class="col-sm-3 col-form-label">Nature du fond</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="naturefond" name="naturefond" class="form-control">
-                                                <?php
-                                                foreach ($naturefond as $n) {
-                                                    if ($n['idnaturefond'] == $idnaturefond) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idnaturefond']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idnaturefond']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                <div class="col-sm-6">
+                                    <label for="naturefond" class="">Nature du fond</label>
+                                    <select id="naturefond" name="naturefond" class="form-control">
+                                        <?php
+                                        foreach ($naturefond as $n) {
+                                            if ($n['idnaturefond'] == $idnaturefond) {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="recouvrberge" class="col-sm-3 col-form-label">Recouvrement des berges en
-                                    pente douce</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="recouvrberge" name="recouvrberge" class="form-control">
-                                                <?php
-                                                foreach ($recouvrberge as $n) {
-                                                    if ($n['idrecouvrberge'] == $idrecouvrberge) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idrecouvrberge']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idrecouvrberge']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option value="<?php echo $n['idnaturefond']; ?>"
+                                                        selected><?php echo $n['libnaturefond']; ?></option><?php
+                                            } else {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="profondeureau" class="col-sm-3 col-form-label">Profondeur d'eau maximale
-                                    observée</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="profondeureau" name="profondeureau" class="form-control">
-                                                <?php
-                                                foreach ($profondeureau as $n) {
-                                                    if ($n['idprofondeureau'] == $idprofondeureau) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idprofondeureau']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idprofondeureau']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option
+                                                value="<?php echo $n['idnaturefond']; ?>"><?php echo $n['libnaturefond']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="recouvrberge" class="">Recouvrement des berges en pente
+                                        douce</label>
+                                    <select id="recouvrberge" name="recouvrberge" class="form-control">
+                                        <?php
+                                        foreach ($recouvrberge as $n) {
+                                            if ($n['idrecberge'] == $idrecouvrberge) {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <label for="alimeau" class="col-sm-3 col-form-label">Alimentation en eau</label>
-                                <fieldset>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <select id="alimeau" name="alimeau" class="form-control">
-                                                <?php
-                                                foreach ($alimeau as $n) {
-                                                    if ($n['idalimeau'] == $idalimeau) {
-                                                        ?>
-                                                        <option value="<?php echo $n['idalimeau']; ?>"
-                                                                selected><?php echo $n['libelle']; ?></option><?php
-                                                    } else {
-                                                        ?>
-                                                        <option
-                                                        value="<?php echo $n['idalimeau']; ?>"><?php echo $n['libelle']; ?></option><?php
-                                                    }
-                                                }
+                                                <option value="<?php echo $n['idrecberge']; ?>"
+                                                        selected><?php echo $n['librecberge']; ?></option><?php
+                                            } else {
                                                 ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-
-                        </fieldset>
+                                                <option
+                                                value="<?php echo $n['idrecberge']; ?>"><?php echo $n['librecberge']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="profondeureau" class="">Profondeur d'eau maximale observée</label>
+                                    <select id="profondeureau" name="profondeureau" class="form-control">
+                                        <?php
+                                        foreach ($profondeureau as $n) {
+                                            if ($n['idprofondeureau'] == $idprofondeureau) {
+                                                ?>
+                                                <option value="<?php echo $n['idprofondeureau']; ?>"
+                                                        selected><?php echo $n['libprofondeureau']; ?></option><?php
+                                            } else {
+                                                ?>
+                                                <option
+                                                value="<?php echo $n['idprofondeureau']; ?>"><?php echo $n['libprofondeureau']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="alimeau" class="">Alimentation en eau</label>
+                                    <select id="alimeau" name="alimeau" class="form-control">
+                                        <?php
+                                        foreach ($alimeau as $n) {
+                                            if ($n['idalimeau'] == $idalimeau) {
+                                                ?>
+                                                <option value="<?php echo $n['idalimeau']; ?>"
+                                                        selected><?php echo $n['libalimeau']; ?></option><?php
+                                            } else {
+                                                ?>
+                                                <option
+                                                value="<?php echo $n['idalimeau']; ?>"><?php echo $n['libalimeau']; ?></option><?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
                     </div>
-                    <div class="min p-2 mt-3 mb-3">
+
+                    <div id="showphoto" class="min p-2 mt-3 mb-3">
                         <fieldset>
                             <legend class="legendesaisie">Ajouter une photo de la station<i
                                         class="fa fa-camera text-success curseurlien ml-3" id="adphoto"
@@ -579,21 +484,26 @@
                                     <p>
                                         <b>La photo doit représenter la station</b><br/>
                                         Fichiers autorisés : ".JPG". <br/>
-                                        Paysage - Mettre au minimum des photos de 800 de largeur x 600 de hauteur.<br/>
-                                        Portrait - Mettre au minimum des photos de 400 de largeur x 600 de hauteur.<br/>
+                                        Paysage - Mettre au minimum des photos de 800 de largeur x 600 de
+                                        hauteur.<br/>
+                                        Portrait - Mettre au minimum des photos de 400 de largeur x 600 de
+                                        hauteur.<br/>
                                     </p>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" class="custom-control-input" id="paysage" name="orien"
+                                        <input type="radio" class="custom-control-input" id="paysage"
+                                               name="orien"
                                                value="paysage" checked>
                                         <label class="custom-control-label" for="paysage">Paysage</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" class="custom-control-input" id="portrait" name="orien"
+                                        <input type="radio" class="custom-control-input" id="portrait"
+                                               name="orien"
                                                value="portrait">
                                         <label class="custom-control-label" for="portrait">Portrait</label>
                                     </div>
                                     <div id="obserphoto">
-                                        <p><b>Si la photo n'est pas de vous mais d'un co-observateur, cocher son nom</b>
+                                        <p><b>Si la photo n'est pas de vous mais d'un co-observateur, cocher son
+                                                nom</b>
                                         </p>
                                         <div id="opph"></div>
                                     </div>
@@ -626,18 +536,17 @@
                         </fieldset>
                     </div>
 
-                    <div class="min p-2 mt-3 mb-3">
+                    <div id="showcom" class="min p-2 mt-3 mb-3">
                         <fieldset>
                             <legend class="legendesaisie">Commentaire sur la station</legend>
-                            <input type="text" class="form-control" id="commentaire" name="commentaire"
-                                   placeholder="Commentaire">
+                            <textarea class="form-control" rows="5" id="commentaire" name="commentaire"
+                                      placeholder="Commentaire"></textarea>
                         </fieldset>
                     </div>
                     <div class="row ml-1">
 
-                        <button id="save_station" type="button" class="btn btn-danger" data-placement="bottom" data-title="">Enregistrer
-                            la
-                            station
+                        <button id="save_station" type="button" class="btn btn-danger" data-placement="bottom"
+                                data-title="">Enregistrer la station
                         </button>
 
                     </div>
@@ -647,7 +556,8 @@
                 <!--localisation, fiche, obs -->
                 <input id="codecom" name="codecom" type="hidden"/><input id="codedep" type="hidden"
                                                                          name="codedep"/><input
-                        id="codesite" name="codesite" type="hidden"/><input id="idcoord" type="hidden" name="idcoord"/>
+                        id="codesite" name="codesite" type="hidden"/><input id="idcoord" type="hidden"
+                                                                            name="idcoord"/>
                 <input id="idobser" name="idobser" type="hidden" value="<?php echo $idobser; ?>"/><input id="iddet"
                                                                                                          name="iddet"
                                                                                                          type="hidden"
@@ -655,9 +565,10 @@
                         id="cdnom" name="cdnom" type="hidden"/><input id="cdref" name="cdref" type="hidden"/>
                 <input id="idfiche" name="idfiche" type="hidden" value="Nouv"/><input id="idobs" name="idobs"
                                                                                       type="hidden"
-                                                                                      value="Nouv"/><input id="cdhab"
-                                                                                                           name="cdhab"
-                                                                                                           type="hidden"/>
+                                                                                      value="Nouv"/><input
+                        id="cdhab"
+                        name="cdhab"
+                        type="hidden"/>
                 <input id="pr" name="pr" type="hidden"/><input id="nb" name="nb" type="hidden"/><input id="newsp"
                                                                                                        name="newsp"
                                                                                                        type="hidden"/><input
