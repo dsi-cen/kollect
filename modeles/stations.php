@@ -168,16 +168,6 @@ function liste_menaces()
     return $resultats;
 }
 
-function eaulibre()
-{
-    $bdd = PDO2::getInstance();
-    $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->query("SELECT ideaulibre, libelle
-                                    FROM referentiel.eaulibre ");
-    $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
-    $req->closeCursor();
-    return $resultats;
-}
 function liste_vegaquatique()
 {
     $bdd = PDO2::getInstance();
