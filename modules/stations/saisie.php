@@ -63,11 +63,7 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
         $typestation = liste_typestation();
         $typemare = liste_typemare();
         $environnement = liste_environnement();
-   
         $menaces = liste_menaces();
-       
-        $eaulibre = eaulibre();
-       
         $vegaquatique = liste_vegaquatique();
         $vegsemiaquatique = liste_vegsemiaquatique();
         $vegrivulaire = liste_vegrivulaire();
