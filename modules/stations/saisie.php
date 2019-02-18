@@ -97,5 +97,5 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 }
 else
 {
-	header('location:index.php?module=connexion&action=connexion&s=o');
+	header('location:index.php?module=connexion&action=connexion&s=s');
 }

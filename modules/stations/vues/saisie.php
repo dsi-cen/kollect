@@ -167,47 +167,19 @@
                                         ?>
                                     </select>
                                 </div>
-
-                            </div>
-                            <div class="form-group row">
-                                <legend class="ml-3 legendesaisie">Précision de la géométrie (à titre d'information,
-                                    non-utilisée dans les traitements)
-                                </legend>
-                                <label for="prec" class="col-sm-3 col-form-label">Echelle de précision</label>
-                                <div class="col-sm-4">
-                                    <select id="precision" name="precision" class="form-control">
-                                        <?php
-                                        foreach ($precision as $n) {
-                                            if ($n['idpreci'] == $idpreci) {
-                                                ?>
-                                                <option value="<?php echo $n['idpreci']; ?>"
-                                                        selected><?php echo $n['lbpreci']; ?></option><?php
-                                            } else {
-                                                ?>
-                                                <option
-                                                value="<?php echo $n['idpreci']; ?>"><?php echo $n['lbpreci']; ?></option><?php
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div id="showdate" class="min p-2 mt-3">
-                        <fieldset>
-                            <div class="form-group row">
-                                <legend class="col-sm-6 legendesaisie">Date d'observation de la station</legend>
-                                <div class="col-sm-4"><input type="text" class="form-control" id="date" name="date"
-                                                             pattern="\d{1,2}/\d{1,2}/\d{4}"></div>
                             </div>
                         </fieldset>
                     </div>
                     <div id="mare" class="min p-2 mt-3">
 
-                        <legend class="legendesaisie">Mares</legend>
+                        <legend>Description de la mare</legend>
                         <fieldset>
-
+                            <hr>
+                            <div class="row col-sm-12 mb-3">
+                                <label for="date" class="">Date</label>
+                                <input type="text" class="form-control" id="date" name="date"
+                                       pattern="\d{1,2}/\d{1,2}/\d{4}">
+                            </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label for="typemare" class="">Type de mare</label>
@@ -470,6 +442,15 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="mt-3 mb-3">
+
+                                <legend class="legendesaisie">Commentaire sur la mare</legend>
+                                <textarea class="form-control" rows="5" id="commentairemare" name="commentairemare"
+                                          placeholder="Commentaire sur la mare"></textarea>
+
+                            </div>
+
                     </div>
 
                     <div id="showphoto" class="min p-2 mt-3 mb-3">
@@ -547,6 +528,9 @@
 
                         <button id="save_station" type="button" class="btn btn-danger" data-placement="bottom"
                                 data-title="">Enregistrer la station
+                        </button>
+                        <button id="update_station" type="button" class="btn btn-warning" data-placement="bottom"
+                                data-title="">Enregistrer la modification
                         </button>
 
                     </div>

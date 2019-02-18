@@ -223,7 +223,6 @@ function markersite(e) { // Fonction générique pour afficher les markers
                 map.setView(this.getLatLng(), 15); // Zoom au click sur une station
                 // RLE : Récup des info du site
                 $("#lieub").val(e[t].site);
-                $("#nom_station").html( ": " + e[t].site);
                 $("#pr").val(1);
                 $("#idcoord").val(e[t].idcoord);
                 $("#codesite").val(e[t].idsite);
@@ -235,6 +234,7 @@ function markersite(e) { // Fonction générique pour afficher les markers
                 $("#l93").val(e[t].codel93);
                 "oui" == utm && ($("#utm").val(e[t].utm), $("#utm1").val(e[t].utm1));
                 console.log($("#codesite").val());
+                recup_info($("#codesite").val());
             }
         }(markers, t));
         if (markers.addLayer(l), e[t].geo) {
@@ -245,6 +245,49 @@ function markersite(e) { // Fonction générique pour afficher les markers
         }
     }
     map.addLayer(markers), i && map.addLayer(contoursite)
+}
+
+function recup_info(id) {
+    "use strict";
+    $.ajax({
+        url: "modeles/ajax/stations/recupinfo.php",
+        type: "POST",
+        dataType: "json",
+        data: {id: id},
+        success: function (e) {
+            console.log(e);
+            $("#create_station").show();
+            $("#save_station").show();
+            $(".leaflet-draw").show();
+            $("#showcom").show();
+            $("#showphoto").show();
+            // Remplir avec les valeurs
+            $("#typestation").val(e.idtypestation);
+            $("#lieub").val(e.site);
+            $("#nom_station").html(" : <span style='color: darkred;'> " + e.site + "</span>");
+            $("#mare").show();
+            $(".active").html("Vous êtes en mode édition d'une station existante");
+            $("#date").val(e.datedescription);
+            $("#typemare").val(e.idtypemare);
+            $("#menace").val(e.idmenaces);
+            $("#environnement").val(e.idenvironnement);
+            $("#eaulibre").val(e.receaulibre);
+            $("#vegaquatique").val(e.idvegaquatique);
+            $("#vegsemiaquatique").val(e.idvegsemiaquatique);
+            $("#vegrivulaire").val(e.idvegrivulaire);
+            $("#typeexutoire").val(e.idtypeexutoire);
+            $("#taillemare").val(e.idtaillemare);
+            $("#couleureau").val(e.idcouleureau);
+            $("#naturefond").val(e.idnaturefond);
+            $("#recouvrberge").val(e.idrecberge);
+            $("#profondeureau").val(e.profondeureau);
+            $("#alimeau").val(e.idalimeau);
+            $("#commentairemare").val(e.commentairemare);
+            $("#commentaire").val(e.commentaire);
+            $("#save_station").hide();
+            $("#update_station").show();
+        }
+    });
 }
 
 function proche(e, a, t) {
@@ -594,8 +637,8 @@ $(document).ready(function () {
     "use strict";
     $("#mare").hide(); // Cacher les mares au chargement
     $("#create_station").hide(); // Cacher la création au chargement
+    $("#update_station").hide(); // Cacher la mise à jour au chargement
     $("#save_station").hide(); // Cacher l'enregistrement d'une nouvelle station
-    $("#showdate").hide(); //
     $("#showcom").hide(); //
     $("#showphoto").hide(); //
 
@@ -1134,7 +1177,6 @@ $("#btn_create_station").change(function(){
         $("#save_station").show();
         $("#lieub").val("");
         $(".leaflet-draw").show();
-        $("#showdate").show(); //
         $("#showcom").show(); //
         $("#showphoto").show(); //
     } else { // Mode 'édition' de station existante
@@ -1142,7 +1184,6 @@ $("#btn_create_station").change(function(){
         $("#save_station").hide();
         $(".leaflet-draw").hide();
         $("#mare").hide();
-        $("#showdate").hide(); //
         $("#showcom").hide(); //
         $("#showphoto").hide(); //
     }
@@ -1171,6 +1212,7 @@ $("#save_station").on("click", function(){
             dataType: "json",
             data: element + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
             success: function (e) {
+                window.location.reload(false);
             },
             error: function() {
                 console.log('Erreur!')

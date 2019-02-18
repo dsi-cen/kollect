@@ -32,5 +32,5 @@ if (isset($_SESSION['prenom']) && isset($_SESSION['nom'])) {
         header('location:index.php?module=maintenance&action=maintenance');
     }
 } else {
-    header('location:index.php?module=connexion&action=connexion&s=o');
+    header('location:index.php?module=connexion&action=connexion&s=l');
 }
