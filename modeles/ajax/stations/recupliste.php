@@ -7,12 +7,12 @@ function stations($iddep, $type)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $sql = "SELECT idsite, obs.site.idcoord, obs.site.codecom, site, obs.coordgeo.geo, type, commune,  obs.coordonnee.lat, obs.coordonnee.lng, libtypestation
+    $sql = "SELECT idsite, obs.site.idcoord, obs.site.codecom, site, obs.coordgeo.geo, typestation, commune,  obs.coordonnee.lat, obs.coordonnee.lng, libtypestation
             FROM obs.site
             LEFT JOIN referentiel.commune ON referentiel.commune.codecom = obs.site.codecom
             LEFT JOIN obs.coordgeo ON obs.site.idcoord = obs.coordgeo.idcoord
             LEFT JOIN obs.coordonnee ON obs.site.idcoord = obs.coordonnee.idcoord
-            LEFT JOIN referentiel_station.typestation ON referentiel_station.typestation.idtypestation = obs.site.type 
+            LEFT JOIN referentiel_station.typestation ON referentiel_station.typestation.idtypestation = obs.site.typestation 
             WHERE obs.site.codecom LIKE :iddep ";
     if ($type != 0){
         $sql .= "AND referentiel_station.typestation.idtypestation = :type ";

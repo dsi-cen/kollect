@@ -14,15 +14,8 @@
                             <input type="text" id="observateur" name="observateur" class="form-control"
                                    value="<?php echo $_SESSION['nom'] . ' ' . $_SESSION['prenom'] . ''; ?>">
                         </div>
-                        <div class="col-sm-8">
-                            <input type="text" id="observateur2" name="observateur2" class="form-control"
-                                   placeholder="Ajouter observateur(s)" data-toggle="tooltip" data-placement="bottom"
-                                   title="Vous pouvez ajouter des observateurs (laissez la virgule entre chaque observateur) déjà enregistrés dans la base ou en ajouter en cliquant sur la croix à droite">
-                        </div>
                     </div>
                 </form>
-                <span id="plusobs" class="ml-auto curseurlien" title="Créer un observateur"><i
-                            class="centreligne fa fa-user-plus fa-lg"></i></span>
             </div>
         </div>
     </header>
@@ -171,7 +164,6 @@
                         </fieldset>
                     </div>
                     <div id="mare" class="min p-2 mt-3">
-
                         <legend>Description de la mare</legend>
                         <fieldset>
                             <hr>
@@ -221,7 +213,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label for="menaces" class="">Menaces</label>
-                                    <select id="menaces" name="menaces" class="form-control">
+                                    <select id="menaces" name="menaces[]" class="form-control" multiple>
                                         <?php
                                         foreach ($menaces as $n) {
                                             if ($n['idmenaces'] == $idmenaces) {
@@ -425,7 +417,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label for="alimeau" class="">Alimentation en eau</label>
-                                    <select id="alimeau" name="alimeau" class="form-control">
+                                    <select id="alimeau" name="alimeau[]" class="form-control" multiple>
                                         <?php
                                         foreach ($alimeau as $n) {
                                             if ($n['idalimeau'] == $idalimeau) {
@@ -450,7 +442,22 @@
                                           placeholder="Commentaire sur la mare"></textarea>
 
                             </div>
+                            <div class="form-group row">
 
+                                    <legend class="mt-3 mb-3 legendesaisie">Ajouter des observateurs supplémentaires si besoin
+                                    </legend>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="observateur2" name="observateur2" class="form-control"
+                                               placeholder="Ajouter d'autres observateurs si besoin"
+                                               data-toggle="tooltip" data-placement="bottom"
+                                               title="Vous pouvez ajouter des observateurs (laissez la virgule entre chaque observateur) déjà enregistrés dans la base ou en ajouter en cliquant sur la croix à droite">
+                                    </div>
+                                    <div class="col-sm-4">
+                            <span id="plusobs" class="ml-auto curseurlien" title="Créer un observateur"><i
+                                        class="centreligne fa fa-user-plus fa-lg"></i></span>
+                                    </div>
+
+                            </div>
                     </div>
 
                     <div id="showphoto" class="min p-2 mt-3 mb-3">

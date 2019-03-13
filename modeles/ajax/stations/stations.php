@@ -3,6 +3,18 @@ include '../../../global/configbase.php';
 include '../../../lib/pdo2.php';
 session_start();
 
+function observateur2($term)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("SELECT observateur, idobser FROM referentiel.observateur WHERE observateur ILIKE :recherche") or die(print_r($bdd->errorInfo()));
+    $req->bindValue(':recherche', ''.$term.'%');
+    $req->execute();
+    $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    return $resultat;
+}
+
 function insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935)
 {
     $bdd = PDO2::getInstance();
@@ -55,19 +67,18 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commenta
     return $rowidstation ;
 }
 
-function insere_mare($idstation, $datedescription, $idtypemare, $idmenaces, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $idalimeau, $commentairemare)
+function insere_mare($idstation, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->prepare("INSERT INTO station.infosmare (idstation, datedescription, idtypemare, idmenaces, idenvironnement, receaulibre, idvegaquatique, idvegsemiaquatique, idvegrivulaire, idtypeexutoire, idtaillemare, idcouleureau, idnaturefond, idrecberge, idprofondeureau, idalimeau, commentaire)
-                                    VALUES(:idstation, :datedescription, :idtypemare, :idmenaces,
+    $req = $bdd->prepare("INSERT INTO station.infosmare (idstation, datedescription, idtypemare, idenvironnement, receaulibre, idvegaquatique, idvegsemiaquatique, idvegrivulaire, idtypeexutoire, idtaillemare, idcouleureau, idnaturefond, idrecberge, idprofondeureau, commentaire)
+                                    VALUES(:idstation, :datedescription, :idtypemare,
                                     :idenvironnement, :receaulibre, :idvegaquatique, :idvegsemiaquatique, 
                                     :idvegrivulaire, :idtypeexutoire, :idtaillemare, :idcouleureau, 
-                                    :idnaturefond, :idrecberge, :idprofondeureau, :idalimeau, :commentairemare)");
+                                    :idnaturefond, :idrecberge, :idprofondeureau, :commentairemare)");
     $req->bindValue(':idstation', $idstation);
     $req->bindValue(':datedescription', $datedescription);
     $req->bindValue(':idtypemare', $idtypemare);
-    $req->bindValue(':idmenaces', $idmenaces);
     $req->bindValue(':idenvironnement', $idenvironnement);
     $req->bindValue(':receaulibre', $receaulibre == "" ? $receaulibre = NULL : $receaulibre );
     $req->bindValue(':idvegaquatique', $idvegaquatique);
@@ -79,9 +90,40 @@ function insere_mare($idstation, $datedescription, $idtypemare, $idmenaces, $ide
     $req->bindValue(':idnaturefond', $idnaturefond);
     $req->bindValue(':idrecberge', $idrecberge);
     $req->bindValue(':idprofondeureau', $idprofondeureau);
-    $req->bindValue(':idalimeau', $idalimeau);
     $req->bindValue(':commentairemare', $commentairemare);
-    $req->execute();
+    if ($req->execute())
+    {
+        $idinfosmare = $bdd->lastInsertId('station.infosmare_idinfosmare_seq');
+    }
+    $req->closeCursor();
+    return $idinfosmare ;
+}
+
+function insere_menaces($idinfosmare, $idmenaces)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    foreach ($idmenaces as $menace){
+        $req = $bdd->prepare("INSERT INTO station.infosmare_menaces (idinfosmare, idmenaces)
+                                        VALUES (:idinfosmare, :idmenaces) ");
+        $req->bindValue(':idinfosmare', $idinfosmare);
+        $req->bindValue(':idmenaces', $menace);
+        $req->execute();
+    }
+    $req->closeCursor();
+}
+
+function insere_alimeau($idinfosmare, $idalimeau)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    foreach ($idalimeau as $alimeau){
+        $req = $bdd->prepare("INSERT INTO station.infosmare_alimeau (idinfosmare, idalimeau)
+                                        VALUES (:idinfosmare, :alimeau) ");
+        $req->bindValue(':idinfosmare', $idinfosmare);
+        $req->bindValue(':alimeau', $alimeau);
+        $req->execute();
+    }
     $req->closeCursor();
 }
 
@@ -161,7 +203,6 @@ if(isset($_POST['codesite'])) {
             $datedescription = $datedescription->format('Y-m-d');
             $idtypemare = $_POST['typemare'];
             $idenvironnement = $_POST['environnement'];
-            $idmenaces = $_POST['menaces'];
             $receaulibre = $_POST['eaulibre'];
             $idvegaquatique = $_POST['vegaquatique'];
             $idvegsemiaquatique = $_POST['vegsemiaquatique'];
@@ -172,9 +213,18 @@ if(isset($_POST['codesite'])) {
             $idnaturefond = $_POST['naturefond'];
             $idrecberge = $_POST['recouvrberge'];
             $idprofondeureau = $_POST['profondeureau'];
-            $idalimeau = $_POST['alimeau'];
             $commentairemare = $_POST['commentairemare'];
-            insere_mare($rowidstation, $datedescription, $idtypemare, $idmenaces, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $idalimeau, $commentairemare);
+
+            $idmenaces = $_POST['menaces'];
+            $idalimeau = $_POST['alimeau'];
+
+            // Insérer les informations générales
+            $idinfosmare = insere_mare($rowidstation, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare);
+            // Insérer les menaces
+            insere_menaces($idinfosmare, $idmenaces);
+            // Insérer les alimentations en eau
+            insere_alimeau($idinfosmare, $idalimeau);
+
         }
         // Si présence de photo
         $photo = $_POST['aphoto'];

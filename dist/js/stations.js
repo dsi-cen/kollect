@@ -262,27 +262,28 @@ function recup_info(id) {
             $("#showcom").show();
             $("#showphoto").show();
             // Remplir avec les valeurs
-            $("#typestation").val(e.idtypestation);
+            $("#typestation").val(e.typestation);
+            $("#typestation").prop('disabled', true); // Empêcher le changement de type
             $("#lieub").val(e.site);
             $("#nom_station").html(" : <span style='color: darkred;'> " + e.site + "</span>");
-            $("#mare").show();
+            $("#mare").hide();
             $(".active").html("Vous êtes en mode édition d'une station existante");
-            $("#date").val(e.datedescription);
-            $("#typemare").val(e.idtypemare);
-            $("#menace").val(e.idmenaces);
-            $("#environnement").val(e.idenvironnement);
-            $("#eaulibre").val(e.receaulibre);
-            $("#vegaquatique").val(e.idvegaquatique);
-            $("#vegsemiaquatique").val(e.idvegsemiaquatique);
-            $("#vegrivulaire").val(e.idvegrivulaire);
-            $("#typeexutoire").val(e.idtypeexutoire);
-            $("#taillemare").val(e.idtaillemare);
-            $("#couleureau").val(e.idcouleureau);
-            $("#naturefond").val(e.idnaturefond);
-            $("#recouvrberge").val(e.idrecberge);
-            $("#profondeureau").val(e.profondeureau);
-            $("#alimeau").val(e.idalimeau);
-            $("#commentairemare").val(e.commentairemare);
+            // $("#date").val(e.datedescription);
+            // $("#typemare").val(e.idtypemare);
+            // $("#menace").val(e.idmenaces);
+            // $("#environnement").val(e.idenvironnement);
+            // $("#eaulibre").val(e.receaulibre);
+            // $("#vegaquatique").val(e.idvegaquatique);
+            // $("#vegsemiaquatique").val(e.idvegsemiaquatique);
+            // $("#vegrivulaire").val(e.idvegrivulaire);
+            // $("#typeexutoire").val(e.idtypeexutoire);
+            // $("#taillemare").val(e.idtaillemare);
+            // $("#couleureau").val(e.idcouleureau);
+            // $("#naturefond").val(e.idnaturefond);
+            // $("#recouvrberge").val(e.idrecberge);
+            // $("#profondeureau").val(e.profondeureau);
+            // $("#alimeau").val(e.idalimeau);
+            // $("#commentairemare").val(e.commentairemare);
             $("#commentaire").val(e.commentaire);
             $("#save_station").hide();
             $("#update_station").show();
@@ -1189,6 +1190,7 @@ $("#btn_create_station").change(function(){
     }
 });
 
+// Enregistrer la station
 $("#save_station").on("click", function(){
         "use strict";
         var l = $("#xlambert").val(),
@@ -1218,4 +1220,36 @@ $("#save_station").on("click", function(){
                 console.log('Erreur!')
             }
         })
+});
+
+// Update des infos de la station
+$("#update_station").on("click", function(){
+    "use strict";
+    var l = $("#xlambert").val(),
+        o = $("#ylambert").val(),
+        i = $("#altitude").val(),
+        s = $("#l93").val(),
+        n = $("#l935").val(),
+        r = $("#lat").val(),
+        c = $("#lng").val(),
+        photo = $("#aphoto").val(),
+        u = "oui" == utm ? $("#utm").val() : "",
+        p = "oui" == utm ? $("#utm1").val() : "",
+        copyright = $("input[name=opph]:checked").val();
+    var imagedata;
+    photo == 'oui' ? imagedata = encodeURIComponent($("#crop").cropit("export", {type: "image/jpeg", quality: .9, originalSize: !1})) : imagedata = "";
+    console.log($("form").serialize());
+    var element = $("form").serialize();
+    $.ajax({
+        url: "modeles/ajax/stations/stations.php",
+        type: "POST",
+        dataType: "json",
+        data: element + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
+        success: function (e) {
+            window.location.reload(false);
+        },
+        error: function() {
+            console.log('Erreur!')
+        }
+    })
 });
