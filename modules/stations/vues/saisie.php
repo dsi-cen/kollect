@@ -161,6 +161,22 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group row">
+
+                                <legend class="mt-3 mb-3 legendesaisie">Ajouter des observateurs supplémentaires si besoin
+                                </legend>
+                                <div class="col-sm-8">
+                                    <input type="text" id="observateur2" name="observateur2" class="form-control"
+                                           placeholder="Ajouter d'autres observateurs si besoin"
+                                           data-toggle="tooltip" data-placement="bottom"
+                                           title="Vous pouvez ajouter des observateurs (laissez la virgule entre chaque observateur) déjà enregistrés dans la base ou en ajouter en cliquant sur la croix à droite">
+                                </div>
+                                <div class="col-sm-4">
+                            <span id="plusobs" class="ml-auto curseurlien" title="Créer un observateur"><i
+                                        class="centreligne fa fa-user-plus fa-lg"></i></span>
+                                </div>
+
+                            </div>
                         </fieldset>
                     </div>
                     <div id="mare" class="min p-2 mt-3">
@@ -442,22 +458,7 @@
                                           placeholder="Commentaire sur la mare"></textarea>
 
                             </div>
-                            <div class="form-group row">
 
-                                    <legend class="mt-3 mb-3 legendesaisie">Ajouter des observateurs supplémentaires si besoin
-                                    </legend>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="observateur2" name="observateur2" class="form-control"
-                                               placeholder="Ajouter d'autres observateurs si besoin"
-                                               data-toggle="tooltip" data-placement="bottom"
-                                               title="Vous pouvez ajouter des observateurs (laissez la virgule entre chaque observateur) déjà enregistrés dans la base ou en ajouter en cliquant sur la croix à droite">
-                                    </div>
-                                    <div class="col-sm-4">
-                            <span id="plusobs" class="ml-auto curseurlien" title="Créer un observateur"><i
-                                        class="centreligne fa fa-user-plus fa-lg"></i></span>
-                                    </div>
-
-                            </div>
                     </div>
 
                     <div id="showphoto" class="min p-2 mt-3 mb-3">
@@ -468,6 +469,11 @@
                                         data-title="Chercher dans les espèces non inclusent (espèces nouvelles)"></i>
                             </legend>
                             <div class="row mb-3" id="photo">
+                                <div class="row col-sm-12 mb-3 dateprisedevue">
+                                    <label for="dateprisedevue" class="date">Date de la prise de vue</label>
+                                    <input type="text" class="form-control" id="dateprisedevue" name="dateprisedevue"
+                                           pattern="\d{1,2}/\d{1,2}/\d{4}">
+                                </div>
                                 <div class="col-md-5 col-lg-5">
                                     <p>
                                         <b>La photo doit représenter la station</b><br/>
@@ -521,6 +527,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="liste_photo" class="popup-gallery">
+                            </div>
                         </fieldset>
                     </div>
 
@@ -536,8 +544,10 @@
                         <button id="save_station" type="button" class="btn btn-danger" data-placement="bottom"
                                 data-title="">Enregistrer la station
                         </button>
-                        <button id="update_station" type="button" class="btn btn-warning" data-placement="bottom"
+                        <button id="update_station" type="button" class="btn btn-success" data-placement="bottom"
                                 data-title="">Enregistrer la modification
+                        </button>                        <button id="cancel_update" type="button" class="btn btn-warning ml-3" data-placement="bottom"
+                                data-title="">Retour
                         </button>
 
                     </div>

@@ -36,6 +36,42 @@ function insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935)
     $req->closeCursor();
     return $idcoord;
 }
+
+function update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("SELECT idcoord
+                                    FROM obs.site
+                                    where idsite = :codesite") or die(print_r($bdd->errorInfo()));
+    $req->bindValue(':codesite', $codesite);
+    $req->execute();
+    $idcoord = $req->fetch(PDO::FETCH_ASSOC);
+
+    $req = $bdd->prepare("UPDATE obs.coordonnee SET x = :x, 
+                                                              y = :y, 
+                                                              altitude = :alt, 
+                                                              lat = :lat, 
+                                                              lng = :lng, 
+                                                              codel93 = :l93, 
+                                                              utm = :utm, 
+                                                              utm1 = :utm1, 
+                                                              codel935 = :l935
+                                                              WHERE idcoord = :idcoord ") or die(print_r($bdd->errorInfo()));
+    $req->bindValue(':x', $x);
+    $req->bindValue(':y', $y);
+    $req->bindValue(':alt', $alt);
+    $req->bindValue(':lat', $lat);
+    $req->bindValue(':lng', $lng);
+    $req->bindValue(':l93', $l93);
+    $req->bindValue(':utm', $utm);
+    $req->bindValue(':utm1', $utm1);
+    $req->bindValue(':l935', $l935);
+    $req->bindValue(':idcoord', $idcoord['idcoord']);
+    $req->execute();
+    $req->closeCursor();
+}
+
 function inser_coordgeo($idcoord,$geo,$poly)
 {
     $bdd = PDO2::getInstance();
@@ -48,17 +84,41 @@ function inser_coordgeo($idcoord,$geo,$poly)
     $req->closeCursor();
 }
 
-function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire)
+function update_coordgeo($codesite,$geo,$poly)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, typestation, commentaire) VALUES(:idcoord, :codecom, :site, :rqsite, :typestation, :commentaire) ");
+
+    $req = $bdd->prepare("SELECT idcoord
+                                    FROM obs.site
+                                    where idsite = :codesite") or die(print_r($bdd->errorInfo()));
+    $req->bindValue(':codesite', $codesite);
+    $req->execute();
+    $idcoord = $req->fetch(PDO::FETCH_ASSOC);
+
+
+    $req = $bdd->prepare("UPDATE obs.coordgeo SET geo = :geo, 
+                                                            poly = :poly
+                                                        WHERE idcoord = :idcoord") or die(print_r($bdd->errorInfo()));
+    $req->bindValue(':idcoord', $idcoord['idcoord']);
+    $req->bindValue(':geo', $geo);
+    $req->bindValue(':poly', $poly);
+    $req->execute();
+    $req->closeCursor();
+}
+
+function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, typestation, commentaire, idmembre) VALUES(:idcoord, :codecom, :site, :rqsite, :typestation, :commentaire, :idm) ");
     $req->bindValue(':codecom', $codecom);
     $req->bindValue(':idcoord', $idcoord);
     $req->bindValue(':rqsite', $rqsite);
     $req->bindValue(':site', $site);
     $req->bindValue(':typestation', $typestation);
     $req->bindValue(':commentaire', $commentaire);
+    $req->bindValue(':idm', $idm);
     if ($req->execute())
     {
         $rowidstation = $bdd->lastInsertId('obs.site_idsite_seq');
@@ -67,15 +127,38 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commenta
     return $rowidstation ;
 }
 
-function insere_mare($idstation, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare)
+function update_site($codesite, $codecom, $idcoord, $rqsite, $site, $typestation, $commentaire)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->prepare("INSERT INTO station.infosmare (idstation, datedescription, idtypemare, idenvironnement, receaulibre, idvegaquatique, idvegsemiaquatique, idvegrivulaire, idtypeexutoire, idtaillemare, idcouleureau, idnaturefond, idrecberge, idprofondeureau, commentaire)
+    $req = $bdd->prepare("UPDATE obs.site SET idcoord = :idcoord, 
+                                                        codecom = :codecom, 
+                                                        site = :site, 
+                                                        rqsite = :rqsite, 
+                                                        typestation = :typestation, 
+                                                        commentaire = :commentaire
+                                                        WHERE idsite = :idsite");
+    $req->bindValue(':codecom', $codecom);
+    $req->bindValue(':idcoord', $idcoord);
+    $req->bindValue(':rqsite', $rqsite);
+    $req->bindValue(':site', $site);
+    $req->bindValue(':typestation', $typestation);
+    $req->bindValue(':commentaire', $commentaire);
+    $req->bindValue(':idsite', $codesite);
+    $req->execute();
+    $req->closeCursor();
+}
+
+function insere_mare($idstation, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare, $idmembre, $idobser, $plusobser)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("INSERT INTO station.infosmare (idstation, datedescription, idtypemare, idenvironnement, receaulibre, idvegaquatique, idvegsemiaquatique, idvegrivulaire, idtypeexutoire, idtaillemare, idcouleureau, idnaturefond, idrecberge, idprofondeureau, commentaire, idmembre, idobser, plusobser)
                                     VALUES(:idstation, :datedescription, :idtypemare,
                                     :idenvironnement, :receaulibre, :idvegaquatique, :idvegsemiaquatique, 
                                     :idvegrivulaire, :idtypeexutoire, :idtaillemare, :idcouleureau, 
-                                    :idnaturefond, :idrecberge, :idprofondeureau, :commentairemare)");
+                                    :idnaturefond, :idrecberge, :idprofondeureau, :commentairemare,
+                                    :idmembre, :idobser, :plusobser)");
     $req->bindValue(':idstation', $idstation);
     $req->bindValue(':datedescription', $datedescription);
     $req->bindValue(':idtypemare', $idtypemare);
@@ -91,6 +174,9 @@ function insere_mare($idstation, $datedescription, $idtypemare, $idenvironnement
     $req->bindValue(':idrecberge', $idrecberge);
     $req->bindValue(':idprofondeureau', $idprofondeureau);
     $req->bindValue(':commentairemare', $commentairemare);
+    $req->bindValue(':idmembre', $idmembre);
+    $req->bindValue(':idobser', $idobser);
+    $req->bindValue(':plusobser', $plusobser);
     if ($req->execute())
     {
         $idinfosmare = $bdd->lastInsertId('station.infosmare_idinfosmare_seq');
@@ -162,6 +248,11 @@ function insere_photo($idstation, $idobser, $datephoto, $codecom, $nomphoto, $da
 if(isset($_POST['codesite'])) {
     $idm = (isset($_SESSION['idmorigin'])) ? $_SESSION['idmorigin'] : $_SESSION['idmembre'];
 
+    $idobser = $_POST['idobser'];
+
+
+
+
     // Informations géographiques
     $codecom = $_POST['codecom']; // Code commune
     $x = $_POST['x'];
@@ -181,7 +272,28 @@ if(isset($_POST['codesite'])) {
     $typestation = $_POST['typestation'];
     $commentaire = $_POST['commentaire'];
 
+    // Données mare
+    $idtypemare = $_POST['typemare'];
+    $idenvironnement = $_POST['environnement'];
+    $receaulibre = $_POST['eaulibre'];
+    $idvegaquatique = $_POST['vegaquatique'];
+    $idvegsemiaquatique = $_POST['vegsemiaquatique'];
+    $idvegrivulaire = $_POST['vegrivulaire'];
+    $idtypeexutoire = $_POST['typeexutoire'];
+    $idtaillemare = $_POST['taillemare'];
+    $idcouleureau = $_POST['couleureau'];
+    $idnaturefond = $_POST['naturefond'];
+    $idrecberge = $_POST['recouvrberge'];
+    $idprofondeureau = $_POST['profondeureau'];
+    $commentairemare = $_POST['commentairemare'];
+    $idmenaces = $_POST['menaces'];
+    $idalimeau = $_POST['alimeau'];
+
     if ($_POST['codesite'] == 'Nouv') { //Nouveau site.
+
+        // Date description
+        $datedescription = DateTime::createFromFormat('d/m/Y', $_POST['date']);
+        $datedescription = $datedescription->format('Y-m-d');
 
         $idcoord = insere_coordonnee($x, $y, $alt, $lat, $lng, $l93, $utm, $utm1, $l935);
 
@@ -195,45 +307,25 @@ if(isset($_POST['codesite'])) {
         //Insertion site
         if ($site != '') { // Création du site
             $rqsite = 'Insertion via gestion des stations. idm - ' . $idm;
-            $rowidstation = insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire);
+            $rowidstation = insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm);
         }
 
         if ($typestation == 1) { // Si c'est du type 'mare'
-            $datedescription = DateTime::createFromFormat('d/m/Y', $_POST['date']);
-            $datedescription = $datedescription->format('Y-m-d');
-            $idtypemare = $_POST['typemare'];
-            $idenvironnement = $_POST['environnement'];
-            $receaulibre = $_POST['eaulibre'];
-            $idvegaquatique = $_POST['vegaquatique'];
-            $idvegsemiaquatique = $_POST['vegsemiaquatique'];
-            $idvegrivulaire = $_POST['vegrivulaire'];
-            $idtypeexutoire = $_POST['typeexutoire'];
-            $idtaillemare = $_POST['taillemare'];
-            $idcouleureau = $_POST['couleureau'];
-            $idnaturefond = $_POST['naturefond'];
-            $idrecberge = $_POST['recouvrberge'];
-            $idprofondeureau = $_POST['profondeureau'];
-            $commentairemare = $_POST['commentairemare'];
-
-            $idmenaces = $_POST['menaces'];
-            $idalimeau = $_POST['alimeau'];
-
             // Insérer les informations générales
-            $idinfosmare = insere_mare($rowidstation, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare);
+            $idinfosmare = insere_mare($rowidstation, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare, $idm, $idobser, $plusobser);
             // Insérer les menaces
             insere_menaces($idinfosmare, $idmenaces);
             // Insérer les alimentations en eau
             insere_alimeau($idinfosmare, $idalimeau);
-
         }
         // Si présence de photo
         $photo = $_POST['aphoto'];
         if (isset($photo)) {
             if ($photo == 'oui') {
                 if (!file_exists('../../../photo/P800/stations')) {
-                    mkdir('../../../photo/P800/stations', 0777, true); // 777 temp
-                    mkdir('../../../photo/P400/stations', 0777, true); // 777 temp
-                    mkdir('../../../photo/P200/stations', 0777, true); // 777 temp
+                    mkdir('../../../photo/P800/stations', 0764, true); // 777 temp
+                    mkdir('../../../photo/P400/stations', 0764, true); // 777 temp
+                    mkdir('../../../photo/P200/stations', 0764, true); // 777 temp
                 }
 
                 $dossier_destination1 = '../../../photo/P800/stations/';
@@ -264,7 +356,57 @@ if(isset($_POST['codesite'])) {
             }
         }
     }
+
+    if ($_POST['codesite'] != 'Nouv') { // Modification de la station
+        $codesite = $_POST['codesite'] ;
+        // Si présence de photo
+        $photo = $_POST['aphoto'];
+        if (isset($photo)) {
+            if ($photo == 'oui') {
+                if (!file_exists('../../../photo/P800/stations')) {
+                    mkdir('../../../photo/P800/stations', 0764, true); // 777 temp
+                    mkdir('../../../photo/P400/stations', 0764, true); // 777 temp
+                    mkdir('../../../photo/P200/stations', 0764, true); // 777 temp
+                }
+
+                $dossier_destination1 = '../../../photo/P800/stations/';
+                $dossier_destination2 = '../../../photo/P400/stations/';
+                $dossier_destination3 = '../../../photo/P200/stations/';
+                $nomphoto = $codecom . time();
+                $nomfichier = $nomphoto . '.jpg';
+                $img = $_POST['imagedata'];
+                $exp = explode(',', $img);
+                $data = base64_decode($exp[1]);
+                $file = $dossier_destination1 . $nomfichier;
+                if (file_put_contents($file, $data) !== false) {
+                    require '../../../lib/RedimImageJpg.php';
+                    $orien = $_POST['orien'];
+                    $repSource = $dossier_destination1;
+                    $repDest = $dossier_destination2;
+                    $redim = ($orien == 'paysage') ? fctredimimage(400, 266, $repDest, '', $repSource, $nomfichier) : fctredimimage(200, 300, $repDest, '', $repSource, $nomfichier);
+                    $repDest = $dossier_destination3;
+                    $redim = ($orien == 'paysage') ? fctredimimage(200, 133, $repDest, '', $repSource, $nomfichier) : fctredimimage(100, 150, $repDest, '', $repSource, $nomfichier);
+                    if ($redim == true) {
+                        //$ordre = ($nbphoto == 0) ? 1 : $nbphoto + 1 ;
+                        $ordre = 1; // Fonction à faire pour compter les images
+                        $datesaisie = date("Y-m-d H:i:s");
+                        $copyright = $_POST['copyright'];
+
+                        $dateprisedevue = DateTime::createFromFormat('d/m/Y', $_POST['dateprisedevue']);
+                        $dateprisedevue= $dateprisedevue->format('Y-m-d');
+
+                        insere_photo($codesite, $copyright, $dateprisedevue, $codecom, $nomphoto, $datesaisie, $ordre);
+                    }
+                }
+            }
+        }
+
+        // update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
+        // update_coordgeo($codesite,$geo,$poly);
+        // update_site($codesite, $codecom, $idcoord, $rqsite, $site, $typestation, $commentaire);
+    }
 }
 echo json_encode($retour);
+
 
 

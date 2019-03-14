@@ -113,7 +113,7 @@ function carte(e) {
 
 function recupcoord(e, a, t) {
     "use strict";
-    "non" == mod && ($("#codesite").val("Nouv"), nonsite());
+    // "non" == mod && ($("#codesite").val("Nouv"), nonsite());
     $("#lat").val(e);
     $("#lng").val(a);
     $("#idcoord").val("Nouv");
@@ -233,20 +233,20 @@ function markersite(e) { // Fonction générique pour afficher les markers
                 $("#lng").val(e[t].lng);
                 $("#l93").val(e[t].codel93);
                 "oui" == utm && ($("#utm").val(e[t].utm), $("#utm1").val(e[t].utm1));
-                console.log($("#codesite").val());
                 recup_info($("#codesite").val());
+                // TODO : rendre éditable en mode vision complète ?
             }
         }(markers, t));
         if (markers.addLayer(l), e[t].geo) {
             var o = JSON.parse(e[t].geo), i = "oui",
                 s = L.geoJson(o, {style: {color: "#b300b3", fillOpacity: .1, weight: 3}});
-            contoursite.addLayer(s)
-            contoursite.on("click", function () {console.log('edit')} ) // TEMP
+            contoursite.addLayer(s);
         }
     }
-    map.addLayer(markers), i && map.addLayer(contoursite)
+    map.addLayer(markers), i && map.addLayer(contoursite);
 }
 
+// Récup des info pour modification
 function recup_info(id) {
     "use strict";
     $.ajax({
@@ -255,7 +255,6 @@ function recup_info(id) {
         dataType: "json",
         data: {id: id},
         success: function (e) {
-            console.log(e);
             $("#create_station").show();
             $("#save_station").show();
             $(".leaflet-draw").show();
@@ -284,9 +283,16 @@ function recup_info(id) {
             // $("#profondeureau").val(e.profondeureau);
             // $("#alimeau").val(e.idalimeau);
             // $("#commentairemare").val(e.commentairemare);
+            $("#codecom").val(e.codecom);
             $("#commentaire").val(e.commentaire);
             $("#save_station").hide();
             $("#update_station").show();
+            $("#cancel_update").show();
+            $("#liste_photo").html(e.photo);
+            $("#dateprisedevue").show();
+            $(".dateprisedevue").show();
+
+
         }
     });
 }
@@ -642,7 +648,22 @@ $(document).ready(function () {
     $("#save_station").hide(); // Cacher l'enregistrement d'une nouvelle station
     $("#showcom").hide(); //
     $("#showphoto").hide(); //
+    $("#cancel_update").hide(); //
+    $("#dateprisedevue").hide();
+    $(".dateprisedevue").hide();
 
+    // Popup pour les images
+    $(".popup-gallery").magnificPopup({
+        delegate: "a",
+        type: "image",
+        tLoading: "Loading image #%curr%...",
+        mainClass: "mfp-img-mobile",
+        gallery: {enabled: !0, navigateByImgClick: !0, preload: [0, 1]},
+        image: {
+            // A améliorer.
+        }
+    });
+    // Fin popup photo de la la station
 
     var e = {};
     $.ajax({
@@ -689,7 +710,11 @@ $(document).ready(function () {
             return centrersite(l, o, t.geo), !1
         }
     })
-}), $("#choixsite1").autocomplete({
+}),
+
+
+    // Autocomplétion choix des sites
+    $("#choixsite1").autocomplete({
     minLength: 2, source: function (e, a) {
         $.getJSON("modeles/ajax/saisie/autosite.php", {term: e.term}, function (e) {
             a($.map(e, function (e) {
@@ -701,9 +726,14 @@ $(document).ready(function () {
         var t = a.item.value;
         $("#communeb").val(t.commune), $("#lieub").val(t.site), $("#choixsite1").val(t.site), $("#l93").val(t.codel93), $("#l935").val(t.codel935), $("#lat").val(t.lat), $("#lng").val(t.lng), $("#xlambert").val(t.x), $("#ylambert").val(t.y), $("#altitude").val(t.altitude), $("#pr").val(1), $("#choixcom").val(""), $("#codedep").val(t.iddep), $("#codecom").val(t.codecom), $("#idcoord").val(t.idcoord), $("#codesite").val(t.idsite), "oui" == utm && ($("#utm").val(t.utm), $("#utm1").val(t.utm1)), $("#date").focus();
         var l = t.lat + "," + t.lng, o = 16;
+        // Récup de la fiche
+        recup_info( $("#codesite").val() );
         return centrersite(l, o, t.geo), !1
     }
-}), $("#choixdep").autocomplete({
+}),
+
+    // Autocomplétion liste des départements
+    $("#choixdep").autocomplete({
     source: function (e, a) {
         $.getJSON("modeles/ajax/saisie/autodep.php", {term: e.term}, function (e) {
             a($.map(e, function (e) {
@@ -1203,7 +1233,7 @@ $("#save_station").on("click", function(){
             photo = $("#aphoto").val(),
             u = "oui" == utm ? $("#utm").val() : "",
             p = "oui" == utm ? $("#utm1").val() : "",
-            copyright = $("input[name=opph]:checked").val();
+            copyright = $("input[name=opph]:checked").val() == undefined ? $("#idobser").val() : $("input[name=opph]:checked").val() ;
             var imagedata;
             photo == 'oui' ? imagedata = encodeURIComponent($("#crop").cropit("export", {type: "image/jpeg", quality: .9, originalSize: !1})) : imagedata = "";
             console.log($("form").serialize());
@@ -1225,6 +1255,14 @@ $("#save_station").on("click", function(){
 // Update des infos de la station
 $("#update_station").on("click", function(){
     "use strict";
+    if ($("#aphoto").val() == "oui" && $("#dateprisedevue").val() == "") {
+        $("#alert1").html('<div class="alert alert-warning">\n' +
+            '  <strong>Attention ! </strong>Merci de renseigner la date de prise de vue.\n' +
+            '</div>');
+        $("#dateprisedevue").select();
+        return false;
+    }
+    $("#alert1").html('');
     var l = $("#xlambert").val(),
         o = $("#ylambert").val(),
         i = $("#altitude").val(),
@@ -1232,24 +1270,54 @@ $("#update_station").on("click", function(){
         n = $("#l935").val(),
         r = $("#lat").val(),
         c = $("#lng").val(),
+        codesite = $("#codesite").val(),
         photo = $("#aphoto").val(),
         u = "oui" == utm ? $("#utm").val() : "",
         p = "oui" == utm ? $("#utm1").val() : "",
-        copyright = $("input[name=opph]:checked").val();
+        copyright = $("input[name=opph]:checked").val() == undefined ? $("#idobser").val() : $("input[name=opph]:checked").val() ;
     var imagedata;
     photo == 'oui' ? imagedata = encodeURIComponent($("#crop").cropit("export", {type: "image/jpeg", quality: .9, originalSize: !1})) : imagedata = "";
-    console.log($("form").serialize());
+
     var element = $("form").serialize();
     $.ajax({
         url: "modeles/ajax/stations/stations.php",
         type: "POST",
         dataType: "json",
-        data: element + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
+        data: element + "&codesite=" + codesite + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
         success: function (e) {
-            window.location.reload(false);
+            recup_info( $("#codesite").val() );
+            $("#aphoto").val("non");
+            console.log('Ok')
         },
         error: function() {
             console.log('Erreur!')
         }
     })
+});
+
+// Annuler la modification
+$("#cancel_update").on("click", function() {
+    window.location.reload(false);
+});
+
+// Supprimer une photo
+function supphoto(id) {
+    $.ajax({
+        url: "modeles/ajax/stations/photo.php",
+        type: "POST",
+        dataType: "json",
+        data: "id=" + id + "&action=supprimer",
+        success: function (e) {
+            console.log('Photo supprimée' + e)
+            recup_info( $("#codesite").val() );
+        },
+        error: function(e) {
+            console.log('Erreur!' + e)
+        }
+    });
+}
+
+// Date de la prise de vue lors qu'un ajout de photo sans description
+$("#dateprisedevue").datepicker({
+    changeMonth: !0, changeYear: !0
 });
