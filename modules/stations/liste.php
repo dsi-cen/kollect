@@ -11,10 +11,12 @@ if (isset($_SESSION['prenom']) && isset($_SESSION['nom'])) {
                    <script src="dist/js/bootstrap.min.js" defer></script>
                    <script src="dist/js/leafletpj4.js"></script>
                    <script src="dist/js/jquery.dataTables.min.js" defer></script>
+                   <script src="dist/js/popup-image.js" defer></script>
                    <script src="dist/js/listestations.js" defer></script>';
 
         $css = '<link rel="stylesheet" href="dist/css/leaflet.css" />
                 <link rel="stylesheet" href="dist/css/dataTables.bootstrap4.css" />
+                <link rel="stylesheet" href="dist/css/popup.css" />
                 <link rel="stylesheet" href="dist/css/jquery-ui.css" />';
 
         $sansheader = 'oui';

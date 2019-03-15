@@ -47,7 +47,7 @@ if(isset($_POST['iddep']) || isset($_POST['iddep'])) {
     $liste .= '<thead><tr><th></th></th><th>Site</th><th>Commune</th><th>Type</th></tr></thead><tbody>';
     foreach($stations as $n) {
         $liste .= '<tr id="'. $n['idsite'] .'">';
-        $liste .= '<td><i class="fa fa-file-text-o text-info curseurlien"></i>';
+        $liste .= '<td><i onclick="detail(' . $n['idsite'] . ')" class="fa fa-file-text-o text-info curseurlien" ></i>';
         $liste .= '&nbsp;<i class="fa fa-eye text-info focus"></i></td>';
         $liste .= '<td>'.$n['site'].'</td>';
         $liste .= '<td>'.$n['commune'].'</td>';

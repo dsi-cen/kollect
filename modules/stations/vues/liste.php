@@ -49,6 +49,40 @@
     </div>
 </section>
 
+<div id="detail" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid mt-3">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-3" id="gauche">
+                            </div>
+                            <div class="mb-3 popup-gallery" id="gallery">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mb-3" id="droite">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <!-- Récupération de la couche préférentielle -->
 <input type="hidden" id="couchem" value="<?php echo $_SESSION['couche']; ?>">
 

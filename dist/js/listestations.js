@@ -222,6 +222,25 @@ function affiche_stations(geo) {
 
 $(document).ready(function () {
 
+    // Popup pour les images
+    $(".popup-gallery").magnificPopup({
+        delegate: "a",
+        type: "image",
+        tLoading: "Loading image #%curr%...",
+        mainClass: "mfp-img-mobile",
+        gallery: {enabled: !0, navigateByImgClick: !0, preload: [0, 1]},
+        image: {
+            // A améliorer.
+        }
+    });
+    // Fin popup photo de la la station
+
+    $(".close").on("click", function () {
+        $("#droite").empty();
+        $("#gauche").empty();
+        $("#detail").hide();
+    });
+
     // Chargement de la carte
     var e = {};
     $.ajax({
@@ -250,3 +269,44 @@ $(document).ready(function () {
         })
     });
 });
+
+function detail(idstation) {
+
+    $.ajax({
+        url: "modeles/ajax/stations/recupdetails.php",
+        type: "POST",
+        dataType: "json",
+        data: {idstation: idstation},
+        success: function (e) {
+            $(".modal-title").html(e.detail.site);
+            var str =  "<em>" + e.detail.libtypestation + " enregistré(e) par " + e.detail.nom + " " + e.detail.prenom + "</em>";
+            $("#gauche").html(str + "<hr>" + e.detail.commentaire);
+            $("#gauche").append("<hr><strong>Liste des descriptions</strong><hr>");
+            $("#gauche").append(e.descriptions);
+            $("#gallery").html(e.gallery);
+            $("#detail").modal("show");
+        },
+        error: function () {
+
+        }
+    });
+
+}
+
+function minitable(idinfosmare) {
+    console.log("ok");
+    $.ajax({
+        url: "modeles/ajax/stations/recupdetails.php",
+        type: "POST",
+        dataType: "json",
+        data: {idinfosmare: idinfosmare},
+        success: function (e) {
+            $("#droite").empty();
+            $("#droite").html(e.description);
+        },
+        error: function () {
+
+        }
+    });
+
+}
