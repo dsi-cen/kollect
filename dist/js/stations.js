@@ -838,6 +838,7 @@ $(function () {
         return e.split(/,\s*/)
     }
 
+    // Autocomplete observateurs autres
     $("#observateur2").autocomplete({
         source: function (a, t) {
             $.getJSON("modeles/ajax/saisie/listeobservateur.php", {term: e(a.term)}, function (e) {
@@ -1210,6 +1211,7 @@ $("#btn_create_station").change(function(){
         $(".leaflet-draw").show();
         $("#showcom").show(); //
         $("#showphoto").show(); //
+        $("#codesite").val('Nouv'); //
     } else { // Mode 'édition' de station existante
         $("#create_station").hide();
         $("#save_station").hide();
@@ -1223,6 +1225,15 @@ $("#btn_create_station").change(function(){
 // Enregistrer la station
 $("#save_station").on("click", function(){
         "use strict";
+        // Controle sur la saisie de la date
+    if ($("#date").val() == "") {
+        $("#alert1").html('<div class="alert alert-warning">\n' +
+            '  <strong>Attention ! </strong>Merci de renseigner la date de la description.\n' +
+            '</div>');
+        $("#date").select();
+        return false;
+    }
+    $("#alert1").html('');
         var l = $("#xlambert").val(),
             o = $("#ylambert").val(),
             i = $("#altitude").val(),
@@ -1231,6 +1242,7 @@ $("#save_station").on("click", function(){
             r = $("#lat").val(),
             c = $("#lng").val(),
             photo = $("#aphoto").val(),
+            idobseror = $("#idobseror").val(),
             u = "oui" == utm ? $("#utm").val() : "",
             p = "oui" == utm ? $("#utm1").val() : "",
             copyright = $("input[name=opph]:checked").val() == undefined ? $("#idobser").val() : $("input[name=opph]:checked").val() ;
@@ -1242,9 +1254,9 @@ $("#save_station").on("click", function(){
             url: "modeles/ajax/stations/stations.php",
             type: "POST",
             dataType: "json",
-            data: element + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
+            data: element + "&idobseror=" + idobseror + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
             success: function (e) {
-                window.location.reload(false);
+                // window.location.reload(false); // Comment on debbug
             },
             error: function() {
                 console.log('Erreur!')

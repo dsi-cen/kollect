@@ -15,6 +15,20 @@ function observateur2($term)
     return $resultat;
 }
 
+function insere_obser($listobser, $idinfosmare)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    foreach($listobser as $idobser){
+        $req = $bdd->prepare("INSERT INTO station.infosmare_plusobser (idinfosmare, idobser) 
+                                        VALUES (:idinfosmare, :idobser) ") or die(print_r($bdd->errorInfo()));
+        $req->bindValue(':idinfosmare', $idinfosmare);
+        $req->bindValue(':idobser', $idobser);
+        $req->execute();
+        $req->closeCursor();
+    }
+}
+
 function insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935)
 {
     $bdd = PDO2::getInstance();
@@ -248,10 +262,14 @@ function insere_photo($idstation, $idobser, $datephoto, $codecom, $nomphoto, $da
 if(isset($_POST['codesite'])) {
     $idm = (isset($_SESSION['idmorigin'])) ? $_SESSION['idmorigin'] : $_SESSION['idmembre'];
 
-    $idobser = $_POST['idobser'];
-
-
-
+    $idobseror = $_POST['idobseror'];
+    $idobserorl[] = $_POST['idobseror'];
+    $listobser = $_POST['idobser'];
+    $listobser = explode(",",$listobser);
+    $listobser = array_map('trim', $listobser);
+    $listobser = array_unique($listobser);
+    $listobser = array_diff( $listobser, $idobserorl); // Supp de l'observateur principal
+    count($listobser) == 0 ? $plusobser = "non" : $plusobser = "oui" ;
 
     // Informations géographiques
     $codecom = $_POST['codecom']; // Code commune
@@ -312,11 +330,15 @@ if(isset($_POST['codesite'])) {
 
         if ($typestation == 1) { // Si c'est du type 'mare'
             // Insérer les informations générales
-            $idinfosmare = insere_mare($rowidstation, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare, $idm, $idobser, $plusobser);
+            $idinfosmare = insere_mare($rowidstation, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare, $idm, $idobseror, $plusobser);
             // Insérer les menaces
             insere_menaces($idinfosmare, $idmenaces);
             // Insérer les alimentations en eau
             insere_alimeau($idinfosmare, $idalimeau);
+            // Insérer les observateurs si plusieurs "oui"
+            if ($plusobser == "oui") {
+                insere_obser($listobser, $idinfosmare);
+            }
         }
         // Si présence de photo
         $photo = $_POST['aphoto'];
@@ -407,6 +429,3 @@ if(isset($_POST['codesite'])) {
     }
 }
 echo json_encode($retour);
-
-
-
