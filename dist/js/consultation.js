@@ -34,6 +34,7 @@ function carte1(e) {
             $("#choixloca").val("cercle"), $("#latc").val(i), $("#lngc").val(o), $("#lloca").html(""), $("#BttS").show()
         }
     })
+    $(".leaflet-draw-draw-circlemarker").hide(); // Cacher l'outil 'cercle' non utilisable
 }
 
 function observation(e) {
@@ -145,11 +146,15 @@ function remplirtableexport(e) {
             visible: !1
         }],
         dom: "Bfrtip",
-        buttons: [{extend: "csvHtml5", exportOptions: {columns: ":visible"}, title: a}, {
-            extend: "excelHtml5",
-            exportOptions: {columns: ":visible"},
-            title: a
-        }, "colvis"],
+        buttons: [
+            {extend: "csvHtml5",
+                exportOptions: {columns: ":visible"},
+                title: a},
+            {extend: "excelHtml5",
+                exportOptions: {columns: ":visible"},
+                title: a },
+            {extend: "colvis",
+                collectionLayout: 'fixed two-column'} ],
         initComplete: function () {
             setTimeout(function () {
                 r.buttons().container().appendTo("#tblexport_wrapper .col-md-6:eq(0)")
@@ -239,6 +244,10 @@ function adphoto(e) {
 var dep = "non", map, marker, nbmap = "oui", drawnItems;
 $(document).ready(function () {
     "use strict";
+    $("#avance").hide();
+    $("#dl").hide();
+    $("#dlxls").hide();
+    $('#bttdia1perso').hide();
     $("#listeobs").hide(), $("#rchoix").hide(), $("#afpage").hide(), $("#infoaide").hide(), $("#dlink").hide(), $("#collr").hide(), $("#BttS").hide();
     $("#perso").prop("checked", !0);
     $("#perso").is(":checked") ? ($("#idobser").val($("#idobseror").val()) && $("#obser").val($("#observateur").val())) : "oui" == $("#cperso").val() && ($("#obser").val($("#observateur").val()), $("#perso").prop("checked", !0));
@@ -401,7 +410,8 @@ $("#statut").change(function () {
     $("#Bt").val("BttV")
 }), $("#BttE").click(function () {
     "use strict";
-    $("#Bt").val("BttE")
+    $("#Bt").val("BttE");
+    $("#dl").hide();
 }), $("#BttSINP").click(function () {
     "use strict";
     $("#Bt").val("BttSINP")
@@ -416,22 +426,58 @@ $("#form").on("submit", function (e) {
     "" == o && "" == r && "" == s && "" == l && 0 == c && "NR" == d && "" == u ? $("#perso").is(":checked") || "" != n ? (t = "oui", $("#mes").html("")) : $("#mes").html('<div class="alert alert-danger">Vous devez au minimum sélectionner soit : un organisme, un observateur, une localisation, une espèce / groupe, une date, une etude, un statut</div>') : (t = "oui", $("#mes").html("")), "oui" == t && ("BttV" == i && observation(a), "BttE" == i && ($exp = a, calcexport($exp)))
 }), $("#bttdia1").click(function () {
     exportobs($exp)
-}), $("#bttdia1perso").click(function () {
-    $("#formdia1").submit()
-}), $("#formdia1").on("submit", function (e) {
+}), $("#Butavance").click(function () {
+    $("#avance").show();
+    $("#bttdia1").hide();
+    $("#Butavance").hide();
+    $('#bttdia1perso').show();
+    $("#fields").multiSelect();
+});
+
+    $("#cancel").click(function () { // Bouton 'Annuler'
+    $("#avance").hide();
+    $("#bttdia1").show();
+    $('#bttdia1perso').hide();
+    $("#Butavance").show();
+    $("#dlxls").hide();
+    $("#nomfichier").val("");
+
+});
+
+$("#all").change(function() {
+    if(this.checked) {
+        $('#fields').multiSelect('select_all');
+    } else {
+        $('#fields').multiSelect('deselect_all');
+    }
+});
+
+    $("#bttdia1perso").click(function () {
+    // $("#formdia1").submit();
+        console.log('ok');
+        var e = $("#form").serializeArray();
+        var f = JSON.stringify($("#fields").val());
+        e.push({ name: "fields", value: f});
+        exportavance(e);
+});
+
+function exportavance(e) {
     "use strict";
-    e.preventDefault();
-    var t = $(this);
+    // e.preventDefault();
     $.ajax({
         url: "modeles/ajax/consultation/exportperso.php",
         type: "POST",
         dataType: "json",
-        data: $exp.serialize() + "&" + t.serialize(),
+        data: e,
         success: function (e) {
-            "Oui" == e.statut ? alert("en cours de codage") : alert("Erreur ! ")
+            $("#dl").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=tsv&n=' + $("#nomfichier").val() + '"');
+            $("#dlxls").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=xls&n=' + $("#nomfichier").val() + '"');
+            $("#dl").show(), $("#dlxls").show();
         }
     })
-}), $("#tousfiche").change(function () {
+};
+
+    $("#tousfiche").change(function () {
     "use strict";
     var e = $("#ultousfiche").find(":checkbox");
     this.checked ? e.prop("checked", !0) : e.prop("checked", !1)

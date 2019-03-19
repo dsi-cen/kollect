@@ -4,6 +4,7 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 	$titre = 'Consultation';
 	$description = 'Consultation sur le site '.$rjson_site['titre'];
 	$script = '<script src="dist/js/jquery.js" defer></script>
+    <script src="dist/js/jquery.multi-select.js" defer></script>
 	<script src="dist/js/bootstrap.min.js" defer></script>
 	<script src="dist/js/jquery-saisie.js" defer></script>
 	<script src="dist/js/leafletpj4.js"></script>
@@ -21,7 +22,8 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 	<link rel="stylesheet" href="dist/css/leaflet.draw.css" />
 	<link rel="stylesheet" type="text/css" href="dist/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="dist/css/buttons.bootstrap4.min.css">
-	<link rel="stylesheet" href="dist/css/popup.css" type="text/css">';
+	<link rel="stylesheet" href="dist/css/popup.css" type="text/css">
+	<link href="dist/css/multi-select.css" media="screen" rel="stylesheet" type="text/css">';
 	//<script src="dist/js/consultation.js?'.filemtime('dist/js/consultation.js').'" defer></script><script src="src/js/consultation.js" defer></script>
 	include CHEMIN_MODELE.'consultation.php';
 
