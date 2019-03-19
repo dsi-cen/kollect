@@ -121,9 +121,10 @@ function exportobs(e) {
 
 function remplirtableexport(e) {
     var t = $("#nomfichier").val();
-    if ("" != t) var a = t; else var i = new Date,
-        o = i.getMonth().length + 1 === 1 ? i.getMonth() + 1 : "0" + (i.getMonth() + 1),
-        a = "Export-" + i.getDate() + "-" + o + "-" + i.getFullYear();
+    if ("" != t) var a = t + '-'; else var a = "Export-du-";
+        var i = new Date;
+        o = i.getMonth().length + 1 === 1 ? i.getMonth() + 1 : "0" + (i.getMonth() + 1);
+        a = a + i.getDate() + "-" + o + "-" + i.getFullYear();
     var r = $("#tblexport").DataTable({
         language: {
             url: "dist/js/datatables/france.json",
@@ -140,7 +141,7 @@ function remplirtableexport(e) {
             data: 5,
             render: {_: "date", sort: "tri"}
         }, {
-            targets: [6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], // Indiquer les champs à ne pas afficher
+            targets: [6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 32], // Indiquer les champs à ne pas afficher
             visible: !1
         }],
         dom: "Bfrtip",
