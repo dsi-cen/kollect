@@ -38,12 +38,15 @@ COMMENT ON TABLE md_obs.ref_source_origine IS 'Référentiel des sources';
 INSERT INTO md_obs.ref_source_origine VALUES
 (1,'Indéterminé','Source indéterminée'),
 (2,'Tableur','Fichier personnel de type tableur'),
-(3,'SICEN','Base de données SICEN du CEN Aquitaine'),
-(4,'STKollect','Base de données thématique du CEN Aquitaine : STKollect'),
-(5,'ChiroKollect','Base de données thématique du CEN Aquitaine : ChiroKollect'),
+(3,'SICEN (CEN Aquitaine)','Base de données SICEN du CEN Aquitaine'),
+(4,'STKollect (CEN Aquitaine)','Base de données thématique du CEN Aquitaine : STKollect'),
+(5,'ChiroKollect (CEN Aquitaine)','Base de données thématique du CEN Aquitaine : ChiroKollect'),
 (6,'Faune Aquitaine','Base de données Faune Aquitaine de la LPO Aquitaine'),
 (7,'Faune France','Base de données Faune France de la LPO France'),
-(8,'ObsOcc','Base de données du Parc National des Pyrénées : ObsOcc');
+(8,'ObsOcc (Parc National des Pyrénées)','Base de données du Parc National des Pyrénées : ObsOcc')
+(9,'Observation.org','Base de données en ligne Observation.org'),
+(10,'Fichier SIG','Fichier personnel SIG'),
+(11,'RECHAU (CEN Aquitaine)','Base de données thématique du CEN Aquitaine : RECHAU');
 
 CREATE TABLE md_obs.obs_source_ext
 (
