@@ -1936,7 +1936,8 @@ INSERT INTO fonction VALUES
   (1,'Salarié','La personne est salariée de l''organisme'),
   (2,'Stagiaire','La personne est en stage au sein de l''organisme'),
   (3,'Service civique','La personne est en service civique au sein de l''organisme'),
-  (4,'Bénévole','La personne agit pour l''organisme en tant que bénévole')
+  (4,'Bénévole','La personne agit pour l''organisme en tant que bénévole'),
+  (5,'Conservateur bénévole','La personne agit pour l''organisme en tant que conservateur bénévole')
 ;
 
 CREATE FUNCTION alimente_observateur_organisme() RETURNS trigger AS 
