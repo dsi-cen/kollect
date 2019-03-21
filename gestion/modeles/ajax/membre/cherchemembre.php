@@ -25,11 +25,18 @@ function orgalist($id)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("SELECT referentiel.observateur.idobser, referentiel.observateur.idm
+							FROM referentiel.observateur
+							LEFT JOIN site.membre on membre.idmembre = observateur.idm
+							WHERE referentiel.observateur.idm = :id ") or die(print_r($bdd->errorInfo()));
+    $req->bindParam(":id",$id);
+    $req->execute();
+    $idobser = $req->fetch(PDO::FETCH_ASSOC);
     $req = $bdd->prepare("SELECT referentiel.organisme.idorg, organisme, referentiel.observateur_organisme.idobser
                                       FROM referentiel.organisme LEFT OUTER JOIN referentiel.observateur_organisme
                                         ON referentiel.organisme.idorg = referentiel.observateur_organisme.idorg
                                         AND referentiel.observateur_organisme.idobser = :id WHERE referentiel.organisme.idorg != 1 AND referentiel.organisme.idorg != 2") or die(print_r($bdd->errorInfo()));
-    $req->bindParam(":id",$id);
+    $req->bindParam(":id",$idobser['idobser']);
     $req->execute();
     $rows = $req->fetchAll(PDO::FETCH_ASSOC);
     $list = "<select id='orgalist' multiple='multiple'>";
