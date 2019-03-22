@@ -2,6 +2,7 @@
 include '../../../global/configbase.php';
 include '../../../lib/pdo2.php';
 
+
 $reqvue = "WITH concat_otherobser AS
 (
  SELECT idfiche,string_agg(observateur.observateur, ', ') AS otherobser, string_agg(observateur.idobser::varchar,', ') AS idotherobser
@@ -292,7 +293,11 @@ $reqvue .= " ORDER BY i.idobs, l.idligne";
     $res = convertToISOCharset($res);
 
     $bytes = random_bytes(45);
-    $name = bin2hex($bytes);
+    
+    $idmembre = $_SESSION["idmembre"];
+    $ts = date("Ymd");
+   
+    $name = $ts . "_" . $idmembre . "_" . bin2hex($bytes);
 
     $fp = fopen('../../../exports/' . $name . ".tsv", 'w');
 
