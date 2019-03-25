@@ -1897,8 +1897,8 @@ INSERT INTO protocole VALUES
 (19,'Relevé phytosociologique pour cartographie d''habitats','Relevé phytosociologique réalisé pour décrire un habitat', NULL),
 (20,'Relevé phytosociologique pour suivi de végétation','Relevé phytosociologique réalisé pour suivre l''évolution de la végétation', NULL),
 (21,'Relevé de végétation pour cartographie d''habitats','Relevé de végétation réalisé pour décrire un habitat', NULL),
-(22,'Relevé de végétation pour suivi de végétation','Relevé de végétation réalisé pour suivre l''évolution de la végétation', NULL);
-(23,'Suivi sur site par capture','Donnée collectée de manière récurrente via un dispositif de capture (filet, ...)', NULL);
+(22,'Relevé de végétation pour suivi de végétation','Relevé de végétation réalisé pour suivre l''évolution de la végétation', NULL),
+(23,'Suivi sur site par capture','Donnée collectée de manière récurrente via un dispositif de capture (filet, ...)', NULL),
 (0,'Type d''acquisition à définir','Type d''acquisition à définir', NULL);
 
 INSERT INTO stade VALUES (0,	'Inconnu',1,	'Le stade de vie de l''individu n''est pas connu.');
