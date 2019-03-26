@@ -42,7 +42,7 @@ function cartocommune($cdnom,$rang,$nomvar,$droit)
 	if($rang == 'oui') { $strQuery .= " INNER JOIN $nomvar.liste ON liste.cdnom = obs.cdref"; }
 	$strQuery .= ($rang == 'oui') ? " WHERE (obs.cdref = :cdref OR cdsup = :cdref) AND statutobs != 'No' AND (validation = 1 OR validation = 2)" : " WHERE obs.cdref = :cdref AND statutobs != 'No' AND (validation = 1 OR validation = 2)";
 	if($droit == 'non') { $strQuery .= " AND floutage <= 1"; }
-	$strQuery .= " WHERE geojson IS NOT NULL GROUP BY fiche.codecom, commune, poly, geojson)";
+	$strQuery .= " GROUP BY fiche.codecom, commune, poly, geojson)";
 	$strQuery .= " SELECT annee, mois, sel.codecom AS id, fiche.idfiche, commune AS emp, fiche.idobser, iddet, plusobser, observateur, poly, geojson FROM sel 
 							INNER JOIN obs.fiche ON	sel.codecom = fiche.codecom AND obs.fiche.date1 = sel.d
 							INNER JOIN obs.obs USING(idfiche)";
