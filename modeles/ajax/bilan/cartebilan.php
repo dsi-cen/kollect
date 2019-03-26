@@ -2,7 +2,7 @@
 include '../../../global/configbase.php';
 include '../../../lib/pdo2.php';
 
-function nbespece() // Nombre d'espèces total
+function nbespece() // Nombre d'espèces total, attention, compte aussi les départements fantômes
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -13,7 +13,7 @@ function nbespece() // Nombre d'espèces total
 	$req->closeCursor();
 	return $nbobs;
 }
-function cartodep() // Nombre par département
+function cartodep() // Nombre par département, attention, compte aussi les départements fantômes
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -28,16 +28,16 @@ function cartodep() // Nombre par département
 	$req->closeCursor();
 	return $carto;
 }
-function departement() // Liste des département de l'emprise
+function departement() // Liste des département de l'emprise validée, hors départements fantômes
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement ");
+	$req = $bdd->query("SELECT iddep AS id, departement AS emp, poly, geojson FROM referentiel.departement WHERE geojson IS NOT NULL ");
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $commune;
 }	
-function cartocommune() // Nombre par commune
+function cartocommune() // Nombre par commune, attention, compte aussi les départements fantômes
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -52,11 +52,11 @@ function cartocommune() // Nombre par commune
 	$req->closeCursor();
 	return $carto;
 }	
-function commune($iddep='%') // Liste des commune de l'emprise avec filtre par département
+function commune($iddep='%') // Liste des communes de l'emprise avec filtre par département, hors départements fantômes
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->prepare("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune where iddep like :iddep");
+	$req = $bdd->prepare("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune where geojson IS NOT NULL AND iddep like :iddep");
 	$req->execute([':iddep' => $iddep]);
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
