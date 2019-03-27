@@ -56,7 +56,7 @@ function commune($iddep='%') // Liste des commune de l'emprise avec filtre par d
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->prepare("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune where iddep like :iddep");
+    $req = $bdd->prepare("SELECT codecom AS id, commune AS emp, iddep, poly, geojson FROM referentiel.commune where geojson IS NOT NULL AND iddep like :iddep");
     $req->execute([':iddep' => $iddep]);
 	$commune = $req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();

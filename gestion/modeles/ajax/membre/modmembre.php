@@ -22,8 +22,15 @@ if(isset($_POST['id']))
     {
         $bdd = PDO2::getInstance();
         $bdd->query("SET NAMES 'UTF8'");
+        $req = $bdd->prepare("SELECT referentiel.observateur.idobser, referentiel.observateur.idm
+							FROM referentiel.observateur
+							LEFT JOIN site.membre on membre.idmembre = observateur.idm
+							WHERE referentiel.observateur.idm = :id ") or die(print_r($bdd->errorInfo()));
+		$req->bindParam(":id",$id);
+		$req->execute();
+		$idobser = $req->fetch(PDO::FETCH_ASSOC);
         $req = $bdd->prepare("DELETE FROM referentiel.observateur_organisme WHERE idobser = :id AND idorg != 2 AND idorg != 1") or die(print_r($bdd->errorInfo()));
-        $req->bindValue(':id', $id);
+        $req->bindValue(':id', $idobser['idobser']);
         $req->execute();
         $req->closeCursor();
 
@@ -33,7 +40,7 @@ if(isset($_POST['id']))
         $bdd->query("SET NAMES 'UTF8'");
         foreach ($orgaupdate as $org => $value) {
             $req = $bdd->prepare("INSERT INTO referentiel.observateur_organisme (idobser, idorg) VALUES(:id, :orga);") or die(print_r($bdd->errorInfo()));
-            $req->bindValue(':id', $id);
+            $req->bindValue(':id', $idobser['idobser']);
             $req->bindValue(':orga', $value);
             $req->execute();
         }

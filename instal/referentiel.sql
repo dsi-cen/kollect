@@ -1773,8 +1773,10 @@ INSERT INTO methode VALUES (22, 'Mine', 'Galerie forée dans l''épaisseur d''un
 INSERT INTO methode VALUES (23, 'Galerie/terrier', 'Galerie forée dans le bois, les racines ou les tiges, par des larves (Lépidoptères, Coléoptères, Diptères) ou creusée dans la terre (micro-mammifères, mammifères... ).');
 INSERT INTO methode VALUES (24, 'Oothèque', 'Membrane-coque qui protège la ponte de certains insectes et certains mollusques.');
 INSERT INTO methode VALUES (25, 'Vu et entendu', 'Vu et entendu : l''occurrence a à la fois été vue et entendue.');
-INSERT INTO methode VALUES (26, 'Contact olfactif',	'Contact olfactif : l''occurrence a été sentie sur le lieu d''observation');
-INSERT INTO methode VALUES (27, 'Empreinte et fèces',	'Empreinte et fèces');
+INSERT INTO methode VALUES (26, 'Contact olfactif', 'Contact olfactif : l''occurrence a été sentie sur le lieu d''observation');
+INSERT INTO methode VALUES (27, 'Empreinte et fèces', 'Empreinte et fèces');
+INSERT INTO methode VALUES (100, 'Non renseigné', 'La méthode d''observation n''a pas été renseignée lors de l''observation');
+INSERT INTO methode VALUES (101, 'Indice de présence non renseignée', 'Observation indirecte non caractérisée');
 
 INSERT INTO occetatbio VALUES (0, 'Inconu', 'Inconnu (peut être utilisé pour les virus ou les végétaux fanés par exemple).', NULL);
 INSERT INTO occetatbio VALUES (1, 'Non renseigné', 'L''information n''a pas été renseignée.', NULL);
@@ -1895,7 +1897,9 @@ INSERT INTO protocole VALUES
 (19,'Relevé phytosociologique pour cartographie d''habitats','Relevé phytosociologique réalisé pour décrire un habitat', NULL),
 (20,'Relevé phytosociologique pour suivi de végétation','Relevé phytosociologique réalisé pour suivre l''évolution de la végétation', NULL),
 (21,'Relevé de végétation pour cartographie d''habitats','Relevé de végétation réalisé pour décrire un habitat', NULL),
-(22,'Relevé de végétation pour suivi de végétation','Relevé de végétation réalisé pour suivre l''évolution de la végétation', NULL);
+(22,'Relevé de végétation pour suivi de végétation','Relevé de végétation réalisé pour suivre l''évolution de la végétation', NULL),
+(23,'Suivi sur site par capture','Donnée collectée de manière récurrente via un dispositif de capture (filet, ...)', NULL),
+(0,'Type d''acquisition à définir','Type d''acquisition à définir', NULL);
 
 INSERT INTO stade VALUES (0,	'Inconnu',1,	'Le stade de vie de l''individu n''est pas connu.');
 INSERT INTO stade VALUES (1, 'Indéterminé', 1, 'Le stade de vie de l''individu n''a pu être déterminé (observation insuffisante pour la détermination).');
@@ -1924,7 +1928,19 @@ INSERT INTO stade VALUES (23, 'Bulbe', NULL, 'Un bulbe est une pousse souterrain
 INSERT INTO stade VALUES (24, 'Rhizome', NULL, 'Le rhizome est une tige souterraine et parfois subaquatique remplie de réserves alimentaires chez certaines plantes vivaces.');
 INSERT INTO stade VALUES (25, 'Emergent', NULL, 'L''individu est au stade émergent : sortie de l''oeuf.');
 INSERT INTO stade VALUES (26, 'Post-Larve',NULL,'Post-larve : Stade qui suit immédiatement celui de la larve et présente certains caractères du juvénile.');
-INSERT INTO stade VALUES (27,	'Fruit', NULL,'Fruit : L''individu est sous forme de fruit.');
+INSERT INTO stade VALUES (27, 'Fruit', NULL,'Fruit : L''individu est sous forme de fruit.');
+INSERT INTO stade VALUES (101, 'Feuillaison', NULL,'Individu(s) en cours de feuillaison');
+INSERT INTO stade VALUES (102, 'Floraison', NULL,'Individu(s) en cours de floraison');
+INSERT INTO stade VALUES (103, 'Floraison - Début', NULL,'Individu(s) en début de floraison');
+INSERT INTO stade VALUES (104, 'Floraison - Fin', NULL,'Individu(s) en fin de floraison');
+INSERT INTO stade VALUES (105, 'Floraison - Début/Fin', NULL,'Individus en début et fin de floraison');
+INSERT INTO stade VALUES (106, 'Fructification', 27,'Individu(s) en cours de fructification');
+INSERT INTO stade VALUES (107, 'Sénescence', 19,'Individu(s) en cours de sénescence');
+INSERT INTO stade VALUES (108, 'Plantule', NULL,'Individu(s) au stade de plantule');
+INSERT INTO stade VALUES (109, 'Rosette', NULL,'Individu(s) au stade de rosette');
+INSERT INTO stade VALUES (100, 'Stade non renseigné', 0,'Le stade de vie de l''individu n''a pas été renseigné lors de l''observation');
+INSERT INTO stade VALUES (110, '1ère année', NULL,NULL);
+
 
 INSERT INTO referentiel.etude (idetude, etude, libelle, masquer) VALUES(0, 'Aucune', 'Aucune', 'oui');
 
@@ -1936,7 +1952,8 @@ INSERT INTO fonction VALUES
   (1,'Salarié','La personne est salariée de l''organisme'),
   (2,'Stagiaire','La personne est en stage au sein de l''organisme'),
   (3,'Service civique','La personne est en service civique au sein de l''organisme'),
-  (4,'Bénévole','La personne agit pour l''organisme en tant que bénévole')
+  (4,'Bénévole','La personne agit pour l''organisme en tant que bénévole'),
+  (5,'Conservateur bénévole','La personne agit pour l''organisme en tant que conservateur bénévole')
 ;
 
 CREATE FUNCTION alimente_observateur_organisme() RETURNS trigger AS 

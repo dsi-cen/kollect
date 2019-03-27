@@ -2,6 +2,7 @@
 include '../../../global/configbase.php';
 include '../../../lib/pdo2.php';
 
+
 $reqvue = "WITH concat_otherobser AS
 (
  SELECT idfiche,string_agg(observateur.observateur, ', ') AS otherobser, string_agg(observateur.idobser::varchar,', ') AS idotherobser
@@ -248,26 +249,26 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
 }
 
 $where = 'non';
-if ($idobser) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "(i.idmainobser = " . $idobser . " OR (idobservateur LIKE '" . $idobser . "%' OR idobservateur LIKE '%, " . $idobser . "' OR idobservateur LIKE '%, " . $idobser . ",%'))"; $where = 'oui';}
-if ($orga != 'NR') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "i.idorg = " . $orga ; $where = 'oui';}
-if ($etude) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "i.idetude = " . $etude ; $where = 'oui';}
-if ($typedon != 'NR') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "typedon = '" . $typedon . "'"; $where = 'oui';}
-if ($flou != 'NR') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "floutage = " . $flou ; $where = 'oui';}
-if ($observa) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "i.observatoire IN (" . $observa . ")"; $where = 'oui';}
-if ($cdnom) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "i.cdnom IN (" . $cdnom . ")"; $where = 'oui';}
-if ($codecom) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "i.codecom IN (" . $codecom . ")"; $where = 'oui';}
-if ($idsite) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "i.idsite IN (" . $idsite . ")"; $where = 'oui';}
-if ($site) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "i.site ILIKE %" . $site . "%" ; $where = 'oui';}
-if(!empty($typedate) && $typedate == 'obs') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "date_debut_obs >= " . $date1 . " AND date_fin_obs <= " . $date2 ; $where = 'oui';}
-if(!empty($typedate) && $typedate == 'saisie') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "date_derniere_modif >= " . $date1 . " AND date_derniere_modif <= " . $date2 ; $where = 'oui';}
-if ($decade) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "decade = " . $decade ; $where = 'oui';}
-if($habitat != 'NR') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "eunis.lbcode LIKE " . $habitat . "%"; $where = 'oui';}
-if(!empty($vali)) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "i.code_validation = " . $vali ; $where = 'oui';}
-if(!empty($poly)) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "polygon(path'$poly') @> (i.lng::text || ',' || i.lat::text)::point"; $where = 'oui';}
-if(!empty($dist)) { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "(6366*acos(cos(radians(" . $lat ."))*cos(radians(i.lat))*cos(radians(i.lng)-radians(" . $lng . "))+sin(radians(" . $lat . "))*sin(radians(i.lat)))) < " . $dist ; $where = 'oui';}
-if($photo == 'oui') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "ip.idobs IS NOT NULL" ; $where = 'oui';}
-if($son == 'oui') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "ip.idobs IS NOT NULL" ; $where = 'oui';}
-if($pr != 'NR') { ($where == 'non') ? $and=" WHERE" : $and=" AND " ; $reqvue .= $and . "localisation = " . $pr ; $where = 'oui';}
+if ($idobser) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "(i.idmainobser = " . $idobser . " OR (idobservateur LIKE '" . $idobser . "%' OR idobservateur LIKE '%, " . $idobser . "' OR idobservateur LIKE '%, " . $idobser . ",%'))"; $where = 'oui';}
+if ($orga != 'NR') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.idorg = " . $orga ; $where = 'oui';}
+if ($etude) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.idetude = " . $etude ; $where = 'oui';}
+if ($typedon != 'NR') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "typedon = '" . $typedon . "'"; $where = 'oui';}
+if ($flou != 'NR') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "floutage = " . $flou ; $where = 'oui';}
+if ($observa) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.observatoire IN (" . $observa . ")"; $where = 'oui';}
+if ($cdnom) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.cdnom IN (" . $cdnom . ")"; $where = 'oui';}
+if ($codecom) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.codecom IN (" . $codecom . ")"; $where = 'oui';}
+if ($idsite) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.idsite IN (" . $idsite . ")"; $where = 'oui';}
+if ($site) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.site ILIKE %" . $site . "%" ; $where = 'oui';}
+if(!empty($typedate) && $typedate == 'obs') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "date_debut_obs >= " . $date1 . " AND date_fin_obs <= " . $date2 ; $where = 'oui';}
+if(!empty($typedate) && $typedate == 'saisie') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "date_derniere_modif >= " . $date1 . " AND date_derniere_modif <= " . $date2 ; $where = 'oui';}
+if ($decade) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "decade = " . $decade ; $where = 'oui';}
+if($habitat != 'NR') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "eunis.lbcode LIKE " . $habitat . "%"; $where = 'oui';}
+if(!empty($vali)) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.code_validation = " . $vali ; $where = 'oui';}
+if(!empty($poly)) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "polygon(path'$poly') @> (i.lng::text || ',' || i.lat::text)::point"; $where = 'oui';}
+if(!empty($dist)) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "(6366*acos(cos(radians(" . $lat ."))*cos(radians(i.lat))*cos(radians(i.lng)-radians(" . $lng . "))+sin(radians(" . $lat . "))*sin(radians(i.lat)))) < " . $dist ; $where = 'oui';}
+if($photo == 'oui') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "ip.idobs IS NOT NULL" ; $where = 'oui';}
+if($son == 'oui') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "ip.idobs IS NOT NULL" ; $where = 'oui';}
+if($pr != 'NR') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "localisation = " . $pr ; $where = 'oui';}
 
 $reqvue .= " ORDER BY i.idobs, l.idligne";
 
@@ -292,7 +293,11 @@ $reqvue .= " ORDER BY i.idobs, l.idligne";
     $res = convertToISOCharset($res);
 
     $bytes = random_bytes(45);
-    $name = bin2hex($bytes);
+    
+    $idmembre = $_SESSION["idmembre"];
+    $ts = date("Ymd");
+   
+    $name = $ts . "_" . $idmembre . "_" . bin2hex($bytes);
 
     $fp = fopen('../../../exports/' . $name . ".tsv", 'w');
 
