@@ -279,18 +279,20 @@ function detail(idstation) {
         data: {idstation: idstation},
         success: function (e) {
             $(".modal-title").html(e.detail.site);
+            e.detail.idmembre == e.detailidm ? $(".modal-title").append( ' <i onclick="delstation()" class="fa fa-trash curseurlien text-danger"></i>' ) : null ;
+            console.log(e.detail.idmembre);
+            console.log( e.detailidm );
+
             var str =  "<em>" + e.detail.libtypestation + " enregistré(e) par " + e.detail.nom + " " + e.detail.prenom + "</em>";
             $("#gauche").html(str + "<hr>" + e.detail.commentaire);
-            $("#gauche").append("<hr><strong>Liste des descriptions</strong><hr>");
+            $("#gauche").append('<hr><strong>Liste des descriptions</strong> (ajouter une nouvelle description <i onclick="adddescription(' + idstation + ')" class="fa fa-plus-circle curseurlien text-success"></i> )<hr>');
             $("#gauche").append(e.descriptions);
             $("#gallery").html(e.gallery);
             $("#detail").modal("show");
         },
         error: function () {
-
         }
     });
-
 }
 
 function minitable(idinfosmare) {
@@ -305,8 +307,19 @@ function minitable(idinfosmare) {
             $("#droite").html(e.description);
         },
         error: function () {
-
         }
     });
+}
 
+function delstation() {
+}
+
+function moddescription(idstation) {
+    "use strict";
+    document.location.href = "index.php?module=stations&action=saisie&moddescription=" ;
+}
+
+function adddescription(idstation) {
+        "use strict";
+        document.location.href = "index.php?module=stations&action=saisie&addto=" + idstation ;
 }

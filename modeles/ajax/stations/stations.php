@@ -141,22 +141,18 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commenta
     return $rowidstation ;
 }
 
-function update_site($codesite, $codecom, $idcoord, $rqsite, $site, $typestation, $commentaire)
+function update_site($codesite, $codecom, $site, $commentaire)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->prepare("UPDATE obs.site SET idcoord = :idcoord, 
-                                                        codecom = :codecom, 
+    $req = $bdd->prepare("UPDATE obs.site SET codecom = :codecom, 
                                                         site = :site, 
                                                         rqsite = :rqsite, 
-                                                        typestation = :typestation, 
                                                         commentaire = :commentaire
                                                         WHERE idsite = :idsite");
     $req->bindValue(':codecom', $codecom);
-    $req->bindValue(':idcoord', $idcoord);
-    $req->bindValue(':rqsite', $rqsite);
+    $req->bindValue(':rqsite', "Update de la géométrie");
     $req->bindValue(':site', $site);
-    $req->bindValue(':typestation', $typestation);
     $req->bindValue(':commentaire', $commentaire);
     $req->bindValue(':idsite', $codesite);
     $req->execute();
@@ -283,6 +279,7 @@ if(isset($_POST['codesite'])) {
     $utm = $_POST['utm'];
     $utm1 = $_POST['utm1'];
     $site = htmlspecialchars($_POST['lieub']);
+    $parent = $_POST['parent'];
 
     // Si un objet est dessiné
     $geo = $_POST['typepoly'];
@@ -423,9 +420,10 @@ if(isset($_POST['codesite'])) {
             }
         }
 
-        // update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
-        // update_coordgeo($codesite,$geo,$poly);
-        // update_site($codesite, $codecom, $idcoord, $rqsite, $site, $typestation, $commentaire);
+        // Update des géométrie, /!\ toutes les obs sont affectées
+        update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935); // OK
+        update_coordgeo($codesite,$geo,$poly);
+        update_site($codesite, $codecom, $site, $commentaire);
     }
 }
 echo json_encode($retour);

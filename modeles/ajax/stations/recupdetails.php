@@ -8,7 +8,7 @@ function detailsmares_station($idstation)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $sql = "SELECT site, libtypestation, commentaire, site.membre.nom, site.membre.prenom
+    $sql = "SELECT site, libtypestation, commentaire, site.membre.nom, site.membre.prenom, site.membre.idmembre
             FROM obs.site
             left join site.membre on site.membre.idmembre = obs.site.idmembre 
             left join referentiel_station.typestation on referentiel_station.typestation.idtypestation = obs.site.typestation
@@ -26,7 +26,7 @@ function descriptionsmares_station($idstation)
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
     $sql = "SELECT
-    referentiel.observateur.observateur,
+    referentiel.observateur.observateur, referentiel.observateur.idm,
     datedescription, idinfosmare
 FROM station.infosmare
 left join referentiel.observateur on referentiel.observateur.idobser = station.infosmare.idobser
@@ -141,11 +141,13 @@ if(isset($_POST['idstation'])){
 
     $idstation = $_POST['idstation'];
     $liste['detail'] = detailsmares_station($idstation);
+    $liste['detailidm'] = $_SESSION['idmembre'];
     $descriptions = descriptionsmares_station($idstation);
     $liste['descriptions'] = "<ul>";
     // Simple liste pour panneau de gauche
     foreach($descriptions as $d){
-        $liste['descriptions'] .= "<li>" . $d['datedescription'] . " par " . $d['observateur'] . ' <i onclick="minitable(' . $d['idinfosmare'] . ')" class="fa fa-eye text-info minitable"></i></li>';
+        $liste['descriptions'] .= "<li>" . $d['datedescription'] . " par " . $d['observateur'] . ' <i onclick="minitable(' . $d['idinfosmare'] . ')" class="fa fa-eye text-info minitable"></i>';
+        $_SESSION['idmembre'] == $d['idm'] ? $liste['descriptions'] .= '<a href="index.php?module=stations&amp;action=saisie"> <i onclick="moddescription(' . $d['idinfosmare'] . ')" class="fa fa-pencil text-warning"></i> </a> </li> ' : $liste['descriptions'] .= '</li>' ;  ;
     }
     $liste['descriptions'] .= "</ul>";
 
@@ -155,7 +157,7 @@ if(isset($_POST['idstation'])){
         $gallery = "";
         foreach($photos as $photo){
             $gallery .= '<a href="photo/P800/stations/' . $photo['nomphoto'] . '.jpg"><img src="photo/P200/stations/' . $photo['nomphoto'] . '.jpg" class="img-thumbnail mr-3"></a>';
-            $gallery .= 'Date : ' . $photo['datephoto'] . ', par ' . $photo['observateur'];
+            $gallery .= $photo['datephoto'];
         }
     }
 

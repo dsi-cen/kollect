@@ -76,18 +76,28 @@ function carte(e) {
         k = "oui"
     }), $(".leaflet-draw-edit-remove").click(function () {
         k = "oui"
-    }), map.on("draw:created", function (e) {
+    }),
+
+        // Création d'un object sur la carte
+        map.on("draw:created", function (e) {
         var a = (e.layerType, e.layer);
         drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), drawnItems.addLayer(a);
         var t = (1e4 * a.getCenter().lat) / 1e4, o = (1e4 * a.getCenter().lng) / 1e4;
-        "oui" == mod && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
-    }), map.on("draw:edited", function (e) {
+
+        // Si une nouvelle géométrie est créée, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
+        ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
+        }),
+
+        // Modification d'un object sur la carte
+        map.on("draw:edited", function (e) {
         var a = e.layers;
         a.eachLayer(function (e) {
             var a = (1e4 * e.getCenter().lat) / 1e4, t = (1e4 * e.getCenter().lng) / 1e4;
             marker.setLatLng([a, t]), recupcoord(a, t, l), recupgeojson(e)
         })
-    }), map.on("draw:drawstop", function (e) {
+        }),
+
+        map.on("draw:drawstop", function (e) {
         k = "non"
     }), map.on("draw:editstop", function (e) {
         k = "non"
@@ -265,7 +275,7 @@ function recup_info(id) {
             $("#typestation").prop('disabled', true); // Empêcher le changement de type
             $("#lieub").val(e.site);
             $("#nom_station").html(" : <span style='color: darkred;'> " + e.site + "</span>");
-            $("#mare").hide();
+            // $("#mare").hide();
             $(".active").html("Vous êtes en mode édition d'une station existante");
             // $("#date").val(e.datedescription);
             // $("#typemare").val(e.idtypemare);
@@ -651,6 +661,7 @@ $(document).ready(function () {
     $("#cancel_update").hide(); //
     $("#dateprisedevue").hide();
     $(".dateprisedevue").hide();
+    $("#addto").hide();
 
     // Popup pour les images
     $(".popup-gallery").magnificPopup({
@@ -670,10 +681,39 @@ $(document).ready(function () {
         url: "emprise/emprise.json", dataType: "json", success: function (a) {
             e = a, carte(e)
         }
-    }), $("#valajaxs").hide(), $("#blocobs").hide(), $("#pluslatin1").hide(), $("#pluscoord").hide(), $("#pluscol").hide(), $("#plushab").hide(), $("#plusproto").show(), $("#valm").removeClass("d-flex").hide(), $("#liste10").hide(), $("#photo").hide(), $("#pltehote").hide(), $("#plusfiche").hide(), $("#valf").hide(), $("#estim").hide(), $("#nbtmp").hide(), $("#habitat2").hide(), $("#habitat3").hide(), $("#observateur").prop("disabled", !0), $("#dep").prop("disabled", !0), $("#communeb").prop("disabled", !0), $("#altitude").prop("disabled", !0), $("#xlambert").prop("disabled", !0), $("#ylambert").prop("disabled", !0), $("#lat").prop("disabled", !0), $("#lng").prop("disabled", !0), $("#l93").prop("disabled", !0), $("#l935").prop("disabled", !0), $("#utm").prop("disabled", !0), $("#utm1").prop("disabled", !0), $("#nomb").prop("disabled", !0).css("cursor", "Not-Allowed"), $("#btnaide").on("click", aide);
+    });
+        $("#pluscoord").hide(),
+        $("#photo").hide(),
+        $("#observateur").prop("disabled", !0),
+            $("#dep").prop("disabled", !0),
+            $("#communeb").prop("disabled", !0),
+            $("#altitude").prop("disabled", !0),
+            $("#xlambert").prop("disabled", !0),
+            $("#ylambert").prop("disabled", !0),
+            $("#lat").prop("disabled", !0),
+            $("#lng").prop("disabled", !0),
+            $("#l93").prop("disabled", !0),
+            $("#l935").prop("disabled", !0),
+            $("#utm").prop("disabled", !0),
+            $("#utm1").prop("disabled", !0),
+            $("#btnaide").on("click", aide);
 
-    var l = $("#getidfiche").val();
-    "" != l && recupfiche(l);
+    if ( $("#codesite").val() !== "" ? $("#codesite").val() !== "Nouv" ? true : false : false ) {
+        $("#mare").show();
+        $("#imgpluscoord").hide();
+        $("#update_station").hide();
+        $("#addto").show();
+        $("#btn_create_station").prop("disabled", !0);
+        $("#lieub").prop("disabled", !0);
+        $("#choixdep").prop("disabled", !0);
+        $("#choixcom").prop("disabled", !0);
+        $("#choixsite").prop("disabled", !0);
+        $("#choixsite1").prop("disabled", !0);
+        $("#commentaire").prop("disabled", !0);
+        recup_info( $("#codesite").val() ) ;
+        $(".active").html("Ajouter une nouvelle description sur une station existante");
+    }
+
 }),
 
     $("#bttdia9").click(function () {
@@ -1065,9 +1105,24 @@ $(function () {
     "use strict";
     var e = $(this).parent().parent().attr("id");
     $("#getidfiche").val(e), $(".table").find("tr").removeClass("bg-info"), $("#" + e).addClass("bg-info"), affichefiche(), $("html, body").animate({scrollTop: 0}, "slow"), recupfiche(e)
-}), $("#bttdiaN13").click(function () {
-    mod = "non", nonsite(), $("#codesite").val("Nouv")
-}), $("#BttF").click(function () {
+});
+
+
+
+    // Modification ou création de géométrie
+    $("#bttdiaN13").click(function () {
+        nonsite();
+        $("#parent").val( $("#codesite").val() ) ;
+        $("#codesite").val("Nouv"); // On passe la valeur à Nouv pour créer une nouvelle station
+        $("#typestation").prop('disabled', false); // Réactivation du changement de type
+    });
+
+
+
+
+
+
+    $("#BttF").click(function () {
     "use strict";
     var e = $("#idfiche").val(), a = $("#idcoord").val(), t = $("#codesite").val(), l = $("#xlambert").val(),
         o = $("#ylambert").val(), i = $("#lat").val(), s = $("#lng").val(), n = $("#l93").val(), r = $("#l935").val(),
@@ -1289,13 +1344,13 @@ $("#update_station").on("click", function(){
         copyright = $("input[name=opph]:checked").val() == undefined ? $("#idobser").val() : $("input[name=opph]:checked").val() ;
     var imagedata;
     photo == 'oui' ? imagedata = encodeURIComponent($("#crop").cropit("export", {type: "image/jpeg", quality: .9, originalSize: !1})) : imagedata = "";
-
+    var parent = $("#parent").val();
     var element = $("form").serialize();
     $.ajax({
         url: "modeles/ajax/stations/stations.php",
         type: "POST",
         dataType: "json",
-        data: element + "&codesite=" + codesite + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
+        data: element + "&codesite=" + codesite + "&parent"+ parent + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
         success: function (e) {
             recup_info( $("#codesite").val() );
             $("#aphoto").val("non");

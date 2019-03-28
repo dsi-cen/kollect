@@ -546,7 +546,11 @@
                         </button>
                         <button id="update_station" type="button" class="btn btn-success" data-placement="bottom"
                                 data-title="">Enregistrer la modification
-                        </button>                        <button id="cancel_update" type="button" class="btn btn-warning ml-3" data-placement="bottom"
+                        </button>
+                        <button id="addto" type="button" class="btn btn-success" data-placement="bottom"
+                                data-title="">Ajouter la description à la station
+                        </button>
+                        <button id="cancel_update" type="button" class="btn btn-warning ml-3" data-placement="bottom"
                                 data-title="">Retour
                         </button>
 
@@ -555,27 +559,25 @@
                 </div>
                 <!--input hidden -->
                 <!--localisation, fiche, obs -->
-                <input id="codecom" name="codecom" type="hidden"/><input id="codedep" type="hidden"
-                                                                         name="codedep"/><input
-                        id="codesite" name="codesite" type="hidden"/><input id="idcoord" type="hidden"
-                                                                            name="idcoord"/>
-                <input id="idobser" name="idobser" type="hidden" value="<?php echo $idobser; ?>"/><input id="iddet"
-                                                                                                         name="iddet"
-                                                                                                         type="hidden"
-                                                                                                         value="<?php echo $idobser; ?>"/><input
-                        id="cdnom" name="cdnom" type="hidden"/><input id="cdref" name="cdref" type="hidden"/>
-                <input id="idfiche" name="idfiche" type="hidden" value="Nouv"/><input id="idobs" name="idobs"
-                                                                                      type="hidden"
-                                                                                      value="Nouv"/><input
-                        id="cdhab"
-                        name="cdhab"
-                        type="hidden"/>
-                <input id="pr" name="pr" type="hidden"/><input id="nb" name="nb" type="hidden"/><input id="newsp"
-                                                                                                       name="newsp"
-                                                                                                       type="hidden"/><input
-                        id="biogeo" name="biogeo" type="hidden" value="<?php echo $biogeo; ?>"/>
-                <input id="typepoly" name="typepoly" type="hidden" size="200"/><input id="idm" type="hidden"
-                                                                                      value="<?php echo $_SESSION['idmembre']; ?>"/>
+                <input id="codecom" name="codecom" type="hidden"/>
+                <input id="codedep" type="hidden" name="codedep"/>
+                <input id="codesite" name="codesite" type="hidden" <?php if (isset($_GET['addto'])) { echo 'value="' . $_GET['addto'] . '"'; } else { } ?> />
+                <input id="idcoord" type="hidden" name="idcoord"/>
+                <input id="idobser" name="idobser" type="hidden" value="<?php echo $idobser; ?>"/>
+                <input id="iddet" name="iddet" type="hidden" value="<?php echo $idobser; ?>"/>
+                <!-- <input id="cdnom" name="cdnom" type="hidden"/> -->
+                <!-- <input id="cdref" name="cdref" type="hidden"/> -->
+                <input id="idfiche" name="idfiche" type="hidden" value="Nouv"/>
+                <input id="idobs" name="idobs" type="hidden" value="Nouv"/>
+                <!-- <input id="cdhab" name="cdhab" type="hidden"/> -->
+                <!-- <input id="pr" name="pr" type="hidden"/> -->
+                <!--  <input id="nb" name="nb" type="hidden"/> -->
+                <!-- <input id="newsp" name="newsp" type="hidden"/> -->
+                <input id="biogeo" name="biogeo" type="hidden" value="<?php echo $biogeo; ?>"/>
+                <input id="typepoly" name="typepoly" type="hidden" size="200"/>
+                <input id="idm" type="hidden" value="<?php echo $_SESSION['idmembre']; ?>"/>
+                <input id="parent" type="hidden" value=""/>
+
             </form>
         </div>
     </div>
@@ -788,11 +790,12 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Dessin</h4>
+                <h4 class="modal-title">Vous avez modifié une géométrie</h4>
             </div>
             <div class="modal-body">
-                <p>Si vous réalisez un contour pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui,
-                    autrement cliquer sur Nouveau</p>
+                <p>Si vous réalisez une modification pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui. Cela aura pour incidence de déplacer l'ensemble des observations réalisées
+                    sur l'ancienne géométrie vers la nouvelle.</p>
+                <p>Si vous souhaitez concerver les anciennes observations sur l'ancienne géométrie, cliquez sur Nouveau pour créer une stations 'fille'. </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouveau</button>
