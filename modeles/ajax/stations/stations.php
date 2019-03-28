@@ -121,11 +121,11 @@ function update_coordgeo($codesite,$geo,$poly)
     $req->closeCursor();
 }
 
-function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm)
+function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $wsite, $idparent)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, typestation, commentaire, idmembre) VALUES(:idcoord, :codecom, :site, :rqsite, :typestation, :commentaire, :idm) ");
+    $req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, typestation, commentaire, idmembre, wsite, idparent) VALUES(:idcoord, :codecom, :site, :rqsite, :typestation, :commentaire, :idm, :wsite, :idparent) ");
     $req->bindValue(':codecom', $codecom);
     $req->bindValue(':idcoord', $idcoord);
     $req->bindValue(':rqsite', $rqsite);
@@ -133,12 +133,26 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commenta
     $req->bindValue(':typestation', $typestation);
     $req->bindValue(':commentaire', $commentaire);
     $req->bindValue(':idm', $idm);
+    $req->bindValue(':wsite', "oui");
+    $req->bindValue(':idparent', $idparent);
     if ($req->execute())
     {
         $rowidstation = $bdd->lastInsertId('obs.site_idsite_seq');
     }
     $req->closeCursor();
     return $rowidstation ;
+}
+
+function desactiver_site_parent($codesite)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("UPDATE obs.site SET wsite = :wsite
+                                                        WHERE idsite = :idsite");
+    $req->bindValue(':idsite', $codesite);
+    $req->bindValue(':wsite', "non");
+    $req->execute();
+    $req->closeCursor();
 }
 
 function update_site($codesite, $codecom, $site, $commentaire)
@@ -279,7 +293,7 @@ if(isset($_POST['codesite'])) {
     $utm = $_POST['utm'];
     $utm1 = $_POST['utm1'];
     $site = htmlspecialchars($_POST['lieub']);
-    $parent = $_POST['parent'];
+    $idparent = isset($_POST['parent']) ? $_POST['parent'] : 0 ;
 
     // Si un objet est dessiné
     $geo = $_POST['typepoly'];
@@ -322,7 +336,9 @@ if(isset($_POST['codesite'])) {
         //Insertion site
         if ($site != '') { // Création du site
             $rqsite = 'Insertion via gestion des stations. idm - ' . $idm;
-            $rowidstation = insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm);
+            $wsite = "oui"; // Nouvelle station donc enable par defaut
+            $rowidstation = insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $wsite, $idparent);
+            $idparent != 0 ? desactiver_site_parent($idparent) : null;
         }
 
         if ($typestation == 1) { // Si c'est du type 'mare'

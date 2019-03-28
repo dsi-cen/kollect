@@ -84,8 +84,8 @@ function carte(e) {
         drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), drawnItems.addLayer(a);
         var t = (1e4 * a.getCenter().lat) / 1e4, o = (1e4 * a.getCenter().lng) / 1e4;
 
-        // Si une nouvelle géométrie est créée, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
-        ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
+        // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
+            $("#codesite").val() != "Nouv" && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
         }),
 
         // Modification d'un object sur la carte
@@ -439,7 +439,10 @@ function supmarker() {
 
 function nonsite() {
     "use strict";
+    $("#commentaire").val("Transformation de la station '" + $("#lieub").val() + "'" );
     $("#lieub").val("")
+    $("#nom_station").html('<span style="color: green;">Création d\'une station fille</span>');
+
 }
 
 function aide() {
@@ -1114,7 +1117,8 @@ $(function () {
         nonsite();
         $("#parent").val( $("#codesite").val() ) ;
         $("#codesite").val("Nouv"); // On passe la valeur à Nouv pour créer une nouvelle station
-        $("#typestation").prop('disabled', false); // Réactivation du changement de type
+        $("#typestation").val() === 1 && $("#mare").show();
+
     });
 
 
@@ -1350,7 +1354,7 @@ $("#update_station").on("click", function(){
         url: "modeles/ajax/stations/stations.php",
         type: "POST",
         dataType: "json",
-        data: element + "&codesite=" + codesite + "&parent"+ parent + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
+        data: element + "&codesite=" + codesite + "&parent="+ parent + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
         success: function (e) {
             recup_info( $("#codesite").val() );
             $("#aphoto").val("non");
