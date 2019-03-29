@@ -547,9 +547,6 @@
                         <button id="update_station" type="button" class="btn btn-success" data-placement="bottom"
                                 data-title="">Enregistrer la modification
                         </button>
-                        <button id="addto" type="button" class="btn btn-success" data-placement="bottom"
-                                data-title="">Ajouter la description à la station
-                        </button>
                         <button id="cancel_update" type="button" class="btn btn-warning ml-3" data-placement="bottom"
                                 data-title="">Retour
                         </button>
@@ -577,6 +574,7 @@
                 <input id="typepoly" name="typepoly" type="hidden" size="200"/>
                 <input id="idm" type="hidden" value="<?php echo $_SESSION['idmembre']; ?>"/>
                 <input id="parent" type="hidden" value=""/>
+                <input id="adddescription" type="hidden" <?php if (isset($_GET['addto'])) { echo 'value="oui"'; } else { } ?> />
 
             </form>
         </div>

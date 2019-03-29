@@ -134,7 +134,7 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commenta
     $req->bindValue(':commentaire', $commentaire);
     $req->bindValue(':idm', $idm);
     $req->bindValue(':wsite', "oui");
-    $req->bindValue(':idparent', $idparent);
+    $req->bindValue(':idparent', $idparent == 0 ? $idparent = NULL : $idparent );
     if ($req->execute())
     {
         $rowidstation = $bdd->lastInsertId('obs.site_idsite_seq');
@@ -273,7 +273,7 @@ if(isset($_POST['codesite'])) {
     $idm = (isset($_SESSION['idmorigin'])) ? $_SESSION['idmorigin'] : $_SESSION['idmembre'];
 
     $idobseror = $_POST['idobseror'];
-    $idobserorl[] = $_POST['idobseror'];
+    $idobserorl[] = $_POST['idobseror']; // temp array
     $listobser = $_POST['idobser'];
     $listobser = explode(",",$listobser);
     $listobser = array_map('trim', $listobser);
@@ -318,11 +318,11 @@ if(isset($_POST['codesite'])) {
     $idmenaces = $_POST['menaces'];
     $idalimeau = $_POST['alimeau'];
 
-    if ($_POST['codesite'] == 'Nouv') { //Nouveau site.
+    // Date description
+    $datedescription = DateTime::createFromFormat('d/m/Y', $_POST['date']);
+    $datedescription = $datedescription->format('Y-m-d');
 
-        // Date description
-        $datedescription = DateTime::createFromFormat('d/m/Y', $_POST['date']);
-        $datedescription = $datedescription->format('Y-m-d');
+    if ($_POST['codesite'] == 'Nouv') { //Nouveau site.
 
         $idcoord = insere_coordonnee($x, $y, $alt, $lat, $lng, $l93, $utm, $utm1, $l935);
 
@@ -436,10 +436,28 @@ if(isset($_POST['codesite'])) {
             }
         }
 
-        // Update des géométrie, /!\ toutes les obs sont affectées
-        update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935); // OK
-        update_coordgeo($codesite,$geo,$poly);
-        update_site($codesite, $codecom, $site, $commentaire);
+        if( $_POST['adddescription'] == "oui" ){ // Ajout d'une description
+            // Insert description
+            $rowidstation = $_GET['addto'];
+            if ($typestation == 1) { // Si c'est du type 'mare'
+                // Insérer les informations générales
+                $idinfosmare = insere_mare($codesite, $datedescription, $idtypemare, $idenvironnement, $receaulibre, $idvegaquatique, $idvegsemiaquatique, $idvegrivulaire, $idtypeexutoire, $idtaillemare, $idcouleureau, $idnaturefond, $idrecberge, $idprofondeureau, $commentairemare, $idm, $idobseror, $plusobser);
+                // Insérer les menaces
+                insere_menaces($idinfosmare, $idmenaces);
+                // Insérer les alimentations en eau
+                insere_alimeau($idinfosmare, $idalimeau);
+                // Insérer les observateurs si plusieurs "oui"
+                if ($plusobser == "oui") {
+                    insere_obser($listobser, $idinfosmare);
+                }
+            }
+        }
+        else {
+            // Update des géométrie, /!\ toutes les obs sont affectées
+            update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935); // OK
+            update_coordgeo($codesite,$geo,$poly);
+            update_site($codesite, $codecom, $site, $commentaire);
+        }
     }
 }
 echo json_encode($retour);

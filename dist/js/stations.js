@@ -664,7 +664,6 @@ $(document).ready(function () {
     $("#cancel_update").hide(); //
     $("#dateprisedevue").hide();
     $(".dateprisedevue").hide();
-    $("#addto").hide();
 
     // Popup pour les images
     $(".popup-gallery").magnificPopup({
@@ -704,8 +703,7 @@ $(document).ready(function () {
     if ( $("#codesite").val() !== "" ? $("#codesite").val() !== "Nouv" ? true : false : false ) {
         $("#mare").show();
         $("#imgpluscoord").hide();
-        $("#update_station").hide();
-        $("#addto").show();
+        $("#update_station").html("Ajouter la description");
         $("#btn_create_station").prop("disabled", !0);
         $("#lieub").prop("disabled", !0);
         $("#choixdep").prop("disabled", !0);
@@ -1118,7 +1116,6 @@ $(function () {
         $("#parent").val( $("#codesite").val() ) ;
         $("#codesite").val("Nouv"); // On passe la valeur à Nouv pour créer une nouvelle station
         $("#typestation").val() === 1 && $("#mare").show();
-
     });
 
 
@@ -1309,6 +1306,7 @@ $("#save_station").on("click", function(){
             photo == 'oui' ? imagedata = encodeURIComponent($("#crop").cropit("export", {type: "image/jpeg", quality: .9, originalSize: !1})) : imagedata = "";
             console.log($("form").serialize());
             var element = $("form").serialize();
+
         $.ajax({
             url: "modeles/ajax/stations/stations.php",
             type: "POST",
@@ -1349,12 +1347,15 @@ $("#update_station").on("click", function(){
     var imagedata;
     photo == 'oui' ? imagedata = encodeURIComponent($("#crop").cropit("export", {type: "image/jpeg", quality: .9, originalSize: !1})) : imagedata = "";
     var parent = $("#parent").val();
+    var adddescription = $("#adddescription").val();
+    $("#typestation").prop('disabled', false);
+    var idobseror = $("#idobseror").val();
     var element = $("form").serialize();
     $.ajax({
         url: "modeles/ajax/stations/stations.php",
         type: "POST",
         dataType: "json",
-        data: element + "&codesite=" + codesite + "&parent="+ parent + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
+        data: element + "&codesite=" + codesite + "&idobseror=" + idobseror + "&parent="+ parent + "&adddescription="+ adddescription + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
         success: function (e) {
             recup_info( $("#codesite").val() );
             $("#aphoto").val("non");
