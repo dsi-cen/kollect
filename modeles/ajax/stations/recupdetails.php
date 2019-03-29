@@ -44,7 +44,21 @@ function description_detail_mare($idinfosmare)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $sql = "SELECT
+    $sql = "with select_alimeau as (
+select infosmare.idinfosmare, string_agg(alimeau.libalimeau, ', ') as alimeau
+FROM station.infosmare
+left join station.infosmare_alimeau on infosmare_alimeau.idinfosmare =  infosmare.idinfosmare
+left join referentiel_station.alimeau on alimeau.idalimeau = infosmare_alimeau.idalimeau
+group by infosmare.idinfosmare
+), 
+select_menaces as (
+select infosmare.idinfosmare, string_agg(menaces.libmenaces, ', ') as menaces
+FROM station.infosmare
+left join station.infosmare_menaces on infosmare_menaces.idinfosmare =  infosmare.idinfosmare
+left join referentiel_station.menaces on menaces.idmenaces = infosmare_menaces.idmenaces
+group by infosmare.idinfosmare
+)
+SELECT
     referentiel.observateur.observateur,
     datedescription,
     commentaire,
@@ -60,7 +74,9 @@ function description_detail_mare($idinfosmare)
     typemare.libtypemare,
     vegaquatique.libvegaquatique,
     vegrivulaire.libvegrivulaire,
-    vegsemiaquatique.libvegsemiaquatique
+    vegsemiaquatique.libvegsemiaquatique,
+    select_alimeau.alimeau,
+    select_menaces.menaces
 FROM station.infosmare
 left join referentiel.observateur on referentiel.observateur.idobser = station.infosmare.idobser
 left join referentiel_station.couleureau on couleureau.idcouleureau =  infosmare.idcouleureau
@@ -74,7 +90,9 @@ left join referentiel_station.typemare on typemare.idtypemare =  infosmare.idtyp
 left join referentiel_station.vegaquatique on vegaquatique.idvegaquatique =  infosmare.idvegaquatique
 left join referentiel_station.vegrivulaire on vegrivulaire.idvegrivulaire =  infosmare.idvegrivulaire
 left join referentiel_station.vegsemiaquatique on vegsemiaquatique.idvegsemiaquatique =  infosmare.idvegsemiaquatique
-WHERE idinfosmare = :idinfosmare";
+left join select_alimeau on select_alimeau.idinfosmare = infosmare.idinfosmare
+left join select_menaces on select_menaces.idinfosmare = infosmare.idinfosmare
+WHERE infosmare.idinfosmare = :idinfosmare";
     $req = $bdd->prepare($sql) or die(print_r($bdd->errorInfo()));
     $req->bindValue(':idinfosmare', $idinfosmare);
     $req->execute();
@@ -147,7 +165,9 @@ if(isset($_POST['idstation'])){
     // Simple liste pour panneau de gauche
     foreach($descriptions as $d){
         $liste['descriptions'] .= "<li>" . $d['datedescription'] . " par " . $d['observateur'] . ' <i onclick="minitable(' . $d['idinfosmare'] . ')" class="fa fa-eye text-info minitable"></i>';
-        $_SESSION['idmembre'] == $d['idm'] ? $liste['descriptions'] .= '<a href="index.php?module=stations&amp;action=saisie"> <i onclick="moddescription(' . $d['idinfosmare'] . ')" class="fa fa-pencil text-warning"></i> </a> </li> ' : $liste['descriptions'] .= '</li>' ;  ;
+        $_SESSION['idmembre'] == $d['idm'] ? $liste['descriptions'] .= '<a href="index.php?module=stations&amp;action=saisie&amp;moddescription=' . $d['idinfosmare'] . ' "> <i class="fa fa-pencil text-warning"></i> </a>' : null  ;
+        $_SESSION['idmembre'] == $d['idm'] ? $liste['descriptions'] .= '<i onclick="deldescription(' . $d['idinfosmare'] . ')" class="fa fa-trash text-danger"></i> ' : null ;  ;
+        $liste['descriptions'] .= "</li>" ;
     }
     $liste['descriptions'] .= "</ul>";
 
@@ -245,7 +265,12 @@ elseif (isset($_POST['idinfosmare'])){
                                   <td>Végétation rivulaire</td>
                                   <td>" . $description['libvegrivulaire'] . '</td>
                                 </tr>';
-
+            $liste['description'] .= "<tr><td>Menaces</td>
+                                              <td>" . $description['menaces'] . '</td>
+                                            </tr>';
+            $liste['description'] .= "<tr><td>Alimentation en eau</td>
+                                              <td>" . $description['alimeau'] . '</td>
+                                            </tr>';
     $liste['description'] .= '</tbody></table>';
 
     // $liste['description'] = $description;

@@ -121,11 +121,11 @@ function update_coordgeo($codesite,$geo,$poly)
     $req->closeCursor();
 }
 
-function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $wsite, $idparent)
+function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $idparent)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, typestation, commentaire, idmembre, wsite, idparent) VALUES(:idcoord, :codecom, :site, :rqsite, :typestation, :commentaire, :idm, :wsite, :idparent) ");
+    $req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, typestation, commentaire, idmembre, wsite, idparent, idstatus) VALUES(:idcoord, :codecom, :site, :rqsite, :typestation, :commentaire, :idm, :wsite, :idparent, :idstatus) ");
     $req->bindValue(':codecom', $codecom);
     $req->bindValue(':idcoord', $idcoord);
     $req->bindValue(':rqsite', $rqsite);
@@ -135,6 +135,7 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commenta
     $req->bindValue(':idm', $idm);
     $req->bindValue(':wsite', "oui");
     $req->bindValue(':idparent', $idparent == 0 ? $idparent = NULL : $idparent );
+    $req->bindValue(':idstatus', 1 );
     if ($req->execute())
     {
         $rowidstation = $bdd->lastInsertId('obs.site_idsite_seq');
@@ -293,7 +294,7 @@ if(isset($_POST['codesite'])) {
     $utm = $_POST['utm'];
     $utm1 = $_POST['utm1'];
     $site = htmlspecialchars($_POST['lieub']);
-    $idparent = isset($_POST['parent']) ? $_POST['parent'] : 0 ;
+    $idparent = $_POST['parent'] ;
 
     // Si un objet est dessiné
     $geo = $_POST['typepoly'];
@@ -319,8 +320,10 @@ if(isset($_POST['codesite'])) {
     $idalimeau = $_POST['alimeau'];
 
     // Date description
-    $datedescription = DateTime::createFromFormat('d/m/Y', $_POST['date']);
-    $datedescription = $datedescription->format('Y-m-d');
+    if (!empty($_POST['date'])){
+        $datedescription = DateTime::createFromFormat('d/m/Y', $_POST['date']);
+        $datedescription = $datedescription->format('Y-m-d');
+    }
 
     if ($_POST['codesite'] == 'Nouv') { //Nouveau site.
 
@@ -336,8 +339,7 @@ if(isset($_POST['codesite'])) {
         //Insertion site
         if ($site != '') { // Création du site
             $rqsite = 'Insertion via gestion des stations. idm - ' . $idm;
-            $wsite = "oui"; // Nouvelle station donc enable par defaut
-            $rowidstation = insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $wsite, $idparent);
+            $rowidstation = insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $idparent);
             $idparent != 0 ? desactiver_site_parent($idparent) : null;
         }
 

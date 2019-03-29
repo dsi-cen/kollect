@@ -7,12 +7,13 @@ function stations($iddep, $type)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $sql = "SELECT case when idparent = 0 then idsite else idparent end as ordre, idsite, obs.site.idcoord, obs.site.codecom, site, wsite, idparent, obs.coordgeo.geo, typestation, commune,  obs.coordonnee.lat, obs.coordonnee.lng, libtypestation
+    $sql = "SELECT case when idparent is null then idsite else idparent end as ordre, idsite, obs.site.idcoord, obs.site.codecom, site, idstatusstation, libidstatusstation, wsite, idparent, obs.coordgeo.geo, typestation, commune,  obs.coordonnee.lat, obs.coordonnee.lng, libtypestation
             FROM obs.site
             LEFT JOIN referentiel.commune ON referentiel.commune.codecom = obs.site.codecom
             LEFT JOIN obs.coordgeo ON obs.site.idcoord = obs.coordgeo.idcoord
             LEFT JOIN obs.coordonnee ON obs.site.idcoord = obs.coordonnee.idcoord
             LEFT JOIN referentiel_station.typestation ON referentiel_station.typestation.idtypestation = obs.site.typestation 
+            LEFT JOIN referentiel_station.statusstation ON referentiel_station.statusstation.idstatusstation = obs.site.idstatus 
             WHERE obs.site.codecom LIKE :iddep ";
     if ($type != 0){
         $sql .= "AND referentiel_station.typestation.idtypestation = :type ";
@@ -45,16 +46,18 @@ if(isset($_POST['iddep']) || isset($_POST['iddep'])) {
     $liste = ""; // Stocker le tableau
 
     $liste .= '<table id="liste_stations" class="table table-hover table-sm">';
-    $liste .= '<thead><tr><th></th></th><th>Site</th><th>Commune</th><th>Type</th><th>Actif</th></tr></thead><tbody>';
+    $liste .= '<thead><tr><th></th></th><th>Site</th><th>Commune</th><th>Type</th><th>Actif</th><th>Status</th></tr></thead><tbody>';
     foreach($stations as $n) {
-        $n['idparent'] == 0 ? $p = "" : $p = "&#8627;  ";
+        empty($n['idparent']) ? $p = "" : $p = "&#8627;  ";
         $liste .= '<tr id="'. $n['idsite'] .'">';
         $liste .= '<td><i onclick="detail(' . $n['idsite'] . ')" class="fa fa-file-text-o text-info curseurlien" ></i>';
         $liste .= '&nbsp;<i class="fa fa-eye text-info focus"></i></td>';
-        $n['wsite'] == "non" ? $liste .= '<td style="color: grey;">'. $p . $n['site'].'</td>' : $liste .= '<td>'. $p . $n['site'].'</td>' ;
+        $n['wsite'] == "non" ? $liste .= '<td style="color: grey;">'. $p . $n['site']. '</td>' : $liste .= '<td>'. $p . $n['site']. '</td>' ;
         $n['wsite'] == "non" ? $liste .= '<td style="color: grey;">'.$n['commune'].'</td>' : $liste .= '<td>'.$n['commune'].'</td>' ;
         $n['wsite'] == "non" ? $liste .= '<td style="color: grey;">'.$n['libtypestation'].'</td>' : $liste .= '<td>'.$n['libtypestation'].'</td>' ;
         $n['wsite'] == "non" ? $liste .= '<td style="color: grey;">'.$n['wsite'].'</td>' : $liste .= '<td>'.$n['wsite'].'</td>' ;
+        $n['wsite'] == "non" ? $liste .= '<td style="color: grey;">'.$n['libidstatusstation'].'</td>' : $liste .= '<td>'.$n['libidstatusstation'].'</td>' ;
+
         // $liste .= '</td>';
         $liste .= '</tr>';
         array_push($retour['geo']['geo'], $n['geo']);

@@ -81,6 +81,27 @@
 </div>
 
 
+<div class="modal fade" id="modal_deldescription" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Suppression d'une description</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Souhaitez-vous supprimer cette description ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button id="validersuppdescription" type="button" class="btn btn-danger">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <!-- Récupération de la couche préférentielle -->

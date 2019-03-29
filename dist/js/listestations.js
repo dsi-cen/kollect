@@ -278,8 +278,8 @@ function detail(idstation) {
         dataType: "json",
         data: {idstation: idstation},
         success: function (e) {
-            $(".modal-title").html(e.detail.site);
-            e.detail.idmembre == e.detailidm ? $(".modal-title").append( ' <i onclick="delstation()" class="fa fa-trash curseurlien text-danger"></i>' ) : null ;
+            $("#detail .modal-title").html(e.detail.site);
+            // e.detail.idmembre == e.detailidm ? $("#detail .modal-title").append( ' <i onclick="delstation()" class="fa fa-trash curseurlien text-danger"></i>' ) : null ;
             console.log(e.detail.idmembre);
             console.log( e.detailidm );
 
@@ -311,12 +311,11 @@ function minitable(idinfosmare) {
     });
 }
 
-function delstation() {
+function delstation() { // TODO : sup station
 }
 
-function moddescription(idstation) {
-    "use strict";
-    document.location.href = "index.php?module=stations&action=saisie&moddescription=" ;
+function deldescription(idstation) { // TODO
+    $('#modal_deldescription').modal("show");
 }
 
 function adddescription(idstation) {

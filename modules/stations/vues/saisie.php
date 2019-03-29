@@ -573,9 +573,8 @@
                 <input id="biogeo" name="biogeo" type="hidden" value="<?php echo $biogeo; ?>"/>
                 <input id="typepoly" name="typepoly" type="hidden" size="200"/>
                 <input id="idm" type="hidden" value="<?php echo $_SESSION['idmembre']; ?>"/>
-                <input id="parent" type="hidden" value=""/>
+                <input id="parent" type="hidden" value="0"/>
                 <input id="adddescription" type="hidden" <?php if (isset($_GET['addto'])) { echo 'value="oui"'; } else { } ?> />
-
             </form>
         </div>
     </div>
