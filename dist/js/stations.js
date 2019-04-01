@@ -112,7 +112,7 @@ function carte(e) {
     });
 
         map.on("click", function (e) { // Au clic sur la carte
-            if ("oui" != k && $("#btn_create_station").prop("checked")) { // Si en mode 'création'
+            if ("oui" != k /* && $("#btn_create_station").prop("checked") */ ) { // Si en mode 'création'
                 drawnItems.getLayers().length > 0 && (drawnItems.clearLayers(), $("#typepoly").val("")), marker ? (marker.setLatLng(e.latlng), map.setView(marker.getLatLng(), map.getZoom())) : marker = L.marker(e.latlng, {icon: C}).addTo(map);
                 var a = (1e4 * e.latlng.lat) / 1e4, t = (1e4 * e.latlng.lng) / 1e4;
                 mod = "non", recupcoord(a, t, l);
@@ -393,6 +393,8 @@ function centrersite(e, a, t) { // Centrer lors d'une recherche par nom
         }
     }), contoursite.eachLayer(function (e) { e.addTo(drawnItems); })) // Rendre le poly editable
     $(".leaflet-draw").show();
+    $(".leaflet-draw-draw-circlemarker").hide();
+
 }
 
 function centrer(e, a, t) {
@@ -668,6 +670,7 @@ $(document).ready(function () {
     $("#cancel_update").hide(); //
     $("#dateprisedevue").hide();
     $(".dateprisedevue").hide();
+
 
     // Popup pour les images
     $(".popup-gallery").magnificPopup({
@@ -1270,6 +1273,7 @@ $("#btn_create_station").change(function(){
         $("#save_station").show();
         $("#lieub").val("");
         $(".leaflet-draw").show();
+        $(".leaflet-draw-draw-circlemarker").hide();
         $("#showcom").show(); //
         $("#showphoto").show(); //
         $("#codesite").val('Nouv'); //
@@ -1286,12 +1290,30 @@ $("#btn_create_station").change(function(){
 // Enregistrer la station
 $("#save_station").on("click", function(){
         "use strict";
-        // Controle sur la saisie de la date
-    if ($("#date").val() == "") {
+        // Controle sur la saisie des champs
+    if ( $("#typestation").val() == 1 && $("#date").val() == "") {
         $("#alert1").html('<div class="alert alert-warning">\n' +
             '  <strong>Attention ! </strong>Merci de renseigner la date de la description.\n' +
             '</div>');
         $("#date").select();
+        return false;
+    }
+    if ($("#typestation").val() == 0) {
+        $("#alert1").html('<div class="alert alert-warning">\n' +
+            '  <strong>Attention ! </strong>Merci de renseigner un type de station.\n' +
+            '</div>');
+        return false;
+    }
+    if ($("#xlambert").val() == "") {
+        $("#alert1").html('<div class="alert alert-warning">\n' +
+            '  <strong>Attention ! </strong>Merci de renseigner la géométrie de la station.\n' +
+            '</div>');
+        return false;
+    }
+    if ($("#lieub").val() == "") {
+        $("#alert1").html('<div class="alert alert-warning">\n' +
+            '  <strong>Attention ! </strong>Merci de renseigner le nom de la station.\n' +
+            '</div>');
         return false;
     }
     $("#alert1").html('');

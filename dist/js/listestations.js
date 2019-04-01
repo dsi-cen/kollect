@@ -283,12 +283,15 @@ function detail(idstation) {
             console.log(e.detail.idmembre);
             console.log( e.detailidm );
 
-            var str =  "<em>" + e.detail.libtypestation + " enregistré(e) par " + e.detail.nom + " " + e.detail.prenom + "</em>";
+            var str =  "<em>Station de type '" + e.detail.libtypestation + "' enregistré(e) par " + e.detail.nom + " " + e.detail.prenom + "</em>";
             $("#gauche").html(str + "<hr>" + e.detail.commentaire);
-            $("#gauche").append('<hr><strong>Liste des descriptions</strong> (ajouter une nouvelle description <i onclick="adddescription(' + idstation + ')" class="fa fa-plus-circle curseurlien text-success"></i> )<hr>');
+
+            e.detail.idtypestation == 1 ? $("#gauche").append('<hr><strong>Liste des descriptions</strong> (ajouter une nouvelle description <i onclick="adddescription(' + idstation + ')" class="fa fa-plus-circle curseurlien text-success"></i> )<hr>') : null ;
+
             $("#gauche").append(e.descriptions);
-            $("#gallery").html(e.gallery);
             $("#detail").modal("show");
+            $("#gallery").html(e.gallery);
+
         },
         error: function () {
         }

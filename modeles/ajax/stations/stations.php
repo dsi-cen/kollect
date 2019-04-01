@@ -84,6 +84,7 @@ function update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935
     $req->bindValue(':idcoord', $idcoord['idcoord']);
     $req->execute();
     $req->closeCursor();
+    return $idcoord['idcoord'];
 }
 
 function inser_coordgeo($idcoord,$geo,$poly)
@@ -109,15 +110,34 @@ function update_coordgeo($codesite,$geo,$poly)
     $req->bindValue(':codesite', $codesite);
     $req->execute();
     $idcoord = $req->fetch(PDO::FETCH_ASSOC);
-
-
-    $req = $bdd->prepare("UPDATE obs.coordgeo SET geo = :geo, 
-                                                            poly = :poly
-                                                        WHERE idcoord = :idcoord") or die(print_r($bdd->errorInfo()));
+    $req = $bdd->prepare("SELECT idcoord
+                                    FROM obs.coordgeo
+                                    where idcoord = :idcoord") or die(print_r($bdd->errorInfo()));
     $req->bindValue(':idcoord', $idcoord['idcoord']);
-    $req->bindValue(':geo', $geo);
-    $req->bindValue(':poly', $poly);
     $req->execute();
+    $test = $req->fetch(PDO::FETCH_ASSOC);
+
+    if ( empty($test['idcoord']) && !empty($geo) ) { // Si on passe du point à un polygone, on crée la geométrie
+        $req = $bdd->prepare("INSERT INTO obs.coordgeo (idcoord, geo, poly) VALUES(:idcoord, :geo, :poly) ") or die(print_r($bdd->errorInfo()));
+        $req->bindValue(':idcoord', $idcoord['idcoord']);
+        $req->bindValue(':geo', $geo);
+        $req->bindValue(':poly', $poly);
+        $req->execute();
+    }
+
+    elseif ( !empty($test['idcoord']) && !empty($geo) ) { // Si on modifie un polygone, on update la ligne
+        $req = $bdd->prepare("UPDATE obs.coordgeo SET geo = :geo, poly = :poly WHERE idcoord = :idcoord") or die(print_r($bdd->errorInfo()));
+        $req->bindValue(':idcoord', $idcoord['idcoord']);
+        $req->bindValue(':geo', $geo);
+        $req->bindValue(':poly', $poly);
+        $req->execute();
+    }
+
+    elseif ( !empty($test['idcoord']) && empty($geo) ) { // Si on passe d'un polygone à un point, on supprime la géométrie
+        $req = $bdd->prepare("DELETE FROM obs.coordgeo WHERE idcoord = :idcoord") or die(print_r($bdd->errorInfo()));
+        $req->bindValue(':idcoord', $idcoord['idcoord']);
+        $req->execute();
+    }
     $req->closeCursor();
 }
 
@@ -166,7 +186,7 @@ function update_site($codesite, $codecom, $site, $commentaire)
                                                         commentaire = :commentaire
                                                         WHERE idsite = :idsite");
     $req->bindValue(':codecom', $codecom);
-    $req->bindValue(':rqsite', "Update de la géométrie");
+    $req->bindValue(':rqsite', "MAJ de la station");
     $req->bindValue(':site', $site);
     $req->bindValue(':commentaire', $commentaire);
     $req->bindValue(':idsite', $codesite);
@@ -456,7 +476,7 @@ if(isset($_POST['codesite'])) {
         }
         else {
             // Update des géométrie, /!\ toutes les obs sont affectées
-            update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935); // OK
+            update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
             update_coordgeo($codesite,$geo,$poly);
             update_site($codesite, $codecom, $site, $commentaire);
         }

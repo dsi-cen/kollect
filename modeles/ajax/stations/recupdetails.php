@@ -8,7 +8,7 @@ function detailsmares_station($idstation)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $sql = "SELECT site, libtypestation, commentaire, site.membre.nom, site.membre.prenom, site.membre.idmembre
+    $sql = "SELECT site, idtypestation, libtypestation, commentaire, site.membre.nom, site.membre.prenom, site.membre.idmembre
             FROM obs.site
             left join site.membre on site.membre.idmembre = obs.site.idmembre 
             left join referentiel_station.typestation on referentiel_station.typestation.idtypestation = obs.site.typestation
