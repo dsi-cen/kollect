@@ -162,6 +162,26 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <div class="col-12">
+                                <label for="libstatus" class="">Status de la station</label>
+                                <select id="libstatus" name="libstatus" class="form-control">
+                                    <?php
+                                    foreach ($libstatus as $n) {
+                                        if ($n['idstatusstation'] == $idstatusstation) {
+                                            ?>
+                                            <option value="<?php echo $n['idstatusstation']; ?>"
+                                                    selected><?php echo $n['idstatusstation']; ?></option><?php
+                                        } else {
+                                            ?>
+                                            <option
+                                            value="<?php echo $n['idstatusstation']; ?>"><?php echo $n['libidstatusstation']; ?></option><?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
 
                                 <legend class="mt-3 mb-3 legendesaisie">Ajouter des observateurs supplémentaires si besoin
                                 </legend>

@@ -8,7 +8,7 @@
 </section>
 <section class="container-fluid mt-3">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-7">
             <div class="card card-body mb-3">
                 <h3>Critères de recherche</h3>
                 <div class="form-group row">
@@ -41,7 +41,7 @@
                 <div id="liste" class="mt-2"></div>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <div class="card card-body mb-0">
                 <div id="map" style="width: 100%; height: 600px;"></div>
             </div>

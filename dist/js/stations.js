@@ -277,6 +277,7 @@ function recup_info(id) {
             // Remplir avec les valeurs
             $("#typestation").val(e.typestation);
             $("#typestation").prop('disabled', true); // Empêcher le changement de type
+            $("#libstatus").val(e.idstatus);
             $("#lieub").val(e.site);
             $("#nom_station").html(" : <span style='color: darkred;'> " + e.site + "</span>");
             // $("#mare").hide();
@@ -305,8 +306,6 @@ function recup_info(id) {
             $("#liste_photo").html(e.photo);
             $("#dateprisedevue").show();
             $(".dateprisedevue").show();
-
-
         }
     });
 }

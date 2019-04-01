@@ -30,7 +30,7 @@ function infostation($id)
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
 
-    $sql = "SELECT site.idsite, site.site, site.typestation, site.commentaire, codecom              
+    $sql = "SELECT site.idsite, site.site, site.typestation, site.commentaire, codecom, idstatus              
             FROM obs.site
             WHERE site.idsite = :id";
     $req = $bdd->prepare($sql) or die(print_r($bdd->errorInfo()));

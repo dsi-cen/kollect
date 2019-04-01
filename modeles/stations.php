@@ -288,3 +288,13 @@ function liste_type_stations()
     $req->closeCursor();
     return $resultats;
 }
+
+function liste_status_stations()
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->query("SELECT idstatusstation, libidstatusstation FROM referentiel_station.statusstation ");
+    $resultats = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    return $resultats;
+}

@@ -141,7 +141,7 @@ function update_coordgeo($codesite,$geo,$poly)
     $req->closeCursor();
 }
 
-function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $idparent)
+function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $idparent, $idstatus)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
@@ -155,7 +155,7 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commenta
     $req->bindValue(':idm', $idm);
     $req->bindValue(':wsite', "oui");
     $req->bindValue(':idparent', $idparent == 0 ? $idparent = NULL : $idparent );
-    $req->bindValue(':idstatus', 1 );
+    $req->bindValue(':idstatus', $idstatus );
     if ($req->execute())
     {
         $rowidstation = $bdd->lastInsertId('obs.site_idsite_seq');
@@ -176,20 +176,22 @@ function desactiver_site_parent($codesite)
     $req->closeCursor();
 }
 
-function update_site($codesite, $codecom, $site, $commentaire)
+function update_site($codesite, $codecom, $site, $commentaire, $idstatus)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
     $req = $bdd->prepare("UPDATE obs.site SET codecom = :codecom, 
                                                         site = :site, 
                                                         rqsite = :rqsite, 
-                                                        commentaire = :commentaire
+                                                        commentaire = :commentaire,
+                                                        idstatus = :idstatus
                                                         WHERE idsite = :idsite");
     $req->bindValue(':codecom', $codecom);
     $req->bindValue(':rqsite', "MAJ de la station");
     $req->bindValue(':site', $site);
     $req->bindValue(':commentaire', $commentaire);
     $req->bindValue(':idsite', $codesite);
+    $req->bindValue(':idstatus', $idstatus);
     $req->execute();
     $req->closeCursor();
 }
@@ -338,6 +340,7 @@ if(isset($_POST['codesite'])) {
     $commentairemare = $_POST['commentairemare'];
     $idmenaces = $_POST['menaces'];
     $idalimeau = $_POST['alimeau'];
+    $idstatus = $_POST['libstatus'];
 
     // Date description
     if (!empty($_POST['date'])){
@@ -359,7 +362,7 @@ if(isset($_POST['codesite'])) {
         //Insertion site
         if ($site != '') { // Création du site
             $rqsite = 'Insertion via gestion des stations. idm - ' . $idm;
-            $rowidstation = insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $idparent);
+            $rowidstation = insere_site($codecom, $idcoord, $rqsite, $site, $typestation, $commentaire, $idm, $idparent, $idstatus);
             $idparent != 0 ? desactiver_site_parent($idparent) : null;
         }
 
@@ -478,7 +481,7 @@ if(isset($_POST['codesite'])) {
             // Update des géométrie, /!\ toutes les obs sont affectées
             update_coordonnee($codesite, $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
             update_coordgeo($codesite,$geo,$poly);
-            update_site($codesite, $codecom, $site, $commentaire);
+            update_site($codesite, $codecom, $site, $commentaire, $idstatus);
         }
     }
 }

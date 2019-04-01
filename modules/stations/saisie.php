@@ -76,6 +76,7 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
         $recouvrberge = liste_recouvrberge();
         $profondeureau = liste_profondeureau();
         $alimeau = liste_alimeau();
+        $libstatus = liste_status_stations();
 
 		if(!empty($_SESSION['idorg']))
 		{
