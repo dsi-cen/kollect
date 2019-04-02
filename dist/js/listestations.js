@@ -278,7 +278,7 @@ function detail(idstation) {
         dataType: "json",
         data: {idstation: idstation},
         success: function (e) {
-            $("#detail .modal-title").html(e.detail.site);
+            $("#detail .modal-title").html(e.detail.site + " (" + e.detail.libidstatusstation + ")");
             // e.detail.idmembre == e.detailidm ? $("#detail .modal-title").append( ' <i onclick="delstation()" class="fa fa-trash curseurlien text-danger"></i>' ) : null ;
             console.log(e.detail.idmembre);
             console.log( e.detailidm );

@@ -4,14 +4,15 @@ include '../../../global/configbase.php';
 include '../../../lib/pdo2.php';
 session_start();
 
-function detailsmares_station($idstation)
+function details_station($idstation)
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
-    $sql = "SELECT site, idtypestation, libtypestation, commentaire, site.membre.nom, site.membre.prenom, site.membre.idmembre
+    $sql = "SELECT site, idtypestation, libtypestation, libidstatusstation, commentaire, site.membre.nom, site.membre.prenom, site.membre.idmembre
             FROM obs.site
             left join site.membre on site.membre.idmembre = obs.site.idmembre 
             left join referentiel_station.typestation on referentiel_station.typestation.idtypestation = obs.site.typestation
+            left join referentiel_station.statusstation on referentiel_station.statusstation.idstatusstation = obs.site.idstatus
             where obs.site.idsite = :idstation ";
     $req = $bdd->prepare($sql) or die(print_r($bdd->errorInfo()));
     $req->bindValue(':idstation', $idstation);
@@ -158,7 +159,7 @@ function photos_mare($idstation)
 if(isset($_POST['idstation'])){
 
     $idstation = $_POST['idstation'];
-    $liste['detail'] = detailsmares_station($idstation);
+    $liste['detail'] = details_station($idstation);
     $liste['detailidm'] = $_SESSION['idmembre'];
     $descriptions = descriptionsmares_station($idstation);
     $liste['descriptions'] = "<ul>";
