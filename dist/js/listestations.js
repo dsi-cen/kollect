@@ -321,6 +321,8 @@ function deldescription(idstation) { // TODO
     $('#modal_deldescription').modal("show");
 }
 
+// validersuppdescription
+
 function adddescription(idstation) {
         "use strict";
         document.location.href = "index.php?module=stations&action=saisie&addto=" + idstation ;

@@ -807,7 +807,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Vous avez modifié une géométrie</h4>
+                <h4 class="modal-title">Vous avez modifié une géométrie d'un station existante</h4>
             </div>
             <div class="modal-body">
                 <p>Si vous réalisez une modification pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui. Cela aura pour incidence de déplacer l'ensemble des observations réalisées

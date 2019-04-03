@@ -48,7 +48,8 @@ create table referentiel_station.typestation
 
 INSERT INTO referentiel_station.typestation VALUES
 (1,'Mare',NULL),
-(2,'Autre',NULL);
+(2,'A renseigner',NULL),
+(3,'Autre',NULL);
 
 ALTER TABLE obs.site ADD CONSTRAINT site_typestation_fkey FOREIGN KEY (typestation) REFERENCES referentiel_station.typestation (idtypestation);
 ALTER TABLE obs.site ADD CONSTRAINT site_idorg_idetude_fkey FOREIGN KEY (idorg,idetude) REFERENCES referentiel.etude_organisme (idorg,idetude);

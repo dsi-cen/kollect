@@ -786,11 +786,13 @@
 	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Dessin</h4>
-			</div>
-			<div class="modal-body">
-				<p>Si vous réalisez un contour pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui, autrement cliquer sur Nouveau</p>
-			</div>
+                <h4 class="modal-title">Vous avez modifié une géométrie d'un station existante</h4>
+            </div>
+            <div class="modal-body">
+                <p>Si vous réalisez une modification pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui. Cela aura pour incidence de déplacer l'ensemble des observations réalisées
+                    sur l'ancienne géométrie vers la nouvelle.</p>
+                <p>Si vous souhaitez concerver les anciennes observations sur l'ancienne géométrie, cliquez sur Nouveau pour créer une stations 'fille'. </p>
+            </div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouveau</button>
 				<button type="button" class="btn btn-success" data-dismiss="modal">Oui</button>

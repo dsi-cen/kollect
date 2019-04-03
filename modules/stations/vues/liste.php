@@ -49,8 +49,9 @@
     </div>
 </section>
 
+<!-- Cartouche pour afficher le détail d'une station -->
 <div id="detail" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg" style="max-width: 1400px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"></h4>
@@ -80,15 +81,12 @@
     </div>
 </div>
 
-
+<!-- Message de confirmation pour suppression d'une description -->
 <div class="modal fade" id="modal_deldescription" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Suppression d'une description</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 Souhaitez-vous supprimer cette description ?
@@ -100,9 +98,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <!-- Récupération de la couche préférentielle -->
 <input type="hidden" id="couchem" value="<?php echo $_SESSION['couche']; ?>">

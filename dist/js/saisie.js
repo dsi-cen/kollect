@@ -87,6 +87,10 @@ function carte(e) {
             var a = (1e4 * e.getCenter().lat) / 1e4, t = (1e4 * e.getCenter().lng) / 1e4;
             marker.setLatLng([a, t]), recupcoord(a, t, l), recupgeojson(e)
         })
+
+        // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
+        $("#codesite").val() != "Nouv" && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show"));
+
     }), map.on("draw:drawstop", function (e) {
         k = "non"
     }), map.on("draw:editstop", function (e) {
