@@ -111,15 +111,20 @@ function insere_geo($idcoord,$geo)
 	$req->execute();
 	$req->closeCursor();
 }
-function insere_site($codecom,$idcoord,$rqsite,$site)
+function insere_site($codecom,$idcoord,$rqsite,$site, $idm)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite) VALUES(:idcoord, :codecom, :site, :rqsite) ");
-	$req->bindValue(':codecom', $codecom);
-	$req->bindValue(':idcoord', $idcoord);
-	$req->bindValue(':rqsite', $rqsite);
-	$req->bindValue(':site', $site);
+    $req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, idmembre, commentaire, typestation, wsite, idstatus) VALUES(:idcoord, :codecom, :site, :rqsite, :idm, :commentaire, :typestation, :wsite, :idstatus) ");
+    $req->bindValue(':codecom', $codecom);
+    $req->bindValue(':idcoord', $idcoord);
+    $req->bindValue(':rqsite', $rqsite);
+    $req->bindValue(':site', $site);
+    $req->bindValue(':idm', $idm);
+    $req->bindValue(':typestation', 2);
+    $req->bindValue(':wsite', "oui");
+    $req->bindValue(':idstatus', 1);
+    $req->bindValue(':commentaire', "Site inséré depuis l'espace de saisie");
 	if ($req->execute())
 	{
 		$idsite = $bdd->lastInsertId('obs.site_idsite_seq');
@@ -248,12 +253,12 @@ function vali_auto($idobs,$typev)
 	$req->closeCursor();
 }
 
-if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfiche'])) 
+if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfiche']))
 {
 	$idm = (isset($_SESSION['idmorigin'])) ? $_SESSION['idmorigin'] : $_SESSION['idmembre'];
 	$idfiche = $_POST['idfiche'];
 	$idcoordr = $_POST['idcoord'];
-	$idsiter = $_POST['codesite'];
+	$idsiter = $_POST['codesite']; // Récup du codesite modifié
 	$geo = $_POST['typepoly'];
 	$codecom = $_POST['codecom'];
 	$iddep = $_POST['iddep'];
@@ -261,13 +266,14 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 	$rqsite = 'Modification le '.date("d/m/Y").' idm - '.$idm;
 	$pr = $_POST['pr'];
 	
-	$info = info_fiche($idfiche);
+	$info = info_fiche($idfiche); // Récupération des infos de la fiche actuelle
+
 	if(!empty($info['geo']) && empty($geo) && ($info['idsite'] == $idsiter))
 	{
 		$retour['geohaut'] = 'sup';
 		supprime_geo($idcoordr);
 	}
-	if($info['idcoord'] != $idcoordr)
+	if($info['idcoord'] != $idcoordr) // S'il y a eu modification des coordonnées (de la géométrie)
 	{
 		$retour['modcoord'] = 'Oui';
 		$x = $_POST['x'];
@@ -282,7 +288,7 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 		
 		if($l93 != $info['codel93']) { $valioui = 'oui'; }
 		
-		if($info['idsite'] != $idsiter || $info['localisation'] == 2)
+		if($info['idsite'] != $idsiter || $info['localisation'] == 2) //TODO
 		{
 			$retour['modsite'] = 'Oui';
 			$idcoord = ($_POST['idcoord'] != 'Nouv') ? $_POST['idcoord'] : insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
@@ -292,7 +298,7 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 				insere_geo($idcoord,$geo);
 			}
 			$retour['site'] = 'inser';
-			$idsite = ($idsiter == 'Nouv') ? insere_site($codecom,$idcoord,$rqsite,$site) : $idsiter;			
+			$idsite = ($idsiter == 'Nouv') ? insere_site($codecom,$idcoord,$rqsite,$site, $idm) : $idsiter;
 		}
 		else
 		{
@@ -324,6 +330,7 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 	else
 	{
 		$idcoord = $idcoordr;
+
 		if($idsiter != 'Nouv')
 		{
 			$idsite = $idsiter;

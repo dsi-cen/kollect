@@ -113,6 +113,9 @@ function carte(e) {
 
 function recupcoord(e, a, t) {
     "use strict";
+    // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
+    ($("#codesite").val() != "" && $("#codesite").val() != "Nouv") ? ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")) : null ;
+
     "non" == mod && ($("#codesite").val("Nouv"), nonsite()), $("#lat").val(e), $("#lng").val(a), $("#idcoord").val("Nouv"), $("#pr").val(1), transform93(e, a), "oui" == utm && chercheutm(e, a), altitude(e, a, t)
 }
 
@@ -717,7 +720,12 @@ $(document).ready(function () {
     $("#org").click(function () {
         filter($("#org").val());
         postorg($("#org").val());
-    }),
+    });
+
+    $("#bttdiaN13no").click(function () {
+        $("#codesite").val("detach");
+        $("#lieub").val("");
+    });
 
 
     $("#vsite").click(function () {

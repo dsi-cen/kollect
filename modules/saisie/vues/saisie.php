@@ -783,7 +783,7 @@
 	</div>
 </div>
 <div id="dia13" class="modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-sm" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
                 <h4 class="modal-title">Vous avez modifié une géométrie d'un station existante</h4>
@@ -794,8 +794,9 @@
                 <p>Si vous souhaitez concerver les anciennes observations sur l'ancienne géométrie, cliquez sur Nouveau pour créer une stations 'fille'. </p>
             </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouveau</button>
-				<button type="button" class="btn btn-success" data-dismiss="modal">Oui</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="bttdiaN13no">Sortir de la station</button> <br/>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouvelle station 'fille'</button> <br/>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Oui, modifier la station et TOUTES les observations de Kollect associées </button>
 			</div>
 		</div>
 	</div>

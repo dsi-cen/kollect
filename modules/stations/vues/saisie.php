@@ -812,11 +812,12 @@
             <div class="modal-body">
                 <p>Si vous réalisez une modification pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui. Cela aura pour incidence de déplacer l'ensemble des observations réalisées
                     sur l'ancienne géométrie vers la nouvelle.</p>
-                <p>Si vous souhaitez concerver les anciennes observations sur l'ancienne géométrie, cliquez sur Nouveau pour créer une stations 'fille'. </p>
+                <p>Si vous souhaitez concerver les anciennes observations sur l'ancienne géométrie, cliquez sur Nouveau pour créer une station 'fille'. </p>
+                <p>Si votre nouvelle station n'est pas liée à la station modifier, merci de recharger la page pour créer une station sans passer par le champ de recherche d'une station.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouveau</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Oui</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouvelle station 'fille'</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Oui, modifier la station et TOUTES les obs</button>
             </div>
         </div>
     </div>

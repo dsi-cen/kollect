@@ -127,7 +127,14 @@ function carte(e) {
 
 function recupcoord(e, a, t) {
     "use strict";
-    // "non" == mod && ($("#codesite").val("Nouv"), nonsite());
+
+
+    // TODO
+
+    // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
+    $("#codesite").val() != "" && $("#codesite").val() != "Nouv" ? ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")) : null ;
+
+
     $("#lat").val(e);
     $("#lng").val(a);
     $("#idcoord").val("Nouv");
@@ -1355,6 +1362,13 @@ $("#update_station").on("click", function(){
             '  <strong>Attention ! </strong>Merci de renseigner la date de prise de vue.\n' +
             '</div>');
         $("#dateprisedevue").select();
+        return false;
+    }
+    if ($("#lieub").val() == "") {
+        $("#alert1").html('<div class="alert alert-warning">\n' +
+            '  <strong>Attention ! </strong>Merci de renseigner le nom de la nouvelle station fille.\n' +
+            '</div>');
+        $("#lieub").select();
         return false;
     }
     $("#alert1").html('');
