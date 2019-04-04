@@ -80,7 +80,7 @@ function carte(e) {
         var a = (e.layerType, e.layer);
         drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), drawnItems.addLayer(a);
         var t = (1e4 * a.getCenter().lat) / 1e4, o = (1e4 * a.getCenter().lng) / 1e4;
-        "oui" == mod && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
+        "oui" == mod && $("#codesite").val() != "Nouv" && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
     }), map.on("draw:edited", function (e) {
         var a = e.layers;
         a.eachLayer(function (e) {
@@ -103,7 +103,7 @@ function carte(e) {
         if ("oui" != k) {
             drawnItems.getLayers().length > 0 && (drawnItems.clearLayers(), $("#typepoly").val("")), marker ? (marker.setLatLng(e.latlng), map.setView(marker.getLatLng(), map.getZoom())) : marker = L.marker(e.latlng, {icon: C}).addTo(map);
             var a = (1e4 * e.latlng.lat) / 1e4, t = (1e4 * e.latlng.lng) / 1e4;
-            mod = "non", recupcoord(a, t, l);
+            /* mod = "non", */ recupcoord(a, t, l);
             var o = $("#proche").val();
             "non" != o && proche(a, t, o)
         }
@@ -116,7 +116,9 @@ function recupcoord(e, a, t) {
     // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
     ($("#codesite").val() != "" && $("#codesite").val() != "Nouv") ? ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")) : null ;
 
-    "non" == mod && ($("#codesite").val("Nouv"), nonsite()), $("#lat").val(e), $("#lng").val(a), $("#idcoord").val("Nouv"), $("#pr").val(1), transform93(e, a), "oui" == utm && chercheutm(e, a), altitude(e, a, t)
+    "non" == mod && ($("#codesite").val("Nouv"), nonsite()); //TODO RLE
+
+    $("#lat").val(e), $("#lng").val(a), $("#idcoord").val("Nouv"), $("#pr").val(1), transform93(e, a), "oui" == utm && chercheutm(e, a), altitude(e, a, t)
 }
 
 function recupgeojson(e) {
@@ -458,7 +460,9 @@ function choixobser(e) {
                     t += "<option value=" + a + ">" + e + "</option>"
                 }), $("#protocol").html('<option value="0">Sélectionner un type d\'acquisition</option>'), $("#protocol").append(t), t = "", $.each(a.obdenom, function (e, a) {
                     t += "<option value=" + a + ">" + e + "</option>"
-                }), $("#tdenom").html(t), "mort" == a.stbio ? ($("#cmort").show(), $("#etatbio").html('<option value="3">Trouvé mort</option><option value="2">Observé vivant</option><option value="1">Non renseigné</option><option value="0">Inconu</option>')) : ($("#mort").val(0), $("#cmort").hide(), $("#etatbio").html('<option value="2">Observé vivant</option><option value="3">Trouvé mort</option><option value="1">Non renseigné</option><option value="0">Inconu</option>')), "oui" == a.locale ? $("#imgpluslocale").show() : ($("#imgpluslocale").hide(), $("#pluslatin1").hide()), "oui" == a.aves ? ($("#aves").show(), $("#indnid").html(a.avesindice), $("#nicheur").html("")) : ($("#aves").hide(), $("#indnid option").remove(), $("#nicheur").html("")), "oui" == a.bota ? ($("#obscoll").prop("disabled", !0), $("#bio").prop("disabled", !0)) : ($("#obscoll").prop("disabled", !1), $("#bio").prop("disabled", !1)), "oui" == a.col ? $("#imgpluscol").show() : ($("#imgpluscol").hide(), $("#pluscol").hide()), "oui" == a.plteh || "oui" == a.plteb ? $("#plteh").show() : $("#plteh").hide(), $("#sel").val(e), $("#nomb").val(""), $("#latin").val(""), $("#nomf").val(""), $("#cdnom").val(""), $("#cdref").val(""), $("#denom").val("Co"), $("#tdenom").val("IND"), $(".nbexact").prop("disabled", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $("#validateur").val(a.validateur), a.mf && ($("#male").prop("disabled", !0), $("#femelle").prop("disabled", !0)), $("#" + a.aff).focus()
+                }),
+                    // TODO : Vérif des champs disable avec la conditon "bota" du fichier .json
+                    $("#tdenom").html(t), "mort" == a.stbio ? ($("#cmort").show(), $("#etatbio").html('<option value="3">Trouvé mort</option><option value="2">Observé vivant</option><option value="1">Non renseigné</option><option value="0">Inconu</option>')) : ($("#mort").val(0), $("#cmort").hide(), $("#etatbio").html('<option value="2">Observé vivant</option><option value="3">Trouvé mort</option><option value="1">Non renseigné</option><option value="0">Inconu</option>')), "oui" == a.locale ? $("#imgpluslocale").show() : ($("#imgpluslocale").hide(), $("#pluslatin1").hide()), "oui" == a.aves ? ($("#aves").show(), $("#indnid").html(a.avesindice), $("#nicheur").html("")) : ($("#aves").hide(), $("#indnid option").remove(), $("#nicheur").html("")), "oui" == a.bota ? ($("#obscoll").prop("disabled", !0), $("#bio").prop("disabled", !0)) : ($("#obscoll").prop("disabled", !1), $("#bio").prop("disabled", !1)), "oui" == a.col ? $("#imgpluscol").show() : ($("#imgpluscol").hide(), $("#pluscol").hide()), "oui" == a.plteh || "oui" == a.plteb ? $("#plteh").show() : $("#plteh").hide(), $("#sel").val(e), $("#nomb").val(""), $("#latin").val(""), $("#nomf").val(""), $("#cdnom").val(""), $("#cdref").val(""), $("#denom").val("Co"), $("#tdenom").val("IND"), $(".nbexact").prop("disabled", !1), $("#nbtmp").hide(), $("#estim").hide(), $("#nbmin").val(""), $("#nbmax").val(""), $("#validateur").val(a.validateur), a.mf && ($("#male").prop("disabled", !0), $("#femelle").prop("disabled", !0)), $("#" + a.aff).focus()
             } else $("#blocsaisie").hide(), $("#sel").val(e), $("#valsel").val("non"), $("#mes").html(a.mes), $("#stade option").remove(), $("#obsmethode option").remove(), $("#obscoll option").remove()
         }
     })
@@ -582,11 +586,13 @@ function recupfiche(e) {
                     $("#tempfin").val(e.fiche.tempfin),
                     $("#valf").show(),
                     e.fiche.site || (nonsite(),
-                    0 == e.fiche.idsite && $("#codesite").val("Nouv")),
+                    0 == e.fiche.idsite && $("#codesite").val("Nouv")), //TODO : A verif
                     e.idobser && ($("#observateur2").val(e.obser),
                     $("#idobser").val(e.idobser)),
                     1 == e.fiche.localisation && e.fiche.lat) {
-                        supmarker(), mod = "oui";
+                        supmarker();
+                        mod = "oui";
+                        console.log(mod)
                         var a = e.fiche.lat + "," + e.fiche.lng, t = 16;
                         centrersite(a, t, e.fiche.geo)
                     }
@@ -723,8 +729,8 @@ $(document).ready(function () {
     });
 
     $("#bttdiaN13no").click(function () {
-        $("#codesite").val("detach");
-        $("#lieub").val("");
+        $("#codesite").val(0); // On affecte 0 au code site (station) pour sortir du site
+        $("#lieub").val(""); // On vide le nom de la station
     });
 
 
@@ -1162,9 +1168,18 @@ $(document).ready(function () {
     "use strict";
     var e = $(this).parent().parent().attr("id");
     $("#getidfiche").val(e), $(".table").find("tr").removeClass("bg-info"), $("#" + e).addClass("bg-info"), affichefiche(), $("html, body").animate({scrollTop: 0}, "slow"), recupfiche(e)
-}), $("#bttdiaN13").click(function () {
-    mod = "non", nonsite(), $("#codesite").val("Nouv")
-}), $("#BttF").click(function () {
+});
+
+    $("#bttdiaN13").click(function () {
+    nonsite(), $("#parent").val( $("#codesite").val() ) , $("#codesite").val("Nouv");
+        console.log(mod);
+});
+    $("#bttdiaN13all").click(function () {
+        console.log(mod);
+});
+
+
+    $("#BttF").click(function () {
     "use strict";
     var e = $("#idfiche").val(), a = $("#idcoord").val(), t = $("#codesite").val(), l = $("#xlambert").val(),
         o = $("#ylambert").val(), i = $("#lat").val(), s = $("#lng").val(), n = $("#l93").val(), r = $("#l935").val(),
