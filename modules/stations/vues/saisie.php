@@ -804,20 +804,21 @@
     </div>
 </div>
 <div id="dia13" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Vous avez modifié une géométrie d'un station existante</h4>
+                <h4 class="modal-title">Vous avez modifié l'emplacement d'une station existante</h4>
             </div>
             <div class="modal-body">
-                <p>Si vous réalisez une modification pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui. Cela aura pour incidence de déplacer l'ensemble des observations réalisées
-                    sur l'ancienne géométrie vers la nouvelle.</p>
-                <p>Si vous souhaitez concerver les anciennes observations sur l'ancienne géométrie, cliquez sur Nouveau pour créer une station 'fille'. </p>
-                <p>Si votre nouvelle station n'est pas liée à la station modifier, merci de recharger la page pour créer une station sans passer par le champ de recherche d'une station.</p>
+                <p><b>Vous avez trois possibilités</b></p>
+                <p>&#9888; Si vous réalisez une modification pour le site : <b><span id="spandia13"></span></b>, cliquer sur <b>Oui</b>. Cela aura pour incidence de déplacer toutes des
+                    observations réalisées par l'ensemble des utilisateurs de Kollect sur l'ancienne géométrie vers la nouvelle. <b>Utilisez cette option avec beaucoup de prudence!</b></p>
+                <p>Si vous souhaitez conserver les anciennes observations sur l'ancienne géométrie tout en mettant à jour la station, cliquez sur <b>Nouvelle</b> pour créer une station 'fille'.</p>
+                <p>Si votre nouvelle station n'a rien à voir avec la station modifiée, merci de recharger la page pour créer une station sans passer par le champ de recherche d'une station.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouvelle station 'fille'</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Oui, modifier la station et TOUTES les obs</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"> &#9888; Oui, modifier la station et TOUTES les obs &#9888;</button>
             </div>
         </div>
     </div>

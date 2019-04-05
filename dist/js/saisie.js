@@ -80,7 +80,7 @@ function carte(e) {
         var a = (e.layerType, e.layer);
         drawnItems.getLayers().length > 0 && drawnItems.clearLayers(), drawnItems.addLayer(a);
         var t = (1e4 * a.getCenter().lat) / 1e4, o = (1e4 * a.getCenter().lng) / 1e4;
-        "oui" == mod && $("#codesite").val() != "Nouv" && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
+        "oui" == mod && $("#codesite").val() != "Nouv" && $("#codesite").val() != 0 && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")), recupcoord(t, o, l), marker ? marker.setLatLng([t, o]) : marker = L.marker([t, o]).addTo(map), recupgeojson(a)
     }), map.on("draw:edited", function (e) {
         var a = e.layers;
         a.eachLayer(function (e) {
@@ -89,7 +89,7 @@ function carte(e) {
         })
 
         // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
-        $("#codesite").val() != "Nouv" && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show"));
+        $("#codesite").val() != "Nouv" && $("#codesite").val() != 0 && ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show"));
 
     }), map.on("draw:drawstop", function (e) {
         k = "non"
@@ -114,7 +114,7 @@ function carte(e) {
 function recupcoord(e, a, t) {
     "use strict";
     // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
-    ($("#codesite").val() != "" && $("#codesite").val() != "Nouv") ? ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")) : null ;
+    ($("#codesite").val() != "" && $("#codesite").val() != 0 && $("#codesite").val() != "Nouv") ? ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")) : null ;
 
     "non" == mod && ($("#codesite").val("Nouv"), nonsite()); //TODO RLE
 
