@@ -8343,6 +8343,12 @@ html {
     margin-left: -90px
 }
 
+.fixemenustations {
+    position: absolute;
+    margin-left: 110px;
+    margin-top: -50px;
+}
+
 .navbar, .navbarlight {
     height: 56px;
     margin-left: 110px;

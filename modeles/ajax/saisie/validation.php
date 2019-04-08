@@ -121,15 +121,20 @@ function insere_biogeo($x,$y,$idcoord)
 	$req->execute();
 	$req->closeCursor();
 }
-function insere_site($codecom, $idcoord, $rqsite, $site)
+function insere_site($codecom, $idcoord, $rqsite, $site, $idm)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite) VALUES(:idcoord, :codecom, :site, :rqsite) ");
+	$req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, idmembre, commentaire, typestation, wsite, idstatus) VALUES(:idcoord, :codecom, :site, :rqsite, :idm, :commentaire, :typestation, :wsite, :idstatus) ");
 	$req->bindValue(':codecom', $codecom);
 	$req->bindValue(':idcoord', $idcoord);
 	$req->bindValue(':rqsite', $rqsite);
 	$req->bindValue(':site', $site);
+	$req->bindValue(':idm', $idm);
+	$req->bindValue(':typestation', 2);
+	$req->bindValue(':wsite', "oui");
+	$req->bindValue(':idstatus', 1);
+	$req->bindValue(':commentaire', "Site inséré depuis l'espace de saisie");
 	if ($req->execute())
 	{
 		$idsite = $bdd->lastInsertId('obs.site_idsite_seq');
@@ -480,7 +485,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 					if($site != '')
 					{
 						$rqsite = 'Insertion via fiche de saisie. idm - '.$idm;					
-						$idsite = insere_site($codecom, $idcoord, $rqsite, $site);
+						$idsite = insere_site($codecom, $idcoord, $rqsite, $site, $idm);
 					}
 					else
 					{

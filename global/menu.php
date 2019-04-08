@@ -135,5 +135,14 @@ if(!isset($sansheader))
 		}		
 		?>
 		<li class="nav-item" title="Information"><a class="nav-link bb-light" href="index.php?module=info&amp;action=info"><i class="fa fa-info fa-2x blanc"></i><br /><span class="blanc font-weight-normal">Aide</span></a></li>
+        <li class="nav-item">
+            <a title="Sites-Stations" class="nav-link bb-light" href="#menu_stations" data-toggle="collapse"><i class="fa fa-square fa-2x blanc"></i><span class="blanc font-weight-normal"><br>Stations</span></a>
+            <div class="fixemenustations">
+            <ul class="menu menu-droit nav-second-level collapse list-unstyled" id="menu_stations">
+                <li class="nav-item"><a class="nav-link" href="index.php?module=stations&amp;action=liste">Liste</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php?module=stations&amp;action=saisie">Création / modification</a></li>
+            </ul>
+            </div>
+        </li>
 	</ul>
 </aside>

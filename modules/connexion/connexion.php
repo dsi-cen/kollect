@@ -66,21 +66,25 @@ if(isset($_POST['prenom']) AND isset ($_POST['mdp']))
 }
 else
 {
-	if(isset($_GET['s']))
-	{
-		if($_GET['s'] == 'o')
-		{
-			$_SESSION['url'] = 	'index.php?module=saisie&action=saisie';	
-		}
-		elseif($_GET['s'] == 'a')
-		{
-			$_SESSION['url'] = 	'index.php';	
-		}
-		elseif($_GET['s'] == 'c')
-		{
-			$_SESSION['url'] = 	'index.php?module=consultation&action=consultation';	
-		}
-	}
+	if(isset($_GET['s'])) {
+        switch ($_GET['s']) {
+            case "o":
+                $_SESSION['url'] = 'index.php?module=saisie&action=saisie';
+                break;
+            case "a":
+                $_SESSION['url'] = 'index.php';
+                break;
+            case "c":
+                $_SESSION['url'] = 'index.php?module=consultation&action=consultation';
+                break;
+            case "l":
+                $_SESSION['url'] = 'index.php?module=stations&action=liste';
+                break;
+            case "s":
+                $_SESSION['url'] = 'index.php?module=stations&action=saisie';
+                break;
+        }
+    }
 	else
 	{
 		$_SESSION['url'] = $_SERVER['HTTP_REFERER'];

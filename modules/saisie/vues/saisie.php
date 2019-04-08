@@ -583,7 +583,8 @@
 				<input id="idfiche" name="idfiche" type="hidden" value="Nouv"/><input id="idobs" name="idobs" type="hidden" value="Nouv"/><input id="cdhab" name="cdhab" type="hidden"/>
 				<input id="pr" name="pr" type="hidden"/><input id="nb" name="nb" type="hidden"/><input id="newsp" name="newsp" type="hidden"/><input id="biogeo" name="biogeo" type="hidden" value="<?php echo $biogeo;?>"/>
 				<input id="typepoly" name="typepoly" type="hidden" size="200"/><input id="idm" type="hidden" value="<?php echo $_SESSION['idmembre'];?>"/>
-				<!-- specificite aux observatoires -->
+                <input id="parent" type="hidden" value="0"/>
+                <!-- specificite aux observatoires -->
 				<input id="sel" name="sel" type="hidden" value="<?php echo $obser;?>"/><input id="selm" type="hidden"/><input id="tvali" name="tvali" type="hidden"/><input id="validateur" name="validateur" type="hidden"/>
 				<input id="iddetcol" name="iddetcol" type="hidden"/><input id="iddetgen" name="iddetgen" type="hidden"/><input id="idprep" name="idprep" type="hidden"/><input id="cdnombota" name="cdnombota" type="hidden"/><input id="nbplte" name="nbplte" type="hidden"/>
 			</form>
@@ -783,17 +784,20 @@
 	</div>
 </div>
 <div id="dia13" class="modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-sm" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Dessin</h4>
-			</div>
-			<div class="modal-body">
-				<p>Si vous réalisez un contour pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui, autrement cliquer sur Nouveau</p>
-			</div>
+                <h4 class="modal-title">Vous avez modifié une géométrie d'un station existante</h4>
+            </div>
+            <div class="modal-body">
+                <p>Si vous réalisez une modification pour le site : <b><span id="spandia13"></span></b>, cliquer sur Oui. Cela aura pour incidence de déplacer l'ensemble des observations réalisées
+                    sur l'ancienne géométrie vers la nouvelle.</p>
+                <p>Si vous souhaitez concerver les anciennes observations sur l'ancienne géométrie, cliquez sur Nouveau pour créer une stations 'fille'. </p>
+            </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouveau</button>
-				<button type="button" class="btn btn-success" data-dismiss="modal">Oui</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="bttdiaN13no">Sortir de la station</button> <br/>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouvelle station 'fille'</button> <br/>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="bttdiaN13all">Oui, modifier la station et TOUTES les observations de Kollect associées </button>
 			</div>
 		</div>
 	</div>

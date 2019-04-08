@@ -111,15 +111,21 @@ function insere_geo($idcoord,$geo)
 	$req->execute();
 	$req->closeCursor();
 }
-function insere_site($codecom,$idcoord,$rqsite,$site)
+function insere_site($codecom,$idcoord,$rqsite,$site, $idm, $typestation=2, $wsite="oui", $idstatus=1, $parent=NULL )
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite) VALUES(:idcoord, :codecom, :site, :rqsite) ");
-	$req->bindValue(':codecom', $codecom);
-	$req->bindValue(':idcoord', $idcoord);
-	$req->bindValue(':rqsite', $rqsite);
-	$req->bindValue(':site', $site);
+    $req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, idmembre, commentaire, typestation, wsite, idstatus, idparent) VALUES(:idcoord, :codecom, :site, :rqsite, :idm, :commentaire, :typestation, :wsite, :idstatus, :idparent) ");
+    $req->bindValue(':codecom', $codecom);
+    $req->bindValue(':idcoord', $idcoord);
+    $req->bindValue(':rqsite', $rqsite);
+    $req->bindValue(':site', $site);
+    $req->bindValue(':idm', $idm);
+    $req->bindValue(':typestation', $typestation);
+    $req->bindValue(':wsite', $wsite);
+    $req->bindValue(':idstatus', $idstatus);
+    $req->bindValue(':idparent', $parent);
+    $req->bindValue(':commentaire', "Site inséré depuis l'espace de saisie");
 	if ($req->execute())
 	{
 		$idsite = $bdd->lastInsertId('obs.site_idsite_seq');
@@ -140,6 +146,19 @@ function modif_site($idsite,$idcoord,$codecom,$site,$rqsite)
 	$req->execute();
 	$req->closeCursor();
 }
+
+function desactiver_site_parent($idsite)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("UPDATE obs.site SET wsite = :wsite
+                                                        WHERE idsite = :idsite");
+    $req->bindValue(':idsite', $idsite);
+    $req->bindValue(':wsite', "non");
+    $req->execute();
+    $req->closeCursor();
+}
+
 function modif_fiche($idfiche,$codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude,$idpreci)
 {
 	$bdd = PDO2::getInstance();
@@ -248,27 +267,36 @@ function vali_auto($idobs,$typev)
 	$req->closeCursor();
 }
 
-if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfiche'])) 
+if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfiche']))
 {
 	$idm = (isset($_SESSION['idmorigin'])) ? $_SESSION['idmorigin'] : $_SESSION['idmembre'];
 	$idfiche = $_POST['idfiche'];
 	$idcoordr = $_POST['idcoord'];
-	$idsiter = $_POST['codesite'];
+	$idsiter = $_POST['codesite']; // Récup du codesite modifié
 	$geo = $_POST['typepoly'];
 	$codecom = $_POST['codecom'];
 	$iddep = $_POST['iddep'];
-	$site = $_POST['site'];
-	$rqsite = 'Modification le '.date("d/m/Y").' idm - '.$idm;
+	$site = $_POST['site']; // note : c'est la valeur de #lieub...
+	$rqsite = 'Modification le '.date("d/m/Y").' depuis la saisie, idm - '.$idm;
 	$pr = $_POST['pr'];
-	
-	$info = info_fiche($idfiche);
-	if(!empty($info['geo']) && empty($geo) && ($info['idsite'] == $idsiter))
+	$parent = $_POST['parent'];
+
+	$info = info_fiche($idfiche); // Récupération des infos de la fiche actuelle
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // S'il y avait une geo dans la fiche mais pas dans la modif                              ////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+	if(!empty($info['geo']) && empty($geo) )
 	{
 		$retour['geohaut'] = 'sup';
-		supprime_geo($idcoordr);
+		supprime_geo( $info['idcoord'] ); // On supprimer la géométrie
 	}
-	if($info['idcoord'] != $idcoordr)
-	{
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // S'il y a eu modification des coordonnées (point ou barycentre) :  sortir, modif, fille ////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    if($info['idcoord'] != $idcoordr) { //
 		$retour['modcoord'] = 'Oui';
 		$x = $_POST['x'];
 		$y = $_POST['y'];
@@ -281,8 +309,65 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 		$utm1 = (isset($_POST['utm1'])) ? $_POST['utm1'] : '';
 		
 		if($l93 != $info['codel93']) { $valioui = 'oui'; }
-		
-		if($info['idsite'] != $idsiter || $info['localisation'] == 2)
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Si le codesite est identique : modification du site va affecter toutes les données           ////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        if($info['idsite'] == $idsiter) {
+            $retour['modsite'] = 'Oui';
+
+            if ($_POST['idcoord'] == 'Nouv') { // Si idcoord "Nouv", alors on modifie les coordonées
+                modif_coord($info['idcoord'], $x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
+                $idcoord = $info['idcoord'];
+                if ($_POST['idcoord'] == 'Nouv' && !empty($geo)) { // On insère aussi la géo si non vide
+                    $retour['geonouv'] = 'inser or delete';
+                    empty($info['geo']) ? insere_geo($info['idcoord'] ,$geo) : modfif_geo($info['idcoord'],$geo) ;
+                }
+            }
+
+            $retour['site'] = 'nomod';
+            $idsite = $idsiter ; // On ne touche pas à la ref station
+        }
+
+        // TODO
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Si le codesite est différent : création de fille, d'un nouveau ou juste sortir de la station si en provenance d'un site, sinon affectation au site////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        else if($info['idsite'] != $idsiter ) {
+            $retour['modsite'] = 'Non' ;
+            $idcoord = ($_POST['idcoord'] != 'Nouv') ? $_POST['idcoord'] : insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
+
+            if($_POST['idcoord'] == 'Nouv' && !empty($geo))
+            {
+                $retour['geonouv'] = 'inser';
+                insere_geo($idcoord,$geo);
+            }
+            if ($idsiter == 0) { // On quitte la station
+                $retour['site'] = 'detach';
+                $idsite = 0 ;
+                $idcoord = insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935); // On créer de nouvelles coordonnées pour ne plus dépendre de la station
+                if(!empty($geo))
+                {
+                    $retour['geonouv'] = 'inser';
+                    insere_geo($idcoord,$geo);
+                }
+            }
+            else if ($idsiter == "Nouv" && $parent == 0 && !empty($site) ){ // On crée une nouvelle station
+                $idsite = insere_site($codecom,$idcoord,$rqsite,$site, $idm);
+            }
+            else if ($idsiter == "Nouv" && $parent != 0 && !empty($site) ){ // On crée une station fille
+                $idsite = insere_site($codecom,$idcoord,$rqsite,$site, $idm, $parent);
+                desactiver_site_parent($parent);
+            }
+            else if ($_POST['idcoord'] != 'Nouv' && $idsiter != "Nouv" ) {
+                $idsite = $idsiter ;
+                $idcoord = $idcoordr ;
+            }
+        }
+
+
+		/* if($info['idsite'] != $idsiter || $info['localisation'] == 2 ) //TODO : vérif pourquoi il y avait ça : || $info['localisation'] == 2
 		{
 			$retour['modsite'] = 'Oui';
 			$idcoord = ($_POST['idcoord'] != 'Nouv') ? $_POST['idcoord'] : insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
@@ -291,9 +376,10 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 				$retour['geonouv'] = 'inser';
 				insere_geo($idcoord,$geo);
 			}
-			$retour['site'] = 'inser';
-			$idsite = ($idsiter == 'Nouv') ? insere_site($codecom,$idcoord,$rqsite,$site) : $idsiter;			
-		}
+
+			$retour['site'] = 'inser'; // On la nouvelle station et on stocke son ID ( ou 0 si on sort du site )
+			$idsite = ($idsiter == 'Nouv' && !empty($site) ) ? insere_site($codecom,$idcoord,$rqsite,$site, $idm) : 0 ;
+		} // OK
 		else
 		{
 			$idcoord = $info['idcoord'];
@@ -319,11 +405,14 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 				}
 			}
 			modif_site($idsite,$idcoord,$codecom,$site,$rqsite);		
-		}
+		} */
 	}
-	else
+
+    /*
+    else
 	{
 		$idcoord = $idcoordr;
+
 		if($idsiter != 'Nouv')
 		{
 			$idsite = $idsiter;
@@ -342,7 +431,9 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 				$idsite = $info['idsite'];
 			}			
 		}
-	}
+	} */
+
+
 	$date1 = DateTime::createFromFormat('d/m/Y', $_POST['date']);
 	$date1mysql = $date1->format('Y-m-d');
 	$date2 = DateTime::createFromFormat('d/m/Y', $_POST['date2']);
