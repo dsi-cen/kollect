@@ -16,8 +16,8 @@
 						?>
 						<form action="#" id="loginForm" method="post">
 							<fieldset class="form-group">
-								<label for="prenom">Prénom</label>
-								<input type="text" placeholder="Prénom" title="Entrez votre prénom" required="" name="prenom" id="prenom" class="form-control">
+								<label for="mail">Adresse mail</label>
+								<input type="text" placeholder="Adresse mail" title="Entrez votre adresse mail" required="" name="mail" id="mail" class="form-control">
 							</fieldset>
 							<fieldset class="form-group">
 								<label for="mdp">Mot de passe</label>
@@ -52,5 +52,5 @@
     </div>    
 </section>
 <script>
-document.getElementById('prenom').focus();
+document.getElementById('mail').focus();
 </script>
