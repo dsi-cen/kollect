@@ -5,27 +5,27 @@ $script = '';
 $css = '';
 $pasdemenu = 'oui';
 $pasdebdp = 'oui';
-if(isset($_POST['prenom']) AND isset ($_POST['mdp']))
+if(isset($_POST['mail']) AND isset ($_POST['mdp']))
 {
-	$prenom = htmlspecialchars($_POST['prenom']);
+	$mail = htmlspecialchars($_POST['mail']);
 	$motpasse = htmlspecialchars($_POST['mdp']);
 		
-	if($prenom != NULL AND $motpasse != NULL)
+	if($mail != NULL AND $motpasse != NULL)
 	{
-		$pass_hache = sha1($motpasse);
 		include CHEMIN_MODELE.'inscription.php';
-		$connexion = connexion($prenom, $pass_hache);
-		if (!$connexion)
-		{
+		$hashed_passwd = get_db_password($mail);
+
+		if (!password_verify($motpasse, $hashed_passwd[0])) {
 			$ok = 'non';
 			$message = '<div class="alert alert-danger mt-1" role="alert">Mauvais identifiant ou mot de passe !</div>';
 			include CHEMIN_VUE.'connexion.php';
 		}
 		else
 		{
+			$connexion = connexion($mail);
 			if($connexion['actif'] == 1)
 			{		
-				$_SESSION['prenom'] = $prenom;
+				$_SESSION['prenom'] = $connexion['prenom'];
 				$_SESSION['nom'] = $connexion['nom'];
 				$_SESSION['droits'] = $connexion['droits'];
 				$_SESSION['idmembre'] = $connexion['idmembre'];
@@ -60,7 +60,7 @@ if(isset($_POST['prenom']) AND isset ($_POST['mdp']))
 	else
 	{
 		$ok = 'non';
-		$message = '<div class="alert alert-danger" role="alert">Vous devez remplir les champs Prénom et Mot de passe.</div>';
+		$message = '<div class="alert alert-danger" role="alert">Vous devez remplir les champs Mail et Mot de passe.</div>';
 		include CHEMIN_VUE.'connexion.php';
 	}	
 }

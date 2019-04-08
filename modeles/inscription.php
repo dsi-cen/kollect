@@ -1,5 +1,6 @@
 <?php
-function rechercher_membre($nom, $prenom)
+
+function rechercher_membre($nom, $prenom) // Rechercher si le membre existe déjà (basé sur Nom et Prénom)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -12,7 +13,20 @@ function rechercher_membre($nom, $prenom)
 	$req->closeCursor();
 	return $nbresultats;
 }
-function inscription($nom,$prenom,$pass_hache,$mail)
+
+function check_mail($mail) // Check si le mail existe deja dans Kollect
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("SELECT mail FROM site.membre WHERE mail = :mail ");
+    $req->bindValue(':mail', $mail);
+    $req->execute();
+    $nbresultats = $req->rowCount();
+    $req->closeCursor();
+    return $nbresultats;
+}
+
+function inscription($nom,$prenom,$pass_hache,$mail) // Insère un nouveau membre, inscription en ligne
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -35,22 +49,31 @@ function inscription($nom,$prenom,$pass_hache,$mail)
 	$req->closeCursor();
 	return array($insertion, $id);
 }
-function connexion($prenom, $pass_hache)
+function connexion($mail) // Récupération des informations à la connexion
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->prepare("SELECT membre.idmembre, nom, droits, actif, latin, obser, floutage, couche, typedon, org FROM site.membre
+	$req = $bdd->prepare("SELECT membre.idmembre, nom, prenom, droits, actif, latin, obser, floutage, couche, typedon, org, mail FROM site.membre
 						LEFT JOIN site.prefmembre ON prefmembre.idmembre = membre.idmembre
-						WHERE prenom = :prenom AND motpasse = :motpasse ");
-	//$req->bindValue(':prenom', $prenom);
-	//$req->bindValue(':motpasse', $pass_hache);
-	$req->bindParam(':prenom', $prenom, PDO::PARAM_STR);
-	$req->bindParam(':motpasse', $pass_hache, PDO::PARAM_STR);
+						WHERE mail = :mail ");
+	$req->bindParam(':mail', $mail, PDO::PARAM_STR);
 	$req->execute();
 	$connexion = $req->fetch();
 	$req->closeCursor();
 	return $connexion;
 }
+
+function get_db_password($mail){ // Récupère le hash de la db pour vérification
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("SELECT motpasse FROM site.membre WHERE mail = :mail ");
+    $req->bindParam(':mail', $mail, PDO::PARAM_STR);
+    $req->execute();
+    $connexion = $req->fetch();
+    $req->closeCursor();
+    return $connexion;
+}
+
 function validation($prenom,$id)
 {
 	$bdd = PDO2::getInstance();
@@ -64,7 +87,7 @@ function validation($prenom,$id)
 	$req->closeCursor();
 	return $validation;
 }
-function modif_membre($id)
+function modif_membre($id) // Activation du membre
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -74,7 +97,7 @@ function modif_membre($id)
 	$req->execute();
 	$req->closeCursor();	
 }
-function rechercher_mail($mail,$prenom)
+function rechercher_mail($mail,$prenom) // Recherche l'email d'un membre
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
@@ -108,6 +131,7 @@ function verif_ticket($id)
 	$req->closeCursor();
 	return $verifticket;
 }
+
 function modif_mdp($idmembre,$pass_hache)
 {
 	$bdd = PDO2::getInstance();
@@ -119,6 +143,7 @@ function modif_mdp($idmembre,$pass_hache)
 	$req->execute();
 	$req->closeCursor();	
 }
+
 function modif($idmembre,$type,$modif,$datem)
 {
 	$bdd = PDO2::getInstance();

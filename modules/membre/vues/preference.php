@@ -39,7 +39,8 @@
 				<div id="mesa" class="mt-1"></div>
                 <div class="alert alert-primary mt-2 mb-2">
 				<h3 class="h4 mt-2">Votre mail</h3>
-				<p>Vous pouvez changer votre adresse de messagerie</p>
+				<p>Vous pouvez changer votre adresse de messagerie.</p>
+				<p class="alert alert-warning" ><b>Attention</b>, en modifiant votre adresse email, vous modifiez également votre identifiant pour vous connecter à Kollect !</p>
 				<form class="form-inline">
 					<input type="email" class="form-control form-control-sm mr-1" id="mail" value="<?php echo $mail;?>">
 					<button type="button" id="BttMail" class="btn btn-success btn-sm">Valider si modification</button>
