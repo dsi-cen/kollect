@@ -674,8 +674,8 @@ $(document).ready(function () {
     $("#showcom").hide(); //
     $("#showphoto").hide(); //
     $("#cancel_update").hide(); //
-    $("#dateprisedevue").hide();
-    $(".dateprisedevue").hide();
+    $("#dateprisedevue").show();
+    $(".dateprisedevue").show();
 
 
     // Popup pour les images
@@ -1322,6 +1322,13 @@ $("#save_station").on("click", function(){
             '</div>');
         return false;
     }
+    if ($("#aphoto").val() == "oui" && $("#dateprisedevue").val() == "") {
+        $("#alert1").html('<div class="alert alert-warning">\n' +
+            '  <strong>Attention ! </strong>Merci de renseigner la date de prise de vue.\n' +
+            '</div>');
+        $("#dateprisedevue").select();
+        return false;
+    }
     $("#alert1").html('');
         var l = $("#xlambert").val(),
             o = $("#ylambert").val(),
@@ -1346,7 +1353,7 @@ $("#save_station").on("click", function(){
             dataType: "json",
             data: element + "&idobseror=" + idobseror + "&copyright=" + copyright + "&imagedata=" + imagedata + "&aphoto=" + photo + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p,
             success: function (e) {
-                // window.location.reload(false); // Comment on debbug
+                window.location.reload(false); // Comment on debbug
             },
             error: function() {
                 console.log('Erreur!')
@@ -1399,10 +1406,8 @@ $("#update_station").on("click", function(){
         success: function (e) {
             recup_info( $("#codesite").val() );
             $("#aphoto").val("non");
-            console.log('Ok')
         },
         error: function() {
-            console.log('Erreur!')
         }
     })
 });
