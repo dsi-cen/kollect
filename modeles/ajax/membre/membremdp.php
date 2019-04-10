@@ -45,4 +45,4 @@ if(isset($_POST['mdp']) && !empty($_POST['mdp']) && !empty($_POST['mdpn'])) {
 else {
 	$retour['statut'] = 'Non';
 }
-echo json_encode($retour);	
+echo json_encode($retour);
