@@ -136,7 +136,7 @@ CREATE TABLE obs_historique.histo_obscoll
   codegen character varying(20),
   sexe character(1),
   idprep smallint,
-  typedet character varying(2),
+  typedet character varying(20),
   stade smallint,
   CONSTRAINT histo_obscoll_pkey PRIMARY KEY (date_operation, utilisateur,idcol)
 );
