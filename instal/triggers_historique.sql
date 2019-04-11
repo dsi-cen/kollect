@@ -136,7 +136,7 @@ CREATE TABLE obs_historique.histo_obscoll
   codegen character varying(20),
   sexe character(1),
   idprep smallint,
-  typedet character varying(20),
+  typedet character varying(2),
   stade smallint,
   CONSTRAINT histo_obscoll_pkey PRIMARY KEY (date_operation, utilisateur,idcol)
 );
@@ -275,7 +275,7 @@ CREATE TRIGGER declenche_alimente_histo_fichesup
   idcoord integer,
   x numeric,
   y numeric,
-  altitude smallint,
+  altitude integer,
   lat numeric,
   lng numeric,
   codel93 character varying(10),
