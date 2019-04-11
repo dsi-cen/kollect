@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Le type de donnée *privé* fait dorénavant référence aux observations d'origine privée (réalisées en temps qu'organisme indépendant)
 - Identification sur l'adresse de courriel à la place du prénom
 - Type de hash passé de `sha1()` à la fonction `password_hash()` pour une meilleure sécurité, **/!\** nécessité de rehasher les mots de passe après la mise à jour
+- Modification du type du champ altitude dans la table obs.coordonnee et histo_obs.coordonnee : smallint vers integer pour stocker les valeurs en cas de problème du serveur IGN (stocke la valeur -99999)
 
 ### Removed
 - Suppression du choix de type de donnée dans les préférences utilisateur et à la saisie (car conditionné par le choix de l'organisme et/ou de étude)
