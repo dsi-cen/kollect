@@ -24,7 +24,7 @@ CREATE TABLE obs.coordonnee
   idcoord serial NOT NULL,
   x numeric,
   y numeric,
-  altitude smallint,
+  altitude integer,
   lat numeric,
   lng numeric,
   codel93 character varying(10),
