@@ -407,6 +407,13 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
 			modif_site($idsite,$idcoord,$codecom,$site,$rqsite);		
 		} */
 	}
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //                  S'il n'y a pas eu modification des coordonnées                        ////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    else if ($info['idcoord'] == $idcoordr) {
+        $idcoord = $idcoordr;
+        $idsite = $idsiter;
+    }
 
     /*
     else
