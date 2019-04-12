@@ -203,12 +203,21 @@ function affiche_stations(geo) {
         // Focus
         $("#liste").on("click", ".focus", function () {
             "use strict";
-            console.log(m);
             var e = $(this).parent().parent().attr("id");
-            var latLngs = [ m.getLatLng() ];
-            var markerBounds = L.latLngBounds(latLngs);
-            map.fitBounds(markerBounds);
+            // TODO : partie à optimiser...
+            var l = pointstations._layers;
+            var foc = "";
+            for(var key in l) {
+                l[key].id == e ? foc = l[key]._latlng : null ;
+            }
+            // TODO : fin partie à optimiser...
 
+            // Highlight table
+            $("#liste_stations").find("tr").removeClass("table-primary");
+            $("#" + e).addClass("table-primary");
+
+            // Fly to
+            map.flyTo(foc, 18, {animate: true, duration: 4});
         });
 
         pointstations.addLayer(m)
@@ -216,7 +225,7 @@ function affiche_stations(geo) {
 
     map.addLayer(contourstations)
     map.addLayer(pointstations)
-    map.fitBounds(contourstations.getBounds())
+    map.fitBounds(pointstations.getBounds().pad(0.01)) // Baser le cadrage sur les point et non pas sur les géométries
 }
 
 
