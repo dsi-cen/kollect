@@ -53,7 +53,7 @@ infos_fiche AS
 (
 SELECT
   fiche.idfiche,fiche.idorg,organisme.organisme,fiche.idetude,etude.etude,fiche.typedon,
-  CASE WHEN fiche.typedon = 'Pr' THEN 'Origine privée' WHEN fiche.typedon = 'Ac' THEN 'Publique' WHEN fiche.typedon = 'NSP' THEN 'Inconnue' END AS type_donnee,
+  CASE WHEN fiche.typedon = 'Pr' THEN 'Origine privée' WHEN fiche.typedon = 'Pu' THEN 'Publique' WHEN fiche.typedon = 'NSP' THEN 'Inconnue' END AS type_donnee,
   fiche.plusobser, fiche.codecom,fiche.floutage,
   CASE WHEN fiche.floutage = 0 THEN 'Pas de dégradation' WHEN fiche.floutage = 1 THEN 'Commune' WHEN fiche.floutage = 2 THEN 'Maille 10kmx10km' WHEN fiche.floutage = 3 THEN 'Département' END AS floutage_kollect,
   fiche.localisation,
@@ -113,8 +113,8 @@ SELECT
   i.rang,i.regne,i.classe,i.ordre,i.famille,i.observatoire,
   i.nomlatin,i.nomlatincomplet,i.nomvern,i.nomverncomplet,i.idmainobser,i.observateur,i.idobservateur,i.determinateur,i.type_determination,i.en_collection,
   i.idorg,i.organisme,i.idetude,i.etude,i.typedon,i.type_donnee,
-  CASE WHEN i.taxon_sensible = 'oui' AND i.floutage_sensible != 'Commune' THEN NULL WHEN i.floutage_kollect != 'Commune' THEN NULL ELSE i.codecom END AS codecom,
-  CASE WHEN i.taxon_sensible = 'oui' AND i.floutage_sensible != 'Commune' THEN NULL WHEN i.floutage_kollect != 'Commune' THEN NULL ELSE i.commune END AS commune,
+  CASE WHEN i.taxon_sensible = 'oui' AND i.floutage_sensible != 'Commune' THEN NULL WHEN i.floutage_kollect != 'Commune' AND i.floutage_kollect != 'Pas de dégradation' THEN NULL ELSE i.codecom END AS codecom,
+  CASE WHEN i.taxon_sensible = 'oui' AND i.floutage_sensible != 'Commune' THEN NULL WHEN i.floutage_kollect != 'Commune' AND i.floutage_kollect != 'Pas de dégradation' THEN NULL ELSE i.commune END AS commune,
   i.iddep,i.floutage,i.floutage_kollect,i.type_geometrie,
   CASE WHEN i.taxon_sensible = 'oui' THEN NULL WHEN i.floutage_kollect != 'Pas de dégradation' THEN NULL ELSE i.idsite END AS id_station,
   CASE WHEN i.taxon_sensible = 'oui' THEN NULL WHEN i.floutage_kollect != 'Pas de dégradation' THEN NULL ELSE i.site END AS nom_station,
@@ -249,7 +249,7 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
 }
 
 $where = 'non';
-if ($idobser) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "(i.idmainobser = " . $idobser . " OR (idobservateur LIKE '" . $idobser . "%' OR idobservateur LIKE '%, " . $idobser . "' OR idobservateur LIKE '%, " . $idobser . ",%'))"; $where = 'oui';}
+if ($idobser) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "(i.idmainobser = " . $idobser . " OR (idobservateur LIKE '" . $idobser . ",%' OR idobservateur LIKE '%, " . $idobser . "' OR idobservateur LIKE '%, " . $idobser . ",%'))"; $where = 'oui';}
 if ($orga != 'NR') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.idorg = " . $orga ; $where = 'oui';}
 if ($etude) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.idetude = " . $etude ; $where = 'oui';}
 if ($typedon != 'NR') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "typedon = '" . $typedon . "'"; $where = 'oui';}
