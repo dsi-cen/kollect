@@ -6,6 +6,8 @@
 // Lancer le script depuis le serveur avec la commande : php new_passwd.php
 // Puis mettre à jour le hash dans la base de donnée et notifier l'utilisateur de son nouveau mot de passe
 
+// Lien utile : https://bcrypt-generator.com/
+
 function random_str(
 					$length,
 					$keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
