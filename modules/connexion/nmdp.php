@@ -35,7 +35,7 @@ if (isset($_GET['id']))
 		}
 		else
 		{
-			$pass_hache = sha1($mdp);
+			$pass_hache = password_hash($mdp, PASSWORD_BCRYPT);
 			$idmembre = $verifticket['idmembre'];
 			modif_mdp($idmembre,$pass_hache);
 			$datem = date("Y-m-d H:i:s");
