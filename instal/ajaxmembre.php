@@ -134,7 +134,7 @@ if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mdp']) && i
 		} else {
 			creermembre();			
 		}		
-		$pass_hache = sha1($mdp);
+		$pass_hache = password_hash($mdp, PASSWORD_BCRYPT);
 		$inser = inscription($nom,$prenom,$pass_hache,$mail);
 		if ($inser == 1)
 		{
