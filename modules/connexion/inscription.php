@@ -49,10 +49,8 @@ if(isset($_POST['nom']) AND isset($_POST['prenom']) AND isset($_POST['mail'])  A
 		$nbresultats = rechercher_membre($nom, $prenom);
 		if ($nbresultats == 0) {
             $mailcheck = check_mail($mail);
-
             if ($mailcheck == 0) {
-                $pass_hache = password_hash($password, PASSWORD_BCRYPT);
-
+                $pass_hache = password_hash($mdp, PASSWORD_BCRYPT);
                 $insertion = inscription($nom, $prenom, $pass_hache, $mail);
                 if ($insertion[0] = 'Oui') {
                     $datem = date("Y-m-d H:i:s");
