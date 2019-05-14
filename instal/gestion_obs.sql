@@ -11,6 +11,7 @@ SET default_with_oids = false;
 CREATE TABLE md_obs.obs_origine_odk
 (
     idobs integer NOT NULL,
+    idobs_odk character varying(150),
     id_formulaire_odk character varying(50),
     lib_utilisateur_odk character varying(50),
     id_releve_odk character varying(150),
@@ -18,6 +19,7 @@ CREATE TABLE md_obs.obs_origine_odk
     ordre_obs_releve_odk integer,
     debut_formulaire timestamp without time zone,
     fin_formulaire timestamp without time zone,
+    reception_serveur timestamp without time zone,
     remarques text,
     CONSTRAINT passage_origine_odk_pkey PRIMARY KEY (idobs),
     CONSTRAINT passage_origine_odk_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs) 
@@ -168,6 +170,7 @@ CREATE TABLE md_obs_historique.histo_obs_origine_odk
     date_operation timestamp without time zone NOT NULL,
     utilisateur text NOT NULL,
     idobs integer NOT NULL,
+    idobs_odk character varying(150),
     id_formulaire_odk character varying(50),
     lib_utilisateur_odk character varying(50),
     id_releve_odk character varying(150),
@@ -175,6 +178,7 @@ CREATE TABLE md_obs_historique.histo_obs_origine_odk
     ordre_obs_releve_odk integer,
     debut_formulaire timestamp without time zone,
     fin_formulaire timestamp without time zone,
+    reception_serveur timestamp without time zone,
     remarques text,
     CONSTRAINT histo_obs_origine_odk_pkey PRIMARY KEY (date_operation, utilisateur, idobs)
 );
