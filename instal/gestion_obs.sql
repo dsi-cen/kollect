@@ -21,8 +21,8 @@ CREATE TABLE md_obs.obs_origine_odk
     fin_formulaire timestamp without time zone,
     reception_serveur timestamp without time zone,
     remarques text,
-    CONSTRAINT passage_origine_odk_pkey PRIMARY KEY (idobs),
-    CONSTRAINT passage_origine_odk_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs) 
+    CONSTRAINT obs_origine_odk_pkey PRIMARY KEY (idobs),
+    CONSTRAINT obs_origine_odk_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs) 
 );
 
 COMMENT ON TABLE md_obs.obs_origine_odk IS 'Table stockant les informations issues d''ODK si l''observation provient d''un relevé terrain sur terminal Androïd avec l''application ODK Collect';
