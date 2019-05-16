@@ -222,6 +222,18 @@ function listeobs($idobser,$observa,$cdnom,$codecom,$idsite,$site,$date1,$date2,
 	return $resultat;
 }
 
+function rechercheobservateur($idm)
+{
+	$bdd = PDO2::getInstance();		
+	$bdd->query("SET NAMES 'UTF8'");
+	$req = $bdd->prepare("SELECT idobser FROM referentiel.observateur WHERE idm = :idm ");
+	$req->bindValue(':idm', $idm);
+	$req->execute();
+	$idobser = $req->fetch(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $idobser;		
+}
+
 if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
 {
 	$idobser = $_POST['idobser'];
@@ -241,7 +253,8 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
 	$json_site = file_get_contents('../../../json/site.json');
 	$rjson_site = json_decode($json_site, true);
 	
-	$droit = ((isset($_SESSION['droits']) && $_SESSION['droits'] >= 1) || $_POST['d'] == 'oui') ? 'oui' : 'non';
+	$demandeur = rechercheobservateur($_SESSION['idmembre']);
+	$droit = ((isset($_SESSION['droits']) && $_SESSION['droits'] >= 1) || $_POST['d'] == 'oui' || $demandeur['idobser'] == $idobser) ? 'oui' : 'non';
 	
 	if(!empty($choixtax))
 	{
