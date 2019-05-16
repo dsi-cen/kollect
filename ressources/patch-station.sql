@@ -276,7 +276,7 @@ CREATE SCHEMA station;
 create table station.infosmare
 (
     idinfosmare serial,
-	idstation integer,
+    idstation integer,
     idobser integer,
     plusobser varchar(3),
     idorg integer,
@@ -296,6 +296,13 @@ create table station.infosmare
     idprofondeureau integer,
     commentaire varchar,
     idmembre integer,
+    vegaquahydro integer,
+    vegaqualentille integer,
+    vegaquaalgue integer,
+    vegsemiroseaux integer,
+    vegsemijoncs integer,
+    vegrivpourtour integer,
+    vegrivombrage integer,
     CONSTRAINT infosmare_pkey PRIMARY KEY (idinfosmare),
     CONSTRAINT infosmare_idobser_fkey FOREIGN KEY (idobser) REFERENCES referentiel.observateur (idobser),
     CONSTRAINT infosmare_idorg_idetude_fkey FOREIGN KEY (idorg,idetude) REFERENCES referentiel.etude_organisme (idorg,idetude),
