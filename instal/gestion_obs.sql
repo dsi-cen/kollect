@@ -11,6 +11,7 @@ SET default_with_oids = false;
 CREATE TABLE md_obs.obs_origine_odk
 (
     idobs integer NOT NULL,
+    idligne integer NOT NULL,
     idobs_odk character varying(150),
     id_formulaire_odk character varying(50),
     lib_utilisateur_odk character varying(50),
@@ -21,9 +22,10 @@ CREATE TABLE md_obs.obs_origine_odk
     fin_formulaire timestamp without time zone,
     reception_serveur timestamp without time zone,
     remarques text,
-    CONSTRAINT obs_origine_odk_pkey PRIMARY KEY (idobs),
-    CONSTRAINT obs_origine_odk_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs) 
-);
+    CONSTRAINT obs_origine_odk_pkey PRIMARY KEY (idobs,idligne),
+    CONSTRAINT obs_origine_odk_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs),
+    CONSTRAINT obs_origine_odk_idligne_fkey FOREIGN KEY (idligne) REFERENCES obs.ligneobs (idligne) 
+);,
 
 COMMENT ON TABLE md_obs.obs_origine_odk IS 'Table stockant les informations issues d''ODK si l''observation provient d''un relevé terrain sur terminal Androïd avec l''application ODK Collect';
 
@@ -170,6 +172,7 @@ CREATE TABLE md_obs_historique.histo_obs_origine_odk
     date_operation timestamp without time zone NOT NULL,
     utilisateur text NOT NULL,
     idobs integer NOT NULL,
+    idligne integer NOT NULL,
     idobs_odk character varying(150),
     id_formulaire_odk character varying(50),
     lib_utilisateur_odk character varying(50),
@@ -180,7 +183,7 @@ CREATE TABLE md_obs_historique.histo_obs_origine_odk
     fin_formulaire timestamp without time zone,
     reception_serveur timestamp without time zone,
     remarques text,
-    CONSTRAINT histo_obs_origine_odk_pkey PRIMARY KEY (date_operation, utilisateur, idobs)
+    CONSTRAINT histo_obs_origine_odk_pkey PRIMARY KEY (date_operation, utilisateur, idobs, idligne)
 );
 
 CREATE FUNCTION md_obs_historique.alimente_histo_obs_origine_odk()
