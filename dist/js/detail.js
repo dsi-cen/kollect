@@ -109,6 +109,11 @@ function supph(a) {
     $("#idphoto").val(a), $("#dia3").modal("show")
 }
 
+function supson(a) {
+    "use strict";
+    $("#idson").val(a), $("#dia6").modal("show")
+}
+
 function suppressionphoto(a) {
     "use strict";
     $.ajax({
@@ -116,6 +121,19 @@ function suppressionphoto(a) {
         type: "POST",
         dataType: "json",
         data: {idphoto: a},
+        success: function (a) {
+            "Oui" == a.statut ? location.reload() : alert("Erreur : problème lors de la suppression")
+        }
+    })
+}
+
+function suppressionson(a) {
+    "use strict";
+    $.ajax({
+        url: "modeles/ajax/son/supson.php",
+        type: "POST",
+        dataType: "json",
+        data: {idson: a},
         success: function (a) {
             "Oui" == a.statut ? location.reload() : alert("Erreur : problème lors de la suppression")
         }
@@ -217,6 +235,10 @@ $(document).ready(function () {
     "use strict";
     var a = $("#idphoto").val();
     suppressionphoto(a)
+}), $("#bttdia6").click(function () {
+    "use strict";
+    var a = $("#idson").val();
+    suppressionson(a)
 }), $("#vali").change(function () {
     "use strict";
     var a = $("#vali").val();

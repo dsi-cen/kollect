@@ -146,7 +146,7 @@
 						if(isset($mediacom))
 						{
 							?>
-							<h3 class="h5 mt-1">Commentaire(s)</h4>
+							<h3 class="h5 mt-1">Commentaire(s)</h3>
 							<?php echo $mediacom;
 						}
 						if(isset($_SESSION['idmembre']) && !empty($idm))
@@ -328,4 +328,21 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div id="dia6" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Suppression d'un son</h4>
+            </div>
+            <div class="modal-body">
+                <p>Voulez vous vraiment supprimer cet extrait sonore ?</p>
+            </div>
+            <input id="idson" type="hidden"/>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="bttdia6">Oui</button>
+            </div>
+        </div>
+    </div>
 </div>

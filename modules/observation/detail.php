@@ -372,8 +372,9 @@ if(isset($_GET['idobs']))
 			{
 				$obsson .= '<div>';
 				$obsson .= '<p class="mb-0">- '.$n['descri'].', <span class="small">enregistrement de '.$n['auteur'].'</span></p>';
-				$obsson .= '<audio controls="controls" preload="none"><source src="son/'.$n['nomson'].'.mp3" type="audio/mp3"/>Votre navigateur n\'est pas compatible</audio>';					
-				$obsson .= '</div>';			
+				$obsson .= '<audio controls="controls" preload="none"><source src="son/'.$n['nomson'].'.mp3" type="audio/mp3"/>Votre navigateur n\'est pas compatible</audio>';
+                $obsson .= (isset($_SESSION['idmembre']) && $idm == $_SESSION['idmembre']) ? '</span><i class="ml-2 text-danger fa fa-trash curseurlien" title="Supprimer le son" onclick="supson('.$n['idson'].')"></i>' : null;
+                $obsson .= '</div>';
 			}
 			$son = $obsson;
 		}

@@ -158,7 +158,7 @@ function cherche_son($idobs)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->prepare("SELECT observateur AS auteur, nomson, descri FROM site.son
+	$req = $bdd->prepare("SELECT idson, observateur AS auteur, nomson, descri FROM site.son
 						INNER JOIN referentiel.observateur USING(idobser)
 						WHERE idobs = :idobs ");
 	$req->bindValue(':idobs', $idobs);
