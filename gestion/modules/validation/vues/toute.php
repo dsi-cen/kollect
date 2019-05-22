@@ -33,7 +33,7 @@
 				</div>
 			</form>
 			<div class="row" id="infoaide">
-				<div class="col-md-12 col-lg-12 mt-2">
+				<div class="col-md-12 col-lg-12 mt-3">
 					<p>
 						<i class="fa fa-pencil text-danger"></i> : Espèce à valider manuellement - <i class="fa fa-pencil text-warning"></i> : Espèce n'ayant pas passée le filtre automatique - <i class="fa fa-eye text-primary"></i> : Voir l'observation - <i class="fa fa-file-text-o text-primary"></i> : Voir la fiche du taxon - <i class="fa fa-plus text-success"></i> : Détail du filtre automatique<br />
 						Pour procéder à la validation cliquer sur le <i class="fa fa-pencil text-danger"></i> ou <i class="fa fa-pencil text-warning"></i> de l'observation. Dès qu'une observation est validée, celle-ci est retirée de la liste.<br />
@@ -42,7 +42,12 @@
 					
 				</div>
 			</div>
-			<div id="liste" class="mt-3"></div>
+            <div class="row">
+                <div class="col-md-12 col-lg-12 mt-3">
+                    <p><strong>Cocher les lignes correspondantes aux filtres (lignes visibles) </strong><input type="checkbox" id="selectvisible" name="selectvisible"> </p>
+                </div>
+            </div>
+			<div id="liste" class=""></div>
 		</div>
 	</div>
 	<input id="observa" type="hidden" value="<?php echo $choix;?>"/><input id="new" type="hidden" value="<?php echo $new;?>"/>
@@ -91,7 +96,7 @@
 		<div class="modal-content">
 			<div class="modal-body" id="mes"></div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" data-dismiss="modal">Fermer</button>				
+				<button type="button" id="reload" class="btn btn-success" data-dismiss="modal">Fermer</button>
 			</div>
 		</div>
 	</div>

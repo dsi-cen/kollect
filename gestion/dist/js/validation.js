@@ -76,6 +76,11 @@ $(document).ready(function () {
     $("#infoaide").hide(), $("#btchoix").hide(), $("#valajax").hide();
     var a = $("#observa").val(), t = $("#new").val();
     "NR" != a && ($('#choix option[value="' + a + '"]').prop("selected", !0), recupliste(a, t))
+}),$("#selectvisible").on('click', function () { // Fonction pour cocher toutes les lignes affichées
+    "use strict";
+    $("tr").each( function() {
+        $(this).find("input").attr('checked', $('#selectvisible').prop('checked'));
+    });
 }), $("#aide").click(function () {
     "use strict";
     $(this).hasClass("btn-info") ? ($(this).removeClass("btn-info").addClass("btn-success"), $("#btn-aide-txt", this).text("Cacher"), $("#infoaide").show()) : ($(this).removeClass("btn-success").addClass("btn-info"), $("#btn-aide-txt", this).text("Aide"), $("#infoaide").hide())
@@ -112,10 +117,11 @@ $(document).ready(function () {
     // $("#valajax").show();
     var observa = $("#observa").val();
     var checkboxValues = [];
-    $('input[type="checkbox"]:checked').each(function(index, elem) {
+    $('#liste input[type="checkbox"]:checked').each(function(index, elem) { // Récupếrer les lignes cochées du tableau
         checkboxValues.push($(elem).val());
     });
     var checked = checkboxValues.join(',');
+    console.log(checked);
     $.ajax({
         url: "modeles/ajax/validation/validationcheckbox.php",
         type: "POST",
@@ -125,4 +131,8 @@ $(document).ready(function () {
             "Oui" == a.statut ? ($("#liste").html("Aucune observation à valider"), $("#btchoix").hide(), $("#mes").html('<div class="alert alert-success" role="alert">' + a.nb + " observations ont été validées</div>"), $("#dia2").modal("show")) : ($("#mes").html(a.mes), $("#dia2").modal("show")), $("#valajax").hide()
         }
     })
+});
+
+$("#reload").click(function () {
+    location.reload();
 });
