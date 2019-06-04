@@ -138,7 +138,7 @@
 						<a target="_blank" title="Google +" href="https://plus.google.com/share?url=<?php echo $url;?>&hl=fr" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="../dist/img/gplus_icon.png" alt="Google Plus" width="20" height="20" /></a>
 						<a target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode($url);?>&title=<?php echo $titre;?>" rel="nofollow" onclick="javascript:window.open(this.href, '','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="../dist/img/linkedin_icon.png" alt="Linkedin" width="20" height="20" /></a>
 						<a title="Envoyer par mail" href="mailto:?subject=<?php echo $titre;?>&body=<?php echo urlencode($url);?>" rel="nofollow"><img src="../dist/img/email_icon.png" alt="email" width="20" height="20"/></a>
-						<a class="float-right" href="http://inpn.mnhn.fr/espece/cd_nom/<?php echo $id; ?>" title="Accéder à la fiche de l'INPN"><img src="../dist/img/inpn.png" width="50" height="18" alt="logo INPN"/></a>
+						<a class="float-right" target="_blank" href="http://inpn.mnhn.fr/espece/cd_nom/<?php echo $id; ?>" title="Accéder à la fiche de l'INPN"><img src="../dist/img/inpn.png" width="50" height="18" alt="logo INPN"/></a>
 					</div>
 				</div>
 				<div class="card-footer color1_bg blanc p-0 font13">
@@ -466,7 +466,8 @@
 											<object data="https://inpn.mnhn.fr/cartosvg/couchegeo/repartition/atlas/<?php echo $id;?>/fr_light_l93,fr_light_mer_l93,fr_lit_l93"
 												type="image/svg+xml" class="mx-auto d-block" width="100%" height="100%">
 											</object>
-											<figcaption>Répartition en France métropolitaine - <a class="" href="http://inpn.mnhn.fr/espece/cd_nom/<?php echo $id; ?>" title="Accéder à la fiche de l'INPN"><img src="../dist/img/inpn.png" width="50" height="18" alt="logo INPN"/></a></figcaption>
+											<figcaption>Répartition en France métropolitaine <br />
+                                                Accéder à la fiche de l'INPN - <a target="_blank" class="" href="http://inpn.mnhn.fr/espece/cd_nom/<?php echo $id; ?>" title="Accéder à la fiche de l'INPN"><img src="../dist/img/inpn.png" width="50" height="18" alt="logo INPN"/></a></figcaption>
 										</figure>
 									</div>
 								</div>

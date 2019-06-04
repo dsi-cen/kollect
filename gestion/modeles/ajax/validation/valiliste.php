@@ -84,8 +84,8 @@ if(isset($_POST['sel']))
 		{
 			$checkbox = '<input type="checkbox" name="check_list[]" value="'. $n['idobs'] . '">';
 
-		    $lien = ($n['rang'] == 'GN') ? '<a href="../observatoire/index.php?module=fiche&amp;action=ficheg&amp;d='.$nomvar.'&amp;id='.$n['cdnom'].'"><i class="fa fa-file-text-o text-primary"></i></a>' : '<a href="../observatoire/index.php?module=fiche&amp;action=fiche&amp;d='.$nomvar.'&amp;id='.$n['cdnom'].'"><i class="fa fa-file-text-o text-primary"></i></a>';
-			$obs = '<a href="../index.php?module=observation&amp;action=detail&amp;idobs='.$n['idobs'].'" title="Voir observation"><i class="fa fa-eye text-primary"></i></a>';
+		    $lien = ($n['rang'] == 'GN') ? '<a target="_blank" href="../observatoire/index.php?module=fiche&amp;action=ficheg&amp;d='.$nomvar.'&amp;id='.$n['cdnom'].'"><i class="fa fa-file-text-o text-primary"></i></a>' : '<a target="_blank" href="../observatoire/index.php?module=fiche&amp;action=fiche&amp;d='.$nomvar.'&amp;id='.$n['cdnom'].'"><i class="fa fa-file-text-o text-primary"></i></a>';
+			$obs = '<a target="_blank" href="../index.php?module=observation&amp;action=detail&amp;idobs='.$n['idobs'].'" title="Voir observation"><i class="fa fa-eye text-primary"></i></a>';
 			
 			if($n['idobser'] != $n['iddet'])
 			{
