@@ -1169,16 +1169,6 @@ $(document).ready(function () {
     var e = $(this).parent().parent().attr("id");
     $("#getidfiche").val(e), $(".table").find("tr").removeClass("bg-info"), $("#" + e).addClass("bg-info"), affichefiche(), $("html, body").animate({scrollTop: 0}, "slow"), recupfiche(e)
 });
-
-    $("#bttdiaN13").click(function () {
-    nonsite(), $("#parent").val( $("#codesite").val() ) , $("#codesite").val("Nouv");
-        console.log(mod);
-});
-    $("#bttdiaN13all").click(function () {
-        console.log(mod);
-});
-
-
     $("#BttF").click(function () {
     "use strict";
     var e = $("#idfiche").val(), a = $("#idcoord").val(), t = $("#codesite").val(), l = $("#xlambert").val(),

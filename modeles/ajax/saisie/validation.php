@@ -455,7 +455,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 		if ($_POST['idfiche'] == 'Nouv') //Nouvelle fiche.
 		{
 			//précision, coordonnées, site			
-			if ($_POST['codesite'] == 'Nouv') //Nouveau site.
+			if ($_POST['codesite'] == 'Nouv' || $_POST['codesite'] == 0) // Nouveau site ou pas de site
 			{
 				$pr = $_POST['pr'];
 				if($pr == 1)//précision au site
