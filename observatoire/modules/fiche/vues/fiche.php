@@ -353,30 +353,32 @@
 										<?php
 										if(!empty($statut))
 										{
-											?><h3 class="h5">Statuts</h3>
+											?>
 											<p>
 												<?php
+                                                if (isset($dh) || isset($pn) || isset($pr) || isset($pd) || isset($znieff)) {echo '<h3 class="h5">Espèce réglementée</h3>';}
 												if(isset($dh))
 												{
 													?><span class="px-2 border-right-claire"><img src="../dist/img/dh.png" alt="PN" width="29" height="20"/></span><?php
 												}
 												if(isset($pn))
 												{
-													?><span class="px-2 border-right-claire"><img src="../dist/img/protect.png" alt="PN" width="20" height="20" title="France" /></span><?php
+													?><span class="px-2 border-right-claire"><img src="../dist/img/PF.png" alt="PN" width="20" height="20" title="France" /></span><?php
 												}
 												if(isset($pr))
 												{
-													?><span class="px-2 border-right-claire"><img src="../dist/img/protect.png" alt="PN" width="20" height="20" title="Régionale" /></span><?php
+													?><span class="px-2 border-right-claire"><img src="../dist/img/PR.png" alt="PN" width="20" height="20" title="Régionale" /></span><?php
 												}
 												if(isset($pd))
 												{
-													?><span class="px-2 border-right-claire"><img src="../dist/img/protect.png" alt="PN" width="20" height="20" title="Départementale" /></span><?php
+													?><span class="px-2 border-right-claire"><img src="../dist/img/PD.png" alt="PN" width="20" height="20" title="Départementale" /></span><?php
 												}
 												if(isset($znieff))
 												{
-													?><span class="px-2 border-right-claire"><img src="../dist/img/znieff.png" alt="Znieff" width="38" height="20" title="Espèce déterminantes Znieff" /></span><?php
+													?><span class="px-2 border-right-claire"><img src="../dist/img/znieff.png" alt="Znieff" width="60" height="17" title="Espèce déterminantes Znieff" /></span><?php
 												}
-                                            if(isset($lrm))
+												echo '<hr><h3 class="h5">Espèce évaluée</h3>';
+											if(isset($lrm))
                                             {
                                                 ?>
                                                 <span class="fa-stack">
@@ -445,7 +447,7 @@
 												if(isset($typei))
 												{
 													?>
-													<span class="px-1 border-right-claire"></span><span class="px-1" title="<?php echo $intypei;?>"><?php echo $typei;?></span>
+													<span class="px-1 border-right-claire"></span><span class="px-1" title="<?php echo $intypei;?>"><img src="../dist/img/invasive.png" alt="Invasive" width="25" height="25" title="Espèce invasive" /> : <?php echo $typei;?></span>
 													<?php
 												}
 												?>
