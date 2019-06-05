@@ -121,11 +121,11 @@ function insere_biogeo($x,$y,$idcoord)
 	$req->execute();
 	$req->closeCursor();
 }
-function insere_site($codecom, $idcoord, $rqsite, $site, $idm)
+function insere_site($codecom, $idcoord, $rqsite, $site, $idm, $parent)
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, idmembre, commentaire, typestation, wsite, idstatus) VALUES(:idcoord, :codecom, :site, :rqsite, :idm, :commentaire, :typestation, :wsite, :idstatus) ");
+	$req = $bdd->prepare("INSERT INTO obs.site (idcoord, codecom, site, rqsite, idmembre, commentaire, typestation, wsite, idstatus, idparent) VALUES(:idcoord, :codecom, :site, :rqsite, :idm, :commentaire, :typestation, :wsite, :idstatus, :idparent) ");
 	$req->bindValue(':codecom', $codecom);
 	$req->bindValue(':idcoord', $idcoord);
 	$req->bindValue(':rqsite', $rqsite);
@@ -134,6 +134,7 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $idm)
 	$req->bindValue(':typestation', 2);
 	$req->bindValue(':wsite', "oui");
 	$req->bindValue(':idstatus', 1);
+    $req->bindValue(':idparent', $parent);
 	$req->bindValue(':commentaire', "Site inséré depuis l'espace de saisie");
 	if ($req->execute())
 	{
@@ -142,6 +143,33 @@ function insere_site($codecom, $idcoord, $rqsite, $site, $idm)
 	$req->closeCursor();
 	return $idsite;	
 }
+
+function modif_site($idsite,$idcoord,$codecom,$site,$rqsite)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("UPDATE obs.site SET idcoord = :idcoord, codecom = :codecom, site = :site, rqsite = :rqsite WHERE idsite = :idsite ");
+    $req->bindValue(':idsite', $idsite);
+    $req->bindValue(':codecom', $codecom);
+    $req->bindValue(':idcoord', $idcoord);
+    $req->bindValue(':rqsite', $rqsite);
+    $req->bindValue(':site', $site);
+    $req->execute();
+    $req->closeCursor();
+}
+
+function desactiver_site_parent($idsite)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare("UPDATE obs.site SET wsite = :wsite
+                                                        WHERE idsite = :idsite");
+    $req->bindValue(':idsite', $idsite);
+    $req->bindValue(':wsite', "non");
+    $req->execute();
+    $req->closeCursor();
+}
+
 function insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$obs,$iddep1,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude,$idpreci)
 {
 	$bdd = PDO2::getInstance();
@@ -455,7 +483,7 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 		if ($_POST['idfiche'] == 'Nouv') //Nouvelle fiche.
 		{
 			//précision, coordonnées, site			
-			if ($_POST['codesite'] == 'Nouv' || $_POST['codesite'] == 0) // Nouveau site ou pas de site
+			if ($_POST['codesite'] === 'Nouv' || $_POST['codesite'] === 0) // Nouveau site ou pas de site
 			{
 				$pr = $_POST['pr'];
 				if($pr == 1)//précision au site
@@ -482,11 +510,17 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 					if($_POST['biogeo'] == 'oui') { insere_biogeo($x,$y,$idcoord); }					
 					//Insertion site
 					$site = $_POST['site'];
-					if($site != '')
-					{
+					$parent = $_POST['parent'];
+					if($site != '' && $_POST['parent'] === 0) {
 						$rqsite = 'Insertion via fiche de saisie. idm - '.$idm;					
-						$idsite = insere_site($codecom, $idcoord, $rqsite, $site, $idm);
+						$idsite = insere_site($codecom, $idcoord, $rqsite, $site, $idm, null);
 					}
+					elseif ($site != '' && $_POST['parent'] !== 0){
+
+                        $rqsite = 'Insertion site fille via fiche de saisie. idm - '.$idm;
+                        $idsite = insere_site($codecom, $idcoord, $rqsite, $site, $idm, $parent);
+                        desactiver_site_parent($parent);
+                    }
 					else
 					{
 						$idsite = 0;
@@ -529,16 +563,43 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 					$com = '';
 				}					
 			}
-			else //Site déjà connu.
+			else if ($_POST['codesite'] !== 'Nouv' && $_POST['codesite'] !== 0 && $_POST['idcoord'] === "Nouv") // Site déjà connu et modification d'emplacement
 			{
 				$idsite = $_POST['codesite'];
-				$idcoord = $_POST['idcoord'];
-				$codecom = $_POST['codecom'];
-				$iddep = $_POST['codedep'];
-				$com = $_POST['com'];
-				$site = $_POST['site'];
-				$pr = 1;
+                $alt = (!empty($_POST['alt'])) ? $_POST['alt'] : null;
+                $lat = $_POST['lat'];
+                $lng = $_POST['lng'];
+                $l93 = $_POST['l93'];
+                $utm = $_POST['utm'];
+                $utm1 = $_POST['utm1'];
+                $l935 = $_POST['l935'];
+                $codecom = $_POST['codecom'];
+                $iddep = $_POST['codedep'];
+                $com = htmlspecialchars($_POST['com']);
+                $site = $_POST['site'];
+                $pr = 1;
+                $geo = $_POST['typepoly'];
+                $idcoord = insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935);
+                if(!empty($geo)) { inser_coordgeo($idcoord,$geo); }
+                //pour utilisation biogeo
+                if($_POST['biogeo'] == 'oui') { insere_biogeo($x,$y,$idcoord); }
+
+                // Modif du site
+                if($site != '') {
+                    $rqsite = 'Modif depuis nouvelle Saisie. idm - '.$idm;
+                    modif_site($idsite,$idcoord,$codecom,$site,$rqsite);
+                }
 			}
+            else // Site déjà connu et pas de modification d'emplacement
+            {
+                $idsite = $_POST['codesite'];
+                $idcoord = $_POST['idcoord'];
+                $codecom = $_POST['codecom'];
+                $iddep = $_POST['codedep'];
+                $com = $_POST['com'];
+                $site = $_POST['site'];
+                $pr = 1;
+            }
 			//Gestion date
 			//$date1 = $_POST['date'];
 			//$date2 = $_POST['date2'];
@@ -612,7 +673,12 @@ if(isset($_POST['idobser']) && isset($_POST['com']) && isset($_POST['idfiche']) 
 				$idobser = $obs[0];
 			}
 			$plusobser = (count($obs) > 1) ? 'oui' : 'non';
+
+			// TODO
 			$idfiche = insere_fiche($codecom,$date1mysql,$date2mysql,$decade,$idcoord,$idsite,$idobser,$iddep,$pr,$floutage,$plusobser,$typedon,$source,$org,$etude,$idpreci);
+
+
+
 			//si plusieurs observateurs
 			if(count($obs) > 1)
 			{

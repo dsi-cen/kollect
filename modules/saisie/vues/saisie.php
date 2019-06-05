@@ -602,6 +602,7 @@
 	<input id="idobseror" type="hidden" value="<?php echo $idobser;?>"/><input id="iddetor" type="hidden" value="<?php echo $idobser;?>"/><input id="getidfiche" type="hidden" value="<?php echo $getidfiche;?>"/><input id="couche" type="hidden" value="<?php echo $couche;?>"/><input id="proche" type="hidden" value="<?php echo $dist;?>"/>
 	<input id="flou" type="hidden" value="<?php echo $flou;?>"/><input id="tdon" type="hidden" value="<?php echo $typedon;?>"/><input id="idligneobs" type="hidden"/><input id="valsel" type="hidden"/><input id="Bt" type="hidden" name="Bt"><input id="aphoto" type="hidden"><input id="afiche" type="hidden"><input id="choixauto" type="hidden">
 	<input id="coordpr" type="hidden"/>
+    <input id="parent" type="hidden" value="0"/>
 </section>
 <!-- Boite dialogue -->
 <div id="dia1" class="modal" tabindex="-1" role="dialog" aria-labelledby="Modalajoutobs" aria-hidden="true">
@@ -791,12 +792,16 @@
             </div>
             <div class="modal-body">
                 <p><b>Vous avez plusieurs possibilités</b></p>
-                <p>Si vous voulez modifier l'emplacement de la station : <b><span id="spandia13"></span></b> ou créer une station <em>"fille"</em>, veuillez vous rendre dans le module de gestion des stations.
-                <p>Si vous ne voulez pas affecter vos observations à cette station, cliquer sur <b>Sortir de la station</b> et poursuivez la saisie.</p>
-                <p>Si vous souhaitez créer une nouvelle station, cliquer sur <b>Sortir de la station</b> puis renseignez le nom de votre nouvelle station.</p>
+                <p>Si vous voulez modifier l'emplacement de la station : <b><span id="spandia13"></span></b>, TOUTES les données seront impactée, y compris celles des autres observateurs.</p>
+                <p>Si vous voulez créer une station <em>"fille"</em>, votre observation sera ratachée à une nouvelle station mais conservera l'historique de son ancienne station.</p>
+                <p>Si vous souhaitez créer une nouvelle station simple, cliquer sur <b>Sortir de la station</b> puis renseignez le nom de votre nouvelle station.</p>
+                <p>Si vous ne voulez pas affecter vos observations à une station, cliquer sur <b>Sortir de la station</b> et poursuivez la saisie sans saisir de nom de station.</p>
+
             </div>
 			<div class="modal-footer">
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="bttdiaN13no">Sortir de la station</button> <br/>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="bttdiaN13">Nouvelle station 'fille'</button> <br/>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="bttdiaN13all">Oui, modifier la station et TOUTES les observations de Kollect associées </button>
 			</div>
 		</div>
 	</div>

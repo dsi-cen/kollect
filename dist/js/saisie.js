@@ -116,7 +116,7 @@ function recupcoord(e, a, t) {
     // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
     ($("#codesite").val() != "" && $("#codesite").val() != 0 && $("#codesite").val() != "Nouv") ? ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")) : null ;
 
-    "non" == mod && ($("#codesite").val("Nouv"), nonsite()); //TODO RLE
+    // "non" == mod && ($("#codesite").val("Nouv"), nonsite());
 
     $("#lat").val(e), $("#lng").val(a), $("#idcoord").val("Nouv"), $("#pr").val(1), transform93(e, a), "oui" == utm && chercheutm(e, a), altitude(e, a, t)
 }
@@ -399,7 +399,7 @@ function postorg(o, s="") {
 
     // Récup des filtres au chargement de la page
     function filter(o) {
-        if ("3" <= o) {
+        if (3 <= o) {
             $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show() && $("#typedon").val("Ac") && $("#floutage").val("0") && $("#etudecache").show();
         } else {
             $("#foutagecache").show() && $("#typedoncache").hide() && $("#inforg").hide() && $("#typedon").val("Pr") && $("#etudecache").hide() && $('#etude').val("0");
@@ -505,12 +505,12 @@ function enregistrer(e) {
     var a = $("#communeb").val(), t = $("#lieub").val(), l = $("#xlambert").val(), o = $("#ylambert").val(),
         i = $("#altitude").val(), s = $("#l93").val(), n = $("#l935").val(), r = $("#lat").val(), c = $("#lng").val(),
         d = $("#idm").val(), u = "oui" == utm ? $("#utm").val() : "", p = "oui" == utm ? $("#utm1").val() : "",
-        m = $("#stade option:selected").text(), v = $("#dep").val(), h = $("#nbmin").val(), f = $("#nbmax").val();
+        m = $("#stade option:selected").text(), v = $("#dep").val(), h = $("#nbmin").val(), f = $("#nbmax").val(), parent = $("#parent").val();
     $.ajax({
         url: "modeles/ajax/saisie/validation.php",
         type: "POST",
         dataType: "json",
-        data: e.serialize() + "&dep=" + v + "&com=" + a + "&site=" + t + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p + "&stadeval=" + m + "&idm=" + d + "&nbmin=" + h + "&nbmax=" + f,
+        data: e.serialize() + "&parent=" + parent + "&dep=" + v + "&com=" + a + "&site=" + t + "&x=" + l + "&y=" + o + "&alt=" + i + "&l93=" + s + "&l935=" + n + "&lat=" + r + "&lng=" + c + "&utm=" + u + "&utm1=" + p + "&stadeval=" + m + "&idm=" + d + "&nbmin=" + h + "&nbmax=" + f,
         success: function (e) {
             if ("Oui" == e.statut) {
                 var a = $("#Bt").val();
@@ -748,6 +748,7 @@ $(document).ready(function () {
     })
 }), $("#bttdia9").click(function () {
     "use strict";
+    $("#parent").val(0);
     var e = $("#coordpr").val();
     $.ajax({
         url: "modeles/ajax/saisie/recupproche.php",
@@ -830,7 +831,7 @@ $(document).ready(function () {
         transform93(a, e);
         $("#lat").val(a) && $("#lng").val(e);
         $("#idcoord").val("Nouv"); // A vérifier
-        $("#codesite").val("Nouv"); // A vérifier
+        $("#codesite").val() != "Nouv" ? null : $("#codesite").val("Nouv"); // Si on est déjà positionner sur un site, le modal prend le dessus. // TODO
         $("#pr").val(1); // rev-engi : 1 = site pointé, 2 = à la commune
     }
 }), $("#btfiche10").click(function () {
@@ -848,7 +849,7 @@ $(document).ready(function () {
     // Cas 1 _ s'il s'agit d'une organisation soumise au financements publics et/ou dossiers particuliers (typedon = AC et floutage = 0).
     // Cas 2 _ s'il s'agit d'un inconnu ou indépendant, valeur par défaut (typedon = Pr et floutage = 0).
     var e = $("#org").val();
-    if ("3" <= e){
+    if (3 <= e){
         $("#foutagecache").hide() && $("#typedoncache").hide() && $("#inforg").show() && $("#typedon").val("Ac") && $("#floutage").val("0");
     } else {
         $("#foutagecache").show() && $("#typedoncache").hide() && $("#inforg").hide() && $("#typedon").val("Pr") && $("#floutage").val("0");
@@ -1169,6 +1170,14 @@ $(document).ready(function () {
     var e = $(this).parent().parent().attr("id");
     $("#getidfiche").val(e), $(".table").find("tr").removeClass("bg-info"), $("#" + e).addClass("bg-info"), affichefiche(), $("html, body").animate({scrollTop: 0}, "slow"), recupfiche(e)
 });
+
+    $("#bttdiaN13").click(function () {
+        nonsite(), $("#parent").val( $("#codesite").val() ) , $("#codesite").val("Nouv");
+    });
+    $("#bttdiaN13all").click(function () {
+        // TODO
+    });
+
     $("#BttF").click(function () {
     "use strict";
     var e = $("#idfiche").val(), a = $("#idcoord").val(), t = $("#codesite").val(), l = $("#xlambert").val(),
@@ -1177,12 +1186,13 @@ $(document).ready(function () {
         m = $("#codecom").val(), v = $("#codedep").val(), h = $("#pr").val(), f = $("#lieub").val(),
         b = $("#date").val(), g = $("#date2").val(), x = $("#idobser").val(), w = $("#typedon").val(),
         y = $("#floutage").val(), k = $("#source").val(), pre = $("#precision").val(), C = $("#org").val(), et = $("#etude").val(), N = $("#heure").val(),
-        S = $("#heure2").val(), T = $("#tempdeb").val(), L = $("#tempfin").val();
+        S = $("#heure2").val(), T = $("#tempdeb").val(), L = $("#tempfin").val(), parent = $("#parent").val();
     $.ajax({
         url: "modeles/ajax/saisie/vmodfiche.php",
         type: "POST",
         dataType: "json",
         data: {
+            parent: parent,
             idfiche: e,
             idcoord: a,
             codesite: t,
@@ -1215,7 +1225,7 @@ $(document).ready(function () {
             tempfin: L
         },
         success: function (e) {
-            "Oui" == e.statut ? $("#R").html('<div class="alert alert-success"><i class="fa fa-check"></i> Les modifications sur la fiches ont été enregistrées</div>') : alert(e.statut)
+            "Oui" == e.statut ? $("#R").html('<div class="alert alert-success"><i class="fa fa-check"></i> Les modifications sur la fiches ont été enregistrées</div>') : alert(e.statut);
         }
     })
 }), $("#bttdia7").click(function () {

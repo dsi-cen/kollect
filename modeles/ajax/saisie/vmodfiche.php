@@ -329,8 +329,6 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
             $idsite = $idsiter ; // On ne touche pas à la ref station
         }
 
-        // TODO
-
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Si le codesite est différent : création de fille, d'un nouveau ou juste sortir de la station si en provenance d'un site, sinon affectation au site////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -343,21 +341,15 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
                 $retour['geonouv'] = 'inser';
                 insere_geo($idcoord,$geo);
             }
-            if ($idsiter == 0) { // On quitte la station
+            if ($idsiter === 0) { // On quitte la station
                 $retour['site'] = 'detach';
                 $idsite = 0 ;
-                $idcoord = insere_coordonnee($x,$y,$alt,$lat,$lng,$l93,$utm,$utm1,$l935); // On créer de nouvelles coordonnées pour ne plus dépendre de la station
-                if(!empty($geo))
-                {
-                    $retour['geonouv'] = 'inser';
-                    insere_geo($idcoord,$geo);
-                }
             }
-            else if ($idsiter == "Nouv" && $parent == 0 && !empty($site) ){ // On crée une nouvelle station
+            else if ($idsiter === "Nouv" && $parent == 0 && !empty($site) ){ // On crée une nouvelle station
                 $idsite = insere_site($codecom,$idcoord,$rqsite,$site, $idm);
             }
-            else if ($idsiter == "Nouv" && $parent != 0 && !empty($site) ){ // On crée une station fille
-                $idsite = insere_site($codecom,$idcoord,$rqsite,$site, $idm, $parent);
+            else if ($idsiter === "Nouv" && $parent != 0 && !empty($site) ){ // On crée une station fille
+                $idsite = insere_site($codecom,$idcoord,$rqsite,$site, $idm, $typestation=2, $wsite="oui", $idstatus=1, $parent);
                 desactiver_site_parent($parent);
             }
             else if ($_POST['idcoord'] != 'Nouv' && $idsiter != "Nouv" ) {
