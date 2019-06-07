@@ -72,7 +72,7 @@ if(isset($_POST['cdnom']))
 					{
 						if($n['type'] == $t)
 						{
-							$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
+							$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
 						}
 					}
 					$liste .= '</ul>';				
@@ -85,7 +85,7 @@ if(isset($_POST['cdnom']))
 					{
 						if($n['type'] == $t)
 						{
-							$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
+							$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
 						}
 					}
 					$liste .= '</ul>';	
@@ -98,7 +98,7 @@ if(isset($_POST['cdnom']))
 					{
 						if($n['type'] == $t)
 						{
-							$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
+							$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
 						}
 					}
 					$liste .= '</ul>';	
@@ -111,7 +111,7 @@ if(isset($_POST['cdnom']))
 					{
 						if($n['type'] == $t)
 						{
-							$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
+							$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
 						}
 					}
 					$liste .= '</ul>';	
@@ -124,7 +124,7 @@ if(isset($_POST['cdnom']))
 					{
 						if($n['type'] == $t)
 						{
-							$liste .= '<li><b>'.$n['intitule'].'</b> <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
+							$liste .= '<li><b>'.$n['intitule'].'</b> <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
 						}
 					}
 					$liste .= '</ul>';	
@@ -144,7 +144,7 @@ if(isset($_POST['cdnom']))
                             $lrp = ($lr == 'CR*') ? 'CR' : $lr;
                             $liste .= '<dl class="row mt-1">';
                             $liste .= '<dd class="col-sm-1 text-center"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i></dd>';
-                            $liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
+                            $liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
                             $liste .= '</dl>';
                             //$liste .= '<p><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i>';
                             //$liste .= '<b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link"></i></a></p>';
@@ -166,7 +166,7 @@ if(isset($_POST['cdnom']))
 							$lrp = ($lr == 'CR*') ? 'CR' : $lr;
 							$liste .= '<dl class="row mt-1">';
 							$liste .= '<dd class="col-sm-1 text-center"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i></dd>';
-							$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
+							$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
 							$liste .= '</dl>';
 							//$liste .= '<p><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i>';
 							//$liste .= '<b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link"></i></a></p>';
@@ -189,7 +189,7 @@ if(isset($_POST['cdnom']))
 							$lrp = ($lr == 'CR*') ? 'CR' : $lr;
 							$liste .= '<dl class="row mt-1">';
 							$liste .= '<dd class="col-sm-1 text-center"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i></dd>';
-							$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';							
+							$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
 							$liste .= '</dl>';
 							//$liste .= '<p><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i>';
 							//$liste .= '<b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link"></i></a></p>';
@@ -212,7 +212,7 @@ if(isset($_POST['cdnom']))
 							$lrp = ($lr == 'CR*') ? 'CR' : $lr;
 							$liste .= '<dl class="row mt-1">';
 							$liste .= '<dd class="col-sm-1 text-center"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x '.$lrp.'"></i><i class="fa fa-stack-1x font13 '.$lrp.'t">'.$lr.'</span></i></dd>';
-							$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';							
+							$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
 							$liste .= '</dl>';						
 							//$liste .= '<p><span class="'.$lrp.'">'.$lr.'</span> <b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link"></i></a></p>';
 						}
@@ -230,12 +230,12 @@ if(isset($_POST['cdnom']))
 							{
 								$liste .= '<dl class="row mt-1">';
 								$liste .= '<dd class="col-sm-1 text-center">'.$n['lr'].'</dd>';
-								$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
+								$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
 								$liste .= '</dl>';	
 							}
 							else					
 							{
-								$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
+								$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
 							}
 						}
 					}
@@ -252,12 +252,12 @@ if(isset($_POST['cdnom']))
 							{
 								$liste .= '<dl class="row mt-1">';
 								$liste .= '<dd class="col-sm-1 text-center">'.$n['lr'].'</dd>';
-								$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
+								$liste .= '<dd class="col-sm-11"><b>'.$n['intitule'].' - '.$n['annee'].'</b> '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></dd>';
 								$liste .= '</dl>';	
 							}
 							else					
 							{
-								$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
+								$liste .= '<li><b>'.$n['article'].' - '.$n['intitule'].'</b> - '.$n['arrete'].' <a target="_blank" href="'.$n['url'].'"><i class="fa fa-link text-primary"></i></a></li>';
 							}
 						}
 					}	
