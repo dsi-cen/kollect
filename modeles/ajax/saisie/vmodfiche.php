@@ -404,7 +404,7 @@ if(isset($_POST['idcoord']) && isset($_POST['codesite']) && isset($_POST['idfich
     //////////////////////////////////////////////////////////////////////////////////////////////
     else if ($info['idcoord'] == $idcoordr) {
         $idcoord = $idcoordr;
-        $idsite = $idsiter;
+        $idsite = $idsiter === "Nouv" ? 0 : $idsiter ;
     }
 
     /*
