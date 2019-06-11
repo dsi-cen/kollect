@@ -113,6 +113,7 @@ function carte(e) {
 
 function recupcoord(e, a, t) {
     "use strict";
+    $("#codesite").val() == "" ? $("#codesite").val("Nouv") && nonsite() : null ;
     // Si une nouvelle géométrie est créée alors qu'un codesite existe, on demande si c'est une mise à jour (qui affecte toutes les obs), ou si c'est une station 'fille'.
     ($("#codesite").val() != "" && $("#codesite").val() != 0 && $("#codesite").val() != "Nouv") ? ($("#spandia13").html($("#lieub").val()), $("#dia13").modal("show")) : null ;
 
