@@ -259,8 +259,8 @@ if ($cdnom) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $an
 if ($codecom) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.codecom IN (" . $codecom . ")"; $where = 'oui';}
 if ($idsite) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.idsite IN (" . $idsite . ")"; $where = 'oui';}
 if ($site) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.site ILIKE %" . $site . "%" ; $where = 'oui';}
-if(!empty($typedate) && $typedate == 'obs') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "date_debut_obs >= " . $date1 . " AND date_fin_obs <= " . $date2 ; $where = 'oui';}
-if(!empty($typedate) && $typedate == 'saisie') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "date_derniere_modif >= " . $date1 . " AND date_derniere_modif <= " . $date2 ; $where = 'oui';}
+if(!empty($typedate) && $typedate == 'obs') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "date_debut_obs >= '" . $date1 . "' AND date_fin_obs <= '" . $date2 . "'"; $where = 'oui';}
+if(!empty($typedate) && $typedate == 'saisie') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "date_derniere_modif >= '" . $date1 . "' AND date_derniere_modif <= '" . $date2 . "'"; $where = 'oui';}
 if ($decade) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "decade = " . $decade ; $where = 'oui';}
 if($habitat != 'NR') { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "eunis.lbcode LIKE " . $habitat . "%"; $where = 'oui';}
 if(!empty($vali)) { ($where == 'non') ? $and=" WHERE " : $and=" AND " ; $reqvue .= $and . "i.code_validation = " . $vali ; $where = 'oui';}
