@@ -137,4 +137,13 @@ $req = file_get_contents('triggers_historique.sql');
 $bdd->exec($req);
 unset($req);
 
+// Create mv to optimize export speed
+
+$bdd = PDO2::getInstanceinstall();
+$req = null;
+$req = file_get_contents('');
+$bdd->exec($req);
+unset($req);
+
+
 echo json_encode($retour);

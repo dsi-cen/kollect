@@ -641,3 +641,43 @@ CREATE TRIGGER declenche_maj_fiche_infos_etude
 AFTER UPDATE ON referentiel.etude
 FOR EACH ROW 
 EXECUTE PROCEDURE  referentiel.maj_fiche_infos_etude();
+
+CREATE TABLE obs_historique.histo_aves
+(
+    type_operation text COLLATE pg_catalog."default",
+    date_operation timestamp without time zone NOT NULL,
+    utilisateur text COLLATE pg_catalog."default" NOT NULL,
+    idaves integer NOT NULL,
+    idobs integer,
+    code smallint,
+    stade smallint,
+    CONSTRAINT histo_aves_pkey PRIMARY KEY (date_operation, utilisateur,idaves)
+);
+
+CREATE FUNCTION obs_historique.alimente_histo_aves() RETURNS trigger AS
+	$BODY$
+        declare user_login integer;
+		BEGIN
+            user_login = outils.get_user();
+
+			IF (TG_OP = 'DELETE') THEN INSERT INTO obs_historique.histo_aves SELECT 'DELETE', now(), user_login, OLD.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(),table_update = 'obs.aves' WHERE idobs = OLD.idobs;
+                                    RETURN OLD;
+			ELSIF (TG_OP = 'UPDATE') THEN INSERT INTO obs_historique.histo_aves SELECT 'UPDATE', now(), user_login, NEW.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(),table_update = 'obs.aves' WHERE idobs = NEW.idobs;
+                                    RETURN NEW;
+			ELSIF (TG_OP = 'INSERT') THEN INSERT INTO obs_historique.histo_aves SELECT 'INSERT', now(), user_login, NEW.*;
+                                    UPDATE obs_historique.histo_obs_synthese SET date_update = now(), datetime_update = now(),table_update = 'obs.aves'
+                                    WHERE idobs = NEW.idobs AND date_trunc('second',datetime_insert) != date_trunc('second',now());
+                                    RETURN NEW;
+			END IF;
+			RETURN NULL;
+		END;
+	$BODY$
+	LANGUAGE plpgsql VOLATILE COST 100;
+
+CREATE TRIGGER declenche_alimente_histo_aves
+    AFTER INSERT OR DELETE OR UPDATE
+    ON obs.aves
+    FOR EACH ROW
+EXECUTE PROCEDURE obs_historique.alimente_histo_aves();

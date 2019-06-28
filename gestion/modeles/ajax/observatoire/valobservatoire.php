@@ -57,16 +57,16 @@ function insere_listebota()
 }
 function tableaves()
 {
-	$bdd = PDO2::getInstance();		
+	$bdd = PDO2::getInstance();
 	$req = $bdd->query("SELECT table_name FROM information_schema.tables WHERE table_schema='obs' AND table_name='aves'");
 	$table = $req->rowCount();
 	$req->closeCursor();
-	return $table;		
+	return $table;
 }
 function creeraves()
 {
-	$bdd = PDO2::getInstance();		
-	$bdd->query("SET NAMES 'UTF8'");	
+	$bdd = PDO2::getInstance();
+	$bdd->query("SET NAMES 'UTF8'");
 	$req = $bdd->query("CREATE TABLE obs.aves (
 					  idaves serial NOT NULL,
 					  idobs integer,
@@ -148,16 +148,7 @@ if (isset($_POST['stadeid']) and isset($_POST['sel']))
 			$listebota = 'aucune';	
 		}
 	}
-	if($aves == 'oui')
-	{
-		$tableaves = tableaves();
-		if($tableaves == 0)
-		{
-			creeraves();
-			histo_aves();			
-		}	
-	}	
-	
+
 	$tabstade = array_combine($stadeval, $stadeid);
 	$tabmethode = array_combine($methval, $methid);
 	$tabcollecte = array_combine($colval, $colid);

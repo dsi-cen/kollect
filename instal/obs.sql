@@ -176,3 +176,13 @@ CREATE TABLE obs.site
   rqsite text,
   CONSTRAINT site_pkey PRIMARY KEY (idsite)
 );
+
+CREATE TABLE obs.aves
+(
+  idaves serial NOT NULL,
+	idobs integer,
+	code smallint,
+	stade smallint,
+	CONSTRAINT aves_pkey PRIMARY KEY (idaves),
+  CONSTRAINT aves_idobs_fk FOREIGN KEY (idobs) REFERENCES obs.obs (idobs)
+);
