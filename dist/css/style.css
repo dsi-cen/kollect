@@ -7894,6 +7894,18 @@ a.text-dark:focus, a.text-dark:hover {
     content: ''
 }
 
+.fa-arrow-down:before {
+    content:'\f063'
+}
+
+.fa-compress:before {
+    content: "\f066"
+}
+
+.fa-expand:before {
+    content:"\f065"
+}
+
 .fa-minus:before {
     content: ''
 }

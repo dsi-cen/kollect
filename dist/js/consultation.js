@@ -73,7 +73,7 @@ function observation(e) {
                     language: {
                         url: "dist/js/datatables/france.json"
                     },
-                    orderCellsTop: true,
+                    orderCellsTop: false,
                     fixedHeader: true,
                     pageLength: 25
                 });
@@ -88,7 +88,7 @@ function observation(e) {
 function calcexport(e) {
     "use strict";
     $("#mes").html(""), $.ajax({
-        url: "modeles/ajax/consultation/calcexport.php",
+        url: "modeles/ajax/consultation/calcexport_mv.php",
         type: "POST",
         dataType: "json",
         data: e.serialize(),
@@ -97,11 +97,10 @@ function calcexport(e) {
                 var t = e.nbobs;
                 if (t > 0) {
                     if (t > 1e4) {
-                        var a = Math.ceil(t / 1e4);
-                        $("#rdia1").html("Votre demande comporte " + t + " lignes. La limite pour un fichier est de 10 000 lignes. " + a + " fichiers vont être exportés"), $("#bttdia1").prop("disabled", !0)
+                        $("#rdia1").html("Votre demande comporte " + t + " lignes. Le fichier sera donc volumineux."), $("#bttdia1").prop("disabled", !0)
                     } else $("#rdia1").html("Votre demande comporte " + t + " lignes."), $("#bttdia1").prop("disabled", !1);
                     $("#dia1").modal("show")
-                } else $("#mes").html('<div class="alert alert-danger">Aucune observation pour ces critères</div>')
+                } else $("#mes").html('<div class="alert alert-danger">Aucune observation pour ces critères &#128577;</div>')
             } else alert("Erreur ! ")
         }
     })
@@ -245,6 +244,7 @@ var dep = "non", map, marker, nbmap = "oui", drawnItems;
 $(document).ready(function () {
     "use strict";
     $("#avance").hide();
+    $("#dlsrc1").hide(), $("#dlsrc2").hide();
     $("#dl").hide();
     $("#dlxls").hide();
     $('#bttdia1perso').hide();
@@ -439,6 +439,7 @@ $("#form").on("submit", function (e) {
     $("#bttdia1").show();
     $('#bttdia1perso').hide();
     $("#Butavance").show();
+    $("#dlsrc1").hide(), $("#dlsrc2").hide();
     $("#dlxls").hide();
     $("#nomfichier").val("");
 
@@ -457,7 +458,11 @@ $("#all").change(function() {
         console.log('ok');
         var e = $("#form").serializeArray();
         var f = JSON.stringify($("#fields").val());
+        var g = $("#custom_fields").val();
+        var h = $("#user_fields").val();
         e.push({ name: "fields", value: f});
+        e.push({ name: "custom_fields", value: g});
+        e.push({ name: "user_fields", value: h});
         exportavance(e);
 });
 
@@ -465,14 +470,16 @@ function exportavance(e) {
     "use strict";
     // e.preventDefault();
     $.ajax({
-        url: "modeles/ajax/consultation/exportperso.php",
+        url: "modeles/ajax/consultation/exportperso_mv.php",
         type: "POST",
         dataType: "json",
         data: e,
         success: function (e) {
             $("#dl").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=tsv&n=' + $("#nomfichier").val() + '"');
             $("#dlxls").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=xls&n=' + $("#nomfichier").val() + '"');
-            $("#dl").show(), $("#dlxls").show();
+            $("#dlsrc1").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=txt&n=' + $("#nomfichier").val() + '"');
+            $("#dl").show(), $("#dlxls").show(), $("#dlsrc1").show();
+            console.log("ok-exp");
         }
     })
 };
@@ -557,4 +564,35 @@ function exportavance(e) {
             return e.el.attr("title")
         }
     }
+});
+
+// Collapse rows by categories
+$("#form").on("click", ".releve", function () {
+    "use strict";
+    $("#collapsereleve").hasClass("show") ? $("#arrowreleve").removeClass("fa-expand").addClass("fa-compress") : $("#arrowreleve").removeClass("fa-compress").addClass("fa-expand")
+}), $("#form").on("click", ".espece", function () {
+    "use strict";
+    $("#collapseespece").hasClass("show") ? $("#arrowespece").removeClass("fa-expand").addClass("fa-compress") : $("#arrowespece").removeClass("fa-compress").addClass("fa-expand")
+}), $("#form").on("click", ".localisation", function () {
+    "use strict";
+    $("#collapselocalisation").hasClass("show") ? $("#arrowlocalisation").removeClass("fa-expand").addClass("fa-compress") : $("#arrowlocalisation").removeClass("fa-compress").addClass("fa-expand")
+}), $("#form").on("click", ".date", function () {
+    "use strict";
+    $("#collapsedate").hasClass("show") ? $("#arrowdate").removeClass("fa-expand").addClass("fa-compress") : $("#arrowdate").removeClass("fa-compress").addClass("fa-expand")
+}), $("#form").on("click", ".hab", function () {
+    "use strict";
+    $("#collapsehab").hasClass("show") ? $("#arrowhab").removeClass("fa-expand").addClass("fa-compress") : $("#arrowhab").removeClass("fa-compress").addClass("fa-expand")
+});
+
+// Refresh MV
+$("#update").on("click", function () {
+    $("#update").hide();
+    $( "#mv" ).append( '<span class="ml-2 text-danger"><span class="fa fa-spin fa-spinner fa-2x"></span> Rafraichissement de la table</span>' );
+    $.ajax({
+        url: "modeles/ajax/consultation/refresh_mv.php",
+        type: "POST",
+        success: function (e) {
+            "mv_ok" == e ? $( "#mv" ).html(e) : $( "#mv" ).html(e)
+        }
+    });
 });

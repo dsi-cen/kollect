@@ -62,3 +62,39 @@ function statut()
 	$req->closeCursor();
 	return $resultats;
 }
+
+function get_col_names()
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $result = $bdd->query('SELECT * FROM obs.synthese_obs_nflou LIMIT 1;');
+    $fields = array_keys($result->fetch(PDO::FETCH_ASSOC));
+    $result->closeCursor();
+
+    $select = "<select id='fields' multiple='multiple'>";
+    foreach($fields as $field){
+        $select .= '<option value="' . $field . '">' . $field . '</option>';
+    }
+    $select .= '</select>';
+    return $select;
+}
+
+function get_custom_fields($idm)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare('SELECT "label", fields FROM site.custom_queries WHERE idm = :idm;');
+    $req->bindValue(':idm', $idm);
+    $req->execute();
+    $queries = $req->fetchAll(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    $select = "<select id='user_fields'>";
+    $select .= '<option value="">--</option>';
+    foreach($queries as $query){
+        $select .= '<option value="' . $query['fields'] . '">' . $query['label'] . '</option>';
+    }
+    $select .= '</select>';
+    return $select;
+}
+
+

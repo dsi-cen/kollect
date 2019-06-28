@@ -103,6 +103,8 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 	$org = organisme();
 	$habitat = habitat();	
 	$statut = statut();
+	$fields = get_col_names();
+    $custom_fields = get_custom_fields($idm);
 	
 	foreach($statut as $n)
 	{
