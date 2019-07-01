@@ -141,7 +141,7 @@ unset($req);
 
 $bdd = PDO2::getInstanceinstall();
 $req = null;
-$req = file_get_contents('');
+$req = file_get_contents('synthese_obs_nflou.sql');
 $bdd->exec($req);
 unset($req);
 
