@@ -22,5 +22,8 @@ if (isset($_GET['f'])){
         case "txt":
             readfile('../../../exports/' . $_GET['f'] . ".txt" );
             break;
+        case "geojson":
+            readfile('../../../exports/' . $_GET['f'] . ".geojson" );
+            break;
     }
 }

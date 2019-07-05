@@ -630,12 +630,13 @@
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-success" data-dismiss="modal" id="bttdia1">Export standard</button> Export standard à supp car plus d'utilité -->
-                <button type="button" class="btn btn-success" id="bttdia1perso">Lancer l'export avancé</button>
-                <button type="button" class="btn btn-danger" id="dl">Télécharger en .tsv</button>
-                <button type="button" class="btn btn-danger" id="dlxls">Télécharger en .xls</button>
-                <button type="button" class="btn btn-info" id="dlsrc1">Télécharger la liste des contributeurs à citer
+                <button type="button" class="btn btn-success" id="bttdia1perso">Lancer l'export</button>
+                <button type="button" class="btn btn-danger" id="dl">Fichier .tsv</button>
+                <button type="button" class="btn btn-danger" id="dlxls">Fichier .xls</button>
+                <button type="button" class="btn btn-danger" id="dlgeo">Fichier .geojson</button>
+                <button type="button" class="btn btn-info" id="dlsrc1">Liste des observateurs à citer
                 </button>
-                <button type="button" class="btn btn-info" id="Butavance">Export avancé</button>
+                <button type="button" class="btn btn-info" id="Butavance">Exporter</button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal" id="cancel">Annuler</button>
             </div>
         </div>

@@ -85,7 +85,7 @@ create materialized view obs.synthese_obs_nflou as
 				fs.hdebut,
 				fs.hfin,
 				fs.tempdebut,
-				fs.tempfin,			
+				fs.tempfin,
                 fiche.idobser           AS idmainobser,
                 observateur.observateur AS mainobser,
                 CASE
@@ -106,6 +106,7 @@ create materialized view obs.synthese_obs_nflou as
                   WHEN (cg.geo IS NULL) THEN 'Point'::text
                   ELSE NULL::text
                   END                   AS type_geometrie,
+				CASE WHEN cg.geo IS NULL THEN '{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[' || c_1.lng || ', ' || c_1.lat || ']}}' ELSE cg.geo END AS geom_geojson,
                 c_1.x,
                 c_1.y,
                 c_1.lng,
@@ -189,6 +190,7 @@ create materialized view obs.synthese_obs_nflou as
                 tx.classe,
                 tx.ordre,
                 tx.famille,
+				membre.nom || ' ' || membre.prenom AS numerisateur,
                 infos_fiche.idmainobser,
                 infos_fiche.idobservateur,
                 infos_fiche.observateur,
@@ -218,6 +220,7 @@ create materialized view obs.synthese_obs_nflou as
 				infos_fiche.tempfin,
                 infos_fiche.idcoord,
                 infos_fiche.type_geometrie,
+				infos_fiche.geom_geojson,
                 infos_fiche.localisation,
                 infos_fiche.type_localisation,
                 infos_fiche.x,
@@ -234,6 +237,7 @@ create materialized view obs.synthese_obs_nflou as
            JOIN referentiel.liste ON ((liste.cdnom = obs.cdref)))
            LEFT JOIN referentiel.taxref tx ON ((tx.cdnom = obs.cdref)))
            JOIN referentiel.observateur ON ((obs.iddet = observateur.idobser)))
+		   LEFT JOIN site.membre ON obs.idmor = membre.idmembre
            LEFT JOIN infos_validateur iv ON (((iv.idobs = obs.idobs) AND (iv.vali = obs.validation))))
            LEFT JOIN referentiel.protocole p_1 ON ((p_1.idprotocole = obs.idprotocole)))
            LEFT JOIN obs_historique.histo_obs_synthese hos ON ((hos.idobs = obs.idobs)))
@@ -271,8 +275,9 @@ create materialized view obs.synthese_obs_nflou as
          i.idmainobser,
          i.observateur,
          i.idobservateur,
-         i.determinateur,
-         i.type_determination,
+		 i.determinateur,
+         i.numerisateur,
+		 i.type_determination,
          i.en_collection,
          i.idorg,
          i.organisme,
@@ -280,18 +285,14 @@ create materialized view obs.synthese_obs_nflou as
          i.etude,
          i.typedon,
          i.type_donnee,
-        
          i.iddep,
          i.floutage,
          i.floutage_kollect,
          i.type_geometrie,
-        
-
+		 i.geom_geojson,
          i.localisation,
          i.type_localisation,
-
          i.precision_coord,
-        
          i.type_acquisition,
          i.statutobs,
          i.statut_observation,
@@ -336,17 +337,17 @@ create materialized view obs.synthese_obs_nflou as
          i.date_validation,
          i.type_validation,
          i.validateur,
-         i.codecom::varchar,
+		 i.codecom::varchar,
          i.commune::varchar,
-         i.idsite::varchar                                                 AS id_station,
+		 i.idsite::varchar                                                   AS id_station,
          i.site::varchar                                                     AS nom_station,
-          i.lng::varchar,
+		 i.lng::varchar,
          i.lat::varchar,
          i.x::varchar,
          i.y::varchar,
-         i.codel93::varchar,
+		 i.codel93::varchar,
          i.codel935::varchar,
-         i.idcoord::varchar 
+		 i.idcoord::varchar
   FROM ((((((((((((((((infos_obs i
     LEFT JOIN obs.ligneobs l ON ((l.idobs = i.idobs)))
     LEFT JOIN referentiel.stade s ON ((s.idstade = l.stade)))

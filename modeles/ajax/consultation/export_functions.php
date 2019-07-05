@@ -288,3 +288,23 @@ function get_col_names_array()
     $result->closeCursor();
     return $fields;
 }
+
+function get_observatoire_validateur($idm)
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->prepare('SELECT gestionobs FROM site.membre WHERE idmembre = :idm ;');
+    $req->bindValue(':idm', $idm);
+    $req->execute();
+    $gestion_observatoires = $req->fetchColumn(PDO::FETCH_ASSOC);
+
+    $req = $bdd->prepare('SELECT discipline FROM site.validateur WHERE idmembre = :idm ;');
+    $req->bindValue(':idm', $idm);
+    $req->execute();
+    $validateur_observatoires = $req->fetch(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+
+    $observatoires = $gestion_observatoires['gestionobs'] . $validateur_observatoires['discipline'];
+    $observatoires = array_unique(explode(",", str_replace(" ", "", $observatoires)));
+    return $observatoires ;
+}

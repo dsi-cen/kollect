@@ -247,6 +247,7 @@ $(document).ready(function () {
     $("#dlsrc1").hide(), $("#dlsrc2").hide();
     $("#dl").hide();
     $("#dlxls").hide();
+    $("#dlgeo").hide();
     $('#bttdia1perso').hide();
     $("#listeobs").hide(), $("#rchoix").hide(), $("#afpage").hide(), $("#infoaide").hide(), $("#dlink").hide(), $("#collr").hide(), $("#BttS").hide();
     $("#perso").prop("checked", !0);
@@ -441,7 +442,10 @@ $("#form").on("submit", function (e) {
     $("#Butavance").show();
     $("#dlsrc1").hide(), $("#dlsrc2").hide();
     $("#dlxls").hide();
+    $("#dlgeo").hide();
     $("#nomfichier").val("");
+    $("#custom_fields").val("");
+
 
 });
 
@@ -478,7 +482,8 @@ function exportavance(e) {
             $("#dl").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=tsv&n=' + $("#nomfichier").val() + '"');
             $("#dlxls").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=xls&n=' + $("#nomfichier").val() + '"');
             $("#dlsrc1").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=txt&n=' + $("#nomfichier").val() + '"');
-            $("#dl").show(), $("#dlxls").show(), $("#dlsrc1").show();
+            $("#dlgeo").attr('onClick', 'window.location.href="modeles/ajax/consultation/getfile.php?f=' + e + '&t=geojson&n=' + $("#nomfichier").val() + '"');
+            $("#dl").show(), $("#dlxls").show(), $("#dlgeo").show(), $("#dlsrc1").show();
             console.log("ok-exp");
         }
     })
