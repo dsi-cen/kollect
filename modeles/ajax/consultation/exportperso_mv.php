@@ -16,22 +16,22 @@ $observateurmembre = rechercheobservateurid($idmembre);
 if ($_POST['user_fields'] != "") {
     $fields = $_POST['user_fields'];
 } else {
-    $fields = implode(",", fields());
+    $fields = implode(',', fields());
 }
 
 $all_fields = get_col_names_array();
 
-if ($_POST['status'] == 'oui'){
+if ($_POST['status'] == 'oui' || !empty($_POST['rstatut'])){
     $status_fields = implode(',', get_col_names_array_status());
     $fields = $fields . "," . $status_fields;
     $add_status = " LEFT JOIN statut.statut_synthese ON cdref = statut_synthese.cdnom_status ";
 } else {$add_status = "";}
 
 if ($droits > 3 || $observateurmembre == $idobservateur) {
-    $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+    $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
 } else if ($droits == 3 || $droits == 2) {
     if ($observateurmembre == $idobservateur) {
-        $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else {
         // echo json_encode(get_observatoire_validateur($idmembre));
         $observatoires = implode(",", get_observatoire_validateur($idmembre));
@@ -56,11 +56,11 @@ if ($droits > 3 || $observateurmembre == $idobservateur) {
         $mv2 = "SELECT " . $case . hide_loc();
         $mv2 .= $status_fields != "" ? ",cdnom_status," . $status_fields : null;
         $mv2 .= " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
-        $mv = "SELECT " . $fields . " FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
+        $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
     }
 } else if ($droits == 1) {
     if ($observateurmembre == $idobservateur) {
-        $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else {
         // mv1 = les obs dont on est observateur ou co-observateur
         $mv1 = "SELECT * FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
@@ -81,9 +81,10 @@ if ($droits > 3 || $observateurmembre == $idobservateur) {
         $mv2 = "SELECT " . $case . hide_loc();
         $mv2 .= $status_fields != "" ? ",cdnom_status," . $status_fields : null;
         $mv2 .= " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
-        $mv = "SELECT " . $fields . " FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
+        $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
     }
 }
+
 
 // Save custom fileds for another export ?
 if ($_POST['custom_fields'] != "") {
@@ -98,7 +99,6 @@ if ($_POST['custom_fields'] != "") {
     $req->execute();
     $req->closeCursor();
 }
-
 
 // Create a new file
 $bytes = random_bytes(45);
@@ -117,7 +117,8 @@ $geofile = fopen('../../../exports/' . $name . ".geojson", 'w');
 fwrite($geofile, '{ "type": "FeatureCollection", "features": [');
 
 // Headers
-$head = explode(',', $fields);
+$head = "idfiche,idobs,idligne,cdref," . $fields;
+$head = explode(',', $head);
 //
 fputcsv($fp, $head, chr(9));
 

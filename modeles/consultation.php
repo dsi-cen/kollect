@@ -63,13 +63,25 @@ function statut()
 	return $resultats;
 }
 
-function get_col_names()
+function deleteElement($element, &$array){
+    $index = array_search($element, $array);
+    if($index !== false){
+        unset($array[$index]);
+    }
+}
+
+function get_col_names() # Liste des champs sélectionnable à l'export
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");
     $result = $bdd->query('SELECT * FROM obs.synthese_obs_nflou LIMIT 1;');
     $fields = array_keys($result->fetch(PDO::FETCH_ASSOC));
     $result->closeCursor();
+
+    deleteElement('idfiche', $fields);
+    deleteElement('idobs', $fields);
+    deleteElement('idligne', $fields);
+    deleteElement('cdref', $fields);
 
     $select = "<select id='fields' multiple='multiple'>";
     foreach($fields as $field){

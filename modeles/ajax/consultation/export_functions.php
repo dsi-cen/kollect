@@ -12,12 +12,6 @@ function convertToISOCharset($array)
     return $array;
 }
 
-function fields()
-{
-    $fields = (isset($_POST['fields']) ? json_decode($_POST['fields'], true) : "idfiche"); // TODO : mettre au moins un champ par defaut
-    return $fields;
-}
-
 function query($where)
 {
     if (isset($_POST['choixtax']) && isset($_POST['choixloca'])) {
@@ -79,17 +73,18 @@ function query($where)
 
         $decade = ($_POST['decade'] != 'NR') ? $_POST['decade'] : null;
         $vali = ($_POST['vali'] != 'NR') ? $_POST['vali'] : null;
-        $indice = (!empty($_POST['rindice'])) ? $_POST['rindice'] : null;
+        // $indice = (!empty($_POST['rindice'])) ? $_POST['rindice'] : null;
 
         if (!empty($_POST['rstatut'])) {
-            if (empty($_POST['rlrr']) && empty($_POST['rlre']) && empty($_POST['rlrf'])) {
-                $statut = 'type IN(' . $_POST['rstatut'] . ')';
+            if (empty($_POST['rlrr']) && empty($_POST['rlre']) && empty($_POST['rlrf'])) { # Liste rouge Région, Europe, France
+                $protection = explode(',', $_POST['rstatut']);
+
             } else {
                 $tmp = explode(',', $_POST['rstatut']);
                 $statut = null;
                 $con = 'non';
                 foreach ($tmp as $n) {
-                    if ($n == "'LRR'" && !empty($_POST['rlrr'])) {
+                    if ($n == "'LRR'" && !empty($_POST['rlrr'])) { # Liste Rouge Régionale avec précision
                         $statut = ($con == 'non') ? 'type = ' . $n . ' AND lr IN(' . $_POST['rlrr'] . ')' : $statut . ' OR (type = ' . $n . ' AND lr IN(' . $_POST['rlrr'] . '))';
                         $con = 'oui';
                     }
@@ -106,6 +101,7 @@ function query($where)
         } else {
             $statut = null;
         }
+
     }
 
     // Memory optimization : select only required fields
@@ -208,17 +204,46 @@ function query($where)
         $mv .= $and . "son LIKE 'oui'";
         $where = 'oui';
     }
+    if ($protection) { // TODO niveau inferieur
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        if(in_array("'PN'", $protection)){
+            $mv .= $and . "pn IS NOT NULL ";
+            $where = 'oui';
+        }
+        if(in_array("'PR'", $protection)){
+            $mv .= $and . "pr IS NOT NULL ";
+            $where = 'oui';
+        }
+        if(in_array("'PD'", $protection)){
+            $mv .= $and . "pd IS NOT NULL ";
+            $where = 'oui';
+        }
+        if(in_array("'Z'", $protection)){
+            $mv .= $and . "znieff IS NOT NULL ";
+            $where = 'oui';
+        }
+        if(in_array("'DH'", $protection)){
+            $mv .= $and . "dh IS NOT NULL ";
+            $where = 'oui';
+        }
+        if(in_array("'LRR'", $protection)){
+            $mv .= $and . "lrr IS NOT NULL ";
+            $where = 'oui';
+        }
+        if(in_array("'LRE'", $protection)){
+            $mv .= $and . "lre IS NOT NULL ";
+            $where = 'oui';
+        }
+        if(in_array("'LRF'", $protection)){
+            $mv .= $and . "lrf IS NOT NULL ";
+            $where = 'oui';
+        }
+    }
     if ($pr != 'NR') {
         ($where == 'non') ? $and = " WHERE " : $and = " AND ";
         $mv .= $and . "localisation = " . $pr;
         $where = 'oui';
     }
-
-
-
-
-
-
     return $mv;
 }
 
@@ -286,6 +311,17 @@ function deleteElement($element, &$array){
     }
 }
 
+function fields()
+{
+    if( $_POST['fields'] != "[]") {
+        $fields = json_decode($_POST['fields'], true);
+    } else {
+        $fields = array("nomlatin"); // TODO : mettre au moins un champ par defaut
+    }
+    return $fields;
+}
+
+
 function get_col_names_array()
 {
     $bdd = PDO2::getInstance();
@@ -296,7 +332,7 @@ function get_col_names_array()
     return $fields;
 }
 
-function get_col_names_array_status() // TODO
+function get_col_names_array_status()
 {
     $bdd = PDO2::getInstance();
     $bdd->query("SET NAMES 'UTF8'");

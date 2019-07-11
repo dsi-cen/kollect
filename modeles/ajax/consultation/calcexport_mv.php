@@ -10,7 +10,7 @@ $idmembre = $_SESSION['idmembre'];
 $droits = $_SESSION['droits'];
 
 // Same than nflou
-$req = $bdd->query("SELECT count(*) FROM obs.synthese_obs_nflou " . query($where='non') );
+$req = $bdd->query("SELECT count(*) FROM obs.synthese_obs_nflou LEFT JOIN statut.statut_synthese ON cdref = statut_synthese.cdnom_status " . query($where='non') );
 
 $rows = $req->fetchColumn();
 $req->closeCursor();
