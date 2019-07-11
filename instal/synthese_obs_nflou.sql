@@ -249,6 +249,7 @@ create materialized view obs.synthese_obs_nflou as
   SELECT i.idfiche,
          i.idobs,
          l.idligne,
+         now() AS actualisation,
          i.code_validation,
          i.statut_validation,
          i.date_debut_obs,
@@ -289,7 +290,6 @@ create materialized view obs.synthese_obs_nflou as
          i.floutage,
          i.floutage_kollect,
          i.type_geometrie,
-		 i.geom_geojson,
          i.localisation,
          i.type_localisation,
          i.precision_coord,
@@ -347,7 +347,8 @@ create materialized view obs.synthese_obs_nflou as
          i.y::varchar,
 		 i.codel93::varchar,
          i.codel935::varchar,
-		 i.idcoord::varchar
+		 i.idcoord::varchar,
+		 i.geom_geojson::varchar
   FROM ((((((((((((((((infos_obs i
     LEFT JOIN obs.ligneobs l ON ((l.idobs = i.idobs)))
     LEFT JOIN referentiel.stade s ON ((s.idstade = l.stade)))

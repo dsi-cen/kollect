@@ -419,6 +419,7 @@
                                             observations
                                         </button>
                                         <!--<button type="button" class="ml-3 btn btn-sm btn-success" id="BttS">Liste des espèces</button>-->
+                                        <span id="actualisation" class="ml-2">Dernière actualisation : <?php echo 'Le ' . $actualisation['jour'] . ' à ' . $actualisation['heure'] ; ?> </span>
                                         <div id="mv">
                                             <button type="button" class="btn btn-sm btn-success ml-2" id="update">Actualiser la table maintenant</button>
                                         </div>
@@ -600,6 +601,9 @@
                                 </div>
                                 <label class="" for="user_fields">Sélectionnez les champs manuellement ou sélectionnez
                                     un de vos modèles </label> <?php echo $custom_fields; ?>
+                                <br/>
+                                <input type="checkbox" id="get_status" name="get_status">
+                                <label for="get_status">Joindre les statuts des espèces</label>
                                 <br/>
                                 <input type="checkbox" id="all" name="Tout cocher">
                                 <label for="all">Tout cocher, tout décocher</label>

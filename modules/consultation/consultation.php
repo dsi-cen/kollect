@@ -105,6 +105,7 @@ if(isset($_SESSION['prenom']) && isset($_SESSION['nom']))
 	$statut = statut();
 	$fields = get_col_names();
     $custom_fields = get_custom_fields($idm);
+    $actualisation = get_update_date();
 	
 	foreach($statut as $n)
 	{

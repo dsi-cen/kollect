@@ -21,17 +21,24 @@ if ($_POST['user_fields'] != "") {
 
 $all_fields = get_col_names_array();
 
+if ($_POST['status'] == 'oui'){
+    $status_fields = implode(',', get_col_names_array_status());
+    $fields = $fields . "," . $status_fields;
+    $add_status = " LEFT JOIN statut.statut_synthese ON cdref = statut_synthese.cdnom_status ";
+} else {$add_status = "";}
+
 if ($droits > 3 || $observateurmembre == $idobservateur) {
-    $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+    $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
 } else if ($droits == 3 || $droits == 2) {
     if ($observateurmembre == $idobservateur) {
-        $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else {
+        // echo json_encode(get_observatoire_validateur($idmembre));
         $observatoires = implode(",", get_observatoire_validateur($idmembre));
         $observatoires = "('" . str_replace(",", "','", rtrim(trim($observatoires), ",")) . "')";
 
         // mv1 = les obs dont on est observateur ou co-observateur
-        $mv1 = "SELECT * FROM obs.synthese_obs_nflou WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%') OR observatoire IN " . $observatoires . ") " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
+        $mv1 = "SELECT * FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%') OR observatoire IN " . $observatoires . ") " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
         // mv2 = les obs des autres personnes à flouter si sensible
         deleteElement('codecom', $all_fields);
         deleteElement('commune', $all_fields);
@@ -44,16 +51,19 @@ if ($droits > 3 || $observateurmembre == $idobservateur) {
         deleteElement('codel93', $all_fields);
         deleteElement('codel935', $all_fields);
         deleteElement('idcoord', $all_fields);
+        deleteElement('geom_geojson', $all_fields);
         $case = implode(",", $all_fields);
-        $mv2 = "SELECT " . $case . hide_loc() . " FROM obs.synthese_obs_nflou WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
+        $mv2 = "SELECT " . $case . hide_loc();
+        $mv2 .= $status_fields != "" ? ",cdnom_status," . $status_fields : null;
+        $mv2 .= " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
         $mv = "SELECT " . $fields . " FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
     }
 } else if ($droits == 1) {
     if ($observateurmembre == $idobservateur) {
-        $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT idfiche,idobs,idligne," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else {
         // mv1 = les obs dont on est observateur ou co-observateur
-        $mv1 = "SELECT * FROM obs.synthese_obs_nflou WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
+        $mv1 = "SELECT * FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
         // mv2 = les obs des autres personnes à flouter si sensible
         deleteElement('codecom', $all_fields);
         deleteElement('commune', $all_fields);
@@ -66,8 +76,11 @@ if ($droits > 3 || $observateurmembre == $idobservateur) {
         deleteElement('codel93', $all_fields);
         deleteElement('codel935', $all_fields);
         deleteElement('idcoord', $all_fields);
+        deleteElement('geom_geojson', $all_fields);
         $case = implode(",", $all_fields);
-        $mv2 = "SELECT " . $case . hide_loc() . " FROM obs.synthese_obs_nflou WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
+        $mv2 = "SELECT " . $case . hide_loc();
+        $mv2 .= $status_fields != "" ? ",cdnom_status," . $status_fields : null;
+        $mv2 .= " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
         $mv = "SELECT " . $fields . " FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
     }
 }
@@ -135,10 +148,16 @@ if ($e) {
 $result = $bdd->query($mv, PDO::FETCH_ASSOC);
 $iterator = new CachingIterator(new IteratorIterator($result), 0);
 
+$ff = explode(',',$fields);
+
 foreach ($iterator as $res) {
 
-    $geom = str_replace('{"type":"Feature","properties":{},"geometry":', '', $res['geom_geojson']);
-    $geom = preg_replace('#}$#', '', $geom);
+
+    if ($res['geom_geojson'] != "") {
+        $geom = str_replace('{"type":"Feature","properties":{},"geometry":', '', $res['geom_geojson']);
+        $geom = preg_replace('#}$#', '', $geom);
+    }
+
     $marker = array(
         'type' => 'Feature',
         'properties' => array(),
@@ -151,9 +170,10 @@ foreach ($iterator as $res) {
     // }
 
     $data = "{";
-    foreach ($all_fields as $f) {
+
+    foreach ($ff as $f) {
         $value = $res[$f] == "" ? "null" : $res[$f];
-        if (!next($all_fields)) {
+        if (!next($ff)) {
             // This is the last $element
             $data .= '"' . $f . '":"' . $value . '"}';
         } else {

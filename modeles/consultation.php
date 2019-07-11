@@ -97,4 +97,14 @@ function get_custom_fields($idm)
     return $select;
 }
 
-
+function get_update_date()
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $req = $bdd->query("SELECT actualisation FROM obs.synthese_obs_nflou LIMIT 1; ");
+    $resultats = $req->fetch(PDO::FETCH_ASSOC);
+    $req->closeCursor();
+    $date['jour'] = date('d/m/Y', strtotime($resultats['actualisation']));
+    $date['heure'] = date('H:i', strtotime($resultats['actualisation']));
+    return $date;
+}

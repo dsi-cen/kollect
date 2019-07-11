@@ -213,6 +213,12 @@ function query($where)
         $mv .= $and . "localisation = " . $pr;
         $where = 'oui';
     }
+
+
+
+
+
+
     return $mv;
 }
 
@@ -227,7 +233,8 @@ $case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'P
 $case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE y END AS y,";
 $case .= "CASE WHEN taxon_sensible = 'oui' AND floutage_sensible != 'Maille 10kmx10km' THEN NULL WHEN taxon_sensible = 'non' AND floutage_kollect = 'Maille 10kmx10km' THEN codel93 ELSE codel93 END AS codel93,";
 $case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN taxon_sensible = 'non' AND floutage_kollect != 'Pas de dégradation' THEN NULL ELSE codel935 END AS codel935,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE idcoord END AS idcoord ";
+$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE idcoord END AS idcoord, ";
+$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE geom_geojson END AS geom_geojson ";
     return $case;
 }
 
@@ -289,6 +296,17 @@ function get_col_names_array()
     return $fields;
 }
 
+function get_col_names_array_status() // TODO
+{
+    $bdd = PDO2::getInstance();
+    $bdd->query("SET NAMES 'UTF8'");
+    $result = $bdd->query('SELECT * FROM statut.statut_synthese LIMIT 1;');
+    $fields = array_keys($result->fetch(PDO::FETCH_ASSOC));
+    $result->closeCursor();
+    deleteElement('cdnom_status', $fields);
+    return $fields;
+}
+
 function get_observatoire_validateur($idm)
 {
     $bdd = PDO2::getInstance();
@@ -296,7 +314,7 @@ function get_observatoire_validateur($idm)
     $req = $bdd->prepare('SELECT gestionobs FROM site.membre WHERE idmembre = :idm ;');
     $req->bindValue(':idm', $idm);
     $req->execute();
-    $gestion_observatoires = $req->fetchColumn(PDO::FETCH_ASSOC);
+    $gestion_observatoires = $req->fetch(PDO::FETCH_ASSOC);
 
     $req = $bdd->prepare('SELECT discipline FROM site.validateur WHERE idmembre = :idm ;');
     $req->bindValue(':idm', $idm);

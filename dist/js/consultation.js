@@ -40,7 +40,7 @@ function carte1(e) {
 function observation(e) {
     "use strict";
     $("#choixconsult").hide(), $("#rchoix").show(), $("#listeobs").html('<div class="mt-2"><p class="text-warning text-center"><span class="fa fa-spin fa-spinner fa-2x"></span> Chargement des données...</p></div>'), $("#listeobs").show(), $.ajax({
-        url: "modeles/ajax/consultation/observation.php",
+        url: "modeles/ajax/consultation/observation_mv.php",
         type: "POST",
         dataType: "json",
         data: e.serialize(),
@@ -467,6 +467,8 @@ $("#all").change(function() {
         e.push({ name: "fields", value: f});
         e.push({ name: "custom_fields", value: g});
         e.push({ name: "user_fields", value: h});
+        var i = $("#get_status").is(":checked") ? 'oui' : 'non';
+        e.push({ name: "status", value: i});
         exportavance(e);
 });
 
@@ -596,8 +598,10 @@ $("#update").on("click", function () {
     $.ajax({
         url: "modeles/ajax/consultation/refresh_mv.php",
         type: "POST",
+        dataType: "json",
         success: function (e) {
-            "mv_ok" == e ? $( "#mv" ).html(e) : $( "#mv" ).html(e)
+            console.log(e.status)
+            "mvok" === e.status ? $( "#mv" ).html('<button type="button" class="btn btn-sm btn-success ml-2">Actualisation réussie</button>') && $( "#actualisation" ).html( e.newdate ) : $( "#mv" ).html('<button type="button" class="btn btn-sm btn-danger ml-2">Problème à l\'actualisation des données.</button>')
         }
     });
 });
