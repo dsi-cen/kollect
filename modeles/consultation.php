@@ -82,6 +82,8 @@ function get_col_names() # Liste des champs sélectionnable à l'export
     deleteElement('idobs', $fields);
     deleteElement('idligne', $fields);
     deleteElement('cdref', $fields);
+    deleteElement('organisme', $fields);
+    deleteElement('observateur', $fields);
 
     $select = "<select id='fields' multiple='multiple'>";
     foreach($fields as $field){

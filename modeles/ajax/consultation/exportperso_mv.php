@@ -28,60 +28,25 @@ if ($_POST['status'] == 'oui' || !empty($_POST['rstatut'])){
 } else {$add_status = "";}
 
 if ($droits > 3 || $observateurmembre == $idobservateur) {
-    $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+    $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
 } else if ($droits == 3 || $droits == 2) {
     if ($observateurmembre == $idobservateur) {
-        $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else {
         // echo json_encode(get_observatoire_validateur($idmembre));
         $observatoires = implode(",", get_observatoire_validateur($idmembre));
         $observatoires = "('" . str_replace(",", "','", rtrim(trim($observatoires), ",")) . "')";
-
-        // mv1 = les obs dont on est observateur ou co-observateur
-        $mv1 = "SELECT * FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%') OR observatoire IN " . $observatoires . ") " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
-        // mv2 = les obs des autres personnes à flouter si sensible
-        deleteElement('codecom', $all_fields);
-        deleteElement('commune', $all_fields);
-        deleteElement('id_station', $all_fields);
-        deleteElement('nom_station', $all_fields);
-        deleteElement('lng', $all_fields);
-        deleteElement('lat', $all_fields);
-        deleteElement('x', $all_fields);
-        deleteElement('y', $all_fields);
-        deleteElement('codel93', $all_fields);
-        deleteElement('codel935', $all_fields);
-        deleteElement('idcoord', $all_fields);
-        deleteElement('geom_geojson', $all_fields);
-        $case = implode(",", $all_fields);
-        $mv2 = "SELECT " . $case . hide_loc();
-        $mv2 .= $status_fields != "" ? ",cdnom_status," . $status_fields : null;
-        $mv2 .= " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
-        $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
+        $mv1 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( observatoire IN " . $observatoires . " OR (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
+        $mv2 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_flou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . " " . query($where = 'oui');
+        $mv = "((" . $mv1 . ") UNION (" . $mv2 . "))";
     }
 } else if ($droits == 1) {
     if ($observateurmembre == $idobservateur) {
-        $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else {
-        // mv1 = les obs dont on est observateur ou co-observateur
-        $mv1 = "SELECT * FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
-        // mv2 = les obs des autres personnes à flouter si sensible
-        deleteElement('codecom', $all_fields);
-        deleteElement('commune', $all_fields);
-        deleteElement('id_station', $all_fields);
-        deleteElement('nom_station', $all_fields);
-        deleteElement('lng', $all_fields);
-        deleteElement('lat', $all_fields);
-        deleteElement('x', $all_fields);
-        deleteElement('y', $all_fields);
-        deleteElement('codel93', $all_fields);
-        deleteElement('codel935', $all_fields);
-        deleteElement('idcoord', $all_fields);
-        deleteElement('geom_geojson', $all_fields);
-        $case = implode(",", $all_fields);
-        $mv2 = "SELECT " . $case . hide_loc();
-        $mv2 .= $status_fields != "" ? ",cdnom_status," . $status_fields : null;
-        $mv2 .= " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
-        $mv = "SELECT idfiche,idobs,idligne,cdref," . $fields . " FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
+        $mv1 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
+        $mv2 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_flou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui');
+        $mv = "((" . $mv1 . ") UNION (" . $mv2 . "))";
     }
 }
 
@@ -117,7 +82,7 @@ $geofile = fopen('../../../exports/' . $name . ".geojson", 'w');
 fwrite($geofile, '{ "type": "FeatureCollection", "features": [');
 
 // Headers
-$head = "idfiche,idobs,idligne,cdref," . $fields;
+$head = "idfiche,idobs,idligne,cdref,observateur,organisme," . $fields;
 $head = explode(',', $head);
 //
 fputcsv($fp, $head, chr(9));
@@ -129,9 +94,8 @@ $bdd->query("SET NAMES 'UTF8'");
 // $query->fetchAll(PDO::FETCH_ASSOC) uses too much memory
 // Loop each line to limit memory usage
 
-$credits['organisme'] = [];
-$credits['observateur'] = [];
-
+$credits_organisme = [];
+$credits_observateur = [];
 
 /*
 $e = null;
@@ -153,63 +117,64 @@ $ff = explode(',',$fields);
 
 foreach ($iterator as $res) {
 
-
     if ($res['geom_geojson'] != "") {
         $geom = str_replace('{"type":"Feature","properties":{},"geometry":', '', $res['geom_geojson']);
         $geom = preg_replace('#}$#', '', $geom);
-    }
-
-    $marker = array(
-        'type' => 'Feature',
-        'properties' => array(),
-        'geometry' => array()
-    );
-    $marker['geometry'] = $geom;
-    $geom = null;
 
 
-    // }
+        $marker = array(
+            'type' => 'Feature',
+            'properties' => array(),
+            'geometry' => array()
+        );
+        $marker['geometry'] = $geom; // TODO gérer if null
+        $geom = null;
 
-    $data = "{";
+        $data = "{";
 
-    foreach ($ff as $f) {
-        $value = $res[$f] == "" ? "null" : $res[$f];
-        if (!next($ff)) {
-            // This is the last $element
-            $data .= '"' . $f . '":"' . $value . '"}';
-        } else {
-            $data .= '"' . $f . '":"' . $value . '",';
+        foreach ($ff as $f) {
+            $value = $res[$f] == "" ? "null" : $res[$f];
+            if (!next($ff)) {
+                // This is the last $element
+                $data .= '"' . $f . '":"' . $value . '"}';
+            } else {
+                $data .= '"' . $f . '":"' . $value . '",';
+            }
         }
+        $marker['properties'] = $data;
+        $data = null;
+        $geojson = json_encode($marker, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $geojson = str_replace('"*', '', (string)$geojson);
+        $geojson = str_replace('*"', '', (string)$geojson);
+        $geojson = str_replace('\\', '', (string)$geojson);
+        $geojson = str_replace('""', '"', (string)$geojson);
+        $geojson = str_replace('"{', '{', (string)$geojson);
+        $geojson = str_replace('}"', '}', (string)$geojson);
+        $geojson = str_replace('"null"', 'null', (string)$geojson);
+
+        if ($iterator->hasNext()) { // If it's not the last row ...
+            fwrite($geofile, $geojson . ",");
+        } else {
+            fwrite($geofile, $geojson);
+        }
+
+        $geojson = null;
+
     }
-    $marker['properties'] = $data;
-    $data = null;
-    $geojson = json_encode($marker, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    $geojson = str_replace('"*', '', (string)$geojson);
-    $geojson = str_replace('*"', '', (string)$geojson);
-    $geojson = str_replace('\\', '', (string)$geojson);
-    $geojson = str_replace('""', '"', (string)$geojson);
-    $geojson = str_replace('"{', '{', (string)$geojson);
-    $geojson = str_replace('}"', '}', (string)$geojson);
-    $geojson = str_replace('"null"', 'null', (string)$geojson);
-
-    if ($iterator->hasNext()) { // If it's not the last row ...
-        fwrite($geofile, $geojson . ",");
-    } else {
-        fwrite($geofile, $geojson ); }
-
-    $geojson = null;
 
     // Fichier des sources
     $res = convertToISOCharset($res);
+    $res['rqobs'] = str_replace('"', "'", $res['rqobs']);
     fputcsv($fp, $res, chr(9));
-    array_push($credits['organisme'], $res['organisme']);
-    array_push($credits['observateur'], $res['observateur']);
 
+    $credits_organisme[] = $res['organisme'];
+    $credits_observateur[] = $res['observateur'];
 }
 
-$credits_organisme = sort(array_unique($credits['organisme']));
-$credits_observateur = sort(array_unique(explode(",", implode(",", $credits['observateur']))));
-
+$credits_organisme = array_unique($credits_organisme);
+// $credits_organisme = sort($credits_organisme);
+$credits_observateur = array_unique(explode(",", implode(",", $credits_observateur)));
+// $credits_observateur = sort($credits_observateur);
 
 fwrite($src, "Liste des organismes\n\n");
 fwrite($src, implode(", ", $credits_organisme));

@@ -105,54 +105,25 @@ function listeobs() {
     $observateurmembre = rechercheobservateurid($idmembre);
 
     if ($droits > 3 || $observateurmembre == $idobservateur) {
-        $mv = "SELECT * FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs ";
+        $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else if ($droits == 3 || $droits == 2) {
         if ($observateurmembre == $idobservateur) {
-            $mv = "SELECT * FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs";
+            $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
         } else {
+            // echo json_encode(get_observatoire_validateur($idmembre));
             $observatoires = implode(",", get_observatoire_validateur($idmembre));
             $observatoires = "('" . str_replace(",", "','", rtrim(trim($observatoires), ",")) . "')";
-
-            // mv1 = les obs dont on est observateur ou co-observateur
-            $mv1 = "SELECT * FROM obs.synthese_obs_nflou WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%') OR observatoire IN " . $observatoires . ") " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
-            // mv2 = les obs des autres personnes à flouter si sensible
-            $all_fields = get_col_names_array();
-            deleteElement('codecom', $all_fields);
-            deleteElement('commune', $all_fields);
-            deleteElement('id_station', $all_fields);
-            deleteElement('nom_station', $all_fields);
-            deleteElement('lng', $all_fields);
-            deleteElement('lat', $all_fields);
-            deleteElement('x', $all_fields);
-            deleteElement('y', $all_fields);
-            deleteElement('codel93', $all_fields);
-            deleteElement('codel935', $all_fields);
-            deleteElement('idcoord', $all_fields);
-            $case = implode(",", $all_fields);
-            $mv2 = "SELECT " . $case . hide_loc() . " FROM obs.synthese_obs_nflou WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . query($where = 'oui') . " ORDER BY idfiche,idobs,idligne";
-            $mv = "SELECT * FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
+            $mv1 = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( observatoire IN " . $observatoires . " OR (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
+            $mv2 = "SELECT " . $fields . " FROM obs.synthese_obs_flou " . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . " " . query($where = 'oui');
+            $mv = "((" . $mv1 . ") UNION (" . $mv2 . "))";
         }
     } else if ($droits == 1) {
         if ($observateurmembre == $idobservateur) {
-            $mv = "SELECT * FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs ";
+            $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
         } else {
-            // mv1 = les obs dont on est observateur ou co-observateur
-            $mv1 = "SELECT * FROM obs.synthese_obs_nflou WHERE (idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui'); # . " ORDER BY idfiche,idobs,idligne"
-            // mv2 = les obs des autres personnes à flouter si sensible
-            deleteElement('codecom', $all_fields);
-            deleteElement('commune', $all_fields);
-            deleteElement('id_station', $all_fields);
-            deleteElement('nom_station', $all_fields);
-            deleteElement('lng', $all_fields);
-            deleteElement('lat', $all_fields);
-            deleteElement('x', $all_fields);
-            deleteElement('y', $all_fields);
-            deleteElement('codel93', $all_fields);
-            deleteElement('codel935', $all_fields);
-            deleteElement('idcoord', $all_fields);
-            $case = implode(",", $all_fields);
-            $mv2 = "SELECT " . $case . hide_loc() . " FROM obs.synthese_obs_nflou WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui') . " ORDER BY idfiche,idobs";
-            $mv = "SELECT * FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) AS res; ";
+            $mv1 = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
+            $mv2 = "SELECT " . $fields . " FROM obs.synthese_obs_flou " . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui');
+            $mv = "((" . $mv1 . ") UNION (" . $mv2 . "))";
         }
     }
 
@@ -357,7 +328,7 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
             {
                 $liste .= '&nbsp;<i class="fa fa-volume-off"></i>';
             }
-            if((isset($_SESSION['idmembre']) && $n['idmainobser'] == rechercheobservateurid($_SESSION['idmembre'])) || (isset($_SESSION['virtobs']) && $n['idobser'] == rechercheobservateurid($_SESSION['idmembre'])))
+            if((isset($_SESSION['idmembre']) && $n['idmainobser'] == $demandeur) || (isset($_SESSION['virtobs']) && $n['idobser'] == $demandeur))
             {
                 $liste .= '&nbsp;<i class="fa fa-pencil curseurlien text-warning" onclick="modfiche('.$n['idfiche'].')"></i>';
             }
