@@ -49,7 +49,7 @@ function observation(e) {
                 var t = e.nbobs;
                 if ($("#listeobs").html(e.listeobs) /* , e.pagination && ($("#afpage").show(), $("#pagination").html(e.pagination)), t > 0 && 1 == $("#page").val() */ ) {
                     var a = "",
-                        i = '<i class="fa fa-info-circle text-info"></i> : Aperçu de l\'observation <br>- <i class="fa fa-eye text-info"></i> : Ouvre un nouvel onglet avec détail de l\'observation <br><br><p style="color: darkred;">ATTENTION, au maximum 10 000 lignes sont affichées</p>';
+                        i = '<i class="fa fa-info-circle text-info"></i> : Aperçu de l\'observation <br>- <i class="fa fa-eye text-info"></i> : Ouvre un nouvel onglet avec détail de l\'observation <br><br><p style="color: darkred;">ATTENTION, au maximum 10 000 lignes sont affichées.</p>';
                     a = "" != $("#idobser").val() ? $("#perso").is(":checked") ? 1 == t ? "Votre observation " : "Vos observations (" + t + ")" : 1 == t ? "Observation de <b>" + $("#obser").val() + "</b>" : "Observations (" + t + ") de <b>" + $("#obser").val() + "</b>" : 1 == t ? "Une observation " : t + " observations", $("#nb").html(' : ' + a) , $("#lchoix").html("<br>- " + i)
                 }
                 // Cellules de recherche
@@ -73,7 +73,7 @@ function observation(e) {
                     language: {
                         url: "dist/js/datatables/france.json"
                     },
-                    orderCellsTop: false,
+                    orderCellsTop: true,
                     fixedHeader: true,
                     pageLength: 25
                 });
@@ -243,6 +243,8 @@ function adphoto(e) {
 var dep = "non", map, marker, nbmap = "oui", drawnItems;
 $(document).ready(function () {
     "use strict";
+    // var t = {};
+    $("#parobservatoire").hide();
     $("#avance").hide();
     $("#dlsrc1").hide(), $("#dlsrc2").hide();
     $("#dl").hide();
@@ -295,14 +297,69 @@ $(document).ready(function () {
 }), $("#obser").change(function () {
     "use strict";
     "" == $(this).val() && $("#idobser").val("")
-}), $("#observa").change(function () {
+});
+
+
+    // Get les param d'un observatoire
+function chercher_param_observa(o){
+
+    $.getJSON("modeles/ajax/consultation/cherche_param_observa.php", {observa: o}, function (data) {
+        console.log(data)
+        // Stade
+        var items = ["<option value='0'>Stade</option>"];
+        $.each( data.saisie.stade, function( key, val ) {
+            items.push( "<option value='" + key + "'>" + key + "</option>" );
+        });
+        console.log(items)
+        $("[name='stade']").html(items);
+        // Contact
+        var items = ["<option value='0'>Contact</option>"];
+        $.each( data.saisie.methode, function( key, val ) {
+            items.push( "<option value='" + key + "'>" + key + "</option>" );
+        });
+        $("[name='methode']").html(items);
+        // Prospection
+        var items = ["<option value='0'>Prospection</option>"];
+        $.each( data.saisie.collecte, function( key, val ) {
+            items.push( "<option value='" + key + "'>" + key + "</option>" );
+        });
+        $("[name='prospect']").html(items);
+        // StatusBio
+        var items = ["<option value='0'>Statut bio</option>"];
+        $.each( data.saisie.statutbio, function( key, val ) {
+            items.push( "<option value='" + key + "'>" + key + "</option>" );
+        });
+        $("[name='statbio']").html(items);
+        // Acquisition
+        var items = ["<option value='0'>Type d'acquisition</option>"];
+        $.each( data.saisie.protocole, function( key, val ) {
+            items.push( "<option value='" + key + "'>" + key + "</option>" );
+        });
+        $("[name='acquisition']").html(items);
+    })
+}
+
+    // Si un observatoire est sélectionné
+    $("#observa").change(function () {
     "use strict";
     var e = $("#observa").val(), t = $("#choixtax").val();
     if ("NR" != e) {
+        $("#parobservatoire").show();
+        chercher_param_observa( e );
         var a = $("#observa option:selected").text();
         "observa" != t && ($("#ltaxon").html(""), $("#choixtax").val("observa")), $("#ltaxon").prepend('<li id="' + e + '"><i class="fa fa-trash curseurlien text-danger"></i> ' + a + "</li>")
-    } else $("#choixtax").val(""), $("#ltaxon").html("")
-}), $("#taxon").autocomplete({
+    } else
+    {
+        $("#parobservatoire").hide(), $("#choixtax").val(""), $("#ltaxon").html("");
+    }
+    var t = $("#ltaxon").contents().length;
+    if (0 == t || t > 1) {
+        $("#parobservatoire").hide();
+    }
+});
+
+    // Choix d'un taxon général
+    $("#taxon").autocomplete({
     source: function (e, t) {
         $.getJSON("modeles/ajax/liste.php", {term: e.term}, function (e) {
             t($.map(e, function (e) {
@@ -310,17 +367,71 @@ $(document).ready(function () {
             }))
         })
     }, select: function (e, t) {
-        $("#taxon").val(""), $("#observa").val("NR");
+        $("#taxon").val(""), $("#observa").val("NR"), $("#parobservatoire").hide()
         var a = $("#choixtax").val();
         return "espece" != a && ($("#ltaxon").html(""), $("#choixtax").val("espece")), $("#ltaxon").prepend('<li id="' + t.item.value.cdnom + '"><i class="fa fa-trash curseurlien text-danger"></i> <i>' + t.item.value.nom + "</i> " + t.item.value.nomvern + "</li>"), $("#BttS").hide(), !1
     }
-}), $("#ltaxon").on("click", ".fa-trash", function () {
+});
+
+    // Choix d'une espèce si un seul observatoire sélectionné
+    $("#espece").autocomplete({
+        source: function (request, response) {
+            var observa = $("#observa").val();
+            $.getJSON("modeles/ajax/consultation/espece.php", {term: request.term, observa: observa}, function (data) {
+                response($.map(data, function (data) {
+                    return "" == data.nomvern ? {label: data.nom, value: data} : {label: data.nom + " (" + data.nomvern + ")", value: data}
+                }))
+            })
+        }, select: function (e, t) {
+            $("#espece").val("");
+            var a = $("#choixtax").val();
+            return "espece" != a && ($("#ltaxon").html(""), $("#choixtax").val("espece")), $("#ltaxon").prepend('<li id="' + t.item.value.cdnom + '"><i class="fa fa-trash curseurlien text-danger"></i> <i>' + t.item.value.nom + "</i> " + t.item.value.nomvern + "</li>"), !1
+        }
+    });
+    // Choix d'un genre si un seul observatoire sélectionné
+    $("#genre").autocomplete({
+        source: function (request, response) {
+            var observa = $("#observa").val();
+            $.getJSON("modeles/ajax/consultation/genre.php", {term: request.term, observa: observa}, function (data) {
+                response($.map(data, function (data) {
+                    return {label: data.genre, value: data}
+                }))
+            })
+        }, select: function (e, t) {
+            $("#genre").val("");
+            var a = $("#choixtax").val();
+            return "genre" != a && ($("#ltaxon").html(""), $("#choixtax").val("genre")), $("#ltaxon").prepend('<li id="' + t.item.value.genre + '"><i class="fa fa-trash curseurlien text-danger"></i> <i>' + t.item.value.genre + "</i></li>"), !1
+        }
+    });
+    // Choix d'une famille si un seul observatoire sélectionné
+    $("#famille").autocomplete({
+        source: function (e, t) {
+            var observa = $("#observa").val();
+            $.getJSON("modeles/ajax/consultation/famille.php", {term: e.term, observa: observa}, function (e) {
+                t($.map(e, function (e) {
+                    return {label: e.famille, value: e}
+                }))
+            })
+        }, select: function (e, t) {
+            $("#famille").val("");
+            var a = $("#choixtax").val();
+            return "famille" != a && ($("#ltaxon").html(""), $("#choixtax").val("famille")), $("#ltaxon").prepend('<li id="' + t.item.value.famille + '"><i class="fa fa-trash curseurlien text-danger"></i> ' + t.item.value.famille + "</li>"), !1
+        }
+    });
+
+    // A la suppression d'un taxon
+    $("#ltaxon").on("click", ".fa-trash", function () {
     "use strict";
     var e = $(this).parent().attr("id");
     $("#" + e).remove();
     var t = $("#ltaxon").contents().length;
     0 == t && ($("#choixtax").val(""), $("#observa").val("NR"))
-}), $("#commune").autocomplete({
+    0 == t || t > 1 ? $("#parobservatoire").hide() : null;
+    1 == t ? $("#parobservatoire").show() : null;
+});
+
+
+    $("#commune").autocomplete({
     source: function (e, t) {
         $.getJSON("modeles/ajax/listecommune.php", {term: e.term, dep: dep}, function (e) {
             t($.map(e, function (e) {

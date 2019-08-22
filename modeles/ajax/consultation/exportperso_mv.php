@@ -28,24 +28,24 @@ if ($_POST['status'] == 'oui' || !empty($_POST['rstatut'])){
 } else {$add_status = "";}
 
 if ($droits > 3 || $observateurmembre == $idobservateur) {
-    $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+    $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme,geom_geojson," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
 } else if ($droits == 3 || $droits == 2) {
     if ($observateurmembre == $idobservateur) {
-        $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme,geom_geojson," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else {
         // echo json_encode(get_observatoire_validateur($idmembre));
         $observatoires = implode(",", get_observatoire_validateur($idmembre));
         $observatoires = "('" . str_replace(",", "','", rtrim(trim($observatoires), ",")) . "')";
-        $mv1 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( observatoire IN " . $observatoires . " OR (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
-        $mv2 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_flou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . " " . query($where = 'oui');
+        $mv1 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme,geom_geojson," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( observatoire IN " . $observatoires . " OR (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
+        $mv2 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme,geom_geojson," . $fields . " FROM obs.synthese_obs_flou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . " " . query($where = 'oui');
         $mv = "((" . $mv1 . ") UNION (" . $mv2 . "))";
     }
 } else if ($droits == 1) {
     if ($observateurmembre == $idobservateur) {
-        $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme,geom_geojson," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
     } else {
-        $mv1 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
-        $mv2 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme," . $fields . " FROM obs.synthese_obs_flou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui');
+        $mv1 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme,geom_geojson," . $fields . " FROM obs.synthese_obs_nflou " . $add_status . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
+        $mv2 = "SELECT idfiche,idobs,idligne,cdref,observateur,organisme,geom_geojson," . $fields . " FROM obs.synthese_obs_flou " . $add_status . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui');
         $mv = "((" . $mv1 . ") UNION (" . $mv2 . "))";
     }
 }
@@ -164,7 +164,7 @@ foreach ($iterator as $res) {
 
     // Fichier des sources
     $res = convertToISOCharset($res);
-    $res['rqobs'] = str_replace('"', "'", $res['rqobs']);
+    $res['remarques_obs'] = str_replace('"', "'", $res['rqobs']);
     fputcsv($fp, $res, chr(9));
 
     $credits_organisme[] = $res['organisme'];

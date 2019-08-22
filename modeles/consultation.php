@@ -84,6 +84,7 @@ function get_col_names() # Liste des champs sélectionnable à l'export
     deleteElement('cdref', $fields);
     deleteElement('organisme', $fields);
     deleteElement('observateur', $fields);
+    deleteElement('geom_geojson', $fields);
 
     $select = "<select id='fields' multiple='multiple'>";
     foreach($fields as $field){

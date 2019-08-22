@@ -173,7 +173,155 @@
                                             </div>
                                             <ul id="ltaxon" class="list-unstyled font12 mt-1"></ul>
                                         </fieldset>
+                                        <span id="parobservatoire" class="mt-2">
+
+                                            <fieldset class="mt-2">
+                                                <legend class="legendesaisie">Filtres additionnels sur les taxons</legend>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <input type="text" class="form-control form-control-sm" id="espece" placeholder="Espèce">
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" class="form-control form-control-sm" id="genre" placeholder="Ou genre">
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" class="form-control form-control-sm " id="famille" placeholder="Ou famille">
+                                                    </div>
+                                                    <!--
+                                                    <div class="col">
+                                                        <input type="text" class="form-control form-control-sm mt-lg-1 mt-xl-0" id="ordre" placeholder="Ou ordre">
+                                                    </div>
+                                                    -->
+                                                </div>
+                                                <div class="form-row mt-2">
+                                                    <div class="col">
+                                                        <select name="stade" class="form-control form-control-sm">
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <select name="etatbio" id="etatbio" class="form-control form-control-sm">
+                                                            <option value="0">Etat biologique</option>
+                                                            <option value="Observé vivant">Observé vivant</option>
+                                                            <option value="Trouvé mort">Trouvé mort</option>
+                                                            <option value="Non renseigné">Non renseigné</option>
+                                                            <option value="Inconu">Inconu</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <select name="methode" class="form-control form-control-sm">
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <select name="prospect" class="form-control form-control-sm">
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <select name="statbio" class="form-control form-control-sm">
+
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <select name="acquisition" class="form-control form-control-sm">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                if($choixmort == 'oui')
+                                                {
+                                                    ?>
+                                                    <div class="form-inline mt-2" id="afmort">
+                                                        <select id="mort" name="mort" class="form-control form-control-sm">
+                                                            <option value="0">Cause de la mort</option>
+                                                            <?php
+                                                            foreach($rjson_obser['saisie']['mort'] as $key => $n)
+                                                            {
+                                                                ?><option value="<?php echo $n;?>"><?php echo $key;?></option><?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <ul id="ltaxon" class="list-unstyled font12 mt-1"></ul>
+                                            </fieldset>
+
+                                            <?php
+                                            if(isset($rjson_obser['saisie']['aves']) && $rjson_obser['saisie']['aves'] == 'oui')
+                                            {
+                                                ?>
+
+
+
+                                                <fieldset class="mb-2">
+                                                    <legend class="legendesaisie">Indices de nidification</legend>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <select name="cataves" id="cataves" class="form-control form-control-sm">
+                                                                <option value="NR">-- Choisir au besoin --</option>
+                                                                <option value="tous">Toutes nidification</option>
+                                                                <option value="possible">Nidification possible</option>
+                                                                <option value="probable">Nidification probable</option>
+                                                                <option value="certain">Nidification certaine</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col">
+                                                            <select name="aves" id="aves" class="form-control form-control-sm">
+                                                                <option value="0">-- Code nicheur --</option>
+                                                                <optgroup label="Possible" id="spossible">
+                                                                    <option value="2">2 - Présence dans son habitat durant sa période de reproduction</option>
+                                                                    <option value="3" title="Mâle chanteur présent en période de nidification, cris nuptiaux ou tambourinages entendus, mâle vu en parade. Si ce comportement est observé de manière répétée, voir code 5">3 - Mâle chanteur présent en période de nidification</option>
+                                                                </optgroup>
+                                                                <optgroup label="Probable" id="sprobable">
+                                                                    <option value="4" title="Observation d'un couple sans comportement particulier, sinon, voir indices 5 et 6">4 - Couple présent dans son habitat durant sa période de nidifcation</option>
+                                                                    <option value="5" title="(chant, chants simultanés de plusieurs individus, querelles avec des voisins,...)">5 - Comportement territorial observé sur un même territoire, 2 journées différentes à 7 jours ou plus d'intervalle</option>
+                                                                    <option value="6">6 - Comportement nuptial : parades, vols nuptiaux, copulation ou échange de nourriture entre adultes.</option>
+                                                                    <option value="7" title="Visite de nichoir, cavité, falaise,... (Voir également code 10)">7 - Visite d'un site de nidification probable, distinct d'un site de repos</option>
+                                                                    <option value="8">8 - Cri d'alarme ou tout autre comportement agité indiquant la présence d'un nid ou de jeunes aux alentours</option>
+                                                                    <option value="9" title="La capture d'espèces protégées est interdite. Uniquement pour les personnes autorisées.">9 - Preuve physiologique : plaque incubatrice très vascularisée ou oeuf présent dans l'oviducte (observation sur un oiseau en main)</option>
+                                                                </optgroup>
+                                                                <optgroup label="Certain" id="scertain">
+                                                                    <option value="10" title="Oiseau transportant des brindilles, herbes, mousses, boue,... ou forant une cavité dans un tronc (pics) ou dans le sol (guépiers,...)">10 - Transport de matériel ou construction d'un nid, forage d'une cavité</option>
+                                                                    <option value="11" title="Oiseau simulant une aile brisée ou ayant un comportement agressif lors de l'approche du nid">11 - Oiseau simulant une blessure ou détournant l'attention, tels les canards, gallinacés, oiseaux de rivage,...</option>
+                                                                    <option value="12">12 - Nid vide ayant été utilisé la présente saison</option>
+                                                                    <option value="13">13 - Jeunes en duvet ou jeunes venant de quitter le nid et incapables de soutenir le vol sur de longues distances</option>
+                                                                    <option value="14">14 - Adulte gagnant, occupant ou quittant le site d'un nid, comportement révélateur d'un nid occupé dont le contenu ne peut être vérifié (trop haut, trop loin, dans une cavité...)</option>
+                                                                    <option value="15">15 - Adulte transportant un sac fécal.</option>
+                                                                    <option value="16">16 - Adulte transportant de la nourriture pour les jeunes durant sa période de nidifcation</option>
+                                                                    <option value="17">17 - Coquilles d'oeufs éclos</option>
+                                                                    <option value="18">18 - Nid vu avec un adulte couvant</option>
+                                                                    <option value="19">19 - Nid contenant des oeufs ou des jeunes (vus ou entendus)</option>
+                                                                </optgroup>
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <ul id="laves" class="list-unstyled font12 mt-1"></ul>
+                                                </fieldset>
+
+                                                <?php
+                                            }
+                                            ?>
+
+
+
                                     </div>
+
+
+
+
+
+
+
+
+
+
+
 
                                     <div class="color1_bg curseurlien p-2 mb-2 localisation" data-toggle="collapse"
                                          data-target="#collapselocalisation" aria-expanded="true"

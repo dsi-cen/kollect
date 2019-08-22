@@ -97,33 +97,35 @@ function nbobs()
 
 function listeobs() {
 
-    $fields = 'idfiche, idobs, idobservateur, idmainobser, observateur, floutage_sensible, nom_station, commune, observatoire, photo, son, rang, cdref, code_validation, nomlatin, nomvern, date_debut_obs, nb_tot';
+    $fields = 'idfiche, idobs, idobservateur, idmainobser, observateur, floutage_sensible, nom_station, commune, observatoire, photo, son, rang, cdref, code_validation, nomlatin, nomvern, date_debut_obs, nb_tot, nb_commentaires, localisation';
 
     $idmembre = $_SESSION['idmembre'];
     $droits = $_SESSION['droits'];
     $idobservateur = $_POST['idobser'];
     $observateurmembre = rechercheobservateurid($idmembre);
 
+    $limite = 10000;
+
     if ($droits > 3 || $observateurmembre == $idobservateur) {
-        $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+        $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne LIMIT " . $limite ;
     } else if ($droits == 3 || $droits == 2) {
         if ($observateurmembre == $idobservateur) {
-            $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+            $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne LIMIT " . $limite ;
         } else {
             // echo json_encode(get_observatoire_validateur($idmembre));
             $observatoires = implode(",", get_observatoire_validateur($idmembre));
             $observatoires = "('" . str_replace(",", "','", rtrim(trim($observatoires), ",")) . "')";
-            $mv1 = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( observatoire IN " . $observatoires . " OR (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
-            $mv2 = "SELECT " . $fields . " FROM obs.synthese_obs_flou " . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . " " . query($where = 'oui');
-            $mv = "((" . $mv1 . ") UNION (" . $mv2 . "))";
+            $mv1 = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( observatoire IN " . $observatoires . " OR (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) " ;
+            $mv2 = "SELECT " . $fields . " FROM obs.synthese_obs_flou " . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') AND observatoire NOT IN " . $observatoires . " " . query($where = 'oui') ;
+            $mv = "SELECT * FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) as res LIMIT " . $limite ;
         }
     } else if ($droits == 1) {
         if ($observateurmembre == $idobservateur) {
-            $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne";
+            $mv = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . query($where = "non") . " ORDER BY idfiche,idobs,idligne LIMIT " . $limite ;
         } else {
             $mv1 = "SELECT " . $fields . " FROM obs.synthese_obs_nflou " . "WHERE (((idmainobser = " . $observateurmembre . " OR (idobservateur LIKE '" . $observateurmembre . ",%' OR idobservateur LIKE '%, " . $observateurmembre . "' OR idobservateur LIKE '%, " . $observateurmembre . ",%')) " . query($where = 'oui') . ") OR (( (floutage_kollect = 'Pas de dégradation' and taxon_sensible = 'non')) " . query($where = 'oui') . ")) ";
             $mv2 = "SELECT " . $fields . " FROM obs.synthese_obs_flou " . "WHERE (idmainobser != " . $observateurmembre . ") AND (idobservateur NOT LIKE '" . $observateurmembre . ",%' AND idobservateur NOT LIKE '%, " . $observateurmembre . "' AND idobservateur NOT LIKE '%, " . $observateurmembre . ",%') " . query($where = 'oui');
-            $mv = "((" . $mv1 . ") UNION (" . $mv2 . "))";
+            $mv = "SELECT * FROM ((" . $mv1 . ") UNION (" . $mv2 . ")) as res LIMIT " . $limite ;
         }
     }
 
@@ -220,8 +222,7 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
                 $obs2 = null;
             }
 
-            // TODO, nombre de commentaire sur l'obs ?
-            $comobs = ($n['rqobs'] != "") ? 1 : 0;
+            $comobs = $n['nb_commentaires'];
 
             // TODO droits
             $affichagelocalisation = (!empty($n['nom_station'])) ? $n['commune'].', '.$n['nom_station'] : $n['commune'];
@@ -284,7 +285,7 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
                         'nomfr'=>$n['nomvern'],
                         'nb'=>$n['nb_tot'],
                         'icon'=>$d['icon'],
-                        'afloca'=>$affichagelocalisation,
+                        'afloca'=>$n['localisation'],
                         'obs'=>$obs,
                         'idobs'=>$n['idobs'],
                         'idfiche'=>$n['idfiche'],
@@ -294,6 +295,7 @@ if(isset($_POST['choixtax']) && isset($_POST['choixloca']))
                         'idmainobser'=>$n['idmainobser'],
                         'plusfiche'=>$plusfiche,
                         'idobser'=>$n['idmainobser']
+                        // 'idm'=>$n['idm'] // TODO fixverif
                     ];
                 }
             }

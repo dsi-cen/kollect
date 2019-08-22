@@ -29,13 +29,23 @@ function query($where)
         $flou = $_POST['flou'];
         $pr = $_POST['pr'];
         $habitat = $_POST['habitat'];
+        $stade = $_POST['stade'] ? $_POST['stade'] : 0 ;
+        $etatbio = $_POST['etatbio'] ? $_POST['etatbio'] : 0 ;
+        $methode = $_POST['methode'] ? $_POST['methode'] : 0 ;
+        $prospect = $_POST['prospect'] ? $_POST['prospect'] : 0 ;
+        $statbio = $_POST['statbio'] ? $_POST['statbio'] : 0 ;
+        $acquisition = $_POST['acquisition'] ? $_POST['acquisition'] : 0 ;
 
         if (!empty($choixtax)) {
             $observa = ($choixtax == 'observa') ? $_POST['rchoixtax'] : null;
             $cdnom = ($choixtax == 'espece') ? $_POST['rchoixtax'] : null;
+            $genre = ($choixtax == 'genre') ? $_POST['rchoixtax'] : null;
+            $famille = ($choixtax == 'famille') ? $_POST['rchoixtax'] : null;
         } else {
             $observa = null;
             $cdnom = null;
+            $genre = null;
+            $famille = null;
         }
 
         if (!empty($choixloca)) {
@@ -144,6 +154,48 @@ function query($where)
         $mv .= $and . "cdnom IN (" . $cdnom . ")";
         $where = 'oui';
     }
+    if ($genre) {   // Genre
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        $mv .= $and . "genre IN (" . $genre . ")";
+        $where = 'oui';
+    }
+    if ($famille) { // Famille
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        $mv .= $and . "famille IN (" . $famille . ")";
+        $where = 'oui';
+    }
+
+    if ($stade !== 0) {
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        $mv .= $and . "stade = '" . $stade . "' ";
+        $where = 'oui';
+    }
+
+    if ($etatbio !== 0 ) {
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        $mv .= $and . "etatbio = '" . $etatbio . "' ";
+        $where = 'oui';
+    }
+    if ($methode !== 0 ) {
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        $mv .= $and . "methode = '" . $methode . "' ";
+        $where = 'oui';
+    }
+    if ($prospect !== 0 ) {
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        $mv .= $and . "prospection = '" . $prospect . "' ";
+        $where = 'oui';
+    }
+    if ($statbio !== 0 ) {
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        $mv .= $and . "statutbio = '" . $statbio . "' ";
+        $where = 'oui';
+    }
+    if ($acquisition !== 0 ) {
+        ($where == 'non') ? $and = " WHERE " : $and = " AND ";
+        $mv .= $and . "type_acquisition = '" . $acquisition . "' ";
+        $where = 'oui';
+    }
     if ($codecom) {
         ($where == 'non') ? $and = " WHERE " : $and = " AND ";
         $mv .= $and . "codecom IN (" . $codecom . ")";
@@ -245,22 +297,6 @@ function query($where)
         $where = 'oui';
     }
     return $mv;
-}
-
-function hide_loc() {
-$case = ", CASE WHEN taxon_sensible = 'oui' AND floutage_sensible != 'Commune' THEN NULL ELSE codecom END AS codecom,";
-$case .= "CASE WHEN taxon_sensible = 'oui' AND floutage_sensible != 'Commune' THEN NULL ELSE commune END AS commune,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE id_station END AS id_station,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE id_station END AS nom_station,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE lng END AS lng,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE lat END AS lat,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE x END AS x,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE y END AS y,";
-$case .= "CASE WHEN taxon_sensible = 'oui' AND floutage_sensible != 'Maille 10kmx10km' THEN NULL WHEN taxon_sensible = 'non' AND floutage_kollect = 'Maille 10kmx10km' THEN codel93 ELSE codel93 END AS codel93,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN taxon_sensible = 'non' AND floutage_kollect != 'Pas de dégradation' THEN NULL ELSE codel935 END AS codel935,";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE idcoord END AS idcoord, ";
-$case .= "CASE WHEN taxon_sensible = 'oui' THEN NULL WHEN floutage_kollect != 'Pas de dégradation' THEN NULL ELSE geom_geojson END AS geom_geojson ";
-    return $case;
 }
 
 function rechercheobservateurid($idm)
