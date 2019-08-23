@@ -144,6 +144,13 @@ $req = file_get_contents('synthese_obs_nflou.sql');
 $bdd->exec($req);
 unset($req);
 
+// Create mv to optimize export speed
+$bdd = PDO2::getInstanceinstall();
+$req = null;
+$req = file_get_contents('synthese_obs_flou.sql');
+$bdd->exec($req);
+unset($req);
+
 // Create status mv
 $bdd = PDO2::getInstanceinstall();
 $req = null;
