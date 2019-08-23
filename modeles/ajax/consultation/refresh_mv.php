@@ -19,7 +19,7 @@ $bdd = PDO2::getInstance();
 $bdd->query("SET NAMES 'UTF8'");
 
 // Refresh MV
-$req = $bdd->prepare( "REFRESH MATERIALIZED VIEW obs.synthese_obs_nflou ;" );
+$req = $bdd->prepare( "REFRESH MATERIALIZED VIEW obs.synthese_obs_nflou ; REFRESH MATERIALIZED VIEW obs.synthese_obs_flou ;" );
 $req->execute();
 
 $req->closeCursor();

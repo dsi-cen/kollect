@@ -82,7 +82,7 @@ $geofile = fopen('../../../exports/' . $name . ".geojson", 'w');
 fwrite($geofile, '{ "type": "FeatureCollection", "features": [');
 
 // Headers
-$head = "idfiche,idobs,idligne,cdref,observateur,organisme," . $fields;
+$head = "idfiche,idobs,idligne,cdref,observateur,organisme,geom_geojson," . $fields;
 $head = explode(',', $head);
 //
 fputcsv($fp, $head, chr(9));
@@ -171,9 +171,12 @@ foreach ($iterator as $res) {
     $credits_observateur[] = $res['observateur'];
 }
 
+$credits_organisme = array_map('trim', $credits_organisme);
 $credits_organisme = array_unique($credits_organisme);
 // $credits_organisme = sort($credits_organisme);
-$credits_observateur = array_unique(explode(",", implode(",", $credits_observateur)));
+$credits_observateur = explode(",", implode(",", $credits_observateur));
+$credits_observateur = array_map('trim',$credits_observateur);
+$credits_observateur = array_unique($credits_observateur);
 // $credits_observateur = sort($credits_observateur);
 
 fwrite($src, "Liste des organismes\n\n");
