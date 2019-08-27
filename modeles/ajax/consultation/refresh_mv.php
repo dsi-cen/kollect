@@ -19,12 +19,15 @@ $bdd = PDO2::getInstance();
 $bdd->query("SET NAMES 'UTF8'");
 
 // Refresh MV
-$req = $bdd->prepare( "REFRESH MATERIALIZED VIEW obs.synthese_obs_nflou ; REFRESH MATERIALIZED VIEW obs.synthese_obs_flou ;" );
+$req = $bdd->prepare( "REFRESH MATERIALIZED VIEW obs.synthese_obs_nflou ; " );
 $req->execute();
-
 $req->closeCursor();
 
-if($req){
+$req2 = $bdd->prepare( "REFRESH MATERIALIZED VIEW obs.synthese_obs_flou ;" );
+$req2->execute();
+$req2->closeCursor();
+
+if($req && $req2){
     $ret['status'] = "mvok";
     $actualisation = get_update_date();
     $ret['newdate'] = 'Dernière actualisation : Le ' . $actualisation['jour'] . ' à ' . $actualisation['heure'] ;
