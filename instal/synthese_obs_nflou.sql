@@ -404,7 +404,9 @@ create materialized view obs.synthese_obs_nflou as
            i.codel935 AS maille5x5km,
            (i.idcoord)::character varying                             AS idcoord,
            (i.geom_geojson)::character varying                        AS geom_geojson,
-			i.commune AS localisation
+	    CASE WHEN i.site IS NOT NULL THEN  i.commune || ' - ' || i.site
+		ELSE i.commune
+	    END AS localisation
     FROM ((((((((((((((((infos_obs i
         LEFT JOIN obs.ligneobs l ON ((l.idobs = i.idobs)))
 
