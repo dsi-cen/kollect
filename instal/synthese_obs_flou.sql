@@ -1,12 +1,18 @@
 create materialized view obs.synthese_obs_flou as
-    WITH concat_otherobser AS (
-        SELECT plusobser.idfiche,
-               string_agg((observateur.observateur)::text, ', '::text)                  AS otherobser,
-               string_agg(((observateur.idobser)::character varying)::text, ', '::text) AS idotherobser
-        FROM (obs.plusobser
-                 JOIN referentiel.observateur ON ((observateur.idobser = plusobser.idobser)))
-        GROUP BY plusobser.idfiche
-        ORDER BY plusobser.idfiche, (string_agg((observateur.observateur)::text, ', '::text))
+    WITH order_plusobser AS (
+	  SELECT plusobser.idfiche,plusobser.idobser, observateur.observateur
+	  FROM obs.plusobser
+	  JOIN referentiel.observateur ON observateur.idobser = plusobser.idobser
+	  ORDER BY plusobser.idfiche,observateur.observateur
+	  ),
+		
+	concat_otherobser AS (
+	 SELECT order_plusobser.idfiche,
+         string_agg((order_plusobser.observateur)::text, ', '::text)                  AS otherobser,
+         string_agg(((order_plusobser.idobser)::character varying)::text, ', '::text) AS idotherobser
+         FROM order_plusobser
+         GROUP BY order_plusobser.idfiche
+         ORDER BY order_plusobser.idfiche
     ),
          infos_validateur AS (
              SELECT DISTINCT h.idobs,
