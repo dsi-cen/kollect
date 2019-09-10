@@ -13,7 +13,7 @@ create materialized view obs.synthese_obs_nflou as
         string_agg(((order_plusobser.idobser)::character varying)::text, ', '::text) AS idotherobser
         FROM order_plusobser
         GROUP BY order_plusobser.idfiche
-        ORDER BY order_plusobser.idfiche)
+        ORDER BY order_plusobser.idfiche
     ),
          infos_validateur AS (
              SELECT DISTINCT h.idobs,
