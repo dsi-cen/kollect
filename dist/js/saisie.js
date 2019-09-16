@@ -832,7 +832,12 @@ $(document).ready(function () {
         transform93(a, e);
         $("#lat").val(a) && $("#lng").val(e);
         $("#idcoord").val("Nouv"); // A vérifier
-        $("#codesite").val() != "Nouv" ? null : $("#codesite").val("Nouv"); // Si on est déjà positionner sur un site, le modal prend le dessus. // TODO
+        $.ajax({
+                url: "emprise/emprise.json", dataType: "json", success: emp => {
+                altitude(a, e, emp.cleign);
+                }
+        });
+        $("#codesite").val() != "Nouv" && $("#codesite").val() != "" ? null : $("#codesite").val("Nouv"); // Si on est déjà positionner sur un site, le modal prend le dessus. // TODO
         $("#pr").val(1); // rev-engi : 1 = site pointé, 2 = à la commune
     }
 }), $("#btfiche10").click(function () {
