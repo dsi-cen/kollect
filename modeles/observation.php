@@ -35,7 +35,7 @@ function recherche_obs($idobs,$biblio)
 							left join referentiel.protocole on protocole.idprotocole = obs.idprotocole
 							LEFT JOIN md_sinp.jdd ON jdd.idjdd = obs.idjdd
 							LEFT JOIN md_sinp.ca_etude ON ca_etude.idetude = fiche.idetude
-							LEFT JOIN md_sinp.ca ON ca.idca = ca_etude.idca
+							LEFT JOIN md_sinp.ca ON ca.idca = ca_etude.idca AND jdd.idorg = fiche.idorg
 							WHERE obs.idobs = :idobs ");
 	}
 	elseif($biblio == 'non')
