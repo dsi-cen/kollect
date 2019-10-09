@@ -88,7 +88,16 @@
 								if(!empty($obs['protocole']))
 									{
 										echo '<h3 class="h5">Type d\'acquisition : <small>' . $obs['protocole'] . '</small></h3>' ;
-									} ?>
+									}
+								if(!empty($obs['ca']))
+									{
+										echo '<h3 class="h5">Cadre d\'acquisition : <small>' . $obs['ca'] . '</small></h3>' ;
+									}
+								if(!empty($obs['jdd']))
+									{
+										echo '<h3 class="h5">Jeu de données : <small>' . $obs['jdd'] . '</small></h3>' ;
+									} 	
+									?>
 							</div>
 
 							<div class="col-md-7 col-lg-7">
