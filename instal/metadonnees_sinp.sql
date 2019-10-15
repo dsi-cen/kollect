@@ -1293,10 +1293,10 @@ CREATE TRIGGER declenche_update_idjdd_obs_from_fiche
 	
 
 CREATE FUNCTION obs.update_idjdd_obs_from_jdd()
-    RETURNS trigger AS 
+    RETURNS trigger AS
     $BODY$
 	DECLARE
-	
+
 	w_organisme INTEGER;
     w_obser INTEGER;
 	w_etude INTEGER;
@@ -1304,48 +1304,70 @@ CREATE FUNCTION obs.update_idjdd_obs_from_jdd()
 	w_type_acquisition INTEGER;
 	w_datedeb DATE;
 	w_datefin DATE;
-	
+
 
     BEGIN
 
 		SELECT NEW.idorg INTO w_organisme;
 		SELECT NEW.idobser INTO w_obser;
         SELECT NEW.id_regne_cible INTO w_regne;
-			
-		
-		
-		
+
+
+
+
         IF w_organisme >= 3 THEN
-		
+
 			SELECT ca_etude.idetude FROM md_sinp.ca_etude WHERE ca_etude.idca_etude = NEW.idca_etude INTO w_etude;
 			SELECT ca.date_deb FROM md_sinp.ca JOIN md_sinp.ca_etude ON ca_etude.idca = ca.idca WHERE ca_etude.idca_etude = NEW.idca_etude INTO w_datedeb;
 			SELECT ca.date_fin FROM md_sinp.ca JOIN md_sinp.ca_etude ON ca_etude.idca = ca.idca WHERE ca_etude.idca_etude = NEW.idca_etude INTO w_datefin;
 			SELECT NEW.id_type_acquisition INTO w_type_acquisition;
-			
-			WITH liste_fiche AS (
-			
+
+		    IF w_datefin IS NOT NULL THEN
+
+			    WITH liste_fiche AS (
+
 					SELECT fiche.idfiche FROM obs.fiche
 					WHERE fiche.idorg = w_organisme AND fiche.idetude = w_etude AND fiche.date2 >= w_datedeb AND fiche.date2 <= w_datefin),
 
 				liste_obs AS (
-					
+
 					SELECT obs.idobs
 					FROM obs.obs
 					JOIN liste_fiche ON liste_fiche.idfiche = obs.idfiche
 					JOIN referentiel.taxref ON obs.cdnom = taxref.cdnom
 					JOIN md_sinp.ref_regne_cible ON taxref.regne = ref_regne_cible.lib_id_regne_cible
 					WHERE ref_regne_cible.id_regne_cible = w_regne AND obs.idprotocole = w_type_acquisition)
-					
-			UPDATE obs.obs SET idjdd = NEW.idjdd WHERE obs.idobs IN (SELECT idobs FROM liste_obs);
-			
+
+			    UPDATE obs.obs SET idjdd = NEW.idjdd WHERE obs.idobs IN (SELECT idobs FROM liste_obs);
+
+			ELSE
+
+		        WITH liste_fiche AS (
+
+					SELECT fiche.idfiche FROM obs.fiche
+					WHERE fiche.idorg = w_organisme AND fiche.idetude = w_etude AND fiche.date2 >= w_datedeb),
+
+				liste_obs AS (
+
+					SELECT obs.idobs
+					FROM obs.obs
+					JOIN liste_fiche ON liste_fiche.idfiche = obs.idfiche
+					JOIN referentiel.taxref ON obs.cdnom = taxref.cdnom
+					JOIN md_sinp.ref_regne_cible ON taxref.regne = ref_regne_cible.lib_id_regne_cible
+					WHERE ref_regne_cible.id_regne_cible = w_regne AND obs.idprotocole = w_type_acquisition)
+
+			    UPDATE obs.obs SET idjdd = NEW.idjdd WHERE obs.idobs IN (SELECT idobs FROM liste_obs);
+
+		    END IF;
+
 		END IF;
-		
+
 		IF w_organisme = 2 THEN
-			
+
 			WITH liste_fiche AS (
 					SELECT fiche.idfiche FROM obs.fiche
 					WHERE fiche.idorg = w_organisme AND fiche.idobser = w_obser),
-				
+
 				liste_obs AS (
 					SELECT obs.idobs
 					FROM obs.obs
@@ -1355,21 +1377,20 @@ CREATE FUNCTION obs.update_idjdd_obs_from_jdd()
 					WHERE ref_regne_cible.id_regne_cible = w_regne)
 
 			UPDATE obs.obs SET idjdd = NEW.idjdd WHERE obs.idobs IN (SELECT idobs FROM liste_obs);
-				
+
 		   END IF;
 
         RETURN NEW;
 
     END;
 
-	$BODY$ 
+	$BODY$
 LANGUAGE plpgsql VOLATILE COST 100;
 
 CREATE TRIGGER declenche_update_idjdd_obs_from_jdd
     AFTER INSERT ON md_sinp.jdd
-    FOR EACH ROW 
+    FOR EACH ROW
     EXECUTE PROCEDURE obs.update_idjdd_obs_from_jdd();
-		
 
 	
 	
