@@ -139,7 +139,7 @@ ADD CONSTRAINT photodet_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs
 
 ALTER TABLE site.comobs
 ADD CONSTRAINT comobs_idobs_fkey
-FOREIGN KEY (idobs) REFERENCES obs.obs (idobs);
+FOREIGN KEY (idobs) REFERENCES obs.obs (idobs) ON DELETE CASCADE;
 
 ALTER TABLE site.comobs
 ADD CONSTRAINT comobs_idm_fkey
@@ -147,7 +147,7 @@ FOREIGN KEY (idm) REFERENCES site.membre (idmembre);
 
 ALTER TABLE site.liencom
 ADD CONSTRAINT liencom_idobs_fkey
-FOREIGN KEY (idobs) REFERENCES obs.obs (idobs);
+FOREIGN KEY (idobs) REFERENCES obs.obs (idobs) ON DELETE CASCADE;
 
 ALTER TABLE site.son 
 ADD CONSTRAINT son_idobser_fkey
