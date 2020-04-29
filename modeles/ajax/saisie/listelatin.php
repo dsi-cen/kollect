@@ -33,8 +33,8 @@ if(isset($_GET['term']))
 			$req = $bdd->prepare("SELECT l.nom, l.cdnom, cdref, l.auteur,  l.nomvern, '{'|| l.rang || '}' as rang, stade, bino, photo, son, loupe, vali FROM $sel.liste AS l
 								LEFT JOIN vali.critere ON critere.cdnom = l.cdref
 								LEFT JOIN referentiel.liste ON liste.cdnom = l.cdref
-								WHERE l.nom ILIKE :recherche AND l.nom ILIKE :recherche2 AND locale = 'oui' ORDER BY nom LIMIT 15");
-			$req->bindValue(':recherche', '%'.$combinaison[0].'%');
+								WHERE l.nom ILIKE :recherche AND l.nom ILIKE :recherche2 AND locale = 'oui' ORDER BY nom LIMIT 30");
+			$req->bindValue(':recherche', $combinaison[0].'%');
 			$req->bindValue(':recherche2', '%'.$combinaison[1].'%');
 			$req->execute();
 			$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
