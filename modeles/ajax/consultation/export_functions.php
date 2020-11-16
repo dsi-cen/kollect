@@ -203,12 +203,12 @@ function query($where)
     }
     if ($idsite) {
         ($where == 'non') ? $and = " WHERE " : $and = " AND ";
-        $mv .= $and . "idsite IN (" . $idsite . ")";
+        $mv .= $and . "id_station IN (" . $idsite . ")";
         $where = 'oui';
     }
     if ($site) {
         ($where == 'non') ? $and = " WHERE " : $and = " AND ";
-        $mv .= $and . "nom_station ILIKE %" . $site . "%";
+        $mv .= $and . "nom_station ILIKE '%" . $site . "%'";
         $where = 'oui';
     }
     if (!empty($typedate) && $typedate == 'obs') {
