@@ -6,13 +6,13 @@ function liste_membre()
 {
 	$bdd = PDO2::getInstance();
 	$bdd->query("SET NAMES 'UTF8'");
-	$req = $bdd->query("SELECT membre.idmembre, membre.nom, membre.prenom, droits, derniereconnection, mail, discipline, gestionobs, actif, latin, typedon, floutage, string_agg(organisme.organisme, ', ') AS organisme FROM site.membre
+	$req = $bdd->query("SELECT membre.idmembre, membre.nom, membre.prenom, droits, derniereconnection, mail, discipline, gestionobs, actif, latin, prefmembre.typedon, floutage, string_agg(organisme.organisme, ', ') AS organisme FROM site.membre
                                     LEFT JOIN site.validateur USING(idmembre)
                                     LEFT JOIN site.prefmembre USING(idmembre)
                                     LEFT JOIN referentiel.observateur ON observateur.idm = membre.idmembre
                                     LEFT JOIN referentiel.observateur_organisme ON observateur_organisme.idobser = observateur.idobser
                                     LEFT JOIN referentiel.organisme ON organisme.idorg = observateur_organisme.idorg
-                                    group by membre.idmembre, membre.nom, membre.prenom, droits, derniereconnection, mail, discipline, gestionobs, actif, latin, typedon, floutage
+                                    group by membre.idmembre, membre.nom, membre.prenom, droits, derniereconnection, mail, discipline, gestionobs, actif, latin, prefmembre.typedon, floutage
                                     ORDER BY nom");
 	$req->execute();
 	$nbresultats = $req->rowCount();
