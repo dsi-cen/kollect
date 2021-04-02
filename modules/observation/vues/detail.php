@@ -60,6 +60,12 @@
 						}
 						?>
 						<p><span id="retourvali"><?php echo $vali;?></span><a href="index.php?module=validation&amp;action=validation"><i class="ml-2 fa fa-info-circle text-info"></i></a></p>
+						<p><?php
+						if(!empty($obs['idobs_sinp']))
+							{
+							echo '<h3 class="h6">Identifiant SINP : ' . $obs['idobs_sinp'] . '</h3>' ;
+							} 	
+						?></p>
 						<div class="row">
 							<div class="col-md-5 col-lg-5">
 								<h3 class="h5">Date : <small><?php echo $dateobs;?></small></h3>
