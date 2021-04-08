@@ -12,13 +12,14 @@ ALTER TABLE  obs_historique.histo_obs ADD idjdd int NULL;
 
 --RELATIONS SINP
 
---obs_sinp : table faisant le lien entre l'observation et son identifiant unique donné par la plateforme du SINP
+--obs_sinp : table faisant le lien entre l'identifiant de l'observation dans Kollect et son identifiant unique SINP (format UUID v4) généré par Kollect à la création de l'observation
 CREATE TABLE md_sinp.obs_sinp
 (
     idobs integer,
     idobs_sinp uuid,
     remarques text,
-    CONSTRAINT obs_sinp_pkey PRIMARY KEY (idobs,idobs_sinp)
+    CONSTRAINT obs_sinp_pkey PRIMARY KEY (idobs,idobs_sinp),
+    CONSTRAINT obs_sinp_idobs_fkey FOREIGN KEY (idobs) REFERENCES obs.obs (idobs) ON DELETE CASCADE
 );
 
 CREATE TABLE md_sinp_historique.obs_sinp_histo
@@ -55,6 +56,32 @@ CREATE TRIGGER declenche_alimente_obs_sinp_histo
     ON md_sinp.obs_sinp
     FOR EACH ROW
     EXECUTE PROCEDURE md_sinp_historique.alimente_obs_sinp_histo();
+
+
+-- Création de la fonction de création de l'identifiant permanent SINP
+--/!\ il faut activer l'extension "uuid-ossp" auparavant
+
+--Activation de l'extension postgresql "uuid-ossp"
+CREATE extension "uuid-ossp";
+
+CREATE FUNCTION md_sinp.creation_idobs_sinp()
+    RETURNS trigger AS $BODY$
+    declare uuid_sinp uuid;
+	BEGIN
+
+        SELECT uuid_generate_v4() into uuid_sinp;
+        INSERT INTO md_sinp.obs_sinp (idobs, idobs_sinp, remarques) VALUES (NEW.idobs,uuid_sinp,NULL);
+		RETURN NEW;
+	END;
+	$BODY$
+	LANGUAGE plpgsql VOLATILE COST 100;
+
+-- Création du trigger pour déclencher la fonction précédente
+CREATE TRIGGER declenche_creation_idobs_sinp
+    AFTER INSERT
+    ON obs.obs
+    FOR EACH ROW
+    EXECUTE PROCEDURE md_sinp.creation_idobs_sinp();
 
 
 -------------------------------------REFERENTIELS CA ET JDD------------------------------------------
