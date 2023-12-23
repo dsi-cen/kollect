@@ -1,0 +1,52 @@
+version: '3'
+services:
+  db:
+    build: 
+      context: ./
+      dockerfile: postgres.dockerfile
+    restart: unless-stopped
+    container_name: db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=foobar
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  pgadmin:
+    image: "dpage/pgadmin4"
+    restart: unless-stopped
+    container_name: pgadmin
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "foobar@cenfoo.fr"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
+      PGADMIN_LISTEN_PORT: 8001
+    ports:
+      - "5050:8001"
+    networks:
+      - mynetwork
+
+  web:
+    build:
+      context: ./
+      dockerfile: web.dockerfile
+ 
+    restart: unless-stopped
+    container_name: web
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "82:80"
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+volumes:
+  postgres-data:
+networks:
+  mynetwork:
+    driver: bridge
