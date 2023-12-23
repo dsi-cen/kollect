@@ -1,0 +1,5 @@
+*.dockerfile
+docker-compose.yml
+postgres-data
+
+.*
